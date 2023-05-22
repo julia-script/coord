@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true
+  },
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
+}
