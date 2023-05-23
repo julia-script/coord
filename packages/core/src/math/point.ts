@@ -22,7 +22,7 @@ export class Point {
     return Math.atan2(this.y, this.x);
   }
   angleTo(target: Point) {
-    return target.sub(this).angle();
+    return this.angle() - target.angle();
   }
 
   squaredDistanceTo(target: Point) {

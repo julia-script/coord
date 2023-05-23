@@ -103,8 +103,8 @@ export class Transform {
     const { _matrix } = this;
 
     // Translate the center of scaling to origin
-    _matrix[2] -= x;
-    _matrix[5] -= y;
+    _matrix[2] += x;
+    _matrix[5] += y;
 
     // Scale the transform
     _matrix[0] *= factor;
@@ -113,8 +113,8 @@ export class Transform {
     _matrix[4] *= factor;
 
     // Translate the center back to its original position, scaled
-    _matrix[2] += x * factor;
-    _matrix[5] += y * factor;
+    _matrix[2] -= x * factor;
+    _matrix[5] -= y * factor;
 
     return this;
   }
