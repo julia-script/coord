@@ -93,4 +93,27 @@ describe("Transform", () => {
     const q = t1.applyTo(p);
     expect(q).toEqual(point(2, 2));
   });
+
+  test("invert", () => {
+    const t1 = transform().scale(2).translate(5, 5);
+    const t2 = t1.invert();
+
+    const p = point(5, 5);
+    const q = t1.applyTo(p);
+    const r = t2.applyTo(q);
+
+    expect(q).toEqual(point(15, 15));
+    expect(r).toEqual(p);
+  });
+
+  test("applyInverseTo", () => {
+    const t1 = transform().scale(2).translate(5, 5);
+
+    const p = point(5, 5);
+    const q = t1.applyTo(p);
+    const r = t1.applyInverseTo(q);
+
+    expect(q).toEqual(point(15, 15));
+    expect(r).toEqual(p);
+  });
 });
