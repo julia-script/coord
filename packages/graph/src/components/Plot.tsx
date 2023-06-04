@@ -1,5 +1,5 @@
 import React from "react";
-import { Point, point, Pointish } from "@curves/core";
+import { Point, point, Pointish } from "@coord/core";
 import { useMemo } from "react";
 import { withGraphContext, parametricAdaptiveSampling } from "../utils";
 import { PolyLineProps, PolyLine } from "./PolyLine";

@@ -1,5 +1,5 @@
 import React from "react";
-import { point } from "@curves/core";
+import { point } from "@coord/core";
 import { WithGraphContext, withGraphContext } from "../utils";
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";

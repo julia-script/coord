@@ -1,5 +1,5 @@
 {
-  "name": "@curves/docs",
+  "name": "@coord/docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@curves/graph": "workspace:*",
+    "@coord/graph": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node": "20.2.5",
     "@types/react": "^18.2.8",

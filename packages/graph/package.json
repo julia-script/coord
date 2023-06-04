@@ -1,5 +1,5 @@
 {
-  "name": "@curves/graph",
+  "name": "@coord/graph",
   "version": "0.2.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -28,7 +28,7 @@
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
-    "@curves/core": "workspace:*",
+    "@coord/core": "workspace:*",
     "@types/lodash-es": "^4.17.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

@@ -1,4 +1,4 @@
-import { Point, Transform } from "@curves/core";
+import { Point, Transform } from "@coord/core";
 import React from "react";
 import { BBox, Theme, PartialBy } from "../types";
 import { GraphPoint } from "../types";

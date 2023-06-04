@@ -1,4 +1,4 @@
-import { Point } from "@curves/core";
+import { Point } from "@coord/core";
 import { useState, useCallback } from "react";
 import { WithPointerEvents } from "../utils";
 import { useDraggable, DragEvent } from "./useDraggable";

@@ -1,4 +1,4 @@
-import { Point, point } from "@curves/core";
+import { Point, point } from "@coord/core";
 import { clamp } from "lodash-es";
 
 export const projectRadOnRect = (rad: number, size: Point): Point => {

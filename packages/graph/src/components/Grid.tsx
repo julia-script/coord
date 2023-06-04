@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { point } from "@curves/core";
+import { point } from "@coord/core";
 import { calcStepGridMultiplier } from "../utils/calcStepGridMultiplier";
 import { renderNumber } from "../utils/renderNumber";
 import { WithGraphContext, withGraphContext } from "../utils";

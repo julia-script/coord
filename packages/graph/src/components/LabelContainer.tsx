@@ -6,7 +6,7 @@ import {
   projectRadOnRect,
   withGraphContext,
 } from "../utils";
-import { point } from "@curves/core";
+import { point } from "@coord/core";
 
 import { GraphPoint, Scalar } from "@/types";
 

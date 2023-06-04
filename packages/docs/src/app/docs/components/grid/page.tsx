@@ -5,7 +5,7 @@ export default function Page() {
   return (
     <>
       <LiveCodeBlock collapsed>{`
-        import { Graph, Grid, Plot } from '@curves/graph'
+        import { Graph, Grid, Plot } from '@coord/graph'
 
         export default function MyGraph() {
           return (
@@ -33,24 +33,24 @@ export default function Page() {
         tabs={{
           npm: (
             <CodeBlock key={"npm"} language="bash">
-              npm install @curves/graph
+              npm install @coord/graph
             </CodeBlock>
           ),
           pnpm: (
             <CodeBlock key={"pnpm"} language="bash">
-              pnpm install @curves/graph
+              pnpm install @coord/graph
             </CodeBlock>
           ),
           yarn: (
             <CodeBlock key={"yarn"} language="bash">
-              yarn add @curves/graph
+              yarn add @coord/graph
             </CodeBlock>
           ),
         }}
       />
 
       {/* <pre>
-        <code>npm install @curves/graph</code>
+        <code>npm install @coord/graph</code>
       </pre> */}
     </>
   );

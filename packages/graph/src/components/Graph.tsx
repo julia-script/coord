@@ -1,5 +1,5 @@
 import React, { CSSProperties, useLayoutEffect, useRef, useState } from "react";
-import { Point, point } from "@curves/core";
+import { Point, point } from "@coord/core";
 
 import { useNavigation } from "../hooks/useNavigation";
 import { ScaleControls } from "./ScaleControls";

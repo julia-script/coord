@@ -1,4 +1,4 @@
-# @curves/graph
+# @coord/graph
 
 ## 0.2.0
 

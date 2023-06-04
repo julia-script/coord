@@ -1,4 +1,4 @@
-import { Point, point } from "@curves/core";
+import { Point, point } from "@coord/core";
 import { useMemo, useState, useCallback } from "react";
 import { GraphContext, WithPointerEvents } from "../utils";
 

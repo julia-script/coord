@@ -1,4 +1,4 @@
-import { Point, Transform, point } from "@curves/core";
+import { Point, Transform, point } from "@coord/core";
 import { useMemo, useState } from "react";
 import { useDraggable } from "./useDraggable";
 import { BBox } from "../types";

@@ -1,5 +1,5 @@
 import { CodeBlock, LiveCodeBlock } from "@/components/CodeBlock";
-import { defaultThemes } from "@curves/graph";
+import { defaultThemes } from "@coord/graph";
 
 export default function Page() {
   return (
@@ -32,7 +32,7 @@ export default function Page() {
         <code>width</code> and <code>height</code> properties.
       </p>
       <LiveCodeBlock>{`
-        import { Graph, Grid, Plot, Rect, Text, BoundingBox } from '@curves/graph'
+        import { Graph, Grid, Plot, Rect, Text, BoundingBox } from '@coord/graph'
 
         export default function MyGraph() {
           const top = 10;
@@ -81,7 +81,7 @@ export default function Page() {
         property comes in.
       </p>
       <LiveCodeBlock>{`
-        import { Graph, Grid, Plot, Rect, Text, BoundingBox, Plot } from '@curves/graph'
+        import { Graph, Grid, Plot, Rect, Text, BoundingBox, Plot } from '@coord/graph'
 
         export default function MyGraph() {
           const top = 0;
@@ -131,7 +131,7 @@ export default function Page() {
         <div key={theme}>
           <pre>theme: "{theme}"</pre>
           <LiveCodeBlock collapsed>{`
-            import { Graph, Grid, Text, BoundingBox,Line } from '@curves/graph'
+            import { Graph, Grid, Text, BoundingBox,Line } from '@coord/graph'
 
             export default function MyGraph() {
 

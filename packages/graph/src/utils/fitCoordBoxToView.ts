@@ -1,4 +1,4 @@
-import { Point, point } from "@curves/core";
+import { Point, point } from "@coord/core";
 import { BBox } from "../types";
 
 export const fitCoordBoxToView = (

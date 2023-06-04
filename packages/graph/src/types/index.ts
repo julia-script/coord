@@ -1,4 +1,4 @@
-import { Point, Pointish, point } from "@curves/core";
+import { Point, Pointish, point } from "@coord/core";
 
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
