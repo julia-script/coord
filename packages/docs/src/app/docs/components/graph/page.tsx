@@ -1,7 +1,5 @@
 import { CodeBlock, LiveCodeBlock } from "@/components/CodeBlock";
-import typedoc from "typedoc";
-import { Tabs } from "@/components/Tabs";
-import { GraphProps, defaultThemes } from "@curves/graph";
+import { defaultThemes } from "@curves/graph";
 
 export default function Page() {
   return (
