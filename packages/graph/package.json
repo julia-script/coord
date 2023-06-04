@@ -32,7 +32,6 @@
     "@types/lodash-es": "^4.17.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "eslint": "^7.32.0",
     "lodash-es": "^4.17.21",
     "tsconfig": "workspace:*",
     "tsup": "^6.7.0",
