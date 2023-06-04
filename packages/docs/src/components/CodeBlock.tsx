@@ -28,7 +28,7 @@ export function LiveCodeBlock({
     scope,
   });
   const [collapsed, setCollapsed] = React.useState(collapsedInitialValue);
-  const border = "border border-gray-700/60 rounded-md overflow-hidden";
+
   return (
     <div className="p-2 bg-gray-200/5 rounded-md gap-2 flex flex-col mb-4 not-prose">
       <div className="relative">
