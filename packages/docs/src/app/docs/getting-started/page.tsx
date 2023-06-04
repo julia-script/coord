@@ -1,6 +1,7 @@
+import { ReactElement } from "react";
 import { CodeBlock, LiveCodeBlock } from "@/components/CodeBlock";
-
 import { Tabs } from "@/components/Tabs";
+
 export default function Page() {
   return (
     <>
@@ -75,7 +76,7 @@ export default function Page() {
         tabs={Object.entries(visualizations).reduce((acc, [name, code]) => {
           acc[name] = <LiveCodeBlock>{code}</LiveCodeBlock>;
           return acc;
-        }, {} as { [key: string]: React.ReactNode })}
+        }, {} as { [key: string]: ReactElement })}
       />
     </>
   );

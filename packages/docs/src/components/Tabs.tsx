@@ -1,9 +1,9 @@
 "use client";
-import * as React from "react";
+import React, { ReactElement } from "react";
 
 export function Tabs<
   T extends {
-    [key: string]: React.ReactNode;
+    [key: string]: ReactElement;
   }
 >({
   tabs,

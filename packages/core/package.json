@@ -9,7 +9,7 @@
     "lint": "tsc",
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "vitest run",
+    "test": "vitest run && vitest typecheck",
     "test:watch": "vitest"
   },
   "tsup": {
