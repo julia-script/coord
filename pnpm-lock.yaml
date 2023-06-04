@@ -51,7 +51,6 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-live-runner: ^1.0.5
-      react-runner: ^1.0.3
       tailwindcss: 3.3.2
       ts-dedent: ^2.2.0
       tsconfig: workspace:*
@@ -69,7 +68,6 @@ importers:
       clsx: 1.2.1
       postcss: 8.4.24
       react-live-runner: 1.0.5_biqbaboplfbrettd7655fr4n2y
-      react-runner: 1.0.3_biqbaboplfbrettd7655fr4n2y
       tailwindcss: 3.3.2
       ts-dedent: 2.2.0
       tsconfig: link:../tsconfig

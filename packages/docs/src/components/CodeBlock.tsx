@@ -7,7 +7,7 @@ import {
 } from "react-live-runner";
 
 import * as graph from "@curves/graph";
-import * as React from "react";
+import React from "react";
 import dedent from "ts-dedent";
 
 const scope = {
