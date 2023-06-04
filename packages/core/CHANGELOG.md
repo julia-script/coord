@@ -1,4 +1,4 @@
-# @curves/core
+# @coord/core
 
 ## 0.1.0
 

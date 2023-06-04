@@ -1,4 +1,4 @@
-import { Point, Transform, point } from "@curves/core";
+import { Point, Transform, point } from "@coord/core";
 import { Scalar, Space } from "../types";
 import { GraphPoint } from "../types";
 import { clamp } from "lodash-es";

@@ -6,14 +6,14 @@ import {
   CodeEditor,
 } from "react-live-runner";
 
-import * as graph from "@curves/graph";
+import * as graph from "@coord/graph";
 import React from "react";
 import dedent from "ts-dedent";
 
 const scope = {
   import: {
     react: React,
-    "@curves/graph": graph,
+    "@coord/graph": graph,
   },
 };
 export function LiveCodeBlock({

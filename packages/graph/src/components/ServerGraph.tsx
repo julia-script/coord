@@ -1,4 +1,4 @@
-import { Point, Pointish, point, transform } from "@curves/core";
+import { Point, Pointish, point, transform } from "@coord/core";
 import React, { useCallback, useMemo } from "react";
 import {
   darkTheme,

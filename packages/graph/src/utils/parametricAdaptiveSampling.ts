@@ -1,4 +1,4 @@
-import { Point } from "@curves/core";
+import { Point } from "@coord/core";
 
 export const parametricAdaptiveSampling = (
   domain: [number, number],

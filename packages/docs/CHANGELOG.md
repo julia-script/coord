@@ -1,4 +1,4 @@
-# @curves/docs
+# @coord/docs
 
 ## 0.1.0
 
