@@ -1,5 +1,15 @@
+export type Pointish = Point | [number, number] | { x: number; y: number };
 export class Point {
   constructor(public x: number, public y: number) {}
+  static fromPointish(pointish: Pointish) {
+    if (pointish instanceof Point) {
+      return pointish;
+    }
+    if (Array.isArray(pointish)) {
+      return point(pointish[0], pointish[1]);
+    }
+    return point(pointish.x, pointish.y);
+  }
   toArray(): [number, number] {
     return [this.x, this.y];
   }
@@ -7,6 +17,13 @@ export class Point {
   clone() {
     return point(this.x, this.y);
   }
+  isFinite() {
+    return Number.isFinite(this.x) && Number.isFinite(this.y);
+  }
+  isNaN() {
+    return Number.isNaN(this.x) || Number.isNaN(this.y);
+  }
+
   lerp(target: Point, t: number) {
     return point(
       this.x + (target.x - this.x) * t,
@@ -46,8 +63,15 @@ export class Point {
   mul(target: Point) {
     return point(this.x * target.x, this.y * target.y);
   }
+  div(target: Point) {
+    return point(this.x / target.x, this.y / target.y);
+  }
+
   scale(factor: number) {
     return point(this.x * factor, this.y * factor);
+  }
+  abs() {
+    return point(Math.abs(this.x), Math.abs(this.y));
   }
 }
 

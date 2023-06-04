@@ -163,13 +163,39 @@ export class Transform {
     _matrix[5] = ty + (tty - ty) * factor;
     return this;
   }
-
+  invert() {
+    return this.copy().invertSelf();
+  }
+  invertSelf() {
+    const { _matrix } = this;
+    const [a, b, tx, c, d, ty] = _matrix;
+    const det = a * d - b * c;
+    _matrix[0] = d / det;
+    _matrix[1] = -b / det;
+    _matrix[2] = (b * ty - d * tx) / det;
+    _matrix[3] = -c / det;
+    _matrix[4] = a / det;
+    _matrix[5] = (c * tx - a * ty) / det;
+    return this;
+  }
   applyTo(p: Point) {
     const { x, y } = p;
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
 
     return point(a * x + c * y + tx, b * x + d * y + ty);
+  }
+
+  applyInverseTo(p: Point) {
+    const { x, y } = p;
+    const { _matrix } = this;
+    const [a, b, tx, c, d, ty] = _matrix;
+    const det = a * d - b * c;
+
+    return point(
+      (d * (x - tx) - c * (y - ty)) / det,
+      (a * (y - ty) - b * (x - tx)) / det
+    );
   }
   toCss() {
     const [a, b, tx, c, d, ty] = this._matrix;

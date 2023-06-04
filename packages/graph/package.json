@@ -1,6 +1,6 @@
 {
-  "name": "@curves/core",
-  "version": "0.1.0",
+  "name": "@curves/graph",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.js",
@@ -9,7 +9,7 @@
     "lint": "tsc",
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "vitest run && vitest typecheck",
+    "test": "vitest run",
     "test:watch": "vitest"
   },
   "tsup": {
@@ -23,12 +23,19 @@
       "src/index.ts"
     ]
   },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
   "devDependencies": {
+    "@curves/core": "workspace:*",
+    "@types/lodash-es": "^4.17.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "react": "^17.0.2",
+    "lodash-es": "^4.17.21",
     "tsconfig": "workspace:*",
     "tsup": "^6.7.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "vitest": "^0.31.1"
   }
 }
