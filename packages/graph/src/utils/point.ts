@@ -68,49 +68,46 @@ export const projectSizeFactory = (projection: Transform, abs = false) => {
   return factory;
 };
 
-export const projectCoord = (
-  coord: GraphPoint,
-  projection: Transform,
-  inferredUnit: Space = "coordspace"
-): Point => {
-  let [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord, inferredUnit);
+export const projectCoordFactory =
+  (projection: Transform) =>
+  (coord: GraphPoint, inferredUnit: Space = "coordspace"): Point => {
+    let [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord, inferredUnit);
 
-  x = clamp(x, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
-  y = clamp(y, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+    x = clamp(x, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
+    y = clamp(y, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
 
-  if (xUnit !== "coordspace" && yUnit !== "coordspace") {
-    return point(x, y);
-  }
-  const projectedPoint = projection.applyTo(point(x, y));
+    if (xUnit !== "coordspace" && yUnit !== "coordspace") {
+      return point(x, y);
+    }
+    const projectedPoint = projection.applyTo(point(x, y));
 
-  projectedPoint.x = clamp(
-    projectedPoint.x,
-    -Number.MAX_SAFE_INTEGER,
-    Number.MAX_SAFE_INTEGER
-  );
+    projectedPoint.x = clamp(
+      projectedPoint.x,
+      -Number.MAX_SAFE_INTEGER,
+      Number.MAX_SAFE_INTEGER
+    );
 
-  projectedPoint.y = clamp(
-    projectedPoint.y,
-    -Number.MAX_SAFE_INTEGER,
-    Number.MAX_SAFE_INTEGER
-  );
+    projectedPoint.y = clamp(
+      projectedPoint.y,
+      -Number.MAX_SAFE_INTEGER,
+      Number.MAX_SAFE_INTEGER
+    );
 
-  return point(
-    xUnit === "coordspace" ? projectedPoint.x : x,
-    yUnit === "coordspace" ? projectedPoint.y : y
-  );
-};
+    return point(
+      xUnit === "coordspace" ? projectedPoint.x : x,
+      yUnit === "coordspace" ? projectedPoint.y : y
+    );
+  };
 
-export const unprojectCoord = (
-  coord: GraphPoint,
-  projection: Transform
-): Point => {
-  const [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord);
+export const unprojectCoordFactory =
+  (projection: Transform) =>
+  (coord: GraphPoint): Point => {
+    const [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord);
 
-  const unprojectedPoint = projection.applyInverseTo(point(x, y));
+    const unprojectedPoint = projection.applyInverseTo(point(x, y));
 
-  return point(
-    xUnit === "viewspace" ? unprojectedPoint.x : x,
-    yUnit === "viewspace" ? unprojectedPoint.y : y
-  );
-};
+    return point(
+      xUnit === "viewspace" ? unprojectedPoint.x : x,
+      yUnit === "viewspace" ? unprojectedPoint.y : y
+    );
+  };

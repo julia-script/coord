@@ -53,6 +53,7 @@ const Component = ({
 
   return (
     <g
+      pointerEvents={"none"}
       style={{
         pointerEvents: "none",
       }}

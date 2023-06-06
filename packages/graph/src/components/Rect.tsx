@@ -46,6 +46,7 @@ const Component = ({
       fill={fill}
       strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
       stroke={computeColor(strokeColor)}
+      pointerEvents={"none"}
       {...rest}
     />
   );

@@ -21,7 +21,8 @@
     "minify": true,
     "entryPoints": [
       "src/index.ts"
-    ]
+    ],
+    "sourcemap": true
   },
   "peerDependencies": {
     "react": ">=16.8.0",

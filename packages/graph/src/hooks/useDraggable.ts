@@ -34,6 +34,7 @@ export const useDraggable = ({
       const startCoord = graph.unprojectCoord(
         point(e.clientX - x, e.clientY - y)
       );
+
       const dragEvent = {
         pointerEvent: e,
         graph,

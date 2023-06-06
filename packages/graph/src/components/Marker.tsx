@@ -9,12 +9,12 @@ import {
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";
 
-export type MarkContentProps = {
+export type MarkerContentProps = {
   size: number;
   color: string;
   interactable: boolean;
 };
-const DefaultMarker = ({ size, color, interactable }: MarkContentProps) => (
+const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
   <g className="curves-graph-default-marker">
     {interactable && (
       <>
@@ -42,24 +42,25 @@ const DefaultMarker = ({ size, color, interactable }: MarkContentProps) => (
   </g>
 );
 
-export type MarkProps = {
+export type MarkerProps = {
   position: GraphPoint;
   size?: Scalar;
   color?: number | string;
   rotation?: number;
-  content?: string | typeof DefaultMarker;
+  label?: string | typeof DefaultMarker;
   style?: React.CSSProperties;
   opacity?: number;
 } & WithGraphContext &
   WithPointerEvents;
 
+const emojiRegex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/u;
 const Component = ({
   position,
   size,
-  color = "body",
+  color = 1,
   rotation = 0,
   context,
-  content = DefaultMarker,
+  label = DefaultMarker,
   onPointerDown,
   onPointerMove,
   onPointerUp,
@@ -67,37 +68,37 @@ const Component = ({
   isDragging,
   style,
   opacity,
-}: MarkProps) => {
+}: MarkerProps) => {
   const { projectCoord, projectAbsoluteSize, computeColor } = context;
   const { x, y } = projectCoord(position);
-  if (!size)
-    size = typeof content === "string" ? size || "35vs" : size || "13vs";
+
+  const hasEmoji = typeof label === "string" && emojiRegex.test(label);
+  if (!size) size = typeof label === "string" ? size || "35vs" : size || "13vs";
 
   const width = Math.abs(projectAbsoluteSize(size));
   const fill = computeColor(color);
 
-  const fontSize = width * 0.6;
+  const fontSize = width * (hasEmoji ? 0.7 : 0.45);
   let c: ReturnType<typeof DefaultMarker>;
-
-  if (typeof content === "string") {
+  if (typeof label === "string") {
     c = (
       <g style={style} opacity={opacity}>
         <circle r={width / 2} fill={fill} />
         <Text
           fontSize={fontSize}
-          textAnchor={"middle"}
-          dy={"0.65em"}
+          dy={hasEmoji ? "0.65em" : "0.55em"}
           dominantBaseline={"middle"}
+          textAnchor={"middle"}
           y={-fontSize / 2}
           x={0}
           context={context}
         >
-          {content}
+          {label}
         </Text>
       </g>
     );
   } else {
-    c = React.createElement(content, {
+    c = React.createElement(label, {
       size: width,
       color: fill,
       interactable: !!interactable,

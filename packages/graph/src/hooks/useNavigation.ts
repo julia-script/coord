@@ -1,7 +1,7 @@
 import { Point, Transform, point } from "@coord/core";
 import { useMemo, useState } from "react";
 import { useDraggable } from "./useDraggable";
-import { BBox } from "../types";
+import { BBox, normalizeBBox } from "../types";
 
 export const useNavigation = (
   coordBox: BBox = {
@@ -16,7 +16,7 @@ export const useNavigation = (
       () => ({
         onDrag: (e) => {
           const { x, y } = e.coordMovement;
-          setTransform((prev) => prev.translate(x, y));
+          setTransform((prev) => prev.translate(-x, -y));
         },
       }),
       [setTransform]
@@ -24,12 +24,9 @@ export const useNavigation = (
   );
 
   return useMemo(() => {
-    const x = transform.applyTo(
-      new Point(coordBox.horizontal.x, coordBox.vertical.x)
-    );
-    const y = transform.applyTo(
-      new Point(coordBox.horizontal.y, coordBox.vertical.y)
-    );
+    const { horizontal, vertical } = normalizeBBox(coordBox);
+    const x = transform.applyTo(new Point(horizontal.x, vertical.x));
+    const y = transform.applyTo(new Point(horizontal.y, vertical.y));
 
     const newCoordBox = {
       horizontal: new Point(x.x, y.x),

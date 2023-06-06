@@ -13,7 +13,8 @@ export type LineProps = {
   arrowSize?: Scalar;
   startOffset?: Scalar;
   endOffset?: Scalar;
-} & WithGraphContext;
+} & WithGraphContext &
+  Omit<React.SVGProps<SVGPathElement>, "from" | "to">;
 
 const Component = ({
   from = point(0, 0),
@@ -25,6 +26,7 @@ const Component = ({
   context,
   startOffset = 0,
   endOffset = 0,
+  ...rest
 }: LineProps) => {
   const { projectCoord, projectAbsoluteSize, computeColor } = context;
 
@@ -74,6 +76,9 @@ const Component = ({
       stroke={computeColor(strokeColor)}
       strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
       fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...rest}
     />
   );
 };
