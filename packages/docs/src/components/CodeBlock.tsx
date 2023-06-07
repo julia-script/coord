@@ -1,4 +1,5 @@
 "use client";
+
 import {
   CodeBlock as CB,
   Language,
@@ -16,6 +17,7 @@ const scope = {
     "@coord/graph": graph,
   },
 };
+
 export function LiveCodeBlock({
   children,
   collapsed: collapsedInitialValue = false,

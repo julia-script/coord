@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 const nextConfig = {
   experimental: {
     // mdxRs: true,
+    appDir: true,
   },
 };
 import mdx from "@next/mdx";
@@ -12,8 +13,8 @@ const withMDX = mdx({
   options: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypeMdxCodeProps],
-    // If you use `MDXProvider`, uncomment the following line.
     // providerImportSource: "@mdx-js/react",
+    useDynamicImport: true,
   },
 });
 export default withMDX(nextConfig);
