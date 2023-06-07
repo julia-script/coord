@@ -27,7 +27,7 @@ const Parametric = withGraphContext(
       () =>
         parametricAdaptiveSampling(
           domain,
-          (t: number) => Point.fromPointish(f(t)),
+          (t: number) => Point.of(f(t)),
           errorTolerance,
           minSamplesDepth,
           maxSamplesDepth

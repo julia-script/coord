@@ -1,0 +1,64 @@
+```jsx collapsed live
+import { Graph, Grid, Plot, useNavigationState } from "@coord/graph";
+
+export default function MyGraph() {
+  const [coordBox, setCoordBox] = useNavigationState();
+
+  return (
+    <Graph
+      coordBox={coordBox}
+      onCoordBoxChange={setCoordBox}
+      height={300}
+      width="100%"
+    >
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x)} />
+    </Graph>
+  );
+}
+```
+
+# Getting started
+
+Graph is a React component library for building data visualizations on
+the web.
+
+## Installation
+
+Graph is available as an npm package. To install it, run the following
+command:
+
+### npm
+
+```bash
+npm install @coord/graph
+```
+
+### pnpm
+
+```bash
+pnpm install @coord/graph
+```
+
+### yarn
+
+```bash
+yarn add @coord/graph
+```
+
+## Hello World!
+
+The following example shows how to plot a sine wave.
+
+```jsx live
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x)} strokeColor={8} />
+    </Graph>
+  );
+}
+```

@@ -1,3 +1,2 @@
-export * from "./useCoord";
-export * from "./useDraggable";
-export * from "./useNavigation";
+export * from "./useCoordState";
+export * from "./useNavigationState";

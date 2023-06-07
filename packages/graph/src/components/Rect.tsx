@@ -1,6 +1,6 @@
 import React from "react";
 import { point } from "@coord/core";
-import { WithGraphContext, withGraphContext } from "../utils";
+import { GraphElement, withGraphContext } from "../utils";
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";
 
@@ -13,7 +13,7 @@ export type RectProps = {
   cornerRadius?: Scalar;
   strokeWidth?: Scalar;
   interactable?: boolean;
-} & WithGraphContext &
+} & GraphElement &
   Omit<React.SVGProps<SVGRectElement>, "fill">;
 
 const Component = ({

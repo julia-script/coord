@@ -1,0 +1,225 @@
+```tsx live collapsed
+import {
+  Graph,
+  Grid,
+  Plot,
+  Marker,
+  Point,
+  PolyLine,
+  LabelContainer,
+  Text,
+  useCoordState,
+  useNavigationState,
+} from "@coord/graph";
+
+const cubicBezier = (p0: Point, p1: Point, p2: Point, p3: Point, t: number) => {
+  const u = 1 - t;
+  const tt = t * t;
+  const uu = u * u;
+  const uuu = uu * u;
+  const ttt = tt * t;
+
+  const p = p0.scale(uuu);
+  const q = p1.scale(3 * uu * t);
+  const r = p2.scale(3 * u * tt);
+  const s = p3.scale(ttt);
+
+  return p.add(q).add(r).add(s);
+};
+
+export default function MyGraph() {
+  const [coordBox, setCoordBox] = useNavigationState();
+  const [p0, setP0] = useCoordState([-7, 0]);
+  const [p1, setP1] = useCoordState([-2, -8]);
+  const [p2, setP2] = useCoordState([2, 8]);
+  const [p3, setP3] = useCoordState([7, 0]);
+
+  return (
+    <>
+      <Graph
+        height={300}
+        width="100%"
+        coordBox={coordBox}
+        onCoordBoxChange={setCoordBox}
+      >
+        <Grid />
+        <PolyLine
+          points={[p0, p1, p2, p3]}
+          strokeColor={1}
+          strokeDasharray={2}
+        />
+        <Plot.Parametric
+          domain={[0, 1]}
+          f={(t) => cubicBezier(p0, p1, p2, p3, t)}
+          strokeColor={2}
+        />
+
+        <Marker position={p0} onChange={setP0} label={"P0"} />
+        <Marker position={p1} onChange={setP1} label={"P1"} />
+        <Marker position={p2} onChange={setP2} label={"P2"} />
+        <Marker position={p3} onChange={setP3} label={"P3"} />
+
+        <LabelContainer
+          size={["90vs", "30vs"]}
+          target={p0}
+          targetOffset={25}
+          strokeWidth={1}
+          strokeDasharray={"2"}
+        >
+          <Text position={["45vs", "15vs"]} fontSize={14}>
+            Drag me!
+          </Text>
+        </LabelContainer>
+      </Graph>
+    </>
+  );
+}
+```
+
+# Marker Component
+
+The Marker component is a utility for placing labels or icons at specific
+positions on your graph.
+
+```tsx live
+import {
+  Graph,
+  Grid,
+  Marker,
+  PolyLine,
+  useCoord,
+  Pointish,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const pathOfLove: Pointish[] = [
+    [0, -4],
+    [4, -1],
+    [4, 2],
+    [2, 4],
+    [0, 2],
+    [-2, 4],
+    [-4, 2],
+    [-4, -1],
+    [0, -4],
+  ];
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <PolyLine points={pathOfLove} strokeColor={2} strokeDasharray={5} />
+      {pathOfLove.map((p, i) => (
+        <Marker key={i} position={p} label={"❤️"} color={2} size={25} />
+      ))}
+    </Graph>
+  );
+}
+```
+
+## Controllable Markers with `useCoordState` hook
+
+If you're used to Controlled Components pattern in React, you can apply the concept to Markers.
+
+Markers accepts a `position` prop and an `onChange` callback that will be called when the Marker is dragged.
+
+For finer control, you can also leverage other HTML native events, such as `onMouse*`, `onPointer*`, etc.
+
+### `useCoordState`
+
+We also provide a `useCoordState` hook, that's just a wrapper on useState with a few convienience features.
+
+It automatically normalizes's any `Pointish` value passed as initial prop and types it accordingly.
+
+You could, however, just use `useState` and pass a `Point` directly if you prefer.
+
+#### With `useCoordState`
+
+```tsx
+const [point, setPoint] = useCoordState(Point.of(0, 0)); // ✅ Point(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useCoordState([0, 0]); // ✅ Point(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useCoordState({ x: 0, y: 0 }); // ✅ Point(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+```
+
+#### With `useState`
+
+```tsx
+const [point, setPoint] = useState(Point.of(0, 0)); // ✅ Point(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useState<[number, number]>([0, 0]); // ❌ [0, 0]
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useState({ x: 0, y: 0 }); // ❌ { x: 0, y: 0 }
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+```
+
+Note that even in the ❌ cases, the Marker will still probably work, but the `point` state will change to a Point after the first `onChange` callback
+So if you're using Typescript, it will complain about the type mismatch.
+
+You could solve make it type safe again by doing something like this. (is it worth it though? 🤔)
+
+```tsx
+const [point, setPoint] = useState<Pointish>([0, 0]); // ✅ [0, 0]
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+//  after onChange is triggered
+point; // ✅ Point(0, 0)
+```
+
+Or this
+
+```tsx
+const [point, setPoint] = useState<[number, number]>([0, 0]); // ✅ [0, 0]
+<Marker position={point} onChange={({ x, y }) => [x, y]} label={"🔥"} />;
+
+//  after onChange is triggered
+point; // ✅ [0, 0]
+```
+
+### Usage
+
+```tsx live
+import {
+  Graph,
+  Grid,
+  Marker,
+  PolyLine,
+  Text,
+  Point,
+  useCoordState,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [p0, setP0] = useCoordState([-4, -3]);
+  const [p1, setP1] = useCoordState([4, -3]);
+  const [p2, setP2] = useCoordState([0, 4]);
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <PolyLine
+        points={[p0, p1, p2, p0]}
+        strokeColor={1}
+        strokeDasharray={5}
+        fill={"#00000088"}
+      />
+      <Marker position={p0} onChange={setP0} label={"🌚"} />
+      <Marker position={p1} onChange={setP1} label={"🌝"} />
+      <Marker position={p2} onChange={setP2} label={"🌞"} color={"body"} />
+
+      <Text
+        position={p0
+          .add(p1)
+          .add(p2)
+          .scale(1 / 3)}
+        fontSize={14}
+      >
+        Drag us!
+      </Text>
+    </Graph>
+  );
+}
+```

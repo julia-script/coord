@@ -1,6 +1,6 @@
 import React from "react";
 import { useMemo } from "react";
-import { WithGraphContext, renderNumber, withGraphContext } from "../utils";
+import { GraphElement, renderNumber, withGraphContext } from "../utils";
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";
 
@@ -9,7 +9,7 @@ export type PolyLineProps = {
   strokeWidth?: Scalar;
   strokeColor?: number | string;
   strokeStyle?: "dotted" | "dashed" | "solid" | number[];
-} & WithGraphContext &
+} & GraphElement &
   Omit<React.SVGProps<SVGPolylineElement>, "points">;
 
 const Component = ({

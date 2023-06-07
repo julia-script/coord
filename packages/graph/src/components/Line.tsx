@@ -1,20 +1,22 @@
 import React from "react";
 import { point } from "@coord/core";
-import { WithGraphContext, withGraphContext } from "../utils";
+import { GraphElement, withGraphContext } from "../utils";
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";
 
-export type LineProps = {
-  from?: GraphPoint;
-  to: GraphPoint;
-  strokeWidth?: Scalar;
-  strokeColor?: number | string;
-  arrow?: boolean;
-  arrowSize?: Scalar;
-  startOffset?: Scalar;
-  endOffset?: Scalar;
-} & WithGraphContext &
-  Omit<React.SVGProps<SVGPathElement>, "from" | "to">;
+export type LineProps = GraphElement<
+  {
+    from?: GraphPoint;
+    to: GraphPoint;
+    strokeWidth?: Scalar;
+    strokeColor?: number | string;
+    arrow?: boolean;
+    arrowSize?: Scalar;
+    startOffset?: Scalar;
+    endOffset?: Scalar;
+  },
+  Omit<React.SVGProps<SVGPathElement>, "from" | "to">
+>;
 
 const Component = ({
   from = point(0, 0),

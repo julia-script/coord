@@ -1,17 +1,29 @@
 import React from "react";
-import { useNavigation } from "@/hooks";
-import { GraphContext, withGraphContext } from "../utils";
+
+import { withGraphContext, GraphElement } from "../utils";
+import { BBox, BBoxish, normalizeBBox } from "@/types";
+import { useDrag } from "@/hooks/useDrag";
+import { point } from "@coord/core/dist";
 
 const Component = ({
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
   context,
-}: {
-  context: GraphContext;
-} & Partial<ReturnType<typeof useNavigation>>) => {
-  const { theme } = context;
-
+  rawCoordBox,
+  onCoordBoxChange,
+}: GraphElement<{
+  rawCoordBox: BBoxish;
+  onCoordBoxChange: (coordBox: BBox) => void;
+}>) => {
+  const coordBoxRef = React.useRef<BBox>(normalizeBBox(rawCoordBox));
+  const events = useDrag({
+    context,
+    onDrag: ({ coordMovement: { x, y } }) => {
+      coordBoxRef.current = {
+        horizontal: coordBoxRef.current.horizontal.sub(point(x, x)),
+        vertical: coordBoxRef.current.vertical.sub(point(y, y)),
+      };
+      onCoordBoxChange(coordBoxRef.current);
+    },
+  });
   return (
     <rect
       x="0"
@@ -19,15 +31,7 @@ const Component = ({
       width="100%"
       height="100%"
       fill={"transparent"}
-      onPointerDown={(e) => {
-        onPointerDown?.(e, context);
-      }}
-      onPointerMove={(e) => {
-        onPointerMove?.(e, context);
-      }}
-      onPointerUp={(e) => {
-        onPointerUp?.(e, context);
-      }}
+      {...events}
     />
   );
 };

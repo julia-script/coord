@@ -1,0 +1,30 @@
+# Grid
+
+The `Grid` component renders a Cartesian grid coordinate system.
+
+## Usage
+
+Here is a basic usage of the `Grid` component:
+
+```jsx live
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x) * Math.exp(-x / 10)} strokeColor={2} />
+    </Graph>
+  );
+}
+```
+
+## Props
+
+The `Grid` component accepts the following props:
+
+| Name             | Type      | Default value | Description                                                       |
+| ---------------- | --------- | ------------- | ----------------------------------------------------------------- |
+| `displayNumbers` | `boolean` | `false`       | If set to true, numbers will be displayed along the x and y axes. |
+| `displayAxis`    | `boolean` | `false`       | If set to true, the x and y axes will be displayed.               |
+| `displayGrid`    | `boolean` | `false`       | If set to true, the grid will be displayed.                       |

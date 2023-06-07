@@ -1,19 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Text } from "./Text";
-import {
-  WithGraphContext,
-  WithPointerEvents,
-  mapPointerEvent,
-  withGraphContext,
-} from "../utils";
+import { GraphElement, withGraphContext } from "../utils";
 import { Scalar } from "../types";
 import { GraphPoint } from "@/types";
+import { Point } from "@coord/core";
+
+import { useDrag } from "@/hooks/useDrag";
 
 export type MarkerContentProps = {
   size: number;
   color: string;
   interactable: boolean;
 };
+
 const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
   <g className="curves-graph-default-marker">
     {interactable && (
@@ -42,18 +41,22 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
   </g>
 );
 
-export type MarkerProps = {
-  position: GraphPoint;
-  size?: Scalar;
-  color?: number | string;
-  rotation?: number;
-  label?: string | typeof DefaultMarker;
-  style?: React.CSSProperties;
-  opacity?: number;
-} & WithGraphContext &
-  WithPointerEvents;
+export type MarkerProps = GraphElement<
+  {
+    position: GraphPoint;
+    size?: Scalar;
+    color?: number | string;
+    rotation?: number;
+    label?: string | typeof DefaultMarker;
+    style?: React.CSSProperties;
+    opacity?: number;
+    onChange?: (position: Point) => void;
+  },
+  Omit<React.SVGProps<SVGGElement>, "color" | "onChange">
+>;
 
 const emojiRegex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/u;
+
 const Component = ({
   position,
   size,
@@ -61,21 +64,30 @@ const Component = ({
   rotation = 0,
   context,
   label = DefaultMarker,
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
-  interactable,
-  isDragging,
   style,
   opacity,
+  onChange,
+  ...rest
 }: MarkerProps) => {
-  const { projectCoord, projectAbsoluteSize, computeColor } = context;
+  const { projectCoord, projectAbsoluteSize, computeColor, unprojectCoord } =
+    context;
+
+  const interactable = !!onChange;
+  const positionTracking = useRef(unprojectCoord(position));
+  const events = useDrag({
+    context,
+    onDrag: ({ coordMovement }) => {
+      positionTracking.current = positionTracking.current.add(coordMovement);
+      onChange?.(positionTracking.current);
+    },
+  });
+
   const { x, y } = projectCoord(position);
 
   const hasEmoji = typeof label === "string" && emojiRegex.test(label);
   if (!size) size = typeof label === "string" ? size || "35vs" : size || "13vs";
 
-  const width = Math.abs(projectAbsoluteSize(size));
+  const width = projectAbsoluteSize(size, "viewspace");
   const fill = computeColor(color);
 
   const fontSize = width * (hasEmoji ? 0.7 : 0.45);
@@ -110,16 +122,15 @@ const Component = ({
       transform={`translate(${x} ${y}) rotate(${rotation * (180 / Math.PI)})`}
       style={
         interactable
-          ? { cursor: isDragging ? "grabbing" : "grab", ...style }
+          ? { cursor: "grab", ...style }
           : {
               pointerEvents: "none",
               ...style,
             }
       }
       opacity={opacity}
-      onPointerDown={mapPointerEvent(context, onPointerDown)}
-      onPointerMove={mapPointerEvent(context, onPointerMove)}
-      onPointerUp={mapPointerEvent(context, onPointerUp)}
+      {...events}
+      {...rest}
     >
       {c}
     </g>

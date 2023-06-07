@@ -1,10 +1,7 @@
-import React, { CSSProperties, useLayoutEffect, useRef, useState } from "react";
-import { Point, Pointish, point } from "@coord/core";
+import React, { CSSProperties } from "react";
+import { Pointish, point } from "@coord/core";
 
-import { useNavigation } from "../hooks/useNavigation";
-import { ScaleControls } from "./ScaleControls";
 import { Navigation } from "./Navigation";
-// import { ServerGraphProps, ServerGraph } from "./ServerGraph";
 import { passContextToChildren, useGraphContext } from "@/utils/graphContext";
 import { defaultThemes } from "@/utils";
 import { BBoxish, Theme } from "@/types";
@@ -42,12 +39,12 @@ export type GraphProps = React.PropsWithChildren<
      * The absolute width of the graph.
      * @defaultValue 400
      */
-    width?: number;
+    width?: CSSProperties["width"];
     /**
      * The absolute height of the graph.
      * @defaultValue 400
      * */
-    height?: number;
+    height?: CSSProperties["height"];
     /**
      * The padding in pixels of the graph.
      * @defaultValue 0
@@ -59,9 +56,14 @@ export type GraphProps = React.PropsWithChildren<
      * @see {@link Theme}
      * */
     theme?: Theme | keyof typeof defaultThemes;
+
+    /**
+     * Callback when the bounding box of the graph changes.
+     * @see {@link BBoxish}
+     * */
+    onCoordBoxChange?: (coordBox: BBoxish) => void;
   } & Omit<React.SVGProps<SVGSVGElement>, "ref">
-> &
-  Partial<ReturnType<typeof useNavigation>>;
+>;
 
 export const Graph = ({
   scale,
@@ -74,17 +76,15 @@ export const Graph = ({
     vertical: point(10, -10),
   },
   coordStep = point(1, 1),
+  onCoordBoxChange,
   children,
   ...rest
 }: GraphProps) => {
-  const { coordBox: navigationCoordBox, ...navigationEvents } =
-    useNavigation(coordBox);
-
-  const context = useGraphContext({
+  const { ready, ...context } = useGraphContext({
     width,
     height,
     padding,
-    coordBox: navigationCoordBox,
+    coordBox,
     theme,
     coordStep,
   });
@@ -103,44 +103,15 @@ export const Graph = ({
         height="100%"
         fill={context.theme.background}
       />
-      <Navigation context={context} {...navigationEvents} />
+      {onCoordBoxChange && (
+        <Navigation
+          context={context}
+          rawCoordBox={coordBox}
+          onCoordBoxChange={onCoordBoxChange}
+        />
+      )}
 
-      {context.ready && passContextToChildren(children, context)}
+      {ready && passContextToChildren(children, context)}
     </svg>
   );
 };
-
-{
-  /* <div
-      style={{
-        width,
-        height,
-      }}
-      ref={(el) => {
-        if (!el) return;
-        setSvgElement(el.childNodes[0] as SVGSVGElement);
-      }}
-    > */
-}
-{
-  /* <ServerGraph
-        style={
-          expand
-            ? {
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-              }
-            : {}
-        }
-        width={viewspaceSize.x}
-        height={viewspaceSize.y}
-        {...rest}
-      >
-        <Navigation />
-
-        {scale && <ScaleControls scale={scale} />}
-        {children}
-      </ServerGraph>
-    </div> */
-}

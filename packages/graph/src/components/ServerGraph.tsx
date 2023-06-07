@@ -178,7 +178,7 @@ import { Point, Pointish, point, transform } from "@coord/core";
 //     padding,
 //     Math.min(viewspaceSize.x, viewspaceSize.y) / 2 - 1
 //   );
-//   const normalizedCoordStep = Point.fromPointish(coordStep);
+//   const normalizedCoordStep = Point.of(coordStep);
 //   const visibleCoordBox = fitCoordBoxToView(
 //     normalizeBBox(coordBox),
 //     normalizedCoordStep,

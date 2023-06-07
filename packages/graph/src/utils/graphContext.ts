@@ -32,11 +32,12 @@ export type GraphContext = {
   theme: Theme;
 };
 
-export type WithGraphContext = {
+export type GraphElement<T = {}, TParentElProps = {}> = {
   context: GraphContext;
-};
+} & T &
+  TParentElProps;
 
-export const withGraphContext = <P extends WithGraphContext>(
+export const withGraphContext = <P extends GraphElement>(
   Component: React.ComponentType<P>
 ): React.FC<PartialBy<P, "context">> => {
   return function withContext(props) {
@@ -146,10 +147,8 @@ const useViewspaceSize = (
     : useState(parsedWidth !== null && parsedHeight !== null);
 
   const [viewspaceSize, setViewspaceSize] = isServerComponent
-    ? [Point.fromPointish([parsedWidth ?? 400, parsedHeight ?? 400]), noop]
-    : useState<Point>(
-        Point.fromPointish([parsedWidth ?? 400, parsedHeight ?? 400])
-      );
+    ? [Point.of([parsedWidth ?? 400, parsedHeight ?? 400]), noop]
+    : useState<Point>(Point.of([parsedWidth ?? 400, parsedHeight ?? 400]));
 
   if (!isServerComponent) {
     useLayoutEffect(() => {
@@ -190,7 +189,7 @@ export const useGraphContext = (
     props.width ?? 400,
     props.height ?? 400
   );
-  const coordStep = Point.fromPointish(props.coordStep ?? [1, 1]);
+  const coordStep = Point.of(props.coordStep ?? [1, 1]);
 
   const coordBox = fitCoordBoxToView(
     normalizeBBox(
@@ -267,7 +266,6 @@ export const useGraphContext = (
     projectSizeFactory(projectionTransform, true),
     [projectionTransform]
   );
-
   return {
     ref,
     viewspaceSize,

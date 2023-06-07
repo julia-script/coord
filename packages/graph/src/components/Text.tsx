@@ -1,7 +1,7 @@
 import React from "react";
 import { GraphPoint } from "@/types";
 import { Scalar } from "../types";
-import { WithGraphContext, withGraphContext } from "../utils";
+import { GraphElement, withGraphContext } from "../utils";
 
 export type TextProps = {
   position?: GraphPoint;
@@ -11,7 +11,7 @@ export type TextProps = {
   color?: number | string;
   children?: React.ReactNode;
 } & Omit<React.SVGProps<SVGTextElement>, "color"> &
-  WithGraphContext;
+  GraphElement;
 
 const Component = ({
   children,

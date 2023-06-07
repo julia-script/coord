@@ -1,7 +1,7 @@
 export type Pointish = Point | [number, number] | { x: number; y: number };
 export class Point {
   constructor(public x: number, public y: number) {}
-  static fromPointish(pointish: Pointish) {
+  static of(pointish: Pointish) {
     if (pointish instanceof Point) {
       return pointish;
     }
