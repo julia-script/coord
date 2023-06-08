@@ -38,8 +38,8 @@ export function Tabs<
             key={key}
             className={`text-xs font-bold p-1 rounded-sm whitespace-nowrap ${
               tab === key
-                ? "bg-gray-100 text-gray-900"
-                : "bg-gray-900/30 text-gray-100"
+                ? "bg-dark-100 text-dark-900"
+                : "bg-dark-900/30 text-dark-100"
             }`}
             onClick={() => setTab(key)}
           >

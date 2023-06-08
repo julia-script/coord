@@ -49,7 +49,7 @@ const Hero = () => {
   return (
     <Graph
       padding={20}
-      className="bg-gray-950 max-h-[700px]"
+      className="bg-dark-950 max-h-[700px]"
       width="100%"
       height={"50vh"}
       coordBox={coordBox}
@@ -156,10 +156,10 @@ export default function Page() {
     <div>
       <Hero />
       <div className="container mx-auto flex items-center flex-col -mt-32 px-4">
-        <h1 className="text-2xl bg-gray-900/50 p-2 md:text-4xl font-bold text-gray-100 text-center">
+        <h1 className="text-2xl bg-dark-900/50 p-2 md:text-4xl font-bold text-dark-100 text-center">
           Visualize Math with <span className="text-red-400">Code</span>
         </h1>
-        <h2 className="text-md md:text-xl bg-gray-900/70 font-mono  text-gray-100 text-center">
+        <h2 className="text-md md:text-xl bg-dark-900/70 font-mono  text-dark-100 text-center">
           <code>
             @coord/<span className="text-red-400">graph</span>
           </code>{" "}
@@ -302,7 +302,7 @@ export default function Page() {
               ),
             },
           ].map(({ left, right }, i) => (
-            <div className="grid md:grid-cols-[40%,60%] gap-8">
+            <div key={i} className="grid md:grid-cols-[40%,60%] gap-8">
               <div className="prose prose-invert max-w-full text-center md:text-right">
                 {left}
               </div>

@@ -35,9 +35,9 @@ export function LiveCodeBlock({
   const [collapsed, setCollapsed] = React.useState(collapsedInitialValue);
 
   return (
-    <div className="p-2 bg-gray-200/5 rounded-md gap-2 flex flex-col mb-4 not-prose">
+    <div className="p-2 bg-dark-200/5 rounded-md gap-2 flex flex-col mb-4 not-prose">
       <div className="relative">
-        <div className={"border border-gray-700/60 rounded-md overflow-hidden"}>
+        <div className={"border border-dark-700/60 rounded-md overflow-hidden"}>
           {element}
         </div>
 
@@ -45,7 +45,7 @@ export function LiveCodeBlock({
           <div className={"absolute w-full bottom-0 left-0 p-2"}>
             <pre
               className={
-                "p-4 m-0 text-xs border border-gray-700/60 rounded-md overflow-hidden"
+                "p-4 m-0 text-xs border border-dark-700/60 rounded-md overflow-hidden"
               }
             >
               {error}
@@ -55,7 +55,7 @@ export function LiveCodeBlock({
       </div>
 
       {!collapsed && (
-        <div className={"border border-gray-700/60 rounded-md overflow-hidden"}>
+        <div className={"border border-dark-700/60 rounded-md overflow-hidden"}>
           <CodeEditor
             className="text-xs font-mono"
             value={code}
@@ -66,7 +66,7 @@ export function LiveCodeBlock({
       {collapsed && partiallyVisibleWhenCollapsed && (
         <div
           className={
-            "border-t border-gray-700/60 rounded-b-md overflow-hidden max-h-32 relative"
+            "border-t border-dark-700/60 rounded-b-md overflow-hidden max-h-32 relative"
           }
         >
           <CodeEditor
@@ -76,13 +76,13 @@ export function LiveCodeBlock({
           />
           <div
             className={
-              "absolute bottom-0 left-0 right-0 bg-gradient-to-b from-gray-900/40 to-gray-900/100 h-full"
+              "absolute bottom-0 left-0 right-0 bg-gradient-to-b from-dark-900/40 to-dark-900/100 h-full"
             }
           />
         </div>
       )}
       <button
-        className={clsx("text-sm hover:text-gray-100 font-bold relative", {
+        className={clsx("text-sm hover:text-dark-100 font-bold relative", {
           "-mt-16": collapsed && partiallyVisibleWhenCollapsed,
         })}
         onClick={() => setCollapsed((collapsed) => !collapsed)}
@@ -112,14 +112,14 @@ export function CodeBlock({
   const [copied, setCopied] = React.useState(false);
   return (
     <div className="relative not-prose">
-      <header className="text-xs text-gray-100 font-bold font-mono absolute top-2 right-2 bg-gray-900/50 py-2 rounded-md">
+      <header className="text-xs text-dark-100 font-bold font-mono absolute top-2 right-2 bg-dark-900/50 py-2 rounded-md">
         <ul className="p-0 m-0 flex flex-row [&>li]:px-2">
-          <li className="border-r border-gray-50/10">
+          <li className="border-r border-dark-50/10">
             <span className="uppercase">{language}</span>
           </li>
           <li>
             <button
-              className="hover:text-gray-200 font-bold"
+              className="hover:text-dark-200 font-bold"
               disabled={copied}
               onClick={() => {
                 navigator.clipboard.writeText(code);

@@ -16,7 +16,7 @@ export type RouteItem = {
 export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="w-full border-gray-200/10 md:max-w-[250px] border-y md:border-y-0 md:border-r mb-4 md:mb-0">
+    <div className="w-full border-dark-200/10 md:max-w-[250px] border-y md:border-y-0 md:border-r mb-4 md:mb-0">
       <div className="m-auto container px-4 md:hidden">
         <button
           className="w-full text-left text-sm font-semibold text-white/90 hover:text-white/100 py-4 "
@@ -73,7 +73,7 @@ export const NavItem = (props: { href: string; children: React.ReactNode }) => {
   return (
     <li className="relative pl-1">
       <Link
-        className="block w-full pl-3 py-1 hover:text-gray-100 text-gray-100/80 border-l-2 border-slate-100/10 hover:border-slate-100/50"
+        className="block w-full pl-3 py-1 hover:text-dark-100 text-dark-100/80 border-l-2 borderdark-100/10 hover:borderdark-100/50"
         href={props.href}
       >
         {props.children}
