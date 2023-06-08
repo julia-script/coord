@@ -36,7 +36,7 @@ export function Tabs<
         {Object.keys(tabs).map((key) => (
           <button
             key={key}
-            className={`text-xs font-bold p-1 rounded-sm whitespace-nowrap ${
+            className={`whitespace-nowrap rounded-sm p-1 text-xs font-bold ${
               tab === key
                 ? "bg-dark-100 text-dark-900"
                 : "bg-dark-900/30 text-dark-100"

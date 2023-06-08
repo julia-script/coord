@@ -155,12 +155,12 @@ export default function Page() {
   return (
     <div>
       <Hero />
-      <div className="container mx-auto flex items-center flex-col -mt-32 px-4">
-        <h1 className="text-2xl bg-dark-900/50 p-2 md:text-4xl font-bold text-dark-100 text-center">
+      <div className="container mx-auto -mt-32 flex flex-col items-center px-4">
+        <h1 className="bg-dark-900/50 text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
           Visualize Math with{" "}
           <span className="text-accent-graph-400">Code</span>
         </h1>
-        <h2 className="text-md md:text-xl bg-dark-900/70 font-mono  text-dark-100 text-center">
+        <h2 className="text-md bg-dark-900/70 text-dark-100 text-center  font-mono md:text-xl">
           <code>
             @coord/<span className="text-accent-graph-400">graph</span>
           </code>{" "}
@@ -169,12 +169,12 @@ export default function Page() {
         <div className="mt-8">
           <Link
             href="/graph/docs"
-            className="bg-accent-graph-400 text-white px-6 py-3 rounded-md"
+            className="bg-accent-graph-400 rounded-md px-6 py-3 text-white"
           >
             Get Started
           </Link>
         </div>
-        <section className="py-12 gap-y-8 flex flex-col mt-32">
+        <section className="mt-32 flex flex-col gap-y-8 py-12">
           {[
             {
               left: (
@@ -303,7 +303,7 @@ export default function Page() {
               ),
             },
           ].map(({ left, right }, i) => (
-            <div key={i} className="grid md:grid-cols-[40%,60%] gap-8">
+            <div key={i} className="grid gap-8 md:grid-cols-[40%,60%]">
               <div className="prose prose-invert max-w-full text-center md:text-right">
                 {left}
               </div>

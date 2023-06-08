@@ -35,17 +35,17 @@ export function LiveCodeBlock({
   const [collapsed, setCollapsed] = React.useState(collapsedInitialValue);
 
   return (
-    <div className="p-2 bg-dark-200/5 rounded-md gap-2 flex flex-col mb-4 not-prose">
+    <div className="bg-dark-200/5 not-prose mb-4 flex flex-col gap-2 rounded-md p-2">
       <div className="relative">
-        <div className={"border border-dark-700/60 rounded-md overflow-hidden"}>
+        <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           {element}
         </div>
 
         {error && (
-          <div className={"absolute w-full bottom-0 left-0 p-2"}>
+          <div className={"absolute bottom-0 left-0 w-full p-2"}>
             <pre
               className={
-                "p-4 m-0 text-xs border border-dark-700/60 rounded-md overflow-hidden"
+                "border-dark-700/60 m-0 overflow-hidden rounded-md border p-4 text-xs"
               }
             >
               {error}
@@ -55,9 +55,9 @@ export function LiveCodeBlock({
       </div>
 
       {!collapsed && (
-        <div className={"border border-dark-700/60 rounded-md overflow-hidden"}>
+        <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           <CodeEditor
-            className="text-xs font-mono"
+            className="font-mono text-xs"
             value={code}
             onChange={onChange}
           />
@@ -66,23 +66,23 @@ export function LiveCodeBlock({
       {collapsed && partiallyVisibleWhenCollapsed && (
         <div
           className={
-            "border-t border-dark-700/60 rounded-b-md overflow-hidden max-h-32 relative"
+            "border-dark-700/60 relative max-h-32 overflow-hidden rounded-b-md border-t"
           }
         >
           <CodeEditor
-            className="text-xs font-mono"
+            className="font-mono text-xs"
             value={code}
             onChange={onChange}
           />
           <div
             className={
-              "absolute bottom-0 left-0 right-0 bg-gradient-to-b from-dark-900/40 to-dark-900/100 h-full"
+              "from-dark-900/40 to-dark-900/100 absolute bottom-0 left-0 right-0 h-full bg-gradient-to-b"
             }
           />
         </div>
       )}
       <button
-        className={clsx("text-sm hover:text-dark-100 font-bold relative", {
+        className={clsx("hover:text-dark-100 relative text-sm font-bold", {
           "-mt-16": collapsed && partiallyVisibleWhenCollapsed,
         })}
         onClick={() => setCollapsed((collapsed) => !collapsed)}
@@ -111,10 +111,10 @@ export function CodeBlock({
   const code = React.useMemo(() => dedent(children), []);
   const [copied, setCopied] = React.useState(false);
   return (
-    <div className="relative not-prose">
-      <header className="text-xs text-dark-100 font-bold font-mono absolute top-2 right-2 bg-dark-900/50 py-2 rounded-md">
-        <ul className="p-0 m-0 flex flex-row [&>li]:px-2">
-          <li className="border-r border-dark-50/10">
+    <div className="not-prose relative">
+      <header className="text-dark-100 bg-dark-900/50 absolute right-2 top-2 rounded-md py-2 font-mono text-xs font-bold">
+        <ul className="m-0 flex flex-row p-0 [&>li]:px-2">
+          <li className="border-dark-50/10 border-r">
             <span className="uppercase">{language}</span>
           </li>
           <li>
@@ -132,7 +132,7 @@ export function CodeBlock({
           </li>
         </ul>
       </header>
-      <CB className="text-xs font-mono p-2" padding={16} language={language}>
+      <CB className="p-2 font-mono text-xs" padding={16} language={language}>
         {code}
       </CB>
     </div>

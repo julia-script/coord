@@ -16,10 +16,10 @@ export type RouteItem = {
 export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="w-full border-dark-200/10 md:max-w-[250px] border-y md:border-y-0 md:border-r mb-4 md:mb-0">
-      <div className="m-auto container px-4 md:hidden">
+    <div className="border-dark-200/10 mb-4 w-full border-y md:mb-0 md:max-w-[250px] md:border-y-0 md:border-r">
+      <div className="container m-auto px-4 md:hidden">
         <button
-          className="w-full text-left text-sm font-semibold text-white/90 hover:text-white/100 py-4 "
+          className="w-full py-4 text-left text-sm font-semibold text-white/90 hover:text-white/100 "
           onClick={() => setOpen(!open)}
         >
           Menu
@@ -27,7 +27,7 @@ export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
       </div>
 
       <div
-        className={clsx("m-auto container px-4 pb-4 md:block md:py-4", {
+        className={clsx("container m-auto px-4 pb-4 md:block md:py-4", {
           hidden: !open,
         })}
       >
@@ -39,7 +39,7 @@ export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
 
 export function Menu({ items }: { items: Readonly<RouteSection[]> }) {
   return (
-    <nav className="text-sm pl-2">
+    <nav className="pl-2 text-sm">
       <ul role="list" className="flex flex-col gap-y-4">
         {items.map((section) => (
           <SidebarSection key={section.title} title={section.title}>
@@ -61,8 +61,8 @@ interface SidebarSectionProps {
 function SidebarSection(props: SidebarSectionProps) {
   return (
     <li>
-      <h2 className="font-display text-white font-semibold">{props.title}</h2>
-      <ul role="list" className="mt-2 lg:mt-4 gap-y-0 flex flex-col">
+      <h2 className="font-display font-semibold text-white">{props.title}</h2>
+      <ul role="list" className="mt-2 flex flex-col gap-y-0 lg:mt-4">
         {props.children}
       </ul>
     </li>
@@ -73,7 +73,7 @@ export const NavItem = (props: { href: string; children: React.ReactNode }) => {
   return (
     <li className="relative pl-1">
       <Link
-        className="block w-full pl-3 py-1 hover:text-dark-100 text-dark-100/80 border-l-2 borderdark-100/10 hover:borderdark-100/50"
+        className="hover:text-dark-100 text-dark-100/80 borderdark-100/10 hover:borderdark-100/50 block w-full border-l-2 py-1 pl-3"
         href={props.href}
       >
         {props.children}

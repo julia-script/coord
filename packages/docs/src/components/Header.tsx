@@ -3,10 +3,10 @@ import { GoMarkGithub, GoBook } from "react-icons/go";
 
 export function Header() {
   return (
-    <header className="w-full py-4 border-b border-white/10">
-      <div className="mx-auto px-4 max-w-6xl flex items-center justify-between">
+    <header className="w-full border-b border-white/10 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4">
         <div className="flex">
-          <h1 className="font-display text-white font-semibold font-mono">
+          <h1 className="font-display font-mono font-semibold text-white">
             <Link href="/graph">
               @coord/<span className="text-accent-graph-400">graph</span>
             </Link>
@@ -15,7 +15,7 @@ export function Header() {
         <div className="flex items-center gap-4 font-mono text-sm">
           <Link
             href="/graph/docs"
-            className="gap-2 flex items-center text-white/90 font-semibold hover:text-white whitespace-nowrap"
+            className="flex items-center gap-2 whitespace-nowrap font-semibold text-white/90 hover:text-white"
           >
             <GoBook size={18} />
             Docs
@@ -25,7 +25,7 @@ export function Header() {
             href="https://github.com/julia-script/coord/tree/main/packages/graph"
             target="_blank"
             rel="noopener noreferrer"
-            className="gap-2 flex items-center text-white/90 font-semibold hover:text-white whitespace-nowrap"
+            className="flex items-center gap-2 whitespace-nowrap font-semibold text-white/90 hover:text-white"
           >
             <GoMarkGithub size={18} />
             GitHub
