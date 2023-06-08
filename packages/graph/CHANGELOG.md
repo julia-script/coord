@@ -1,5 +1,11 @@
 # @coord/graph
 
+## 0.4.0
+
+### Minor Changes
+
+- Implemented dynamic Label component
+
 ## 0.3.0
 
 ### Minor Changes
