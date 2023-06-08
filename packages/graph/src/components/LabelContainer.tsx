@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
-import { Rect, RectProps } from "./Rect";
-import { Line } from "./Line";
 import {
   passContextToChildren,
   projectRadOnRect,
   withGraphContext,
-} from "../utils";
+} from "@/utils";
 import { point } from "@coord/core";
-
 import { GraphPoint, Scalar } from "@/types";
+import { Rect, RectProps } from "./Rect";
+import { Line } from "./Line";
 
 const cardinalMap = {
   n: Math.PI / 2,
@@ -96,7 +95,7 @@ const Component = ({
   };
 
   return (
-    <g>
+    <g {...rest}>
       <Line
         context={context}
         from={[`${cx - connectionPoint.x}vs`, `${cy - connectionPoint.y}vs`]}
@@ -112,7 +111,6 @@ const Component = ({
         arrow
       />
       <Rect
-        {...rest}
         context={context}
         position={[`${x}vs`, `${y}vs`]}
         size={[`${width}vs`, `${height}vs`]}

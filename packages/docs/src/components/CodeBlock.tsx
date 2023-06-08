@@ -10,6 +10,7 @@ import {
 import * as graph from "@coord/graph";
 import React from "react";
 import dedent from "ts-dedent";
+import clsx from "clsx";
 
 const scope = {
   import: {
@@ -21,9 +22,11 @@ const scope = {
 export function LiveCodeBlock({
   children,
   collapsed: collapsedInitialValue = false,
+  partiallyVisibleWhenCollapsed,
 }: {
   children: string;
   collapsed?: boolean;
+  partiallyVisibleWhenCollapsed?: boolean;
 }) {
   const { element, error, code, onChange } = useLiveRunner({
     initialCode: dedent(children),
@@ -60,8 +63,28 @@ export function LiveCodeBlock({
           />
         </div>
       )}
+      {collapsed && partiallyVisibleWhenCollapsed && (
+        <div
+          className={
+            "border-t border-gray-700/60 rounded-b-md overflow-hidden max-h-32 relative"
+          }
+        >
+          <CodeEditor
+            className="text-xs font-mono"
+            value={code}
+            onChange={onChange}
+          />
+          <div
+            className={
+              "absolute bottom-0 left-0 right-0 bg-gradient-to-b from-gray-900/40 to-gray-900/100 h-full"
+            }
+          />
+        </div>
+      )}
       <button
-        className="text-sm hover:text-gray-100 font-bold"
+        className={clsx("text-sm hover:text-gray-100 font-bold relative", {
+          "-mt-16": collapsed && partiallyVisibleWhenCollapsed,
+        })}
         onClick={() => setCollapsed((collapsed) => !collapsed)}
       >
         {collapsed ? (

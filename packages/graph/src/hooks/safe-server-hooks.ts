@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 const noop = () => {
   // do nothing
 };
+
 export const isServerComponent = typeof useState === "undefined";
 
 export const useSafeState: typeof useState = <S>(
@@ -18,7 +19,7 @@ export const useSafeState: typeof useState = <S>(
   return [state, setState];
 };
 
-export const useSafeUseEffect: typeof useEffect = (effect, deps) => {
+export const useSafeEffect: typeof useEffect = (effect, deps) => {
   if (isServerComponent) {
     return;
   }
@@ -26,7 +27,7 @@ export const useSafeUseEffect: typeof useEffect = (effect, deps) => {
   useEffect(effect, deps);
 };
 
-export const useSafeUseLayoutEffect: typeof useEffect = (effect, deps) => {
+export const useSafeLayoutEffect: typeof useEffect = (effect, deps) => {
   if (isServerComponent) {
     return;
   }

@@ -53,6 +53,7 @@ importers:
       postcss: 8.4.24
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-icons: ^4.9.0
       react-live-runner: ^1.0.5
       rehype-mdx-code-props: ^1.0.0
       remark-gfm: ^3.0.1
@@ -70,6 +71,7 @@ importers:
       next-mdx-remote: 4.4.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-icons: 4.9.0_react@18.2.0
       rehype-mdx-code-props: 1.0.0
       remark-gfm: 3.0.1
     devDependencies:
@@ -93,6 +95,7 @@ importers:
       '@types/lodash-es': ^4.17.7
       '@types/react': ^18.2.0
       '@types/react-dom': ^18.2.0
+      '@use-gesture/react': ^10.2.27
       lodash-es: ^4.17.21
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -101,6 +104,7 @@ importers:
       typescript: ^5.1.3
       vitest: ^0.31.1
     dependencies:
+      '@use-gesture/react': 10.2.27_react@18.2.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -986,6 +990,19 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: false
+
+  /@use-gesture/core/10.2.27:
+    resolution: {integrity: sha512-V4XV7hn9GAD2MYu8yBBVi5iuWBsAMfjPRMsEVzoTNGYH72tf0kFP+OKqGKc8YJFQIJx6yj+AOqxmEHOmx2/MEA==}
+    dev: false
+
+  /@use-gesture/react/10.2.27_react@18.2.0:
+    resolution: {integrity: sha512-7E5vnWCxeslWlxwZ8uKIcnUZVMTRMZ8cvSnLLKF1NkyNb3PnNiAzoXM4G1vTKJKRhgOTeI6wK1YsEpwo9ABV5w==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      '@use-gesture/core': 10.2.27
+      react: 18.2.0
     dev: false
 
   /@vitest/expect/0.31.4:
@@ -4217,6 +4234,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-icons/4.9.0_react@18.2.0:
+    resolution: {integrity: sha512-ijUnFr//ycebOqujtqtV9PFS7JjhWg0QU6ykURVHuL4cbofvRCf3f6GMn9+fBktEFQOIVZnuAYLZdiyadRQRFg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}

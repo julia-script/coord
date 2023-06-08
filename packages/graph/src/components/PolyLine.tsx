@@ -1,8 +1,7 @@
 import React from "react";
 import { useMemo } from "react";
-import { GraphElement, renderNumber, withGraphContext } from "../utils";
-import { Scalar } from "../types";
-import { GraphPoint } from "@/types";
+import { GraphElement, renderNumber, withGraphContext } from "@/utils";
+import { GraphPoint, Scalar } from "@/types";
 
 export type PolyLineProps = {
   points: Readonly<GraphPoint[]>;
@@ -40,6 +39,7 @@ const Component = ({
       strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
       fill="none"
       pointerEvents={"none"}
+      strokeLinejoin="round"
       {...rest}
     />
   );

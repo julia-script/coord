@@ -1,8 +1,7 @@
 import React from "react";
 import { point } from "@coord/core";
-import { GraphElement, withGraphContext } from "../utils";
-import { Scalar } from "../types";
-import { GraphPoint } from "@/types";
+import { GraphElement, withGraphContext } from "@/utils";
+import { GraphPoint, Scalar } from "@/types";
 
 export type LineProps = GraphElement<
   {

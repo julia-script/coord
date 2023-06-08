@@ -1,6 +1,6 @@
 import React from "react";
-import { withGraphContext } from "../utils";
-import { BBoxish, normalizeBBox } from "../types";
+import { withGraphContext } from "@/utils";
+import { BBoxish, normalizeBBox } from "@/types";
 import { Rect, RectProps } from "./Rect";
 
 export type BoundingBoxProps = {

@@ -1,10 +1,8 @@
 import React, { CSSProperties } from "react";
 import { Pointish, point } from "@coord/core";
-
+import { defaultThemes, passContextToChildren, useGraphContext } from "@/utils";
+import { BBox, BBoxish, Theme } from "@/types";
 import { Navigation } from "./Navigation";
-import { passContextToChildren, useGraphContext } from "@/utils/graphContext";
-import { defaultThemes } from "@/utils";
-import { BBoxish, Theme } from "@/types";
 
 export type GraphProps = React.PropsWithChildren<
   {
@@ -61,7 +59,7 @@ export type GraphProps = React.PropsWithChildren<
      * Callback when the bounding box of the graph changes.
      * @see {@link BBoxish}
      * */
-    onCoordBoxChange?: (coordBox: BBoxish) => void;
+    onCoordBoxChange?: (coordBox: BBox) => void;
   } & Omit<React.SVGProps<SVGSVGElement>, "ref">
 >;
 
@@ -94,6 +92,9 @@ export const Graph = ({
       {...(context.ref ? { ref: context.ref } : {})}
       width={width}
       height={height}
+      style={{
+        touchAction: onCoordBoxChange ? "none" : undefined,
+      }}
       {...rest}
     >
       <rect

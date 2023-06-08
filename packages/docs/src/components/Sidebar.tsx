@@ -16,7 +16,7 @@ export type RouteItem = {
 export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="w-full border-slate-200/10 md:max-w-[250px] border-y md:border-y-0 md:border-r mb-4 md:mb-0 h-full">
+    <div className="w-full border-gray-200/10 md:max-w-[250px] border-y md:border-y-0 md:border-r mb-4 md:mb-0">
       <div className="m-auto container px-4 md:hidden">
         <button
           className="w-full text-left text-sm font-semibold text-white/90 hover:text-white/100 py-4 "

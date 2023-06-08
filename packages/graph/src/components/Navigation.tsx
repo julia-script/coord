@@ -1,9 +1,8 @@
 import React from "react";
-
-import { withGraphContext, GraphElement } from "../utils";
 import { BBox, BBoxish, normalizeBBox } from "@/types";
-import { useDrag } from "@/hooks/useDrag";
-import { point } from "@coord/core/dist";
+import { useGesture } from "@use-gesture/react";
+import { point } from "@coord/core";
+import { withGraphContext, GraphElement } from "../utils";
 
 const Component = ({
   context,
@@ -13,17 +12,29 @@ const Component = ({
   rawCoordBox: BBoxish;
   onCoordBoxChange: (coordBox: BBox) => void;
 }>) => {
-  const coordBoxRef = React.useRef<BBox>(normalizeBBox(rawCoordBox));
-  const events = useDrag({
-    context,
-    onDrag: ({ coordMovement: { x, y } }) => {
-      coordBoxRef.current = {
-        horizontal: coordBoxRef.current.horizontal.sub(point(x, x)),
-        vertical: coordBoxRef.current.vertical.sub(point(y, y)),
-      };
-      onCoordBoxChange(coordBoxRef.current);
+  const bind = useGesture(
+    {
+      onDrag: ({ down, movement, memo, first }) => {
+        if (!down) return;
+        if (first) {
+          return normalizeBBox(rawCoordBox);
+        }
+        if (!memo) return;
+        const { x, y } = context.unprojectSize(movement, "viewspace");
+
+        onCoordBoxChange({
+          horizontal: memo.horizontal.sub(point(x, x)),
+          vertical: memo.vertical.sub(point(y, y)),
+        });
+      },
     },
-  });
+    {
+      drag: {
+        enabled: !!onCoordBoxChange,
+      },
+    }
+  );
+
   return (
     <rect
       x="0"
@@ -31,7 +42,10 @@ const Component = ({
       width="100%"
       height="100%"
       fill={"transparent"}
-      {...events}
+      style={{
+        touchAction: "none",
+      }}
+      {...bind()}
     />
   );
 };

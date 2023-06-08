@@ -7,8 +7,14 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { BBox, Theme, PartialBy, BBoxish, normalizeBBox } from "../types";
-import { GraphPoint } from "../types";
+import {
+  BBox,
+  Theme,
+  PartialBy,
+  BBoxish,
+  GraphPoint,
+  normalizeBBox,
+} from "@/types";
 import {
   projectCoordFactory,
   projectSizeFactory,
@@ -22,6 +28,7 @@ export type GraphContext = {
   ref: React.RefObject<SVGSVGElement> | null;
   computeColor: (color: string | number) => string;
   projectSize: ReturnType<typeof projectSizeFactory>;
+  unprojectSize: ReturnType<typeof projectSizeFactory>;
   projectAbsoluteSize: ReturnType<typeof projectSizeFactory>;
   projectCoord: (point: GraphPoint) => Point;
   unprojectCoord: (point: GraphPoint) => Point;
@@ -168,8 +175,8 @@ const useViewspaceSize = (
 
       setSize(rect.width, rect.height);
       const observer = new ResizeObserver(([entry]) => {
-        if (!entry) return;
-        setSize(entry.contentRect.width, entry.contentRect.height);
+        const { width, height } = current.getBoundingClientRect();
+        setSize(width, height);
       });
       observer.observe(current);
       return () => {
@@ -266,6 +273,10 @@ export const useGraphContext = (
     projectSizeFactory(projectionTransform, true),
     [projectionTransform]
   );
+  const unprojectSize = useCallback(
+    projectSizeFactory(projectionTransform, false, true),
+    [projectionTransform]
+  );
   return {
     ref,
     viewspaceSize,
@@ -278,6 +289,7 @@ export const useGraphContext = (
     unprojectCoord,
     projectSize,
     projectAbsoluteSize,
+    unprojectSize,
     ready,
   };
 };

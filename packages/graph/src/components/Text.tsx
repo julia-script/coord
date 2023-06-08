@@ -1,7 +1,7 @@
 import React from "react";
 import { GraphPoint } from "@/types";
-import { Scalar } from "../types";
-import { GraphElement, withGraphContext } from "../utils";
+import { Scalar } from "@/types";
+import { GraphElement, withGraphContext } from "@/utils";
 
 export type TextProps = {
   position?: GraphPoint;
@@ -46,4 +46,5 @@ const Component = ({
     </text>
   );
 };
+
 export const Text = withGraphContext(Component);

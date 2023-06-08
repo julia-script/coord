@@ -1,5 +1,5 @@
 import React from "react";
-import { GraphContext, withGraphContext } from "../utils";
+import { GraphContext, withGraphContext } from "@/utils";
 
 const Component = ({
   scale,

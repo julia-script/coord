@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
+import { GraphElement, withGraphContext } from "@/utils";
+import { GraphPoint, Scalar } from "@/types";
+import { Point, point } from "@coord/core";
+import { useGesture } from "@use-gesture/react";
 import { Text } from "./Text";
-import { GraphElement, withGraphContext } from "../utils";
-import { Scalar } from "../types";
-import { GraphPoint } from "@/types";
-import { Point } from "@coord/core";
-
-import { useDrag } from "@/hooks/useDrag";
 
 export type MarkerContentProps = {
   size: number;
@@ -73,15 +71,18 @@ const Component = ({
     context;
 
   const interactable = !!onChange;
-  const positionTracking = useRef(unprojectCoord(position));
-  const events = useDrag({
-    context,
-    onDrag: ({ coordMovement }) => {
-      positionTracking.current = positionTracking.current.add(coordMovement);
-      onChange?.(positionTracking.current);
+
+  const bind = useGesture({
+    onDrag: ({ down, movement, memo, first }) => {
+      if (!down) return;
+      if (first) {
+        return position;
+      }
+      if (!memo) return;
+      const { x, y } = context.unprojectSize(movement, "viewspace");
+      onChange?.(memo.add(point(x, y)));
     },
   });
-
   const { x, y } = projectCoord(position);
 
   const hasEmoji = typeof label === "string" && emojiRegex.test(label);
@@ -122,14 +123,14 @@ const Component = ({
       transform={`translate(${x} ${y}) rotate(${rotation * (180 / Math.PI)})`}
       style={
         interactable
-          ? { cursor: "grab", ...style }
+          ? { cursor: "grab", touchAction: "none", ...style }
           : {
               pointerEvents: "none",
               ...style,
             }
       }
       opacity={opacity}
-      {...events}
+      {...bind()}
       {...rest}
     >
       {c}

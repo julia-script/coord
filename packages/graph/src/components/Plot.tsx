@@ -1,7 +1,7 @@
 import React from "react";
 import { Point, point, Pointish } from "@coord/core";
 import { useMemo } from "react";
-import { withGraphContext, parametricAdaptiveSampling } from "../utils";
+import { withGraphContext, parametricAdaptiveSampling } from "@/utils";
 import { PolyLineProps, PolyLine } from "./PolyLine";
 
 export interface PlotParametricProps extends Omit<PolyLineProps, "points"> {
@@ -18,7 +18,7 @@ const Parametric = withGraphContext(
     f,
     errorTolerance = 0.01,
     minSamplesDepth = 8,
-    maxSamplesDepth = 12,
+    maxSamplesDepth = 9,
 
     strokeWidth = 3,
     ...rest
@@ -34,17 +34,19 @@ const Parametric = withGraphContext(
         ),
       [domain, errorTolerance, maxSamplesDepth, minSamplesDepth, f]
     );
+
     return <PolyLine points={points} strokeWidth={strokeWidth} {...rest} />;
   }
 );
 export type OfXProps = {
+  domain?: [number, number];
   f: (x: number) => number;
 } & Omit<PlotParametricProps, "f" | "domain">;
 
-const OfX = withGraphContext(({ f, context, ...rest }: OfXProps) => {
+const OfX = withGraphContext(({ f, domain, context, ...rest }: OfXProps) => {
   return (
     <Parametric
-      domain={context.coordBox.horizontal.toArray()}
+      domain={domain ?? context.coordBox.horizontal.toArray()}
       f={(x) => point(x, f(x))}
       context={context}
       {...rest}
