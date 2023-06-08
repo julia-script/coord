@@ -11,14 +11,15 @@ import { Line } from "./Line";
 
 const cardinalMap = {
   n: Math.PI / 2,
+
   ne: Math.PI / 4,
   e: 0,
-  se: (3 * Math.PI) / 4,
-  s: (3 * Math.PI) / 2,
-  sw: (5 * Math.PI) / 4,
+  se: -Math.PI / 4,
+  s: -Math.PI / 2,
+  sw: -Math.PI * 0.75,
   w: Math.PI,
-  nw: (7 * Math.PI) / 4,
-};
+  nw: Math.PI * 0.75,
+} as const;
 
 export type LabelContainerProps = {
   position?: GraphPoint;
@@ -28,7 +29,7 @@ export type LabelContainerProps = {
   strokeColor?: number | string;
   strokeWidth?: Scalar;
   rotation?: number;
-  direction?: number | "n" | "ne" | "e" | "se" | "s" | "sw" | "w" | "nw";
+  direction?: number | keyof typeof cardinalMap;
   distance?: Scalar;
   targetOffset?: Scalar;
 

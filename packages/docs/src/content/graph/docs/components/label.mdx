@@ -1,1 +1,230 @@
-# Label [WIP]
+# Label Component
+
+`Label` component allows you to attach a label with any valid JSX to a specific position on a graph.
+The size of the label adapts to its children.
+You can also adjust its position, orientation, distance from target, and color, among other properties.
+
+```jsx live
+import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <Label target={position} targetOffset={30} strokeColor={3}>
+        <div
+          style={{
+            padding: 10,
+            width: 200,
+            textAlign: "center",
+          }}
+        >
+          <p>I take any valid JSX</p>
+        </div>
+      </Label>
+      <Marker position={position} onChange={setPosition} color={3} />
+    </Graph>
+  );
+}
+```
+
+### Direction in radians
+
+```jsx live
+import { useState } from "react";
+import {
+  Graph,
+  Grid,
+  Label,
+  Marker,
+  useCoordState,
+  useStopwatch,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+
+  const { t: direction } = useStopwatch({
+    from: 0,
+    to: Math.PI * 2,
+    repeat: true,
+    autoplay: true,
+  });
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <Label
+        direction={direction}
+        distance={100}
+        target={position}
+        targetOffset={30}
+        strokeColor={3}
+      >
+        <div
+          style={{
+            padding: 10,
+            width: 200,
+            textAlign: "center",
+          }}
+        >
+          <p>I can be in any direction</p>
+          <p>I'm at {Math.round((direction * 180) / Math.PI)}deg</p>
+        </div>
+      </Label>
+      <Marker position={position} onChange={setPosition} color={3} />
+    </Graph>
+  );
+}
+```
+
+## Cardinal directions
+
+```jsx live
+import { useState } from "react";
+import {
+  Graph,
+  Grid,
+  Label,
+  Marker,
+  useCoordState,
+  useStopwatch,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      {["n", "ne", "e", "se", "s", "sw", "w", "nw"].map((cardinalDir, i) => (
+        <Label
+          key={i}
+          direction={cardinalDir}
+          distance={100}
+          target={position}
+          targetOffset={30}
+          strokeColor={i}
+        >
+          <div
+            style={{
+              padding: 5,
+              width: 70,
+              textAlign: "center",
+            }}
+          >
+            <strong>"{cardinalDir}"</strong>
+          </div>
+        </Label>
+      ))}
+      <Marker position={position} onChange={setPosition} color={3} />
+    </Graph>
+  );
+}
+```
+
+## Distance
+
+```jsx live
+import { useState } from "react";
+import {
+  Graph,
+  Grid,
+  Label,
+  Marker,
+  useCoordState,
+  useStopwatch,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+
+      <Label
+        distance={150}
+        direction="sw"
+        target={position}
+        targetOffset={30}
+        strokeColor={1}
+      >
+        <div
+          style={{
+            padding: 5,
+            width: 70,
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          I can be far
+        </div>
+      </Label>
+      <Label
+        distance={30}
+        direction="ne"
+        target={position}
+        targetOffset={20}
+        strokeColor={2}
+      >
+        <div
+          style={{
+            padding: 5,
+            width: 70,
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          I can be close
+        </div>
+      </Label>
+      <Marker position={position} onChange={setPosition} color={3} />
+    </Graph>
+  );
+}
+```
+
+## Draggable
+
+```jsx live
+import { useState } from "react";
+import {
+  Graph,
+  Grid,
+  Label,
+  Marker,
+  useCoordState,
+  useStopwatch,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+  const [labelPosition, setLabelPosition] = useCoordState([0, 4]);
+
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <Label
+        position={labelPosition}
+        onChange={setLabelPosition}
+        target={position}
+        targetOffset={20}
+        strokeColor={2}
+      >
+        <div
+          style={{
+            padding: 5,
+            width: 70,
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          I can be dragged
+        </div>
+      </Label>
+      <Marker position={position} onChange={setPosition} color={3} />
+    </Graph>
+  );
+}
+```

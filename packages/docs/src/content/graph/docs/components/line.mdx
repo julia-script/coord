@@ -1,1 +1,20 @@
-# Line [WIP]
+# Line Component
+
+`Line` is as simple as it seems a component that takes two points and draws a line between them.
+
+```tsx live
+import { Graph, Grid, Line, useCoordState, Marker } from "@coord/graph";
+
+export default function MyGraph() {
+  const [p0, setP0] = useCoordState([-4, -4]);
+  const [p1, setP1] = useCoordState([4, 4]);
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Line from={p0} to={p1} strokeColor={5} />
+      <Marker position={p0} onChange={setP0} color={5} />
+      <Marker position={p1} onChange={setP1} color={5} />
+    </Graph>
+  );
+}
+```

@@ -55,13 +55,14 @@ const OfX = withGraphContext(({ f, domain, context, ...rest }: OfXProps) => {
 });
 
 export type OfYProps = {
+  domain?: [number, number];
   f: (y: number) => number;
 } & Omit<PlotParametricProps, "f" | "domain">;
 
-const OfY = withGraphContext(({ f, context, ...rest }: OfYProps) => {
+const OfY = withGraphContext(({ f, domain, context, ...rest }: OfYProps) => {
   return (
     <Parametric
-      domain={context.coordBox.vertical.toArray()}
+      domain={domain ?? context.coordBox.vertical.toArray()}
       context={context}
       f={(y) => point(f(y), y)}
       {...rest}

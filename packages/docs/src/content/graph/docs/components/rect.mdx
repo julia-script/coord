@@ -1,1 +1,21 @@
-# Graph [WIP]
+# Rect Component
+
+`Rect` takes a `position` and `size` to draw a rectangle.
+
+```tsx live
+import { Graph, Grid, Rect, useCoordState, Marker } from "@coord/graph";
+
+export default function MyGraph() {
+  const [corner1, setCorner1] = useCoordState([-4, -4]);
+  const [corner2, setCorner2] = useCoordState([4, 4]);
+
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Rect position={corner1} size={corner2.sub(corner1)} strokeColor={5} />
+      <Marker position={corner1} onChange={setCorner1} color={5} />
+      <Marker position={corner2} onChange={setCorner2} color={5} />
+    </Graph>
+  );
+}
+```

@@ -1,1 +1,33 @@
-# BoundingBox [WIP]
+# BoundingBox Component
+
+`BoundingBox` is similar to `Rect` but it takes a `BBoxish` object to draw a rect. It's specially usefull when you want to draw a rect around a coordinate area.
+
+```tsx live
+import { Graph, Grid, Plot, Rect, Text, BoundingBox } from "@coord/graph";
+
+export default function MyGraph() {
+  const top = 10;
+  const right = 10;
+  const bottom = -10;
+  const left = -10;
+
+  const coordBox = {
+    horizontal: [left, right],
+    vertical: [top, bottom],
+  };
+
+  return (
+    <Graph coordBox={coordBox} height={300} width="100%" padding={15}>
+      <Grid />
+      <BoundingBox
+        bbox={coordBox}
+        fillColor={"#00000066"}
+        strokeDasharray={5}
+      />
+      <Text position={[0, 0]} fontSize={18} color={0}>
+        coordBox
+      </Text>
+    </Graph>
+  );
+}
+```
