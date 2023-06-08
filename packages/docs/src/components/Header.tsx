@@ -8,7 +8,7 @@ export function Header() {
         <div className="flex">
           <h1 className="font-display text-white font-semibold font-mono">
             <Link href="/graph">
-              @coord/<span className="text-red-400">graph</span>
+              @coord/<span className="text-accent-graph-400">graph</span>
             </Link>
           </h1>
         </div>

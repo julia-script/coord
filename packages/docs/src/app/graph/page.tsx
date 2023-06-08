@@ -157,18 +157,19 @@ export default function Page() {
       <Hero />
       <div className="container mx-auto flex items-center flex-col -mt-32 px-4">
         <h1 className="text-2xl bg-dark-900/50 p-2 md:text-4xl font-bold text-dark-100 text-center">
-          Visualize Math with <span className="text-red-400">Code</span>
+          Visualize Math with{" "}
+          <span className="text-accent-graph-400">Code</span>
         </h1>
         <h2 className="text-md md:text-xl bg-dark-900/70 font-mono  text-dark-100 text-center">
           <code>
-            @coord/<span className="text-red-400">graph</span>
+            @coord/<span className="text-accent-graph-400">graph</span>
           </code>{" "}
           is Graphing React Component Library{" "}
         </h2>
         <div className="mt-8">
           <Link
             href="/graph/docs"
-            className="bg-red-400 text-white px-4 py-2 rounded-md"
+            className="bg-accent-graph-400 text-white px-6 py-3 rounded-md"
           >
             Get Started
           </Link>
