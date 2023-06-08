@@ -6,7 +6,9 @@ export type ScalarUnits = "vs" | "cs";
 export type Scalar = number | `${number}${ScalarUnits}`;
 
 export type Space = "viewspace" | "coordspace";
-export type GraphPoint = Point | [Scalar, Scalar] | { x: Scalar; y: Scalar };
+export type GraphPoint = Readonly<
+  Point | [Scalar, Scalar] | { x: Scalar; y: Scalar }
+>;
 
 export interface Theme {
   background: string;
@@ -49,7 +51,7 @@ export const normalizeBBox = (bbox: BBoxish): BBox => {
     };
   }
   return {
-    horizontal: Point.fromPointish(bbox.horizontal),
-    vertical: Point.fromPointish(bbox.vertical),
+    horizontal: Point.of(bbox.horizontal),
+    vertical: Point.of(bbox.vertical),
   };
 };

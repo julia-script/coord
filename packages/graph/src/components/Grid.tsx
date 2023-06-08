@@ -1,8 +1,11 @@
 import React, { useId } from "react";
 import { point } from "@coord/core";
-import { calcStepGridMultiplier } from "../utils/calcStepGridMultiplier";
-import { renderNumber } from "../utils/renderNumber";
-import { WithGraphContext, withGraphContext } from "../utils";
+import {
+  renderNumber,
+  GraphElement,
+  withGraphContext,
+  calcStepGridMultiplier,
+} from "@/utils";
 
 const range = (start: number, end: number, step: number) => {
   const [rangeStart, rangeEnd] = [start, end].sort((a, b) => a - b) as [
@@ -20,7 +23,7 @@ export type GridProps = {
   displayNumbers?: boolean;
   displayAxis?: boolean;
   displayGrid?: boolean;
-} & WithGraphContext;
+} & GraphElement;
 
 const originRotation = point(-Math.cos(Math.PI / 4), Math.sin(Math.PI / 4));
 
@@ -53,8 +56,10 @@ const Component = ({
 
   return (
     <g
+      pointerEvents={"none"}
       style={{
         pointerEvents: "none",
+        userSelect: "none",
       }}
     >
       {displayGrid && (

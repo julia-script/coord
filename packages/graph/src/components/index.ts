@@ -1,5 +1,4 @@
 export * from "./Graph";
-export * from "./ServerGraph";
 export * from "./Grid";
 export * from "./LabelContainer";
 export * from "./Line";

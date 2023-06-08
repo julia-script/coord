@@ -1,5 +1,5 @@
 import { Point, point } from "@coord/core";
-import { BBox } from "../types";
+import { BBox } from "@/types";
 
 export const fitCoordBoxToView = (
   { horizontal, vertical }: BBox,

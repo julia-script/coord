@@ -1,6 +1,6 @@
 {
   "name": "@coord/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.js",
@@ -10,7 +10,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run && vitest typecheck",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "clean": "rm -rf ./dist ./.turbo ./node_modules"
   },
   "tsup": {
     "dts": true,

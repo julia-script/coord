@@ -1,8 +1,7 @@
 import React from "react";
 import { point } from "@coord/core";
-import { WithGraphContext, withGraphContext } from "../utils";
-import { Scalar } from "../types";
-import { GraphPoint } from "@/types";
+import { GraphElement, withGraphContext } from "@/utils";
+import { GraphPoint, Scalar } from "@/types";
 
 export type RectProps = {
   position: GraphPoint;
@@ -13,7 +12,7 @@ export type RectProps = {
   cornerRadius?: Scalar;
   strokeWidth?: Scalar;
   interactable?: boolean;
-} & WithGraphContext &
+} & GraphElement &
   Omit<React.SVGProps<SVGRectElement>, "fill">;
 
 const Component = ({
@@ -46,6 +45,7 @@ const Component = ({
       fill={fill}
       strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
       stroke={computeColor(strokeColor)}
+      pointerEvents={"none"}
       {...rest}
     />
   );

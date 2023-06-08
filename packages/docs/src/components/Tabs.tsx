@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-
+import React, { useState } from "react";
+import { Marker } from "@coord/graph";
 export function Tabs<
   T extends {
     [key: string]: React.JSX.Element;
@@ -36,10 +36,10 @@ export function Tabs<
         {Object.keys(tabs).map((key) => (
           <button
             key={key}
-            className={`text-xs font-bold p-1 rounded-sm whitespace-nowrap ${
+            className={`whitespace-nowrap rounded-sm p-1 text-xs font-bold ${
               tab === key
-                ? "bg-gray-100 text-gray-900"
-                : "bg-gray-900/30 text-gray-100"
+                ? "bg-dark-100 text-dark-900"
+                : "bg-dark-900/30 text-dark-100"
             }`}
             onClick={() => setTab(key)}
           >

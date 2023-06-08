@@ -1,16 +1,39 @@
 import React from "react";
-import { useNavigation } from "@/hooks";
-import { GraphContext, withGraphContext } from "../utils";
+import { BBox, BBoxish, normalizeBBox } from "@/types";
+import { useGesture } from "@use-gesture/react";
+import { point } from "@coord/core";
+import { withGraphContext, GraphElement } from "../utils";
 
 const Component = ({
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
   context,
-}: {
-  context: GraphContext;
-} & Partial<ReturnType<typeof useNavigation>>) => {
-  const { theme } = context;
+  rawCoordBox,
+  onCoordBoxChange,
+}: GraphElement<{
+  rawCoordBox: BBoxish;
+  onCoordBoxChange: (coordBox: BBox) => void;
+}>) => {
+  const bind = useGesture(
+    {
+      onDrag: ({ down, movement, memo, first }) => {
+        if (!down) return;
+        if (first) {
+          return normalizeBBox(rawCoordBox);
+        }
+        if (!memo) return;
+        const { x, y } = context.unprojectSize(movement, "viewspace");
+
+        onCoordBoxChange({
+          horizontal: memo.horizontal.sub(point(x, x)),
+          vertical: memo.vertical.sub(point(y, y)),
+        });
+      },
+    },
+    {
+      drag: {
+        enabled: !!onCoordBoxChange,
+      },
+    }
+  );
 
   return (
     <rect
@@ -19,15 +42,10 @@ const Component = ({
       width="100%"
       height="100%"
       fill={"transparent"}
-      onPointerDown={(e) => {
-        onPointerDown?.(e, context);
+      style={{
+        touchAction: "none",
       }}
-      onPointerMove={(e) => {
-        onPointerMove?.(e, context);
-      }}
-      onPointerUp={(e) => {
-        onPointerUp?.(e, context);
-      }}
+      {...bind()}
     />
   );
 };

@@ -1,14 +1,13 @@
 import React, { useMemo } from "react";
-import { Rect, RectProps } from "./Rect";
-import { Line } from "./Line";
 import {
   passContextToChildren,
   projectRadOnRect,
   withGraphContext,
-} from "../utils";
+} from "@/utils";
 import { point } from "@coord/core";
-
 import { GraphPoint, Scalar } from "@/types";
+import { Rect, RectProps } from "./Rect";
+import { Line } from "./Line";
 
 const cardinalMap = {
   n: Math.PI / 2,
@@ -41,7 +40,7 @@ export type LabelContainerProps = {
 
 const Component = ({
   position,
-  size = point(50, 100),
+  size = point(70, 30),
   target = point(0, 0),
   direction = "n",
   distance = 50,
@@ -57,6 +56,7 @@ const Component = ({
   arrowColor,
   arrowSize,
   arrowStartOffset,
+  strokeDasharray,
 
   ...rest
 }: LabelContainerProps) => {
@@ -95,7 +95,7 @@ const Component = ({
   };
 
   return (
-    <g>
+    <g {...rest}>
       <Line
         context={context}
         from={[`${cx - connectionPoint.x}vs`, `${cy - connectionPoint.y}vs`]}
@@ -105,10 +105,12 @@ const Component = ({
         strokeWidth={theming.strokeWidth}
         arrowSize={arrowSize}
         startOffset={arrowStartOffset}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray={strokeDasharray}
         arrow
       />
       <Rect
-        {...rest}
         context={context}
         position={[`${x}vs`, `${y}vs`]}
         size={[`${width}vs`, `${height}vs`]}
@@ -116,6 +118,9 @@ const Component = ({
         strokeColor={theming.strokeColor}
         fillColor={theming.backgroundColor}
         strokeWidth={theming.strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray={strokeDasharray}
       />
       <g transform={`translate(${x} ${y})`}>
         {passContextToChildren(children, context)}

@@ -1,20 +1,17 @@
 import React from "react";
+import { GraphElement, withGraphContext } from "@/utils";
+import { GraphPoint, Scalar } from "@/types";
+import { Point, point } from "@coord/core";
+import { useGesture } from "@use-gesture/react";
 import { Text } from "./Text";
-import {
-  WithGraphContext,
-  WithPointerEvents,
-  mapPointerEvent,
-  withGraphContext,
-} from "../utils";
-import { Scalar } from "../types";
-import { GraphPoint } from "@/types";
 
-export type MarkContentProps = {
+export type MarkerContentProps = {
   size: number;
   color: string;
   interactable: boolean;
 };
-const DefaultMarker = ({ size, color, interactable }: MarkContentProps) => (
+
+const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
   <g className="curves-graph-default-marker">
     {interactable && (
       <>
@@ -42,62 +39,79 @@ const DefaultMarker = ({ size, color, interactable }: MarkContentProps) => (
   </g>
 );
 
-export type MarkProps = {
-  position: GraphPoint;
-  size?: Scalar;
-  color?: number | string;
-  rotation?: number;
-  content?: string | typeof DefaultMarker;
-  style?: React.CSSProperties;
-  opacity?: number;
-} & WithGraphContext &
-  WithPointerEvents;
+export type MarkerProps = GraphElement<
+  {
+    position: GraphPoint;
+    size?: Scalar;
+    color?: number | string;
+    rotation?: number;
+    label?: string | typeof DefaultMarker;
+    style?: React.CSSProperties;
+    opacity?: number;
+    onChange?: (position: Point) => void;
+  },
+  Omit<React.SVGProps<SVGGElement>, "color" | "onChange">
+>;
+
+const emojiRegex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/u;
 
 const Component = ({
   position,
   size,
-  color = "body",
+  color = 1,
   rotation = 0,
   context,
-  content = DefaultMarker,
-  onPointerDown,
-  onPointerMove,
-  onPointerUp,
-  interactable,
-  isDragging,
+  label = DefaultMarker,
   style,
   opacity,
-}: MarkProps) => {
-  const { projectCoord, projectAbsoluteSize, computeColor } = context;
-  const { x, y } = projectCoord(position);
-  if (!size)
-    size = typeof content === "string" ? size || "35vs" : size || "13vs";
+  onChange,
+  ...rest
+}: MarkerProps) => {
+  const { projectCoord, projectAbsoluteSize, computeColor, unprojectCoord } =
+    context;
 
-  const width = Math.abs(projectAbsoluteSize(size));
+  const interactable = !!onChange;
+
+  const bind = useGesture({
+    onDrag: ({ down, movement, memo, first }) => {
+      if (!down) return;
+      if (first) {
+        return position;
+      }
+      if (!memo) return;
+      const { x, y } = context.unprojectSize(movement, "viewspace");
+      onChange?.(memo.add(point(x, y)));
+    },
+  });
+  const { x, y } = projectCoord(position);
+
+  const hasEmoji = typeof label === "string" && emojiRegex.test(label);
+  if (!size) size = typeof label === "string" ? size || "35vs" : size || "13vs";
+
+  const width = projectAbsoluteSize(size, "viewspace");
   const fill = computeColor(color);
 
-  const fontSize = width * 0.6;
+  const fontSize = width * (hasEmoji ? 0.7 : 0.45);
   let c: ReturnType<typeof DefaultMarker>;
-
-  if (typeof content === "string") {
+  if (typeof label === "string") {
     c = (
       <g style={style} opacity={opacity}>
         <circle r={width / 2} fill={fill} />
         <Text
           fontSize={fontSize}
-          textAnchor={"middle"}
-          dy={"0.65em"}
+          dy={hasEmoji ? "0.65em" : "0.55em"}
           dominantBaseline={"middle"}
+          textAnchor={"middle"}
           y={-fontSize / 2}
           x={0}
           context={context}
         >
-          {content}
+          {label}
         </Text>
       </g>
     );
   } else {
-    c = React.createElement(content, {
+    c = React.createElement(label, {
       size: width,
       color: fill,
       interactable: !!interactable,
@@ -109,16 +123,15 @@ const Component = ({
       transform={`translate(${x} ${y}) rotate(${rotation * (180 / Math.PI)})`}
       style={
         interactable
-          ? { cursor: isDragging ? "grabbing" : "grab", ...style }
+          ? { cursor: "grab", touchAction: "none", ...style }
           : {
               pointerEvents: "none",
               ...style,
             }
       }
       opacity={opacity}
-      onPointerDown={mapPointerEvent(context, onPointerDown)}
-      onPointerMove={mapPointerEvent(context, onPointerMove)}
-      onPointerUp={mapPointerEvent(context, onPointerUp)}
+      {...bind()}
+      {...rest}
     >
       {c}
     </g>
