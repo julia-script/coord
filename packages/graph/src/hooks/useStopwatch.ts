@@ -3,8 +3,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
  * useStopwatch custom React hook.
  *
  * @param {Object} config - The stopwatch configuration.
- * @param {number} [config.start=0] - The start time of the stopwatch.
- * @param {number} [config.end=1] - The end time of the stopwatch.
+ * @param {number} [config.from=0] - The start value of t.
+ * @param {number} [config.to=1] - The end value of t.
  * @param {number} [config.duration=1000] - The update interval of the stopwatch in milliseconds.
  * @param {boolean} [config.repeat=false] - If true, the stopwatch will loop from start to end.
  * @param {boolean} [config.autoplay=false] - If true, the stopwatch will start automatically.
@@ -12,21 +12,21 @@ import { useState, useEffect, useRef, useCallback } from "react";
  */
 export const useStopwatch = (
   config: {
-    start?: number;
-    end?: number;
+    from?: number;
+    to?: number;
     duration?: number;
     repeat?: boolean;
     autoplay?: boolean;
   } = {}
 ) => {
   const {
-    start = 0,
-    end = 1,
+    from = 0,
+    to = 1,
     duration = 1000,
     repeat = false,
     autoplay = false,
   } = config;
-  const [t, setT] = useState(start);
+  const [t, setT] = useState(from);
 
   const requestRef = useRef<number | undefined>(undefined);
   const previousTimeRef = useRef<number>(Date.now());
@@ -40,12 +40,12 @@ export const useStopwatch = (
       const delta = (currentTime - previousTimeRef.current) / duration;
       setT((prevT) => {
         const nextT = prevT + delta;
-        if (nextT >= end) {
+        if (nextT >= to) {
           if (repeat) {
-            return nextT - (end - start);
+            return nextT - (to - from);
           } else {
             stop();
-            return end;
+            return to;
           }
         }
         return nextT;
@@ -53,7 +53,7 @@ export const useStopwatch = (
       previousTimeRef.current = currentTime;
       requestRef.current = requestAnimationFrame(animate);
     },
-    [start, end, duration, repeat]
+    [from, to, duration, repeat]
   );
   /**
    * Starts or resumes the stopwatch.
@@ -61,12 +61,12 @@ export const useStopwatch = (
    * @param {number} t - The time to start at.
    */
   const play = useCallback(
-    (t: number = start) => {
+    (t: number = from) => {
       setT(t);
       previousTimeRef.current = performance.now();
       requestRef.current = requestAnimationFrame(animate);
     },
-    [animate, start]
+    [animate, from]
   );
 
   /**
@@ -76,10 +76,10 @@ export const useStopwatch = (
     if (requestRef.current) {
       cancelAnimationFrame(requestRef.current);
       requestRef.current = undefined;
-      setT(start);
+      setT(from);
       previousTimeRef.current = Date.now();
     }
-  }, [start]);
+  }, [from]);
 
   /**
    * Pauses the stopwatch.

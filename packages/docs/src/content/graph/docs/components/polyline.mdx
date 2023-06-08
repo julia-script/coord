@@ -1,1 +1,43 @@
-# Graph [WIP]
+# PolyLine
+
+`PolyLine` is a component that takes an array of points and connects them.
+
+```tsx live
+import {
+  Graph,
+  Grid,
+  Marker,
+  PolyLine,
+  useCoord,
+  Pointish,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const cat: Pointish[] = [
+    [-3, 2], // left ear start
+    [-3, 4], // left ear tip
+    [-1, 2], // left ear end
+    [1, 2], // right ear start
+    [3, 4], // right ear tip
+    [3, 2], // right ear end
+    [4, 0], // right cheek
+    [2, -3], // chin
+    [-2, -3], // chin
+    [-4, 0], // left cheek
+    [-3, 2], // back to left ear start
+  ];
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <PolyLine
+        points={cat}
+        strokeColor={"body"}
+        strokeWidth={3}
+        fill={"rgba(0,0,0,.5)"}
+      />
+      <Marker position={[-1.5, 0]} size={20} color={"body"} />
+      <Marker position={[1.5, 0]} size={20} color={"body"} />
+    </Graph>
+  );
+}
+```

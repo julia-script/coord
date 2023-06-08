@@ -1,6 +1,7 @@
 export * from "./Graph";
 export * from "./Grid";
 export * from "./LabelContainer";
+export * from "./Label";
 export * from "./Line";
 export * from "./Marker";
 export * from "./Plot";

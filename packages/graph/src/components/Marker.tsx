@@ -76,7 +76,7 @@ const Component = ({
     onDrag: ({ down, movement, memo, first }) => {
       if (!down) return;
       if (first) {
-        return position;
+        return context.unprojectSize(position, "coordspace");
       }
       if (!memo) return;
       const { x, y } = context.unprojectSize(movement, "viewspace");

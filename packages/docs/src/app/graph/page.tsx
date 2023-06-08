@@ -164,7 +164,7 @@ export default function Page() {
           <code>
             @coord/<span className="text-accent-graph-400">graph</span>
           </code>{" "}
-          is Graphing React Component Library{" "}
+          is Graphing React Library{" "}
         </h2>
         <div className="mt-8">
           <Link

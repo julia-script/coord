@@ -1,1 +1,60 @@
-# Graph [WIP]
+# Plot Components
+
+These are the components used to graph your equations. They adaptively sample the `f` function to produce a smooth curve. Currently, there are three components available: Plot.Parametric, Plot.ofY, and Plot.ofX.
+
+## Plot.Parametric
+
+`Plot.Parametric` takes a function `f` with a `t` parameter, and must return a `Pointish` object. It also takes a domain range `[a, b]` . It will sample the function at `n` points in the domain and plot the resulting points.
+
+```tsx live
+import { useState } from "react";
+import { Graph, Grid, Plot, LabelContainer, Text, Marker } from "@coord/graph";
+
+export default function MyGraph() {
+  const [radius, setRadius] = useState(3);
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Plot.Parametric
+        domain={[0, 2 * Math.PI]}
+        f={(t) => [Math.cos(t) * radius, Math.sin(t) * radius]}
+      />
+      <Marker
+        position={[radius, 0]}
+        onChange={({ x }) => setRadius(x)}
+        color={1}
+      />
+    </Graph>
+  );
+}
+```
+
+## Plot.ofY and Plot.ofX
+
+`Plot.ofY` and `Plot.ofX` are similar to `Plot.Parametric` except they take a function `f` with a value of `x` or `y` respectively, and they should return a single number. The domain is optional, if not provided, it will default to the visible coordBox.
+
+```tsx live
+import { Graph, Grid, Plot, LabelContainer, Text } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Plot.ofX f={(x) => Math.abs(x)} strokeColor={3} />
+    </Graph>
+  );
+}
+```
+
+```tsx live
+import { Graph, Grid, Plot, LabelContainer, Text } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%">
+      <Grid />
+      <Plot.ofY f={(y) => Math.exp(y)} strokeColor={4} />
+    </Graph>
+  );
+}
+```

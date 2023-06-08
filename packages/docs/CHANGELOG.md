@@ -1,5 +1,11 @@
 # @coord/docs
 
+## 0.3.0
+
+### Minor Changes
+
+- Implemented dynamic Label component
+
 ## 0.2.0
 
 ### Minor Changes
