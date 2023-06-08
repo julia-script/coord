@@ -156,7 +156,7 @@ export default function Page() {
     <div>
       <Hero />
       <div className="container mx-auto -mt-32 flex flex-col items-center px-4">
-        <h1 className="bg-dark-900/50 text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
+        <h1 className="bg-dark-900/70 text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
           Visualize Math with{" "}
           <span className="text-accent-graph-400">Code</span>
         </h1>

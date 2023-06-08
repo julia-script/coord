@@ -35,7 +35,7 @@ export function LiveCodeBlock({
   const [collapsed, setCollapsed] = React.useState(collapsedInitialValue);
 
   return (
-    <div className="bg-dark-200/5 not-prose mb-4 flex flex-col gap-2 rounded-md p-2">
+    <div className="bg-dark-200/5 not-prose relative mb-4 flex flex-col gap-2 rounded-md p-2">
       <div className="relative">
         <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           {element}
@@ -82,8 +82,9 @@ export function LiveCodeBlock({
         </div>
       )}
       <button
-        className={clsx("hover:text-dark-100 relative text-sm font-bold", {
-          "-mt-16": collapsed && partiallyVisibleWhenCollapsed,
+        className={clsx("hover:text-dark-100 text-sm font-bold", {
+          "absolute bottom-14 w-full":
+            collapsed && partiallyVisibleWhenCollapsed,
         })}
         onClick={() => setCollapsed((collapsed) => !collapsed)}
       >
