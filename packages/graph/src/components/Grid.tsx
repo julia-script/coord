@@ -6,6 +6,7 @@ import {
   withGraphContext,
   calcStepGridMultiplier,
 } from "@/utils";
+import { useSafeId } from "..";
 
 const range = (start: number, end: number, step: number) => {
   const [rangeStart, rangeEnd] = [start, end].sort((a, b) => a - b) as [
@@ -33,7 +34,7 @@ const Component = ({
   displayGrid = true,
   context,
 }: GridProps) => {
-  const gridPatternId = useId();
+  const gridPatternId = useSafeId("grid-pattern");
 
   const {
     projectCoord,

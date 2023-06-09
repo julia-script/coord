@@ -4,7 +4,6 @@ import remarkGfm from "remark-gfm";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // mdxRs: true,
     appDir: true,
   },
 };
@@ -13,7 +12,6 @@ const withMDX = mdx({
   options: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [rehypeMdxCodeProps],
-    // providerImportSource: "@mdx-js/react",
     useDynamicImport: true,
   },
 });

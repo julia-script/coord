@@ -1,10 +1,9 @@
 import React, { useLayoutEffect, useRef } from "react";
 import { withGraphContext } from "@/utils";
-import { BBoxish, normalizeBBox } from "@/types";
-import { Rect, RectProps } from "./Rect";
 import { LabelContainer, LabelContainerProps } from "./LabelContainer";
 import { Point, point, useCoordState } from "..";
 import { useGesture } from "@use-gesture/react";
+import { useSafeLayoutEffect, useSafeRef } from "@/hooks/safe-server-hooks";
 
 export type LabelProps = {
   onChange?: (position: Point) => void;
@@ -20,9 +19,9 @@ const Component = ({
   ...rest
 }: LabelProps) => {
   const [size, setSize] = useCoordState([10, 10]);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useSafeRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useSafeLayoutEffect(() => {
     if (!ref.current) return;
 
     const setCurrentSize = () => {
@@ -41,7 +40,7 @@ const Component = ({
     observer.observe(ref.current);
 
     return () => {
-      observer.unobserve(ref.current!);
+      observer.disconnect();
     };
   }, []);
 

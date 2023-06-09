@@ -2,6 +2,7 @@ import React from "react";
 import { useMemo } from "react";
 import { GraphElement, renderNumber, withGraphContext } from "@/utils";
 import { GraphPoint, Scalar } from "@/types";
+import { useSafeMemo } from "..";
 
 export type PolyLineProps = {
   points: Readonly<GraphPoint[]>;
@@ -16,12 +17,11 @@ const Component = ({
   strokeWidth = 1,
   strokeColor = 1,
   context,
-  style,
   ...rest
 }: PolyLineProps) => {
   const { computeColor, projectCoord, projectAbsoluteSize } = context;
 
-  const pathPoints = useMemo(
+  const pathPoints = useSafeMemo(
     () =>
       points.reduce((acc, point) => {
         const { x, y } = projectCoord(point);
@@ -33,7 +33,6 @@ const Component = ({
 
   return (
     <polyline
-      style={style}
       points={pathPoints}
       stroke={computeColor(strokeColor)}
       strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export type RouteSection = {
   title: string;
@@ -68,12 +69,24 @@ function SidebarSection(props: SidebarSectionProps) {
     </li>
   );
 }
-
+const normalizePathname = (pathname: string) => {
+  return pathname
+    .split("/")
+    .filter((x) => x)
+    .join("/");
+};
 export const NavItem = (props: { href: string; children: React.ReactNode }) => {
+  const pathname = usePathname();
+  const active = normalizePathname(pathname) === normalizePathname(props.href);
   return (
     <li className="relative pl-1">
       <Link
-        className="hover:text-dark-100 text-dark-100/80 borderdark-100/10 hover:borderdark-100/50 block w-full border-l-2 py-1 pl-3"
+        className={clsx(
+          "hover:text-dark-100 text-dark-100/80 border-dark-100/10 hover:borderdark-100/50 block w-full border-l-2 py-1 pl-3",
+          {
+            "border-white font-bold text-white ": active,
+          }
+        )}
         href={props.href}
       >
         {props.children}

@@ -1,8 +1,8 @@
 import React from "react";
 import { Point, point, Pointish } from "@coord/core";
-import { useMemo } from "react";
 import { withGraphContext, parametricAdaptiveSampling } from "@/utils";
 import { PolyLineProps, PolyLine } from "./PolyLine";
+import { useSafeMemo } from "..";
 
 export interface PlotParametricProps extends Omit<PolyLineProps, "points"> {
   domain: [number, number];
@@ -23,7 +23,7 @@ const Parametric = withGraphContext(
     strokeWidth = 3,
     ...rest
   }: PlotParametricProps) => {
-    const points = useMemo(
+    const points = useSafeMemo(
       () =>
         parametricAdaptiveSampling(
           domain,

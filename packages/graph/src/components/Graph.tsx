@@ -93,7 +93,7 @@ export const Graph = ({
       width={width}
       height={height}
       style={{
-        touchAction: onCoordBoxChange ? "none" : undefined,
+        touchAction: onCoordBoxChange ? "none" : "auto",
       }}
       {...rest}
     >

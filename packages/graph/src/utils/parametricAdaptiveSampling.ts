@@ -11,11 +11,13 @@ export const parametricAdaptiveSampling = (
   const start = xy(domain[0]);
   const end = xy(domain[1]);
   const points: Point[] = [];
+
   const pushPoint = (point: Point) => {
     if (!point.isNaN()) {
       points.push(point);
     }
   };
+
   pushPoint(start);
   const split = (
     domain: [number, number],
@@ -40,13 +42,11 @@ export const parametricAdaptiveSampling = (
     ) {
       split([tMin, tMid], min, mid, depth + 1);
       split([tMid, tMax], mid, max, depth + 1);
-
       return;
     }
-
     pushPoint(mid);
     pushPoint(max);
   };
-  split(domain, start, end, 0);
+  split(domain, start, end, 1);
   return points;
 };

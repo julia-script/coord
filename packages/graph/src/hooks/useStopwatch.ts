@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback } from "react";
+import { useSafeEffect, useSafeRef, useSafeState } from "./safe-server-hooks";
 /**
  * useStopwatch custom React hook.
  *
@@ -26,10 +27,10 @@ export const useStopwatch = (
     repeat = false,
     autoplay = false,
   } = config;
-  const [t, setT] = useState(from);
+  const [t, setT] = useSafeState(from);
 
-  const requestRef = useRef<number | undefined>(undefined);
-  const previousTimeRef = useRef<number>(Date.now());
+  const requestRef = useSafeRef<number | undefined>(undefined);
+  const previousTimeRef = useSafeRef<number>(Date.now());
   /**
    * Callback to be executed on each animation frame.
    *
@@ -42,7 +43,7 @@ export const useStopwatch = (
         const nextT = prevT + delta;
         if (nextT >= to) {
           if (repeat) {
-            return nextT - (to - from);
+            return from;
           } else {
             stop();
             return to;
@@ -91,7 +92,7 @@ export const useStopwatch = (
     }
   }, []);
 
-  useEffect(() => {
+  useSafeEffect(() => {
     if (autoplay) {
       play();
     }
