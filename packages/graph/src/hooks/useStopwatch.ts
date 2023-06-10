@@ -1,17 +1,18 @@
 import { useCallback } from "react";
-import { useSafeEffect, useSafeRef, useSafeState } from "./safe-server-hooks";
+import { useSafeEffect, useSafeRef } from "./safe-server-hooks";
 /**
  * useStopwatch custom React hook.
  *
+ * @param {Function} fn - The callback function to be executed on each animation frame.
  * @param {Object} config - The stopwatch configuration.
  * @param {number} [config.from=0] - The start value of t.
  * @param {number} [config.to=1] - The end value of t.
  * @param {number} [config.duration=1000] - The update interval of the stopwatch in milliseconds.
  * @param {boolean} [config.repeat=false] - If true, the stopwatch will loop from start to end.
  * @param {boolean} [config.autoplay=false] - If true, the stopwatch will start automatically.
- * @returns {Object} The stopwatch state and controls.
  */
 export const useStopwatch = (
+  fn: (t: number) => void,
   config: {
     from?: number;
     to?: number;
@@ -27,10 +28,10 @@ export const useStopwatch = (
     repeat = false,
     autoplay = false,
   } = config;
-  const [t, setT] = useSafeState(from);
 
   const requestRef = useSafeRef<number | undefined>(undefined);
   const previousTimeRef = useSafeRef<number>(Date.now());
+  const startTime = useSafeRef<number>(performance.now());
   /**
    * Callback to be executed on each animation frame.
    *
@@ -38,21 +39,17 @@ export const useStopwatch = (
    */
   const animate = useCallback(
     (currentTime: number) => {
-      const deltaTime = currentTime - previousTimeRef.current;
-      const delta = (to - from) * (deltaTime / duration);
-      setT((prevT) => {
-        const nextT = prevT + delta;
-        if (nextT >= to) {
-          if (repeat) {
-            return from;
-          } else {
-            stop();
-            return to;
-          }
+      const deltaTime = currentTime - startTime.current;
+      const t = (to - from) * (deltaTime / duration);
+
+      if (t >= to) {
+        if (repeat) {
+          startTime.current = currentTime;
+        } else {
+          stop();
         }
-        return nextT;
-      });
-      previousTimeRef.current = currentTime;
+      }
+      fn(t);
       requestRef.current = requestAnimationFrame(animate);
     },
     [from, to, duration, repeat]
@@ -64,8 +61,7 @@ export const useStopwatch = (
    */
   const play = useCallback(
     (t: number = from) => {
-      setT(t);
-      previousTimeRef.current = performance.now();
+      previousTimeRef.current = performance.now() - t * duration;
       requestRef.current = requestAnimationFrame(animate);
     },
     [animate, from]
@@ -78,8 +74,6 @@ export const useStopwatch = (
     if (requestRef.current) {
       cancelAnimationFrame(requestRef.current);
       requestRef.current = undefined;
-      setT(from);
-      previousTimeRef.current = Date.now();
     }
   }, [from]);
 
@@ -104,6 +98,5 @@ export const useStopwatch = (
     play,
     stop,
     pause,
-    t,
   };
 };

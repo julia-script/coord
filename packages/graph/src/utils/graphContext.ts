@@ -1,5 +1,5 @@
 import { Vec2, Vec2ish, Transform, point, transform } from "@coord/core";
-import React, { CSSProperties, Dispatch, SetStateAction } from "react";
+import React, { CSSProperties } from "react";
 import { BBox, Theme, PartialBy, BBoxish, ScalarPoint } from "@/types";
 import { normalizeBBox } from "@/utils";
 import {

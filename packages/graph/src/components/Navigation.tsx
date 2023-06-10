@@ -57,7 +57,6 @@ const Component = ({
   onCoordBoxChange: (coordBox: BBox) => void;
 }>) => {
   const ref = useSafeRef<SVGRectElement>(null);
-  // const scaleRef = useSafeRef(1);
   const normalizedCoordBox = normalizeBBox(rawCoordBox);
 
   useGesture(
@@ -83,9 +82,9 @@ const Component = ({
       onPinch: ({
         event,
         first,
+
         origin,
-        movement: [s, a],
-        initial,
+        movement: [s],
         memo,
       }: GestureProps<
         "onPinch",
@@ -96,6 +95,7 @@ const Component = ({
         }
       >) => {
         if (!ref.current) return;
+
         event.preventDefault();
         if (first) {
           const { x, y } = ref.current.getBoundingClientRect();

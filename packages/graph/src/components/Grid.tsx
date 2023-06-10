@@ -77,11 +77,6 @@ const Component = ({
               <rect
                 width={renderNumber(viewSpaceStepSize)}
                 height={renderNumber(viewSpaceStepSize)}
-                // stroke={computeColor(theme.grid.stepStrokeColor)}
-                // strokeWidth={projectAbsoluteSize(
-                //   theme.grid.stepStrokeWidth,
-                //   "viewspace"
-                // )}
                 {...theme.gridStep}
                 fill="none"
               />
