@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,6 +16,11 @@ export type RouteItem = {
 };
 export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => {
+    setOpen(false);
+    document.documentElement.scrollTop = 0;
+  }, [pathname]);
   return (
     <div className="border-dark-200/10 mb-4 w-full border-y md:mb-0 md:max-w-[250px] md:border-y-0 md:border-r">
       <div className="container m-auto px-4 md:hidden">
@@ -87,7 +92,7 @@ export const NavItem = (props: { href: string; children: React.ReactNode }) => {
             "border-white font-bold text-white ": active,
           }
         )}
-        href={props.href}
+        href={"/" + props.href}
       >
         {props.children}
       </Link>
