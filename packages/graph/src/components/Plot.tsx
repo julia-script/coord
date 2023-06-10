@@ -1,12 +1,12 @@
 import React from "react";
-import { Point, point, Pointish } from "@coord/core";
+import { Vec2, point, Vec2ish } from "@coord/core";
 import { withGraphContext, parametricAdaptiveSampling } from "@/utils";
 import { PolyLineProps, PolyLine } from "./PolyLine";
 import { useSafeMemo } from "..";
 
 export interface PlotParametricProps extends Omit<PolyLineProps, "points"> {
   domain: [number, number];
-  f: (t: number) => Pointish;
+  f: (t: number) => Vec2ish;
   errorTolerance?: number;
   minSamplesDepth?: number;
   maxSamplesDepth?: number;
@@ -27,7 +27,7 @@ const Parametric = withGraphContext(
       () =>
         parametricAdaptiveSampling(
           domain,
-          (t: number) => Point.of(f(t)),
+          (t: number) => Vec2.of(f(t)),
           errorTolerance,
           minSamplesDepth,
           maxSamplesDepth

@@ -1,1 +1,39 @@
-# BBox (WIP)
+# Bounding Box Types
+
+`BBox` and `BBoxish` are representations of bounding boxes in a 2D space.
+
+## BBox
+
+The `BBox` type represents a bounding box in a 2D graph space.
+It is an `object` that contains two properties, `horizontal` and `vertical`, each of which is a `Vec2` instance.
+
+```typescript
+export type BBox = {
+  horizontal: Vec2;
+  vertical: Vec2;
+};
+```
+
+- `horizontal` represents the horizontal range of the bounding box, where `x` is the left boundary and `y` is the right boundary.
+- `vertical` represents the vertical range of the bounding box, where `x is the lower boundary and `y` is the upper boundary.
+
+## BBoxish
+
+The BBoxish type is a flexible representation of a bounding box.
+
+```typescript
+export type BBoxish =
+  | {
+      horizontal: Vec2ish;
+      vertical: Vec2ish;
+    }
+  | {
+      x: Vec2ish;
+      y: Vec2ish;
+    }
+  | [number, number, number, number];
+```
+
+- An `object` with horizontal and vertical properties, each of which is a `Vec2ish` type, providing flexibility in defining the ranges.
+- An `object` with `x` and `y` properties, where `x` represents the horizontal range and `y` the vertical range. Each property is a `Vec2ish` type.
+- A tuple of four numbers, where the numbers represent `[left, bottom, right, top]` boundaries of the bounding box. This is similar to the format used in many graphics and layout systems.

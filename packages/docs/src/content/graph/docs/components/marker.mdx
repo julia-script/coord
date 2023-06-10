@@ -4,7 +4,7 @@ import {
   Grid,
   Plot,
   Marker,
-  Point,
+  Vec2,
   PolyLine,
   LabelContainer,
   Text,
@@ -12,7 +12,7 @@ import {
   useNavigationState,
 } from "@coord/graph";
 
-const cubicBezier = (p0: Point, p1: Point, p2: Point, p3: Point, t: number) => {
+const cubicBezier = (p0: Vec2, p1: Vec2, p2: Vec2, p3: Vec2, t: number) => {
   const u = 1 - t;
   const tt = t * t;
   const uu = u * u;
@@ -82,17 +82,10 @@ The Marker component is a utility for placing labels or icons at specific
 positions on your graph.
 
 ```tsx live
-import {
-  Graph,
-  Grid,
-  Marker,
-  PolyLine,
-  useCoord,
-  Pointish,
-} from "@coord/graph";
+import { Graph, Grid, Marker, PolyLine, useCoord, Vec2ish } from "@coord/graph";
 
 export default function MyGraph() {
-  const pathOfLove: Pointish[] = [
+  const pathOfLove: Vec2ish[] = [
     [0, -4],
     [4, -1],
     [4, 2],
@@ -123,63 +116,6 @@ Markers accepts a `position` prop and an `onChange` callback that will be called
 
 For finer control, you can also leverage other HTML native events, such as `onMouse*`, `onPointer*`, etc.
 
-### `useCoordState`
-
-We also provide a `useCoordState` hook, that's just a wrapper on useState with a few convienience features.
-
-It automatically normalizes's any `Pointish` value passed as initial prop and types it accordingly.
-
-You could, however, just use `useState` and pass a `Point` directly if you prefer.
-
-#### With `useCoordState`
-
-```tsx
-const [point, setPoint] = useCoordState(Point.of(0, 0)); // ✅ Point(0, 0)
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-
-const [point, setPoint] = useCoordState([0, 0]); // ✅ Point(0, 0)
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-
-const [point, setPoint] = useCoordState({ x: 0, y: 0 }); // ✅ Point(0, 0)
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-```
-
-#### With `useState`
-
-```tsx
-const [point, setPoint] = useState(Point.of(0, 0)); // ✅ Point(0, 0)
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-
-const [point, setPoint] = useState<[number, number]>([0, 0]); // ❌ [0, 0]
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-
-const [point, setPoint] = useState({ x: 0, y: 0 }); // ❌ { x: 0, y: 0 }
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-```
-
-Note that even in the ❌ cases, the Marker will still probably work, but the `point` state will change to a Point after the first `onChange` callback
-So if you're using Typescript, it will complain about the type mismatch.
-
-You could solve make it type safe again by doing something like this. (is it worth it though? 🤔)
-
-```tsx
-const [point, setPoint] = useState<Pointish>([0, 0]); // ✅ [0, 0]
-<Marker position={point} onChange={setPoint} label={"🔥"} />;
-
-//  after onChange is triggered
-point; // ✅ Point(0, 0)
-```
-
-Or this
-
-```tsx
-const [point, setPoint] = useState<[number, number]>([0, 0]); // ✅ [0, 0]
-<Marker position={point} onChange={({ x, y }) => [x, y]} label={"🔥"} />;
-
-//  after onChange is triggered
-point; // ✅ [0, 0]
-```
-
 ### Usage
 
 ```tsx live
@@ -189,7 +125,7 @@ import {
   Marker,
   PolyLine,
   Text,
-  Point,
+  Vec2,
   useCoordState,
 } from "@coord/graph";
 

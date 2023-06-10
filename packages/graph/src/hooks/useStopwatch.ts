@@ -38,7 +38,8 @@ export const useStopwatch = (
    */
   const animate = useCallback(
     (currentTime: number) => {
-      const delta = (currentTime - previousTimeRef.current) / duration;
+      const deltaTime = currentTime - previousTimeRef.current;
+      const delta = (to - from) * (deltaTime / duration);
       setT((prevT) => {
         const nextT = prevT + delta;
         if (nextT >= to) {

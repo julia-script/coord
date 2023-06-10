@@ -1,11 +1,11 @@
 import React from "react";
 import { point } from "@coord/core";
 import { GraphElement, withGraphContext } from "@/utils";
-import { GraphPoint, Scalar } from "@/types";
+import { ScalarPoint, Scalar } from "@/types";
 
 export type RectProps = {
-  position: GraphPoint;
-  size?: GraphPoint;
+  position: ScalarPoint;
+  size?: ScalarPoint;
   fillColor?: number | string;
   strokeColor?: number | string;
   rotation?: number;

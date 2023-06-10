@@ -1,4 +1,4 @@
-import { point, Point } from "./point";
+import { point, Vec2 } from "./vec2";
 
 export class Transform {
   _matrix: Mat3x3;
@@ -95,10 +95,10 @@ export class Transform {
     _matrix[4] *= y;
     return this;
   }
-  scaleAboutOrigin(center: Point, factor: number) {
+  scaleAboutOrigin(center: Vec2, factor: number) {
     return this.copy().scaleAboutOriginSelf(center, factor);
   }
-  scaleAboutOriginSelf(center: Point, factor: number) {
+  scaleAboutOriginSelf(center: Vec2, factor: number) {
     const { x, y } = center;
     const { _matrix } = this;
 
@@ -178,7 +178,7 @@ export class Transform {
     _matrix[5] = (c * tx - a * ty) / det;
     return this;
   }
-  applyTo(p: Point) {
+  applyTo(p: Vec2) {
     const { x, y } = p;
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
@@ -186,7 +186,7 @@ export class Transform {
     return point(a * x + c * y + tx, b * x + d * y + ty);
   }
 
-  applyInverseTo(p: Point) {
+  applyInverseTo(p: Vec2) {
     const { x, y } = p;
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;

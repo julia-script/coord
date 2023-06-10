@@ -1,8 +1,9 @@
-export type Pointish = Point | [number, number] | { x: number; y: number };
-export class Point {
+export type Vec2ish = Vec2 | [number, number] | { x: number; y: number };
+
+export class Vec2 {
   constructor(public x: number, public y: number) {}
-  static of(pointish: Pointish) {
-    if (pointish instanceof Point) {
+  static of(pointish: Vec2ish) {
+    if (pointish instanceof Vec2) {
       return pointish;
     }
     if (Array.isArray(pointish)) {
@@ -10,6 +11,7 @@ export class Point {
     }
     return point(pointish.x, pointish.y);
   }
+
   toArray(): [number, number] {
     return [this.x, this.y];
   }
@@ -24,7 +26,7 @@ export class Point {
     return Number.isNaN(this.x) || Number.isNaN(this.y);
   }
 
-  lerp(target: Point, t: number) {
+  lerp(target: Vec2, t: number) {
     return point(
       this.x + (target.x - this.x) * t,
       this.y + (target.y - this.y) * t
@@ -38,14 +40,14 @@ export class Point {
   angle() {
     return Math.atan2(this.y, this.x);
   }
-  angleTo(target: Point) {
+  angleTo(target: Vec2) {
     return this.angle() - target.angle();
   }
 
-  squaredDistanceTo(target: Point) {
+  squaredDistanceTo(target: Vec2) {
     return target.sub(this).lengthSquared();
   }
-  distanceTo(target: Point) {
+  distanceTo(target: Vec2) {
     return target.sub(this).length();
   }
   length() {
@@ -54,19 +56,21 @@ export class Point {
   lengthSquared() {
     return this.x * this.x + this.y * this.y;
   }
-  sub(target: Point) {
+  sub(target: Vec2) {
     return point(this.x - target.x, this.y - target.y);
   }
-  add(target: Point) {
+  add(target: Vec2) {
     return point(this.x + target.x, this.y + target.y);
   }
-  mul(target: Point) {
+  mul(target: Vec2) {
     return point(this.x * target.x, this.y * target.y);
   }
-  div(target: Point) {
+  div(target: Vec2) {
     return point(this.x / target.x, this.y / target.y);
   }
-
+  translate(x: number, y: number) {
+    return point(this.x + x, this.y + y);
+  }
   scale(factor: number) {
     return point(this.x * factor, this.y * factor);
   }
@@ -76,5 +80,5 @@ export class Point {
 }
 
 export function point(x: number, y: number) {
-  return new Point(x, y);
+  return new Vec2(x, y);
 }

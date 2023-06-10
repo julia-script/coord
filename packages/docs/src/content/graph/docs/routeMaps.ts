@@ -92,9 +92,9 @@ export const routes = [
       },
       {
         title: "Markers and Labels",
-        route: "graph/docs/interactions/markers-and-labels",
-        file: "interactions/markers-and-labels.mdx",
-        component: import("./interactions/markers-and-labels.mdx"),
+        route: "graph/docs/interactions/dragging-elements",
+        file: "interactions/dragging-elements.mdx",
+        component: import("./interactions/dragging-elements.mdx"),
       },
     ],
   },

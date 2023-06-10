@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { Pointish, point } from "@coord/core";
+import { Vec2ish, point } from "@coord/core";
 import { defaultThemes, passContextToChildren, useGraphContext } from "@/utils";
 import { BBox, BBoxish, Theme } from "@/types";
 import { Navigation } from "./Navigation";
@@ -30,9 +30,9 @@ export type GraphProps = React.PropsWithChildren<
      * ```tsx
      * <Graph coordStep={[1, 1]} />
      * ```
-     * @see {@link Pointish}
+     * @see {@link Vec2ish}
      * */
-    coordStep?: Pointish;
+    coordStep?: Vec2ish;
     /**
      * The absolute width of the graph.
      * @defaultValue 400
@@ -102,7 +102,7 @@ export const Graph = ({
         y="0"
         width="100%"
         height="100%"
-        fill={context.theme.background}
+        {...context.theme.background}
       />
       {onCoordBoxChange && (
         <Navigation

@@ -1,57 +1,76 @@
-import { Point, Pointish, point } from "@coord/core";
+import { Vec2, Vec2ish } from "@coord/core";
 
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type ScalarUnits = "vs" | "cs";
-export type Scalar = number | `${number}${ScalarUnits}`;
-
 export type Space = "viewspace" | "coordspace";
-export type GraphPoint = Readonly<
-  Point | [Scalar, Scalar] | { x: Scalar; y: Scalar }
+
+export type Scalar = number | `${number}${ScalarUnits}`;
+export type ScalarPoint = Readonly<
+  Vec2 | [Scalar, Scalar] | { x: Scalar; y: Scalar }
 >;
 
-export interface Theme {
-  background: string;
-  body: string;
-  text: string;
+export type Color = string;
 
-  fontSize: Scalar;
-  fontWeight: number | string;
-  fontFamily: string;
-  grid: {
-    maxStepSize: number;
-    stepStrokeColor: string;
-    stepStrokeWidth: Scalar;
+export type SVGProps = React.SVGProps<SVGElement>;
+export type SVGPropsKeys = keyof SVGProps;
+export type FilteredSvgProps = {
+  [K in SVGPropsKeys]: SVGProps[K] extends (...args: any[]) => any
+    ? never
+    : SVGProps[K];
+};
+export type ThemeableProps = Pick<
+  SVGProps,
+  | "fill"
+  | "stroke"
+  | "strokeWidth"
+  | "strokeDasharray"
+  | "strokeDashoffset"
+  | "strokeLinecap"
+  | "strokeLinejoin"
+  | "strokeMiterlimit"
+  | "strokeOpacity"
+  | "fillOpacity"
+  | "color"
+  | "className"
+  | "style"
+  | "opacity"
+  | "fontFamily"
+  | "fontSize"
+  | "fontWeight"
+  | "fontStyle"
+  | "fontVariant"
+  | "textAnchor"
+  | "alignmentBaseline"
+  | "dominantBaseline"
+  | "letterSpacing"
+  | "wordSpacing"
+  | "textDecoration"
+>;
 
-    axisStrokeColor: [string, string];
-    axisStrokeWidth: Scalar;
-    labelsColor: [string, string];
-    labelsFontSize: Scalar;
-  };
-  palette: [string, ...string[]];
-}
+export type Theme = {
+  background: ThemeableProps;
+  text: ThemeableProps;
+  gridMaxStepSize: number;
+  gridStep: ThemeableProps;
+  gridAxis: ThemeableProps;
+  gridLabels: ThemeableProps;
+  palette: [Color, ...Color[]];
+  body: Color;
+};
 
 export type BBox = {
-  horizontal: Point;
-  vertical: Point;
+  horizontal: Vec2;
+  vertical: Vec2;
 };
 
 export type BBoxish =
   | {
-      horizontal: Pointish;
-      vertical: Pointish;
+      horizontal: Vec2ish;
+      vertical: Vec2ish;
+    }
+  | {
+      x: Vec2ish;
+      y: Vec2ish;
     }
   | [number, number, number, number];
-
-export const normalizeBBox = (bbox: BBoxish): BBox => {
-  if (Array.isArray(bbox)) {
-    return {
-      horizontal: point(bbox[0], bbox[2]),
-      vertical: point(bbox[1], bbox[3]),
-    };
-  }
-  return {
-    horizontal: Point.of(bbox.horizontal),
-    vertical: Point.of(bbox.vertical),
-  };
-};

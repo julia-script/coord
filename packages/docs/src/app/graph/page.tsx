@@ -18,6 +18,9 @@ import {
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 
+const waveF = (a: number, b: number) => (x: number) =>
+  Math.sin(((x - a) * Math.PI * 2) / (b - a));
+
 const Hero = () => {
   const [coordBox, setCoordBox] = useNavigationState({
     horizontal: [-3, 3],
@@ -29,8 +32,9 @@ const Hero = () => {
   const { t, pause } = useStopwatch({
     autoplay: true,
     repeat: true,
-    duration: 15_000,
+    duration: 30_000,
   });
+
   useLayoutEffect(() => {
     if (interacted) return;
     const tLoop = loopAnimation(t, 0, 1);
@@ -43,9 +47,6 @@ const Hero = () => {
     pause();
   }, [interacted, pause]);
 
-  const waveF1 = (x: number) => Math.sin(((x - a1) * Math.PI * 2) / (b1 - a1));
-  const waveF2 = (x: number) => Math.sin(((x - a2) * Math.PI * 2) / (b2 - a2));
-
   return (
     <Graph
       padding={20}
@@ -56,39 +57,34 @@ const Hero = () => {
       onCoordBoxChange={setCoordBox}
       theme={{
         ...darkTheme,
-        background: "transparent",
-        grid: {
-          ...darkTheme.grid,
-          stepStrokeColor: "rgba(255,255,255,0.05)",
-          axisStrokeColor: ["#4b5563", "#4b5563"],
-          labelsColor: ["#4b5563", "#4b5563"],
-          axisStrokeWidth: 1,
-        },
+        background: { fill: "transparent" },
       }}
     >
+      <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur result="blurred" stdDeviation="15"></feGaussianBlur>
+        <feMerge>
+          <feMergeNode in="blurred"></feMergeNode>
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+        </feMerge>
+      </filter>
       <Grid displayAxis={false} displayNumbers={false} displayGrid={true} />
 
+      {/* First wave */}
       <Plot.ofX
-        f={waveF1}
+        f={waveF(a1, b1)}
         strokeColor={3}
         strokeWidth={2}
         strokeDasharray={"1 5"}
         opacity={0.8}
       />
+
       <Plot.ofX
-        f={waveF2}
-        strokeColor={2}
+        domain={[a1, b1]}
+        f={waveF(a1, b1)}
+        strokeColor={3}
         strokeWidth={2}
-        strokeDasharray={"1 5"}
-        opacity={0.8}
       />
-
-      <Plot.ofX f={(x) => waveF1(x) + waveF2(x)} strokeColor={1} />
       <Line from={[a1, 0]} to={[b1, 0]} strokeColor={3} />
-
-      <Plot.ofX domain={[a1, b1]} f={waveF1} strokeColor={3} strokeWidth={2} />
-      <Line from={[a2, 0]} to={[b2, 0]} strokeColor={2} />
-      <Plot.ofX domain={[a2, b2]} f={waveF2} strokeColor={2} strokeWidth={2} />
 
       <Marker
         position={point(a1, 0)}
@@ -106,6 +102,25 @@ const Hero = () => {
           setWave1(([a, _]) => [a, x]);
         }}
       />
+
+      {/* Second wave */}
+
+      <Plot.ofX
+        f={waveF(a2, b2)}
+        strokeColor={2}
+        strokeWidth={2}
+        strokeDasharray={"1 5"}
+        opacity={0.8}
+      />
+      <Line from={[a2, 0]} to={[b2, 0]} strokeColor={2} />
+
+      <Plot.ofX
+        domain={[a2, b2]}
+        f={waveF(a2, b2)}
+        strokeColor={2}
+        strokeWidth={2}
+      />
+
       <Marker
         position={point(a2, 0)}
         color={2}
@@ -122,7 +137,12 @@ const Hero = () => {
           setWave2(([a, _]) => [a, x]);
         }}
       />
-
+      {/* Sum of the waves */}
+      <Plot.ofX
+        f={(x) => waveF(a1, b1)(x) + waveF(a2, b2)(x)}
+        strokeColor={1}
+        filter="url(#neon)"
+      />
       <LabelContainer
         className="transition-opacity duration-500"
         size={["90vs", "30vs"]}
@@ -132,6 +152,7 @@ const Hero = () => {
         strokeWidth={1}
         strokeDasharray={"2"}
         opacity={interacted ? 0 : 1}
+        filter="url(#neon)"
       >
         <Text position={["45vs", "15vs"]} fontSize={14}>
           Drag me!
@@ -155,12 +176,12 @@ export default function Page() {
   return (
     <div>
       <Hero />
-      <div className="container mx-auto -mt-32 flex flex-col items-center px-4">
-        <h1 className="bg-dark-900/70 text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
+      <div className="from-dark-950/0 to-dark-950/100 pointer-events-none  relative mx-auto -mt-32 bg-gradient-to-b  px-4 text-center">
+        <h1 className=" text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
           Visualize Math with{" "}
           <span className="text-accent-graph-400">Code</span>
         </h1>
-        <h2 className="text-md bg-dark-900/70 text-dark-100 text-center  font-mono md:text-xl">
+        <h2 className="text-md  text-dark-100 text-center  font-mono md:text-xl">
           <code>
             @coord/<span className="text-accent-graph-400">graph</span>
           </code>{" "}
@@ -169,12 +190,14 @@ export default function Page() {
         <div className="mt-8">
           <Link
             href="/graph/docs"
-            className="bg-accent-graph-400 rounded-md px-6 py-3 text-white"
+            className="bg-accent-graph-400 pointer-events-auto rounded-md px-6 py-3 text-white"
           >
             Get Started
           </Link>
         </div>
-        <section className="mt-32 flex flex-col gap-y-8 py-12">
+      </div>
+      <div className="container mx-auto flex flex-col items-center  px-4">
+        <section className="flex flex-col gap-y-8 py-12 md:mt-16">
           {[
             {
               left: (
@@ -229,7 +252,7 @@ export default function Page() {
                     Grid,
                     Plot,
                     Marker,
-                    Point,
+                    Vec2,
                     PolyLine,
                     LabelContainer,
                     Text,
@@ -237,7 +260,7 @@ export default function Page() {
                     useNavigationState,
                   } from "@coord/graph";
 
-                  const cubicBezier = (p0: Point, p1: Point, p2: Point, p3: Point, t: number) => {
+                  const cubicBezier = (p0: Vec2, p1: Vec2, p2: Vec2, p3: Vec2, t: number) => {
                     const u = 1 - t;
                     const tt = t * t;
                     const uu = u * u;

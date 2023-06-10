@@ -1,6 +1,6 @@
 import { test, describe, expect } from "vitest";
 import { transform } from "./transform";
-import { point } from "./point";
+import { point } from "./vec2";
 
 describe("Transform", () => {
   test("getPosition", () => {

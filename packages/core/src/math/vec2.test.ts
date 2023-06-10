@@ -1,7 +1,7 @@
 import { test, describe, expect } from "vitest";
-import { point } from "./point";
+import { point } from "./vec2";
 
-describe("Point", async () => {
+describe("Vec2", async () => {
   test("toArray", () => {
     const p = point(1, 2);
     const arr = p.toArray();

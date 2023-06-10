@@ -1,18 +1,12 @@
-import { Point, Pointish, Transform, point, transform } from "@coord/core";
-import React, { CSSProperties } from "react";
-import {
-  BBox,
-  Theme,
-  PartialBy,
-  BBoxish,
-  GraphPoint,
-  normalizeBBox,
-} from "@/types";
+import { Vec2, Vec2ish, Transform, point, transform } from "@coord/core";
+import React, { CSSProperties, Dispatch, SetStateAction } from "react";
+import { BBox, Theme, PartialBy, BBoxish, ScalarPoint } from "@/types";
+import { normalizeBBox } from "@/utils";
 import {
   projectCoordFactory,
   projectSizeFactory,
   unprojectCoordFactory,
-} from "./point";
+} from "./scalars";
 import { defaultThemes } from "./themes";
 import { fitCoordBoxToView } from "./fitCoordBoxToView";
 import {
@@ -30,12 +24,12 @@ export type GraphContext = {
   projectSize: ReturnType<typeof projectSizeFactory>;
   unprojectSize: ReturnType<typeof projectSizeFactory>;
   projectAbsoluteSize: ReturnType<typeof projectSizeFactory>;
-  projectCoord: (point: GraphPoint) => Point;
-  unprojectCoord: (point: GraphPoint) => Point;
+  projectCoord: (point: ScalarPoint) => Vec2;
+  unprojectCoord: (point: ScalarPoint) => Vec2;
   projectionTransform: Transform;
   coordBox: BBox;
-  coordStep: Point;
-  viewspaceSize: Point;
+  coordStep: Vec2;
+  viewspaceSize: Vec2;
   theme: Theme;
 };
 
@@ -98,9 +92,9 @@ type ContextArguments = {
    * ```tsx
    * <Graph coordStep={[1, 1]} />
    * ```
-   * @see {@link Pointish}
+   * @see {@link Vec2ish}
    * */
-  coordStep: Pointish;
+  coordStep: Vec2ish;
   /**
    * The width of the graph element
    * @defaultValue 400
@@ -151,8 +145,8 @@ const useViewspaceSize = (
     isServerComponent || (parsedWidth !== null && parsedHeight !== null)
   );
 
-  const [viewspaceSize, setViewspaceSize] = useSafeState<Point>(
-    Point.of([parsedWidth ?? 400, parsedHeight ?? 400])
+  const [viewspaceSize, setViewspaceSize] = useSafeState<Vec2>(
+    Vec2.of([parsedWidth ?? 400, parsedHeight ?? 400])
   );
 
   useSafeLayoutEffect(() => {
@@ -193,7 +187,7 @@ export const useGraphContext = (
     props.width ?? 400,
     props.height ?? 400
   );
-  const coordStep = Point.of(props.coordStep ?? [1, 1]);
+  const coordStep = Vec2.of(props.coordStep ?? [1, 1]);
 
   const coordBox = fitCoordBoxToView(
     normalizeBBox(
@@ -239,11 +233,11 @@ export const useGraphContext = (
       if (typeof color === "string") {
         switch (color) {
           case "background":
-            return theme.background;
+            return theme.background.fill ?? "transparent";
           case "body":
             return theme.body;
           case "text":
-            return theme.text;
+            return theme.text.fill ?? theme.body;
           default:
             return color;
         }
@@ -275,6 +269,7 @@ export const useGraphContext = (
     projectSizeFactory(projectionTransform, false, true),
     [projectionTransform]
   );
+
   return {
     ref,
     viewspaceSize,

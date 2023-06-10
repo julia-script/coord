@@ -5,13 +5,13 @@ import {
   withGraphContext,
 } from "@/utils";
 import { point } from "@coord/core";
-import { GraphPoint, Scalar } from "@/types";
+import { ScalarPoint, Scalar } from "@/types";
 import { Rect, RectProps } from "./Rect";
 import { Line } from "./Line";
+import { useSafeMemo } from "..";
 
 const cardinalMap = {
   n: Math.PI / 2,
-
   ne: Math.PI / 4,
   e: 0,
   se: -Math.PI / 4,
@@ -22,9 +22,9 @@ const cardinalMap = {
 } as const;
 
 export type LabelContainerProps = {
-  position?: GraphPoint;
-  target: GraphPoint;
-  size?: GraphPoint;
+  position?: ScalarPoint;
+  target: ScalarPoint;
+  size?: ScalarPoint;
   backgroundColor?: number | string;
   strokeColor?: number | string;
   strokeWidth?: Scalar;
@@ -32,6 +32,7 @@ export type LabelContainerProps = {
   direction?: number | keyof typeof cardinalMap;
   distance?: Scalar;
   targetOffset?: Scalar;
+  displayBox?: boolean;
 
   arrowColor?: number | string;
   arrowSize?: Scalar;
@@ -59,6 +60,8 @@ const Component = ({
   arrowStartOffset,
   strokeDasharray,
 
+  displayBox = true,
+
   ...rest
 }: LabelContainerProps) => {
   const { projectCoord, projectAbsoluteSize, computeColor } = context;
@@ -69,20 +72,23 @@ const Component = ({
   const halfWidth = width / 2;
   const halfHeight = height / 2;
   const dist = projectAbsoluteSize(distance, "viewspace");
-  const directionRad =
-    typeof direction === "number" ? direction : cardinalMap[direction];
+  const directionRad = useSafeMemo(() => {
+    if (position)
+      return -projectCoord(position).sub(projectCoord(target)).angle();
+    return typeof direction === "number" ? direction : cardinalMap[direction];
+  }, [direction, position, target]);
 
   const connectionPoint = projectRadOnRect(-directionRad, point(width, height));
-  const [cos, sin] = [Math.cos(directionRad), Math.sin(directionRad)];
   const { x: cx, y: cy } = useMemo(() => {
     if (position) return projectCoord(position);
+    const [cos, sin] = [Math.cos(directionRad), Math.sin(directionRad)];
 
     const { x: dx, y: dy } = connectionPoint;
     let [x, y] = [tx + dx, ty + dy];
     [x, y] = [x + dist * cos, y + dist * -sin];
 
     return point(x, y);
-  }, [position, projectCoord, connectionPoint, tx, ty, dist, cos, sin]);
+  }, [position, projectCoord, connectionPoint, tx, ty, dist]);
 
   const x = cx - halfWidth;
   const y = cy - halfHeight;
@@ -111,18 +117,20 @@ const Component = ({
         strokeDasharray={strokeDasharray}
         arrow
       />
-      <Rect
-        context={context}
-        position={[`${x}vs`, `${y}vs`]}
-        size={[`${width}vs`, `${height}vs`]}
-        cornerRadius={cornerRadius}
-        strokeColor={theming.strokeColor}
-        fillColor={theming.backgroundColor}
-        strokeWidth={theming.strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeDasharray={strokeDasharray}
-      />
+      {displayBox && (
+        <Rect
+          context={context}
+          position={[`${x}vs`, `${y}vs`]}
+          size={[`${width}vs`, `${height}vs`]}
+          cornerRadius={cornerRadius}
+          strokeColor={theming.strokeColor}
+          fillColor={theming.backgroundColor}
+          strokeWidth={theming.strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeDasharray={strokeDasharray}
+        />
+      )}
       <g transform={`translate(${x} ${y})`}>
         {passContextToChildren(children, context)}
       </g>

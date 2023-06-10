@@ -1,10 +1,10 @@
 import React from "react";
-import { GraphPoint } from "@/types";
+import { ScalarPoint } from "@/types";
 import { Scalar } from "@/types";
 import { GraphElement, withGraphContext } from "@/utils";
 
 export type TextProps = {
-  position?: GraphPoint;
+  position?: ScalarPoint;
   fontSize?: Scalar;
   fontWeight?: number | string;
   fontFamily?: string;
@@ -27,16 +27,18 @@ const Component = ({
   const { projectCoord, projectAbsoluteSize, theme, computeColor } = context;
 
   const { x, y } = projectCoord(position);
-  const fs = fontSize
-    ? projectAbsoluteSize(fontSize, "viewspace")
-    : theme.fontSize;
+
+  const props = {
+    ...theme.text,
+    fontSize: fontSize
+      ? projectAbsoluteSize(fontSize, "viewspace")
+      : theme.text.fontSize,
+  };
   return (
     <text
       x={x}
       y={y}
-      fontSize={fs}
-      fontFamily={fontFamily ?? theme.fontFamily}
-      fontWeight={fontWeight ?? theme.fontWeight}
+      {...props}
       fill={computeColor(color ?? theme.body)}
       textAnchor={"middle"}
       dominantBaseline={"middle"}

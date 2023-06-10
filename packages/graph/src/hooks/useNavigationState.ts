@@ -1,4 +1,5 @@
-import { BBox, BBoxish, normalizeBBox } from "@/types";
+import { BBox, BBoxish } from "@/types";
+import { normalizeBBox } from "@/utils";
 import { Dispatch, SetStateAction } from "react";
 import { useSafeState } from "./safe-server-hooks";
 

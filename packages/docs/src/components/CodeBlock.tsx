@@ -40,20 +40,17 @@ export function LiveCodeBlock({
         <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           {element}
         </div>
-
-        {error && (
-          <div className={"absolute bottom-0 left-0 w-full p-2"}>
-            <pre
-              className={
-                "border-dark-700/60 m-0 overflow-hidden rounded-md border p-4 text-xs"
-              }
-            >
-              {error}
-            </pre>
-          </div>
-        )}
       </div>
 
+      {error && (
+        <pre
+          className={
+            "m-0 overflow-hidden rounded-md  border-2 border-red-500 p-4 font-mono text-xs font-bold"
+          }
+        >
+          {error}
+        </pre>
+      )}
       {!collapsed && (
         <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           <CodeEditor

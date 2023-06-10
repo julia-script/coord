@@ -1,12 +1,13 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React from "react";
 import { withGraphContext } from "@/utils";
 import { LabelContainer, LabelContainerProps } from "./LabelContainer";
-import { Point, point, useCoordState } from "..";
+import { Vec2, point } from "@coord/core";
+import { useCoordState } from "@/hooks";
 import { useGesture } from "@use-gesture/react";
 import { useSafeLayoutEffect, useSafeRef } from "@/hooks/safe-server-hooks";
 
 export type LabelProps = {
-  onChange?: (position: Point) => void;
+  onChange?: (position: Vec2) => void;
 } & Omit<LabelContainerProps, "size">;
 
 const Component = ({
@@ -14,6 +15,7 @@ const Component = ({
   style = {},
   context,
   position,
+  strokeColor = "body",
   children,
 
   ...rest
@@ -23,7 +25,6 @@ const Component = ({
 
   useSafeLayoutEffect(() => {
     if (!ref.current) return;
-
     const setCurrentSize = () => {
       if (!ref.current) return;
       const { width, height } = ref.current.getBoundingClientRect();
@@ -75,6 +76,7 @@ const Component = ({
       size={size}
       context={context}
       position={position}
+      strokeColor={strokeColor}
       {...bind()}
       {...rest}
     >
@@ -83,6 +85,7 @@ const Component = ({
           style={{
             width: "fit-content",
             height: "fit-content",
+            color: context.computeColor(strokeColor),
           }}
           ref={ref}
         >

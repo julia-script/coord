@@ -1,11 +1,12 @@
 import React from "react";
 import { useMemo } from "react";
 import { GraphElement, renderNumber, withGraphContext } from "@/utils";
-import { GraphPoint, Scalar } from "@/types";
+import { ScalarPoint, Scalar } from "@/types";
 import { useSafeMemo } from "..";
+import { clamp } from "lodash-es";
 
 export type PolyLineProps = {
-  points: Readonly<GraphPoint[]>;
+  points: Readonly<ScalarPoint[]>;
   strokeWidth?: Scalar;
   strokeColor?: number | string;
   strokeStyle?: "dotted" | "dashed" | "solid" | number[];
@@ -25,7 +26,9 @@ const Component = ({
     () =>
       points.reduce((acc, point) => {
         const { x, y } = projectCoord(point);
-        acc += `${renderNumber(x)},${renderNumber(y)} `;
+        acc += `${renderNumber(clamp(x, -5000, 5000))},${renderNumber(
+          clamp(y, -5000, 5000)
+        )} `;
         return acc;
       }, ""),
     [points, projectCoord]

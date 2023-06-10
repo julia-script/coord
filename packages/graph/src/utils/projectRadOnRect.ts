@@ -1,7 +1,7 @@
-import { Point, point } from "@coord/core";
+import { Vec2, point } from "@coord/core";
 import { clamp } from "lodash-es";
 
-export const projectRadOnRect = (rad: number, size: Point): Point => {
+export const projectRadOnRect = (rad: number, size: Vec2): Vec2 => {
   const halfWidth = size.x / 2;
   const halfHeight = size.y / 2;
 
