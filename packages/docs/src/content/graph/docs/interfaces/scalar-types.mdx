@@ -103,22 +103,24 @@ export default function MyGraph() {
     padding: 10,
     fontSize: 12,
   };
-  const { t, pause } = useStopwatch({
-    duration: 5_000,
-    to: Math.PI * 2,
-    autoplay: true,
-    repeat: true,
-  });
 
-  useLayoutEffect(() => {
-    const x = Math.sin(t) * 3;
-    const y = Math.cos(t) * 3;
+  const { pause } = useStopwatch(
+    (t) => {
+      const x = Math.sin(t) * 3;
+      const y = Math.cos(t) * 3;
 
-    setCoordBox({
-      horizontal: initialCoordBox.horizontal.add(point(x, x)),
-      vertical: initialCoordBox.vertical.add(point(y, y)),
-    });
-  }, [t]);
+      setCoordBox({
+        horizontal: initialCoordBox.horizontal.add(point(x, x)),
+        vertical: initialCoordBox.vertical.add(point(y, y)),
+      });
+    },
+    {
+      duration: 5_000,
+      to: Math.PI * 2,
+      autoplay: true,
+      repeat: true,
+    }
+  );
 
   return (
     <Graph
@@ -135,7 +137,8 @@ export default function MyGraph() {
       <Marker position={p0} color={1} />
       <Label target={p0} direction={"s"} strokeColor={1}>
         <div style={labelStyle}>
-          I'm a label positioned at <strong>[{p1.toString()}]</strong>, So I'm
+
+          I'm a label positioned at <strong>[{p0.toString()}]</strong>, So I'm
           relative to the graph viewport.
         </div>
       </Label>

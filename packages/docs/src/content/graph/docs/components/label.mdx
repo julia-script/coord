@@ -44,8 +44,9 @@ import {
 
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
+  const [direction, setDirection] = useState(0);
 
-  const { t: direction } = useStopwatch({
+  useStopwatch(setDirection, {
     from: 0,
     to: Math.PI * 2,
     duration: 10_000,
@@ -83,14 +84,7 @@ export default function MyGraph() {
 
 ```jsx live
 import { useState } from "react";
-import {
-  Graph,
-  Grid,
-  Label,
-  Marker,
-  useCoordState,
-  useStopwatch,
-} from "@coord/graph";
+import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
@@ -128,14 +122,7 @@ export default function MyGraph() {
 
 ```jsx live
 import { useState } from "react";
-import {
-  Graph,
-  Grid,
-  Label,
-  Marker,
-  useCoordState,
-  useStopwatch,
-} from "@coord/graph";
+import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
@@ -190,14 +177,7 @@ export default function MyGraph() {
 
 ```jsx live
 import { useState } from "react";
-import {
-  Graph,
-  Grid,
-  Label,
-  Marker,
-  useCoordState,
-  useStopwatch,
-} from "@coord/graph";
+import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);

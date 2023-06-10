@@ -37,9 +37,7 @@ export const useSafeLayoutEffect: typeof React.useEffect = (effect, deps) => {
 
 export const useSafeRef: typeof React.useRef = <T>(initialValue?: T | null) => {
   if (isServerComponent) {
-    return {
-      current: initialValue,
-    };
+    return initialValue;
   }
 
   return React.useRef(initialValue);

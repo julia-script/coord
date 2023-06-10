@@ -18,6 +18,18 @@ import {
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 
+
+const easeInOut = (t: number) => {
+  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+};
+
+const loopAnimation = (t: number, duration: number) => {
+  if (t > duration / 2) {
+    return easeInOut((duration - t) / (duration / 2));
+  }
+  return easeInOut(t / (duration / 2));
+};
+
 const waveF = (a: number, b: number) => (x: number) =>
   Math.sin(((x - a) * Math.PI * 2) / (b - a));
 
@@ -29,18 +41,21 @@ const Hero = () => {
   const [[a1, b1], setWave1] = useState([-3, -0.5]);
   const [[a2, b2], setWave2] = useState([0.7, 3.26]);
   const [interacted, setInteracted] = useState(false);
-  const { t, pause } = useStopwatch({
-    autoplay: true,
-    repeat: true,
-    duration: 30_000,
-  });
 
-  useLayoutEffect(() => {
-    if (interacted) return;
-    const tLoop = loopAnimation(t, 0, 1);
-    setWave1([lerp(-3, -2, tLoop), lerp(-0.5, -1, tLoop)]);
-    setWave2([lerp(0.7, 0, tLoop), lerp(3.26, 5, tLoop)]);
-  }, [t]);
+  const { pause } = useStopwatch(
+    (t) => {
+      if (interacted) return;
+      const tLoop = loopAnimation(t, 2);
+      setWave1([lerp(-3, -2, tLoop), lerp(-0.5, -1, tLoop)]);
+      setWave2([lerp(0.7, 0, tLoop), lerp(3.26, 5, tLoop)]);
+    },
+    {
+      to: 2,
+      autoplay: true,
+      repeat: true,
+      duration: 30_000,
+    }
+  );
 
   useLayoutEffect(() => {
     if (!interacted) return;
@@ -52,7 +67,6 @@ const Hero = () => {
       padding={20}
       className="bg-dark-950 max-h-[700px]"
       width="100%"
-      height={"50vh"}
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
       theme={{
@@ -141,7 +155,6 @@ const Hero = () => {
       <Plot.ofX
         f={(x) => waveF(a1, b1)(x) + waveF(a2, b2)(x)}
         strokeColor={1}
-        filter="url(#neon)"
       />
       <LabelContainer
         className="transition-opacity duration-500"
@@ -161,17 +174,7 @@ const Hero = () => {
     </Graph>
   );
 };
-const easeInOut = (t: number) => {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-};
 
-const loopAnimation = (t: number, start: number, end: number) => {
-  const duration = end - start;
-  if (t > 0.5) {
-    return start + (1 - easeInOut((t - 0.5) * 2)) * duration;
-  }
-  return start + easeInOut(t * 2) * duration;
-};
 export default function Page() {
   return (
     <div>
