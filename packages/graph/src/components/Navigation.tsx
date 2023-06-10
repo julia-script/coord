@@ -10,24 +10,12 @@ const MAX_AXIS_SIZE = 10000;
 
 const MIN_AXIS_SIZE = 0.025;
 
-const limitScale = (scale: number, coordBox: BBox) => {
-  const { horizontal, vertical } = coordBox;
-  const hSize = Math.abs(horizontal.x - horizontal.y);
-  const vSize = Math.abs(vertical.x - vertical.y);
-
-  if (scale > 1) {
-    return Math.min(scale, MAX_AXIS_SIZE / hSize, MAX_AXIS_SIZE / vSize);
-  }
-  return Math.max(scale, MIN_AXIS_SIZE / hSize, MIN_AXIS_SIZE / vSize);
-};
-
 const scaleBBoxAroundOrigin = (
   bbox: BBox,
   { x, y }: Vec2,
   scale: number,
   { x: offsetX, y: offsetY }: Vec2 = point(0, 0)
 ) => {
-  scale = limitScale(scale, bbox);
   let { x: hMin, y: hMax } = bbox.horizontal;
   let { x: vMin, y: vMax } = bbox.vertical;
   hMin += offsetX;
@@ -101,7 +89,6 @@ const Component = ({
             origin[0] - x,
             origin[1] - y,
           ]);
-          const normalizedCoordBox = normalizeBBox(rawCoordBox);
 
           memo = {
             scaleOrigin,
@@ -110,6 +97,7 @@ const Component = ({
           };
         }
         if (!memo) return;
+        const sensitivityFactor = 0.5;
 
         onCoordBoxChange(
           scaleBBoxAroundOrigin(
@@ -132,6 +120,17 @@ const Component = ({
         pinchOnWheel: true,
         preventDefault: true,
         eventOptions: { passive: false },
+        scaleBounds: (state) => {
+          const { horizontal, vertical } = normalizedCoordBox;
+          const s = state?.offset[0] || 1;
+          const hSize = Math.abs(horizontal.x - horizontal.y) * s;
+          const vSize = Math.abs(vertical.x - vertical.y) * s;
+
+          return {
+            max: Math.min(MAX_AXIS_SIZE / hSize, MAX_AXIS_SIZE / vSize),
+            min: Math.max(MIN_AXIS_SIZE / hSize, MIN_AXIS_SIZE / vSize),
+          };
+        },
       },
     }
   );
