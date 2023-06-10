@@ -31,7 +31,7 @@ export default function MyGraph() {
         strokeColor={3}
       />
       <Text position={[0, 0]} color={3}>
-        Radius: {Math.round(radius * 10) / 10}
+        Radius: {(Math.round(radius * 10) / 10).toFixed(1)}
       </Text>
       <Marker position={point} onChange={setPoint} color={3} />
     </Graph>
