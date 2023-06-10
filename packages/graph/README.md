@@ -3,12 +3,11 @@ The @coord/graph is a React Library that allows you to create mathematical visua
 
 ## Why use it?
 
-We're big fans of tools like Desmos. However, we also realize that moving your math logic from code to a separate tool can sometimes be a hassle.
+I'm a big fans of tools like Desmos. However, I also realize that moving your math logic from code to a separate tool can sometimes be a hassle.
 
 This library aims to solve this problem by allowing developers to utilize the best of coding and graphing tools in a single platform without the extra hassle.
 
-While still a work in progress, we are excited to share what we have so far and hope you find it helpful!
-
+While still a work in progress, I'm excited to share it and I hope you find it helpful!
 
 
 ## Installation
