@@ -1,28 +1,22 @@
-import { Point, Pointish, Transform, point, transform } from "@coord/core";
-import React, {
-  CSSProperties,
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  BBox,
-  Theme,
-  PartialBy,
-  BBoxish,
-  GraphPoint,
-  normalizeBBox,
-} from "@/types";
+import { Vec2, Vec2ish, Transform, point, transform } from "@coord/core";
+import React, { CSSProperties, Dispatch, SetStateAction } from "react";
+import { BBox, Theme, PartialBy, BBoxish, ScalarPoint } from "@/types";
+import { normalizeBBox } from "@/utils";
 import {
   projectCoordFactory,
   projectSizeFactory,
   unprojectCoordFactory,
-} from "./point";
+} from "./scalars";
 import { defaultThemes } from "./themes";
-import { noop } from "lodash-es";
 import { fitCoordBoxToView } from "./fitCoordBoxToView";
+import {
+  isServerComponent,
+  useSafeCallback,
+  useSafeLayoutEffect,
+  useSafeMemo,
+  useSafeRef,
+  useSafeState,
+} from "@/hooks/safe-server-hooks";
 
 export type GraphContext = {
   ref: React.RefObject<SVGSVGElement> | null;
@@ -30,12 +24,12 @@ export type GraphContext = {
   projectSize: ReturnType<typeof projectSizeFactory>;
   unprojectSize: ReturnType<typeof projectSizeFactory>;
   projectAbsoluteSize: ReturnType<typeof projectSizeFactory>;
-  projectCoord: (point: GraphPoint) => Point;
-  unprojectCoord: (point: GraphPoint) => Point;
+  projectCoord: (point: ScalarPoint) => Vec2;
+  unprojectCoord: (point: ScalarPoint) => Vec2;
   projectionTransform: Transform;
   coordBox: BBox;
-  coordStep: Point;
-  viewspaceSize: Point;
+  coordStep: Vec2;
+  viewspaceSize: Vec2;
   theme: Theme;
 };
 
@@ -98,9 +92,9 @@ type ContextArguments = {
    * ```tsx
    * <Graph coordStep={[1, 1]} />
    * ```
-   * @see {@link Pointish}
+   * @see {@link Vec2ish}
    * */
-  coordStep: Pointish;
+  coordStep: Vec2ish;
   /**
    * The width of the graph element
    * @defaultValue 400
@@ -126,8 +120,6 @@ type ContextArguments = {
   theme: Theme | keyof typeof defaultThemes;
 };
 
-const isServerComponent = typeof useState === "undefined";
-
 const parseViewspaceSizeInput = (size: CSSProperties["width"]) => {
   const normalized = normalizeCssSize(size);
   if (typeof normalized === "number") return normalized;
@@ -149,54 +141,53 @@ const useViewspaceSize = (
 ) => {
   const parsedWidth = parseViewspaceSizeInput(width);
   const parsedHeight = parseViewspaceSizeInput(height);
-  const [ready, setReady] = isServerComponent
-    ? [true, noop]
-    : useState(parsedWidth !== null && parsedHeight !== null);
+  const [ready, setReady] = useSafeState(
+    isServerComponent || (parsedWidth !== null && parsedHeight !== null)
+  );
 
-  const [viewspaceSize, setViewspaceSize] = isServerComponent
-    ? [Point.of([parsedWidth ?? 400, parsedHeight ?? 400]), noop]
-    : useState<Point>(Point.of([parsedWidth ?? 400, parsedHeight ?? 400]));
+  const [viewspaceSize, setViewspaceSize] = useSafeState<Vec2>(
+    Vec2.of([parsedWidth ?? 400, parsedHeight ?? 400])
+  );
 
-  if (!isServerComponent) {
-    useLayoutEffect(() => {
-      if (parsedWidth !== null && parsedHeight !== null) return;
-      const current = ref?.current;
-      if (!current) return;
-      const setSize = (currentWidth: number, currentHeight: number) => {
-        const size = point(
-          parsedWidth ?? currentWidth,
-          parsedHeight ?? currentHeight
-        );
-        setViewspaceSize(size);
-        if (!ready) setReady(true);
-      };
+  useSafeLayoutEffect(() => {
+    if (parsedWidth !== null && parsedHeight !== null) return;
+    const current = ref?.current;
+    if (!current) return;
+    const setSize = (currentWidth: number, currentHeight: number) => {
+      const size = point(
+        parsedWidth ?? currentWidth,
+        parsedHeight ?? currentHeight
+      );
+      setViewspaceSize(size);
+      if (!ready) setReady(true);
+    };
 
-      const rect = current.getBoundingClientRect();
+    const rect = current.getBoundingClientRect();
 
-      setSize(rect.width, rect.height);
-      const observer = new ResizeObserver(([entry]) => {
-        const { width, height } = current.getBoundingClientRect();
-        setSize(width, height);
-      });
-      observer.observe(current);
-      return () => {
-        observer.disconnect();
-      };
-    }, [parsedHeight, parsedWidth]);
-  }
+    setSize(rect.width, rect.height);
+    const observer = new ResizeObserver(([entry]) => {
+      const { width, height } = current.getBoundingClientRect();
+      setSize(width, height);
+    });
+    observer.observe(current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [parsedHeight, parsedWidth]);
+
   return { viewspaceSize, ready };
 };
 
 export const useGraphContext = (
   props: ContextArguments
 ): GraphContext & { ready: boolean } => {
-  const ref = isServerComponent ? null : useRef<SVGSVGElement>(null);
+  const ref = useSafeRef<SVGSVGElement>(null);
   const { viewspaceSize, ready } = useViewspaceSize(
     ref,
     props.width ?? 400,
     props.height ?? 400
   );
-  const coordStep = Point.of(props.coordStep ?? [1, 1]);
+  const coordStep = Vec2.of(props.coordStep ?? [1, 1]);
 
   const coordBox = fitCoordBoxToView(
     normalizeBBox(
@@ -210,7 +201,7 @@ export const useGraphContext = (
     props.padding
   );
 
-  const projectionTransform = useMemo(() => {
+  const projectionTransform = useSafeMemo(() => {
     const coordWidth = coordBox.horizontal.y - coordBox.horizontal.x;
     const coordHeight = coordBox.vertical.y - coordBox.vertical.x;
 
@@ -227,7 +218,7 @@ export const useGraphContext = (
     coordBox.vertical.y,
   ]);
 
-  const theme = useMemo(() => {
+  const theme = useSafeMemo(() => {
     if (typeof props.theme === "object") {
       return props.theme;
     }
@@ -237,16 +228,16 @@ export const useGraphContext = (
     return defaultThemes.dark;
   }, [props.theme]);
 
-  const computeColor = useCallback(
+  const computeColor = useSafeCallback(
     (color: string | number) => {
       if (typeof color === "string") {
         switch (color) {
           case "background":
-            return theme.background;
+            return theme.background.fill ?? "transparent";
           case "body":
             return theme.body;
           case "text":
-            return theme.text;
+            return theme.text.fill ?? theme.body;
           default:
             return color;
         }
@@ -256,27 +247,29 @@ export const useGraphContext = (
     [theme]
   );
 
-  const projectCoord = useCallback(projectCoordFactory(projectionTransform), [
-    projectionTransform,
-  ]);
+  const projectCoord = useSafeCallback(
+    projectCoordFactory(projectionTransform),
+    [projectionTransform]
+  );
 
-  const unprojectCoord = useCallback(
+  const unprojectCoord = useSafeCallback(
     unprojectCoordFactory(projectionTransform),
     [projectionTransform]
   );
 
-  const projectSize = useCallback(projectSizeFactory(projectionTransform), [
+  const projectSize = useSafeCallback(projectSizeFactory(projectionTransform), [
     projectionTransform,
   ]);
 
-  const projectAbsoluteSize = useCallback(
+  const projectAbsoluteSize = useSafeCallback(
     projectSizeFactory(projectionTransform, true),
     [projectionTransform]
   );
-  const unprojectSize = useCallback(
+  const unprojectSize = useSafeCallback(
     projectSizeFactory(projectionTransform, false, true),
     [projectionTransform]
   );
+
   return {
     ref,
     viewspaceSize,

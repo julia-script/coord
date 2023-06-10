@@ -6,4 +6,5 @@ export * from "./pointerEvents";
 export * from "./projectRadOnRect";
 export * from "./renderNumber";
 export * from "./themes";
-export * from "./point";
+export * from "./scalars";
+export * from "./normalizeBBox";

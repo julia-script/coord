@@ -1,5 +1,5 @@
-import { Point, Transform, point } from "@coord/core";
-import { Scalar, Space, GraphPoint } from "@/types";
+import { Vec2, Transform, point } from "@coord/core";
+import { Scalar, Space, ScalarPoint } from "@/types";
 import { clamp } from "lodash-es";
 
 export const parseScalar = (
@@ -13,11 +13,11 @@ export const parseScalar = (
   const number = parseFloat(value.slice(0, -2));
   return [number, unit];
 };
-export const normalizeGraphPoint = (
-  point: GraphPoint,
+export const normalizeScalarPoint = (
+  point: ScalarPoint,
   inferredUnit: Space = "coordspace"
 ): [[number, Space], [number, Space]] => {
-  if (point instanceof Point || "x" in point) {
+  if (point instanceof Vec2 || "x" in point) {
     return [
       parseScalar(point.x, inferredUnit),
       parseScalar(point.y, inferredUnit),
@@ -37,7 +37,7 @@ export const projectSizeFactory = (
   abs = false,
   inverse = false
 ) => {
-  const applyTo = (p: Point) => {
+  const applyTo = (p: Vec2) => {
     if (inverse) {
       return projection.applyInverseTo(p);
     }
@@ -47,12 +47,12 @@ export const projectSizeFactory = (
 
   const unit = inverse ? "viewspace" : "coordspace";
 
-  function factory(size: GraphPoint, inferredUnit?: Space): Point;
+  function factory(size: ScalarPoint, inferredUnit?: Space): Vec2;
   function factory(size: Scalar, inferredUnit?: Space): number;
   function factory(
-    size: Scalar | GraphPoint,
+    size: Scalar | ScalarPoint,
     inferredUnit: Space = unit
-  ): number | Point {
+  ): number | Vec2 {
     if (isScalar(size)) {
       let [s, sizeUnit] = parseScalar(size, inferredUnit);
 
@@ -63,7 +63,7 @@ export const projectSizeFactory = (
       }
       return s;
     }
-    const [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(size, inferredUnit);
+    const [[x, xUnit], [y, yUnit]] = normalizeScalarPoint(size, inferredUnit);
 
     const projectedPoint = applyTo(point(x, y)).sub(origin);
 
@@ -81,8 +81,8 @@ export const projectSizeFactory = (
 
 export const projectCoordFactory =
   (projection: Transform) =>
-  (coord: GraphPoint, inferredUnit: Space = "coordspace"): Point => {
-    let [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord, inferredUnit);
+  (coord: ScalarPoint, inferredUnit: Space = "coordspace"): Vec2 => {
+    let [[x, xUnit], [y, yUnit]] = normalizeScalarPoint(coord, inferredUnit);
 
     x = clamp(x, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
     y = clamp(y, -Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER);
@@ -112,8 +112,8 @@ export const projectCoordFactory =
 
 export const unprojectCoordFactory =
   (projection: Transform) =>
-  (coord: GraphPoint): Point => {
-    const [[x, xUnit], [y, yUnit]] = normalizeGraphPoint(coord, "viewspace");
+  (coord: ScalarPoint): Vec2 => {
+    const [[x, xUnit], [y, yUnit]] = normalizeScalarPoint(coord, "viewspace");
 
     const unprojectedPoint = projection.applyInverseTo(point(x, y));
 

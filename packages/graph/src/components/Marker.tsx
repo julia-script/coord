@@ -1,7 +1,7 @@
 import React from "react";
 import { GraphElement, withGraphContext } from "@/utils";
-import { GraphPoint, Scalar } from "@/types";
-import { Point, point } from "@coord/core";
+import { ScalarPoint, Scalar } from "@/types";
+import { Vec2, point } from "@coord/core";
 import { useGesture } from "@use-gesture/react";
 import { Text } from "./Text";
 
@@ -41,14 +41,14 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
 
 export type MarkerProps = GraphElement<
   {
-    position: GraphPoint;
+    position: ScalarPoint;
     size?: Scalar;
     color?: number | string;
     rotation?: number;
     label?: string | typeof DefaultMarker;
     style?: React.CSSProperties;
     opacity?: number;
-    onChange?: (position: Point) => void;
+    onChange?: (position: Vec2) => void;
   },
   Omit<React.SVGProps<SVGGElement>, "color" | "onChange">
 >;

@@ -1,12 +1,12 @@
 import React from "react";
 import { point } from "@coord/core";
 import { GraphElement, withGraphContext } from "@/utils";
-import { GraphPoint, Scalar } from "@/types";
+import { ScalarPoint, Scalar } from "@/types";
 
 export type LineProps = GraphElement<
   {
-    from?: GraphPoint;
-    to: GraphPoint;
+    from?: ScalarPoint;
+    to: ScalarPoint;
     strokeWidth?: Scalar;
     strokeColor?: number | string;
     arrow?: boolean;

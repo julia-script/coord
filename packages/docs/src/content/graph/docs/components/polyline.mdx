@@ -3,17 +3,10 @@
 `PolyLine` is a component that takes an array of points and connects them.
 
 ```tsx live
-import {
-  Graph,
-  Grid,
-  Marker,
-  PolyLine,
-  useCoord,
-  Pointish,
-} from "@coord/graph";
+import { Graph, Grid, Marker, PolyLine, useCoord, Vec2ish } from "@coord/graph";
 
 export default function MyGraph() {
-  const cat: Pointish[] = [
+  const cat: Vec2ish[] = [
     [-3, 2], // left ear start
     [-3, 4], // left ear tip
     [-1, 2], // left ear end

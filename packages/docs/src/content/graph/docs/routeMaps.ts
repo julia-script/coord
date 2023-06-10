@@ -92,9 +92,9 @@ export const routes = [
       },
       {
         title: "Markers and Labels",
-        route: "graph/docs/interactions/markers-and-labels",
-        file: "interactions/markers-and-labels.mdx",
-        component: import("./interactions/markers-and-labels.mdx"),
+        route: "graph/docs/interactions/dragging-elements",
+        file: "interactions/dragging-elements.mdx",
+        component: import("./interactions/dragging-elements.mdx"),
       },
     ],
   },
@@ -143,23 +143,37 @@ export const getRoutes = () => {
     })),
   }));
 };
-type RouteItem = {
+export type RouteItem = {
   title: string;
   route: string;
+  sectionTitle: string;
   file: string;
+  next: string | null;
+  prev: string | null;
   component: Promise<typeof import("*.mdx")>;
 };
 type RoutePath = (typeof routes)[number]["children"][number]["route"];
 
 export const routeMap = new Map<RoutePath, RouteItem>();
-// const componentMap = new Map<RoutePath, Promise<typeof import("*.mdx")>>();
+let prev: RouteItem | null = null;
 
 for (const section of routes) {
   for (const child of section.children) {
-    routeMap.set(child.route, child);
-    // componentMap.set(child.route, import(`./${child.file}`));
+    const current: RouteItem = {
+      ...child,
+      sectionTitle: section.title,
+      prev: prev?.route ?? null,
+      next: null,
+    };
+    routeMap.set(child.route, current);
+    if (prev) {
+      prev.next = current.route;
+    }
+
+    prev = current;
   }
 }
+
 export const routePaths = [...routeMap.keys()];
 
 export function assertRoute(route: string): asserts route is RoutePath {
@@ -168,8 +182,15 @@ export function assertRoute(route: string): asserts route is RoutePath {
   }
 }
 
-export function getRoute(route: string) {
+export function getRouteComponent(route: string) {
   assertRoute(route);
+  route;
 
   return routeMap.get(route)!.component;
+}
+
+export function getRoute(route: string): Omit<RouteItem, "component"> {
+  assertRoute(route);
+  const { component, ...rest } = routeMap.get(route)!;
+  return rest;
 }

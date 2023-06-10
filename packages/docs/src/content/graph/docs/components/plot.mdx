@@ -4,26 +4,36 @@ These are the components used to graph your equations. They adaptively sample th
 
 ## Plot.Parametric
 
-`Plot.Parametric` takes a function `f` with a `t` parameter, and must return a `Pointish` object. It also takes a domain range `[a, b]` . It will sample the function at `n` points in the domain and plot the resulting points.
+`Plot.Parametric` takes a function `f` with a `t` parameter, and must return a `Vec2ish` object. It also takes a domain range `[a, b]` . It will sample the function at `n` points in the domain and plot the resulting points.
 
 ```tsx live
 import { useState } from "react";
-import { Graph, Grid, Plot, LabelContainer, Text, Marker } from "@coord/graph";
+import {
+  Graph,
+  Grid,
+  Plot,
+  LabelContainer,
+  Text,
+  Marker,
+  useCoordState,
+} from "@coord/graph";
 
 export default function MyGraph() {
-  const [radius, setRadius] = useState(3);
+  const [point, setPoint] = useCoordState([3, 3]);
+  const radius = point.length();
   return (
     <Graph width="100%">
       <Grid />
       <Plot.Parametric
         domain={[0, 2 * Math.PI]}
         f={(t) => [Math.cos(t) * radius, Math.sin(t) * radius]}
+        fill={"rgba(0, 0, 0, 0.5)"}
+        strokeColor={3}
       />
-      <Marker
-        position={[radius, 0]}
-        onChange={({ x }) => setRadius(x)}
-        color={1}
-      />
+      <Text position={[0, 0]} color={3}>
+        Radius: {(Math.round(radius * 10) / 10).toFixed(1)}
+      </Text>
+      <Marker position={point} onChange={setPoint} color={3} />
     </Graph>
   );
 }

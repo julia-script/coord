@@ -1,0 +1,126 @@
+# Dragging Elements
+
+Right now, `Markes` and `Labels` can be dragged around the screen when enabled.
+Both components accept a `position` and `onChange` callback prop.
+
+We also provide a `useCoordState` hook, that's just a wrapper on useState with a few convienience features.
+
+It automatically normalizes's any `Vec2ish` value passed as initial prop and types it accordingly.
+
+You could, however, just use `useState` and pass a `Vec2` directly if you prefer.
+
+## With `useCoordState`
+
+```tsx
+const [point, setPoint] = useCoordState(Vec2.of(0, 0)); // ✅ Vec2(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useCoordState([0, 0]); // ✅ Vec2(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useCoordState({ x: 0, y: 0 }); // ✅ Vec2(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+```
+
+## With `useState`
+
+```tsx
+const [point, setPoint] = useState(Vec2.of(0, 0)); // ✅ Vec2(0, 0)
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useState<[number, number]>([0, 0]); // ❌ [0, 0]
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+const [point, setPoint] = useState({ x: 0, y: 0 }); // ❌ { x: 0, y: 0 }
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+```
+
+Note that even in the ❌ cases, the Marker will still probably work, but the `point` state will change to a Vec2 after the first `onChange` callback
+So if you're using Typescript, it will complain about the type mismatch.
+
+You could solve make it type safe again by doing something like this. (is it worth it though? 🤔)
+
+```tsx
+const [point, setPoint] = useState<Vec2ish>([0, 0]); // ✅ [0, 0]
+<Marker position={point} onChange={setPoint} label={"🔥"} />;
+
+//  after onChange is triggered
+point; // ✅ Vec2(0, 0)
+```
+
+Or this
+
+```tsx
+const [point, setPoint] = useState<[number, number]>([0, 0]); // ✅ [0, 0]
+<Marker position={point} onChange={({ x, y }) => [x, y]} label={"🔥"} />;
+
+//  after onChange is triggered
+point; // ✅ [0, 0]
+```
+
+## Example
+
+```jsx live
+import { useState } from "react";
+import {
+  Graph,
+  Grid,
+  Label,
+  Marker,
+  useCoordState,
+  useStopwatch,
+  Text,
+  point,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [position, setPosition] = useCoordState([0, 0]);
+  const [labelPosition, setLabelPosition] = useCoordState([0, 4]);
+
+  return (
+    <Graph height={400} width="100%">
+      <Grid />
+      <Label
+        position={labelPosition}
+        onChange={setLabelPosition}
+        target={position}
+        targetOffset={20}
+        strokeColor={2}
+      >
+        <div
+          style={{
+            padding: 5,
+            width: 70,
+            textAlign: "center",
+            fontSize: 12,
+          }}
+        >
+          I can be dragged
+        </div>
+      </Label>
+      <Marker position={position} onChange={setPosition} color={3} />
+      <Label
+        direction={position.sub(labelPosition).angle()}
+        target={position}
+        targetOffset={20}
+        strokeColor={3}
+        strokeWidth={1}
+        strokeDasharray="1 2"
+        displayBox={false}
+      >
+        <div
+          style={{
+            fontSize: 12,
+            width: 70,
+            textAlign: "center",
+          }}
+        >
+          Me too!
+        </div>
+      </Label>
+    </Graph>
+  );
+}
+```
+
+For finer control, you can also leverage other HTML native events, such as `onMouse*`, `onPointer*`, etc.

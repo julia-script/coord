@@ -1,4 +1,4 @@
-import { getRoute, routePaths } from "@/content/graph/docs/routeMaps";
+import { getRouteComponent, routePaths } from "@/content/graph/docs/routeMaps";
 
 export async function generateStaticParams() {
   return routePaths.map((path) => ({
@@ -8,7 +8,9 @@ export async function generateStaticParams() {
 
 export default async function Page(props: { params: { slug?: string[] } }) {
   const C = (
-    await getRoute(["graph", "docs", ...(props.params.slug ?? [])].join("/"))
+    await getRouteComponent(
+      ["graph", "docs", ...(props.params.slug ?? [])].join("/")
+    )
   ).default;
 
   return <C />;

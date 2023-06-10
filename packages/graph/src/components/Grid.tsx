@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React from "react";
 import { point } from "@coord/core";
 import {
   renderNumber,
@@ -6,6 +6,7 @@ import {
   withGraphContext,
   calcStepGridMultiplier,
 } from "@/utils";
+import { useSafeId } from "@/hooks";
 
 const range = (start: number, end: number, step: number) => {
   const [rangeStart, rangeEnd] = [start, end].sort((a, b) => a - b) as [
@@ -33,7 +34,7 @@ const Component = ({
   displayGrid = true,
   context,
 }: GridProps) => {
-  const gridPatternId = useId();
+  const gridPatternId = useSafeId("grid-pattern");
 
   const {
     projectCoord,
@@ -49,7 +50,7 @@ const Component = ({
     Math.abs(unitVectorSize.x),
     Math.abs(unitVectorSize.y)
   );
-  const multiplier = calcStepGridMultiplier(stepSize, theme.grid.maxStepSize);
+  const multiplier = calcStepGridMultiplier(stepSize, theme.gridMaxStepSize);
   const viewSpaceStepSize =
     projectAbsoluteSize(stepSize, "viewspace") * multiplier;
   const origin = projectCoord([0, 0]);
@@ -76,11 +77,12 @@ const Component = ({
               <rect
                 width={renderNumber(viewSpaceStepSize)}
                 height={renderNumber(viewSpaceStepSize)}
-                stroke={computeColor(theme.grid.stepStrokeColor)}
-                strokeWidth={projectAbsoluteSize(
-                  theme.grid.stepStrokeWidth,
-                  "viewspace"
-                )}
+                // stroke={computeColor(theme.grid.stepStrokeColor)}
+                // strokeWidth={projectAbsoluteSize(
+                //   theme.grid.stepStrokeWidth,
+                //   "viewspace"
+                // )}
+                {...theme.gridStep}
                 fill="none"
               />
             </pattern>
@@ -96,16 +98,18 @@ const Component = ({
             x2={renderNumber(origin.x)}
             y1={"0%"}
             y2={"100%"}
-            stroke={computeColor(theme.grid.axisStrokeColor[1])}
-            strokeWidth={theme.grid.axisStrokeWidth}
+            // stroke={computeColor(theme.grid.axisStrokeColor[1])}
+            // strokeWidth={theme.grid.axisStrokeWidth}
+            {...theme.gridAxis}
           />
           <line
             x1={"0%"}
             x2={"100%"}
             y1={renderNumber(origin.y)}
             y2={renderNumber(origin.y)}
-            stroke={computeColor(theme.grid.axisStrokeColor[0])}
-            strokeWidth={theme.grid.axisStrokeWidth}
+            // stroke={computeColor(theme.grid.axisStrokeColor[0])}
+            // strokeWidth={theme.grid.axisStrokeWidth}
+            {...theme.gridAxis}
           />
         </>
       )}
@@ -127,20 +131,22 @@ const Component = ({
                 y2={isOrigin ? originRotation.y * 6 : 6}
                 x1={0}
                 y1={0}
-                strokeWidth={theme.grid.axisStrokeWidth}
-                stroke={computeColor(theme.grid.axisStrokeColor[0])}
+                // strokeWidth={theme.grid.axisStrokeWidth}
+                // stroke={computeColor(theme.grid.axisStrokeColor[0])}
+                {...theme.gridAxis}
               />
               <text
                 x={isOrigin ? originRotation.x * 14 : 0}
                 y={isOrigin ? originRotation.y * 14 : 14}
-                fill={computeColor(theme.grid.labelsColor[0])}
-                fontSize={projectAbsoluteSize(
-                  theme.grid.labelsFontSize,
-                  "viewspace"
-                )}
-                fontFamily={theme.fontFamily}
+                // fill={computeColor(theme.grid.labelsColor[0])}
+                // fontSize={projectAbsoluteSize(
+                //   theme.grid.labelsFontSize,
+                //   "viewspace"
+                // )}
+                // fontFamily={theme.fontFamily}
                 textAnchor={stepX === 0 ? "end" : "middle"}
                 dominantBaseline={"hanging"}
+                {...theme.gridLabels}
               >
                 {renderNumber(stepX)}
               </text>
@@ -165,20 +171,22 @@ const Component = ({
                 y1={0}
                 x2={-6}
                 y2={0}
-                strokeWidth={theme.grid.axisStrokeWidth}
-                stroke={computeColor(theme.grid.axisStrokeColor[1])}
+                // strokeWidth={theme.grid.axisStrokeWidth}
+                // stroke={computeColor(theme.grid.axisStrokeColor[1])}
+                {...theme.gridAxis}
               />
               <text
                 x={-14}
                 y={0}
-                fill={computeColor(theme.grid.labelsColor[1])}
-                fontSize={projectAbsoluteSize(
-                  theme.grid.labelsFontSize,
-                  "viewspace"
-                )}
-                fontFamily={theme.fontFamily}
+                // fill={computeColor(theme.grid.labelsColor[1])}
+                // fontSize={projectAbsoluteSize(
+                //   theme.grid.labelsFontSize,
+                //   "viewspace"
+                // )}
+                // fontFamily={theme.fontFamily}
                 textAnchor="end"
                 dominantBaseline={"middle"}
+                {...theme.gridLabels}
               >
                 {renderNumber(stepY)}
               </text>

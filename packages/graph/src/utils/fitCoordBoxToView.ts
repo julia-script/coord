@@ -1,10 +1,10 @@
-import { Point, point } from "@coord/core";
+import { Vec2, point } from "@coord/core";
 import { BBox } from "@/types";
 
 export const fitCoordBoxToView = (
   { horizontal, vertical }: BBox,
-  stepSize: Point,
-  { x: width, y: height }: Point,
+  stepSize: Vec2,
+  { x: width, y: height }: Vec2,
 
   padding = 0
 ): BBox => {
