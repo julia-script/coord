@@ -18,6 +18,7 @@ import {
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 
+
 const easeInOut = (t: number) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 };
@@ -28,6 +29,7 @@ const loopAnimation = (t: number, duration: number) => {
   }
   return easeInOut(t / (duration / 2));
 };
+
 const waveF = (a: number, b: number) => (x: number) =>
   Math.sin(((x - a) * Math.PI * 2) / (b - a));
 
@@ -39,6 +41,7 @@ const Hero = () => {
   const [[a1, b1], setWave1] = useState([-3, -0.5]);
   const [[a2, b2], setWave2] = useState([0.7, 3.26]);
   const [interacted, setInteracted] = useState(false);
+
   const { pause } = useStopwatch(
     (t) => {
       if (interacted) return;
@@ -71,6 +74,13 @@ const Hero = () => {
         background: { fill: "transparent" },
       }}
     >
+      <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur result="blurred" stdDeviation="15"></feGaussianBlur>
+        <feMerge>
+          <feMergeNode in="blurred"></feMergeNode>
+          <feMergeNode in="SourceGraphic"></feMergeNode>
+        </feMerge>
+      </filter>
       <Grid displayAxis={false} displayNumbers={false} displayGrid={true} />
 
       {/* First wave */}
@@ -155,6 +165,7 @@ const Hero = () => {
         strokeWidth={1}
         strokeDasharray={"2"}
         opacity={interacted ? 0 : 1}
+        filter="url(#neon)"
       >
         <Text position={["45vs", "15vs"]} fontSize={14}>
           Drag me!

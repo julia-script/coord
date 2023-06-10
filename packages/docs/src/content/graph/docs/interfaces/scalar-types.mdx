@@ -103,6 +103,7 @@ export default function MyGraph() {
     padding: 10,
     fontSize: 12,
   };
+
   const { pause } = useStopwatch(
     (t) => {
       const x = Math.sin(t) * 3;
@@ -136,6 +137,7 @@ export default function MyGraph() {
       <Marker position={p0} color={1} />
       <Label target={p0} direction={"s"} strokeColor={1}>
         <div style={labelStyle}>
+
           I'm a label positioned at <strong>[{p0.toString()}]</strong>, So I'm
           relative to the graph viewport.
         </div>

@@ -82,7 +82,6 @@ const Component = ({
       onPinch: ({
         event,
         first,
-
         origin,
         movement: [s],
         memo,
@@ -95,7 +94,6 @@ const Component = ({
         }
       >) => {
         if (!ref.current) return;
-
         event.preventDefault();
         if (first) {
           const { x, y } = ref.current.getBoundingClientRect();
