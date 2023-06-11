@@ -1,5 +1,11 @@
 # @coord/graph
 
+## 0.5.0
+
+### Minor Changes
+
+- 7b7d5cb: Adds publish workflow
+
 ## 0.4.0
 
 ### Minor Changes
