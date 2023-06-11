@@ -7,8 +7,10 @@ I'm a big fans of tools like Desmos. However, I also realize that moving your ma
 
 This library aims to solve this problem by allowing developers to utilize the best of coding and graphing tools in a single platform without the extra hassle.
 
-While still a work in progress, I'm excited to share it and I hope you find it helpful!
+It's still a work in progress, but I'm excited to share it with you and I hope you find it helpful!
 
+Keep in mind that the API is still subject to change.
+    
 
 ## Installation
 
