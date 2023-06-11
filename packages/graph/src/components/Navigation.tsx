@@ -97,7 +97,6 @@ const Component = ({
           };
         }
         if (!memo) return;
-        const sensitivityFactor = 0.5;
 
         onCoordBoxChange(
           scaleBBoxAroundOrigin(
