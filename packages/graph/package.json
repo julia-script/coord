@@ -42,5 +42,8 @@
   },
   "dependencies": {
     "@use-gesture/react": "^10.2.27"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
