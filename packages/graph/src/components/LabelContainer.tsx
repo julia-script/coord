@@ -47,7 +47,7 @@ const Component = ({
   direction = "n",
   distance = 50,
   context,
-  targetOffset = 10,
+  targetOffset = 20,
   cornerRadius = 5,
   backgroundColor = "background",
   strokeColor = "body",

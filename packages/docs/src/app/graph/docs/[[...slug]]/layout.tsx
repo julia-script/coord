@@ -1,6 +1,8 @@
 import { Sidebar } from "@/components/Sidebar";
 import { getRoute, getRoutes } from "@/content/graph/docs/routeMaps";
+
 import Link from "next/link";
+import "katex/dist/katex.min.css";
 
 import { GoChevronRight, GoChevronLeft } from "react-icons/go";
 
@@ -16,7 +18,7 @@ export default function Layout(props: {
   const prevRoute = routeDetails.prev ? getRoute(routeDetails.prev) : null;
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-6xl flex-grow flex-col md:flex-row ">
+    <div className="mx-auto flex h-full w-full max-w-6xl flex-grow flex-col md:flex-row [&_.math]:text-white">
       <Sidebar items={getRoutes()} />
       <div className="mx-auto flex w-full max-w-6xl">
         <div className="w-full px-4 py-4">

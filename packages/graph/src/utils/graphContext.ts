@@ -1,6 +1,6 @@
 import { Vec2, Vec2ish, Transform, point, transform } from "@coord/core";
 import React, { CSSProperties } from "react";
-import { BBox, Theme, PartialBy, BBoxish, ScalarPoint } from "@/types";
+import { BBox, Theme, PartialBy, BBoxish, ScalarPoint, Space } from "@/types";
 import { normalizeBBox } from "@/utils";
 import {
   projectCoordFactory,
@@ -24,8 +24,8 @@ export type GraphContext = {
   projectSize: ReturnType<typeof projectSizeFactory>;
   unprojectSize: ReturnType<typeof projectSizeFactory>;
   projectAbsoluteSize: ReturnType<typeof projectSizeFactory>;
-  projectCoord: (point: ScalarPoint) => Vec2;
-  unprojectCoord: (point: ScalarPoint) => Vec2;
+  projectCoord: (point: ScalarPoint, inferredUnit?: Space) => Vec2;
+  unprojectCoord: (point: ScalarPoint, inferredUnit?: Space) => Vec2;
   projectionTransform: Transform;
   coordBox: BBox;
   coordStep: Vec2;

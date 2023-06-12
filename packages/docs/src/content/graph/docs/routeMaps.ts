@@ -115,21 +115,34 @@ export const routes = [
       },
     ],
   },
-  {
-    title: "📚 Guides",
+  // {
+  //   title: "📚 Guides",
 
+  //   children: [
+  //     {
+  //       title: "Server Components",
+  //       route: "graph/docs/guides/server-components",
+  //       file: "guides/server-components.mdx",
+  //       component: import("./guides/server-components.mdx"),
+  //     },
+  //     {
+  //       title: "Known Issues",
+  //       route: "graph/docs/guides/known-issues",
+  //       file: "guides/known-issues.mdx",
+  //       component: import("./guides/known-issues.mdx"),
+  //     },
+  //   ],
+  // },
+
+  {
+    title: "📚 Demo",
     children: [
       {
-        title: "Server Components",
-        route: "graph/docs/guides/server-components",
-        file: "guides/server-components.mdx",
-        component: import("./guides/server-components.mdx"),
-      },
-      {
-        title: "Known Issues",
-        route: "graph/docs/guides/known-issues",
-        file: "guides/known-issues.mdx",
-        component: import("./guides/known-issues.mdx"),
+        title: "Tutorial: Find intersection of two lines",
+
+        route: "graph/docs/demo/find-intersection-of-two-lines",
+        file: "demo/find-intersection-of-two-lines.mdx",
+        component: import("./demo/find-intersection-of-two-lines.mdx"),
       },
     ],
   },

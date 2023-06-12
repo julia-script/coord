@@ -112,8 +112,8 @@ export const projectCoordFactory =
 
 export const unprojectCoordFactory =
   (projection: Transform) =>
-  (coord: ScalarPoint): Vec2 => {
-    const [[x, xUnit], [y, yUnit]] = normalizeScalarPoint(coord, "viewspace");
+  (coord: ScalarPoint, inferredUnit: Space = "viewspace"): Vec2 => {
+    const [[x, xUnit], [y, yUnit]] = normalizeScalarPoint(coord, inferredUnit);
 
     const unprojectedPoint = projection.applyInverseTo(point(x, y));
 

@@ -54,8 +54,15 @@ const Component = ({
         movement,
         memo,
         first,
+        pinching,
+        cancel,
       }: GestureProps<"onDrag", BBox>) => {
+        if (pinching) {
+          return cancel?.();
+        }
+
         if (!down) return;
+
         if (first) {
           return normalizedCoordBox;
         }
@@ -82,6 +89,7 @@ const Component = ({
         }
       >) => {
         if (!ref.current) return;
+
         event.preventDefault();
         if (first) {
           const { x, y } = ref.current.getBoundingClientRect();
@@ -106,11 +114,13 @@ const Component = ({
             context.unprojectSize(memo.position.sub(point(...origin)))
           )
         );
+
         return memo;
       },
     },
     {
       target: ref,
+
       drag: {
         enabled: !!onCoordBoxChange,
       },
@@ -119,6 +129,7 @@ const Component = ({
         pinchOnWheel: true,
         preventDefault: true,
         eventOptions: { passive: false },
+        rubberband: true,
         scaleBounds: (state) => {
           const { horizontal, vertical } = normalizedCoordBox;
           const s = state?.offset[0] || 1;

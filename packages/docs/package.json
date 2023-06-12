@@ -15,13 +15,16 @@
     "@mdx-js/react": "^2.3.0",
     "@next/mdx": "^13.4.4",
     "@types/mdx": "^2.0.5",
+    "katex": "^0.16.7",
     "next": "^13.4.4",
     "next-mdx-remote": "^4.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
+    "rehype-katex": "^6.0.3",
     "rehype-mdx-code-props": "^1.0.0",
-    "remark-gfm": "^3.0.1"
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1"
   },
   "devDependencies": {
     "@coord/graph": "workspace:*",

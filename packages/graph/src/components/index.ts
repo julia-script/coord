@@ -11,3 +11,4 @@ export * from "./ScaleControls";
 export * from "./Text";
 export * from "./Navigation";
 export * from "./BoundingBox";
+export * from "./Ruler";

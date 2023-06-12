@@ -77,6 +77,15 @@ export class Vec2 {
   abs() {
     return point(Math.abs(this.x), Math.abs(this.y));
   }
+
+  normalize() {
+    const length = this.length();
+    return point(this.x / length, this.y / length);
+  }
+
+  normal() {
+    return point(-this.y, this.x);
+  }
 }
 
 export function point(x: number, y: number) {

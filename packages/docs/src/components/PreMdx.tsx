@@ -8,6 +8,7 @@ export function PreMdx({
 }: {
   children: React.ReactNode;
   live?: boolean;
+  previewOnly?: boolean;
   collapsed?: boolean;
   className?: string;
 }) {
