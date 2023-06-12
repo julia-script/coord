@@ -1,5 +1,11 @@
 # @coord/graph
 
+## 0.6.0
+
+### Minor Changes
+
+- 525e419: Implements Ruler component
+
 ## 0.5.0
 
 ### Minor Changes
