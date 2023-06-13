@@ -306,4 +306,42 @@ describe("makeMovie", async () => {
       }),
     ]);
   });
+
+  test("should update $transitionIn correctly", () => {
+    const movie = makeMovie(
+      "Test",
+      {
+        scene1: makeScene("Scene 1", {}, function* (context) {
+          yield;
+        }),
+        scene2: makeScene("Scene 2", {}, function* (context) {
+          yield;
+          yield;
+          yield;
+        }),
+      },
+      {
+        transitionDuration: 3,
+      }
+    );
+
+    const executed = runMotion(movie.initialState, movie.builder, {
+      fps: 1,
+    });
+
+    expect(executed.frames.length).toBe(4);
+
+    // First frame
+    expect(executed.frames[0]?.scene1.$transitionIn).toEqual(1);
+    expect(executed.frames[0]?.scene2.$transitionIn).toEqual(0);
+
+    // Second frame
+    expect(executed.frames[1]?.scene2.$transitionIn).toEqual(1 / 3);
+
+    // Third frame
+    expect(executed.frames[2]?.scene2.$transitionIn).toEqual(2 / 3);
+
+    // Fourth frame
+    expect(executed.frames[3]?.scene2.$transitionIn).toEqual(1);
+  });
 });
