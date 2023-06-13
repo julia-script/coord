@@ -126,6 +126,18 @@ importers:
       typescript: 5.1.3
       vitest: 0.31.4
 
+  packages/motion:
+    specifiers:
+      '@coord/core': workspace:*
+      tsconfig: workspace:*
+      tsup: ^6.7.0
+      typescript: ^5.1.3
+    devDependencies:
+      '@coord/core': link:../core
+      tsconfig: link:../tsconfig
+      tsup: 6.7.0_typescript@5.1.3
+      typescript: 5.1.3
+
   packages/tsconfig:
     specifiers: {}
 

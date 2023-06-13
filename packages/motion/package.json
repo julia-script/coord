@@ -1,0 +1,36 @@
+{
+  "name": "@coord/motion",
+  "version": "0.3.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run && vitest typecheck",
+    "test:watch": "vitest",
+    "clean": "rm -rf ./dist ./.turbo ./node_modules"
+  },
+  "tsup": {
+    "dts": true,
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "minify": true,
+    "entryPoints": [
+      "src/index.ts"
+    ]
+  },
+  "devDependencies": {
+    "@coord/core": "workspace:*",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
