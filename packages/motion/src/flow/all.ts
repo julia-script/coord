@@ -1,5 +1,7 @@
 import {
   MotionBuilder,
+  MotionBuilderGenerator,
+  MotionBuilderRequest,
   MotionState,
   isMotionBuilderRequest,
   requestContext,
@@ -20,7 +22,7 @@ export function* all<TState extends MotionState>(
       while (true) {
         const { done, value } = thread.next();
         if (isMotionBuilderRequest(value)) {
-          yield value;
+          yield value as MotionBuilderRequest<TState>;
           continue;
         }
         if (done) {
@@ -34,4 +36,5 @@ export function* all<TState extends MotionState>(
     if (!threadIterables.length) break;
     yield;
   }
+  return;
 }

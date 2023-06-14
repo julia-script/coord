@@ -21,7 +21,13 @@ export const isMotionBuilderRequest = (
 
 export type MotionBuilder<TState extends MotionState> = (
   context: MotionContext<TState>
-) => Generator<MotionBuilderRequest<TState> | undefined, void, unknown>;
+) => MotionBuilderGenerator<TState>;
+
+export type MotionBuilderGenerator<TState extends MotionState> = Generator<
+  MotionBuilderRequest<TState> | undefined,
+  unknown,
+  unknown
+>;
 
 export function* motionRunner<TState extends MotionState>(
   context: MotionContext<TState>,
@@ -32,7 +38,7 @@ export function* motionRunner<TState extends MotionState>(
   while (true) {
     const currentIteration = bulderIterator.next();
 
-    if (currentIteration.value) {
+    if (isMotionBuilderRequest(currentIteration.value)) {
       if (currentIteration.value.type === "REQUEST_CONTEXT") {
         currentIteration.value.context = context;
         continue;
@@ -57,9 +63,12 @@ export function createMotion<TState extends MotionState>(
   return [context, runner] as const;
 }
 
-export function runMotion<TState extends MotionState>(
+export function runMotion<
+  TState extends MotionState,
+  TBuilder extends MotionBuilder<TState>
+>(
   initialState: TState,
-  builder: MotionBuilder<TState>,
+  builder: TBuilder,
   contextSettings: Partial<MotionContextSettings> = {}
 ) {
   const [context, runner] = createMotion(

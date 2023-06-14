@@ -6,41 +6,65 @@ type TupleKey<T> = Exclude<keyof T, keyof any[]>;
 
 type ArrayKey = number;
 
-export type AnythingButTupleOrRecord<T> = T extends Record<string, any>
-  ? T extends Array<any>
-    ? IsTuple<T> extends true
-      ? false
-      : true
-    : false
+export type AnythingButTupleOrRecord<T> = [T] extends [never]
+  ? true
+  : IsTupleOrRecord<T> extends true
+  ? false
   : true;
 
-export type ExtractBranches<TShape, TKey> = TKey extends keyof any
+export type IsTupleOrRecord<T> = [T] extends [never]
+  ? false
+  : T extends Record<string, any>
+  ? T extends Array<any>
+    ? IsTuple<T>
+    : true
+  : false;
+
+export type ExtractBranches<TShape, TKey> = TKey extends `${number}`
+  ? Extract<TShape, Array<any>>
+  : TKey extends keyof any
   ? Extract<TShape, { [key in TKey]?: any }>
   : never;
 
-export type InferPathValueImpl<
-  TShape,
-  TPath,
-  TUndefined = false
-> = TPath extends keyof TShape
-  ? TShape[TPath] | (TUndefined extends true ? undefined : never)
-  : TPath extends `${infer THead}.${infer TTail}` | `${infer THead}`
-  ? THead extends keyof TShape
-    ? InferPathValueImpl<
-        TShape[THead],
-        TTail,
-        TUndefined extends true ? true : AnythingButTupleOrRecord<TShape[THead]>
-      >
-    : // The lines below basically normalizes the inputs and recursively call the type utility again
-    THead extends keyof ExtractBranches<TShape, THead>
-    ? InferPathValueImpl<ExtractBranches<TShape, THead>, TPath, true>
+type GetValue<TShape, TKey> = TKey extends keyof TShape
+  ? TShape[TKey]
+  : TKey extends `${number}`
+  ? TShape extends Array<any>
+    ? IsTuple<TShape> extends false
+      ? TShape[number]
+      : never
     : never
   : never;
 
-export type InferPathValue<
-  TShape extends Record<string, any>,
-  TPath extends InferPath<TShape>
-> = InferPathValueImpl<TShape, TPath>;
+type Maybe<T> = T | undefined;
+type MaybefyIf<T, TCondition> = TCondition extends true ? Maybe<T> : T;
+
+export type ShouldMaybefy<IsMaybeAlready, TShape> = IsMaybeAlready extends true
+  ? true
+  : IsTupleOrRecord<TShape> extends true
+  ? false
+  : true;
+
+export type InferPathValueImplementation<
+  TShape,
+  TPath,
+  IsMaybeBranch = false
+> = SplitHead<TPath> extends [infer THead, infer TTail]
+  ? TTail extends undefined
+    ? MaybefyIf<
+        GetValue<ExtractBranches<TShape, THead>, THead>,
+        ShouldMaybefy<THead extends keyof TShape ? IsMaybeBranch : true, TShape>
+      >
+    : InferPathValueImplementation<
+        GetValue<ExtractBranches<TShape, THead>, THead>,
+        TTail,
+        ShouldMaybefy<THead extends keyof TShape ? IsMaybeBranch : true, TShape>
+      >
+  : TPath;
+
+export type InferPathValue<TShape, TPaths extends string> = {
+  [K in TPaths]: InferPathValueImplementation<TShape, K>;
+}[TPaths];
 
 type MakePaths<K extends string | number, V> = V extends Record<string, any>
   ? `${K}` | `${K}.${InferPathImpl<V>}`
@@ -56,19 +80,47 @@ export type InferPathImpl<T> = T extends ReadonlyArray<infer V>
       [K in keyof T]-?: MakePaths<K & string, T[K]>;
     }[keyof T];
 
-export type InferPath<TFieldValues extends Record<string, any>> =
-  InferPathImpl<TFieldValues>;
+export type InferPath<TFieldValues> = InferPathImpl<TFieldValues>;
 
 export type InferMultiplePathValues<
   TFieldValues extends Record<string, any>,
   TPath extends InferPath<TFieldValues>[]
 > = {
-  [K in keyof TPath]: InferPathValueImpl<
+  [K in keyof TPath]: InferPathValueImplementation<
     TFieldValues,
     TPath[K] & InferPath<TFieldValues>
   >;
 };
 
 export type InferPathValueTree<T> = {
-  [K in InferPathImpl<T>]-?: InferPathValueImpl<T, K>;
+  [K in InferPath<T>]: InferPathValue<T, K>;
 };
+
+type test = InferPathValueTree<
+  | {
+      z: 2;
+    }
+  | {
+      foo: {
+        bar: {
+          baz: 1;
+        };
+      };
+      bar: {
+        baz: 2;
+      };
+    }
+>;
+
+export type OnlyKeysOfType<T, TType> = Omit<
+  T,
+  {
+    [K in keyof T]: T[K] extends TType ? never : K;
+  }[keyof T]
+>;
+
+type SplitHead<T> = T extends `${infer U}.${infer V}`
+  ? [U, V]
+  : T extends string
+  ? [T, undefined]
+  : never;
