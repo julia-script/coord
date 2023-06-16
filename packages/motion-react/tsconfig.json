@@ -1,0 +1,15 @@
+{
+  "extends": "tsconfig/react-library.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ESNext",
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "isolatedModules": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
+}

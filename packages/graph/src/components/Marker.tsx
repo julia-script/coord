@@ -1,5 +1,5 @@
 import React from "react";
-import { GraphElement, withGraphContext } from "@/utils";
+import { GraphElement, renderNumber, withGraphContext } from "@/utils";
 import { ScalarPoint, Scalar } from "@/types";
 import { Vec2, point } from "@coord/core";
 import { useGesture } from "@use-gesture/react";
@@ -27,7 +27,7 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
         </style>
         <circle
           className="curves-graph-default-marker-border"
-          r={size / 2 + 8}
+          r={renderNumber(size / 2 + 8)}
           fill="transparent"
           stroke={color}
           strokeWidth={3}
@@ -35,7 +35,7 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
         />
       </>
     )}
-    <circle r={size / 2} fill={color} />
+    <circle r={renderNumber(size / 2)} fill={color} />
   </g>
 );
 
@@ -96,13 +96,13 @@ const Component = ({
   if (typeof label === "string") {
     c = (
       <g style={style} opacity={opacity}>
-        <circle r={width / 2} fill={fill} />
+        <circle r={renderNumber(width / 2)} fill={fill} />
         <Text
           fontSize={fontSize}
           dy={hasEmoji ? "0.65em" : "0.55em"}
           dominantBaseline={"middle"}
           textAnchor={"middle"}
-          y={-fontSize / 2}
+          y={renderNumber(-fontSize / 2)}
           x={0}
           context={context}
         >
@@ -120,7 +120,9 @@ const Component = ({
 
   return (
     <g
-      transform={`translate(${x} ${y}) rotate(${rotation * (180 / Math.PI)})`}
+      transform={`translate(${renderNumber(x)} ${renderNumber(
+        y
+      )}) rotate(${renderNumber(rotation * (180 / Math.PI))})`}
       style={
         interactable
           ? { cursor: "grab", touchAction: "none", ...style }

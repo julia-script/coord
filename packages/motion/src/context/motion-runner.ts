@@ -5,6 +5,7 @@ import {
   MotionState,
   createMotionContext,
 } from "./create-motion-context";
+import { MotionScene } from "..";
 
 export type YieldedType<T extends (...args: any) => any> =
   ReturnType<T> extends Generator<infer U, any, any> ? U : never;
@@ -54,34 +55,49 @@ export function* motionRunner<TState extends MotionState>(
 }
 
 export function createMotion<TState extends MotionState>(
-  initialState: TState,
-  builder: MotionBuilder<TState>,
-  contextSettings: Partial<MotionContextSettings> = {}
+  scene: MotionScene<TState>,
+  contextSettings?: Partial<MotionContextSettings>
 ) {
-  const context = createMotionContext<TState>(initialState, contextSettings);
-  const runner = motionRunner(context, builder);
+  const context = createMotionContext<TState>(scene, contextSettings);
+  const runner = motionRunner(context, scene.builder);
   return [context, runner] as const;
 }
 
-export function runMotion<
-  TState extends MotionState,
-  TBuilder extends MotionBuilder<TState>
->(
-  initialState: TState,
-  builder: TBuilder,
-  contextSettings: Partial<MotionContextSettings> = {}
+export function runScene<TState extends MotionState>(
+  scene: MotionScene<TState>,
+  contextSettings?: Partial<MotionContextSettings>
 ) {
-  const [context, runner] = createMotion(
-    initialState,
-    builder,
-    contextSettings
-  );
+  const [context, runner] = createMotion(scene, contextSettings);
+  context.meta = {
+    ...context.meta,
+    ...scene.meta,
+  };
   while (!runner.next().done) {
     continue;
   }
 
   return context;
 }
+
+// export function runMotion<
+//   TState extends MotionState
+//   // TBuilder extends MotionBuilder<TState>
+// >(
+//   initialState: TState,
+//   builder: MotionBuilder<TState>,
+//   contextSettings: Partial<MotionContextSettings> = {}
+// ) {
+//   const [context, runner] = createMotion(
+//     initialState,
+//     builder,
+//     contextSettings
+//   );
+//   while (!runner.next().done) {
+//     continue;
+//   }
+
+//   return context;
+// }
 
 export function* requestContext<TState extends MotionState>() {
   const request: {

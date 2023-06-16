@@ -1,3 +1,5 @@
+import { B, T } from "vitest/dist/types-dea83b3d";
+
 type IsTuple<T extends ReadonlyArray<any>> = number extends T["length"]
   ? false
   : true;
@@ -96,22 +98,6 @@ export type InferPathValueTree<T> = {
   [K in InferPath<T>]: InferPathValue<T, K>;
 };
 
-type test = InferPathValueTree<
-  | {
-      z: 2;
-    }
-  | {
-      foo: {
-        bar: {
-          baz: 1;
-        };
-      };
-      bar: {
-        baz: 2;
-      };
-    }
->;
-
 export type OnlyKeysOfType<T, TType> = Omit<
   T,
   {
@@ -124,3 +110,13 @@ type SplitHead<T> = T extends `${infer U}.${infer V}`
   : T extends string
   ? [T, undefined]
   : never;
+
+export type ExtractPathsOfType<TObject, TType> = {
+  [K in InferPath<TObject>]: InferPathValueImplementation<
+    TObject,
+    K,
+    false
+  > extends TType | undefined
+    ? K
+    : never;
+}[InferPath<TObject>];

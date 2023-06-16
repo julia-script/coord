@@ -1,4 +1,4 @@
-import { isObject } from "@coord/core";
+import { MotionScene } from "..";
 
 export const DEFAULT_MOTION_CONTEXT_SETTINGS = {
   fps: 60,
@@ -7,17 +7,14 @@ export const DEFAULT_MOTION_CONTEXT_SETTINGS = {
 
 export type MotionContextSettings = typeof DEFAULT_MOTION_CONTEXT_SETTINGS;
 
-export type MotionContextSceneMeta = {
-  title: string;
-  description?: string;
-  frame: number;
-  duration: number;
-};
-
 export type MotionContextMeta = {
   title: string;
   description?: string;
-  scenes: MotionContextSceneMeta[];
+  duration: number;
+  start: number;
+  scenes: {
+    [key: string]: Omit<MotionContextMeta, "scenes">;
+  };
 };
 
 export type MotionState = {
@@ -37,20 +34,20 @@ export class MotionContext<TState extends MotionState> {
   settings: MotionContextSettings;
 
   constructor(
-    initialState: TState,
-    contextSettings: Partial<MotionContextSettings> = {},
-    meta: Partial<MotionContextMeta> = {}
+    scene: MotionScene<TState>,
+    contextSettings: Partial<MotionContextSettings> = {}
   ) {
-    this._state = { ...initialState, $frame: 0, $transitionIn: 1 };
+    this._state = { ...scene.initialState, $frame: 0, $transitionIn: 1 };
     this.frames = [];
     this.settings = {
       ...DEFAULT_MOTION_CONTEXT_SETTINGS,
       ...contextSettings,
     };
     this.meta = {
-      title: "Untitled",
-      scenes: [],
-      ...meta,
+      ...scene.meta,
+      start: 0,
+      duration: 0,
+      scenes: {},
     };
   }
 
@@ -67,14 +64,16 @@ export class MotionContext<TState extends MotionState> {
     for (const [key, childContext] of this._childContexts.entries()) {
       Object.assign(this._state, { [key]: childContext._state });
       childContext.pushFrame();
+      Object.assign(this.meta.scenes, { [key]: childContext.meta });
     }
   }
 
-  createChildContext<TKey extends keyof TState>(key: TKey & string) {
-    const childContext = new MotionContext<MotionState>(
-      this._state[key] as MotionState,
-      this.settings
-    );
+  createChildContext<TKey extends keyof TState>(
+    key: TKey & string,
+    scene: MotionScene<MotionState>
+  ) {
+    const childContext = new MotionContext<MotionState>(scene, this.settings);
+    childContext.meta.start = this.frames.length;
     this._childContexts.set(key, childContext);
     return childContext;
   }
@@ -91,6 +90,7 @@ export class MotionContext<TState extends MotionState> {
     this.collectChildStates();
     this.frames.push(this._state);
 
+    this.meta.duration = this.frames.length;
     this._state = {
       ...this._state,
       $frame: this.frames.length,
@@ -99,8 +99,8 @@ export class MotionContext<TState extends MotionState> {
 }
 
 export function createMotionContext<TState extends MotionState>(
-  initialState: TState,
+  scene: MotionScene<TState>,
   contextSettings: Partial<MotionContextSettings> = {}
 ) {
-  return new MotionContext(initialState, contextSettings);
+  return new MotionContext(scene, contextSettings);
 }

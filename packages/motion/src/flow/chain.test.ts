@@ -1,9 +1,10 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 import { frameMaker } from "@/test-utils";
 import { chain } from "./chain";
 import { wait } from "./wait";
+import { makeScene } from "..";
 
 describe("chain", async () => {
   test("should run threads in sequence", async () => {
@@ -14,7 +15,8 @@ describe("chain", async () => {
       0
     );
 
-    const executed = runMotion(
+    const scene = makeScene(
+      "Test",
       {
         a: "Waiting",
       },
@@ -40,11 +42,11 @@ describe("chain", async () => {
           },
           wait(1)
         );
-      },
-      {
-        fps: 3,
       }
     );
+    const executed = runScene(scene, {
+      fps: 3,
+    });
 
     expect(executed.frames.length).toBe(6);
     expect(executed.frames).toEqual([

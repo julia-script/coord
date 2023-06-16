@@ -1,13 +1,15 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
-import { frameMaker } from "@/test-utils";
+import { runScene } from "@/context";
+
 import { controlNumber } from "./number-control";
-import { all, chain } from "@/flow";
+import { all } from "@/flow";
+import { makeScene } from "@/movie";
 
 describe("number control", async () => {
   test("tweens to a value", async () => {
-    let executed = runMotion(
+    const scene = makeScene(
+      "test",
       {
         t: 0,
         b: [0, 2],
@@ -20,6 +22,7 @@ describe("number control", async () => {
         );
       }
     );
+    let executed = runScene(scene);
 
     expect(executed.frames.length).toBe(60);
 

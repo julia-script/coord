@@ -66,7 +66,7 @@ export function* spring<T extends number | Vec2, TState extends MotionState>(
 
     if (frameTime >= updateStep) {
       frameTime -= updateStep;
-      fn((Array.isArray(from) ? position : position.x) as T);
+      fn((isNumber(from) ? position.x : position) as T);
       yield;
     }
   }

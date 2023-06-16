@@ -24,10 +24,12 @@
     "rehype-katex": "^6.0.3",
     "rehype-mdx-code-props": "^1.0.0",
     "remark-gfm": "^3.0.1",
-    "remark-math": "^5.1.1"
+    "remark-math": "^5.1.1",
+    "@coord/graph": "workspace:*",
+    "@coord/motion": "workspace:*",
+    "@coord/motion-react": "workspace:*"
   },
   "devDependencies": {
-    "@coord/graph": "workspace:*",
     "@tailwindcss/typography": "^0.5.9",
     "@total-typescript/ts-reset": "^0.4.2",
     "@types/node": "20.2.5",

@@ -86,6 +86,10 @@ export class Vec2 {
   normal() {
     return point(-this.y, this.x);
   }
+
+  toString() {
+    return `[${this.x}, ${this.y}]`;
+  }
 }
 
 export function point(x: number, y: number) {

@@ -1,10 +1,11 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 import { frameMaker } from "@/test-utils";
 
 import { all } from "./all";
 import { wait } from "./wait";
+import { makeScene } from "@/movie";
 
 describe("all", async () => {
   test("should run threads in parallel", async () => {
@@ -16,8 +17,8 @@ describe("all", async () => {
       },
       0
     );
-
-    const executed = runMotion(
+    const scene = makeScene(
+      "Test",
       {
         a: "Waiting",
         b: "Waiting",
@@ -45,11 +46,11 @@ describe("all", async () => {
           },
           wait(1)
         );
-      },
-      {
-        fps: 3,
       }
     );
+    const executed = runScene(scene, {
+      fps: 3,
+    });
 
     expect(executed.frames).toEqual([
       makeSceneFrame({

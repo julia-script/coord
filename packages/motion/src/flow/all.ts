@@ -1,6 +1,5 @@
 import {
   MotionBuilder,
-  MotionBuilderGenerator,
   MotionBuilderRequest,
   MotionState,
   isMotionBuilderRequest,

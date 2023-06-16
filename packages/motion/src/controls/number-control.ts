@@ -11,26 +11,24 @@ import {
   InferPathValueTree,
   lerp,
   EasingOptions,
+  InferPath,
+  InferPathValue,
+  InferPathValueImplementation,
+  ExtractPathsOfType,
 } from "@coord/core";
 
-type OnlyKeysOfType<T, TType> = Omit<
-  T,
-  {
-    [K in keyof T]: T[K] extends TType ? never : K;
-  }[keyof T]
->;
+const isNumber = (value: unknown): value is number => typeof value === "number";
 
 export function* controlNumber<
   TState extends MotionState,
-  TTree extends OnlyKeysOfType<InferPathValueTree<TState>, number | undefined>,
-  TKey extends keyof TTree,
-  TControl extends NumberControl<TState, TTree[TKey]>
+  TKey extends ExtractPathsOfType<TState, number>
 >(
-  key: TKey & string,
-  fn?: (control: TControl) => ReturnType<MotionBuilder<TState>>
+  key: TKey,
+  fn?: (control: NumberControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: number
 ) {
   const context = yield* requestContext<TState>();
-  const control = new NumberControl(context, key) as TControl;
+  const control = new NumberControl<TState>(context, key, initialValue);
   if (fn) {
     yield* fn(control);
   }
@@ -39,13 +37,24 @@ export function* controlNumber<
 
 const isFinite = (value: unknown): value is number => Number.isFinite(value);
 
-export class NumberControl<TState extends MotionState, TType = number> {
-  chain: ReturnType<MotionBuilder<TState>>[] = [];
+export class NumberControl<TState extends MotionState> {
+  _targetValue: number;
 
-  constructor(public context: MotionContext<MotionState>, public key: string) {}
+  constructor(
+    public context: MotionContext<MotionState>,
+    public key: string,
+    private _initialValue = 0
+  ) {
+    this._targetValue = this.get() ?? 0;
+  }
 
-  get() {
-    return getDeep(this.context._state, this.key) as TType;
+  get(): number {
+    let value = getDeep(this.context._state, this.key);
+    if (!isNumber(value)) {
+      this.set(this._initialValue);
+      return this._initialValue;
+    }
+    return value;
   }
   set(value: number) {
     this.context._state = setDeep(this.context._state, this.key, value);
@@ -76,7 +85,7 @@ export class NumberControl<TState extends MotionState, TType = number> {
       );
     }
 
-    return spring(
+    return spring<number, TState>(
       initialValue,
       to,
       (t) => {
@@ -84,5 +93,23 @@ export class NumberControl<TState extends MotionState, TType = number> {
       },
       parameters
     );
+  }
+
+  from(value: number) {
+    this.set(value);
+    return this;
+  }
+
+  to(value: number) {
+    this._targetValue = value;
+    return this;
+  }
+
+  in(duration: number, easing?: EasingOptions) {
+    return this.tweenTo(this._targetValue, duration, easing);
+  }
+
+  spring(parameters?: SpringParameters) {
+    return this.springTo(this._targetValue, parameters);
   }
 }

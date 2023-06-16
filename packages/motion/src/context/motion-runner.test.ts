@@ -1,11 +1,13 @@
 import { test, describe, expect } from "vitest";
-import { createMotion, requestContext, runMotion } from "./motion-runner";
+import { createMotion, requestContext, runScene } from "./motion-runner";
 import { MotionContext, createMotionContext } from "./create-motion-context";
 import { frameMaker } from "@/test-utils";
+import { makeScene } from "..";
 
 describe("createMotion", async () => {
   test("should create motion context and execute correctly", async () => {
-    const [context, runner] = createMotion(
+    const scene = makeScene(
+      "Test",
       {
         value: "",
       },
@@ -21,6 +23,7 @@ describe("createMotion", async () => {
         yield;
       }
     );
+    const [context, runner] = createMotion(scene);
 
     runner.next();
     expect(context?.frames.length).toBe(1);
@@ -36,9 +39,10 @@ describe("createMotion", async () => {
   });
 });
 
-describe("runMotion", async () => {
+describe("runScene", async () => {
   test("should create motion context and execute correctly", async () => {
-    const context = runMotion(
+    const scene = makeScene(
+      "Test",
       {
         value: "",
       },
@@ -54,6 +58,7 @@ describe("runMotion", async () => {
         yield;
       }
     );
+    const context = runScene(scene);
 
     const makeSceneFrame = frameMaker(
       {
@@ -76,7 +81,8 @@ describe("runMotion", async () => {
 
 describe("requestContext", async () => {
   test("should provide context when requested", async () => {
-    runMotion(
+    const scene = makeScene(
+      "Test",
       {
         value: "",
       },
@@ -85,5 +91,6 @@ describe("requestContext", async () => {
         expect(requestedContext).instanceOf(MotionContext);
       }
     );
+    runScene(scene);
   });
 });

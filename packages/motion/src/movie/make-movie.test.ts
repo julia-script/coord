@@ -1,7 +1,7 @@
 import { test, describe, expect } from "vitest";
 import { makeMovie } from "./make-movie";
 import { makeScene } from "./make-scene";
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 import { frameMaker } from "@/test-utils";
 
 describe("makeMovie", async () => {
@@ -44,7 +44,7 @@ describe("makeMovie", async () => {
       }
     );
 
-    const executed = runMotion(movie.initialState, movie.builder);
+    const executed = runScene(movie);
 
     expect(executed.frames.length).toBe(3);
     expect(executed.frames).toEqual([
@@ -116,7 +116,7 @@ describe("makeMovie", async () => {
       }
     );
 
-    const executed = runMotion(movie.initialState, movie.builder);
+    const executed = runScene(movie);
 
     expect(executed.frames.length).toBe(4);
 
@@ -201,7 +201,7 @@ describe("makeMovie", async () => {
       }
     );
 
-    const executed = runMotion(movie.initialState, movie.builder, {
+    const executed = runScene(movie, {
       fps: 1,
     });
 
@@ -278,7 +278,7 @@ describe("makeMovie", async () => {
       }
     );
 
-    const executed = runMotion(movie.initialState, movie.builder, {
+    const executed = runScene(movie, {
       fps: 1,
     });
 
@@ -325,7 +325,7 @@ describe("makeMovie", async () => {
       }
     );
 
-    const executed = runMotion(movie.initialState, movie.builder, {
+    const executed = runScene(movie, {
       fps: 1,
     });
 

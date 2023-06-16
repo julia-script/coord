@@ -1,0 +1,53 @@
+{
+  "name": "@coord/motion-react",
+  "version": "0.3.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.js",
+  "license": "MIT",
+  "scripts": {
+    "lint": "tsc",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run && vitest typecheck",
+    "test:watch": "vitest",
+    "clean": "rm -rf ./dist ./.turbo ./node_modules"
+  },
+  "tsup": {
+    "dts": true,
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "minify": false,
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "sourcemap": true
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/events": "^3.0.0",
+    "@types/react": "^18.2.12",
+    "autoprefixer": "10.4.14",
+    "postcss": "8.4.24",
+    "tailwindcss": "3.3.2",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@coord/core": "workspace:*",
+    "@coord/motion": "workspace:*",
+    "@use-gesture/react": "^10.2.27",
+    "clsx": "^1.2.1",
+    "events": "^3.3.0",
+    "react-icons": "^4.9.0"
+  }
+}

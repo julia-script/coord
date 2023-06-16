@@ -19,7 +19,8 @@
       "cjs",
       "esm"
     ],
-    "minify": true,
+    "minify": false,
+    "sourcemap": true,
     "entryPoints": [
       "src/index.ts"
     ]

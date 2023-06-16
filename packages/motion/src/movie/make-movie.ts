@@ -6,17 +6,17 @@ import {
   requestTransition,
 } from "@/context";
 import { SceneMetaish, generateMeta } from "@/utils";
-import { Scene, makeScene } from "./make-scene";
+import { MotionScene, makeScene } from "./make-scene";
 
 export type MovieSettings = {
   transitionDuration: number;
 };
-export type SceneMap = Record<string, Scene<string, any>> & {
+export type SceneMap = Record<string, MotionScene<any>> & {
   [key: number]: never;
 };
 
 export type SceneMapInitialState<TSceneMap extends SceneMap> = {
-  [K in keyof TSceneMap]: TSceneMap[K] extends Scene<any, infer TState>
+  [K in keyof TSceneMap]: TSceneMap[K] extends MotionScene<infer TState>
     ? TState & { $transitionIn: number }
     : never;
 };
@@ -106,15 +106,20 @@ export function createMovieBuilder<TSceneMap extends SceneMap>(
 
   return function* (context) {
     const startNext = (transition = 0) => {
-      const scene = sceneStack.pop();
-      if (!scene) {
+      const sceneKey = sceneStack.pop();
+
+      if (!sceneKey || typeof sceneKey !== "string") {
         return;
       }
-      const childContext = context.createChildContext(scene);
-      const childScene = scenes[scene];
+      const scene = scenes[sceneKey];
+      if (!scene) {
+        throw new Error(`Scene ${String(sceneKey)} not found`);
+      }
+      const childContext = context.createChildContext(sceneKey, scene);
+      const childScene = scenes[sceneKey];
 
       if (!childScene) {
-        throw new Error(`Scene ${String(scene)} not found`);
+        throw new Error(`Scene ${String(sceneKey)} not found`);
       }
 
       sceneBuilders.push(

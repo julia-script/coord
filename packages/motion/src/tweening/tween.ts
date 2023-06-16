@@ -4,7 +4,7 @@ import { EasingOptions, easingsFunctions } from "@coord/core";
 export function* tween<TState extends MotionState>(
   duration: number,
   fn: (t: number) => void,
-  easing: EasingOptions = "linear"
+  easing: EasingOptions = "easeInOutCubic"
 ) {
   const easingFn =
     typeof easing === "function" ? easing : easingsFunctions[easing];

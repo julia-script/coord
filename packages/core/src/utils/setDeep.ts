@@ -1,5 +1,5 @@
 import { InferPath, InferPathValue, InferPathValueTree } from "../types";
-import compact from "lodash-es/compact";
+import { compact } from "lodash-es";
 import { isObject } from "./isObject";
 // const copy = <T extends Array<unknown> | Record<string, unknown>>(
 //   obj: T

@@ -1,4 +1,4 @@
-import { point, Vec2 } from "./vec2";
+import { point, Vec2, Vec2ish } from "./vec2";
 
 export class Transform {
   _matrix: Mat3x3;
@@ -14,6 +14,16 @@ export class Transform {
   }
   static identity() {
     return new Transform(1, 0, 0, 1, 0, 0);
+  }
+  static fromTransform(transform: Transform) {
+    return new Transform(
+      transform._matrix[0],
+      transform._matrix[1],
+      transform._matrix[3],
+      transform._matrix[4],
+      transform._matrix[2],
+      transform._matrix[5]
+    );
   }
   static fromMatrix(matrix: Mat3x3) {
     return new Transform(
@@ -41,11 +51,11 @@ export class Transform {
   copy() {
     return Transform.fromMatrix(this._matrix);
   }
-  setPosition(position: { x: number; y: number }) {
+  setPosition(position: Vec2ish) {
     return this.copy().setPositionSelf(position);
   }
-  setPositionSelf(position: { x: number; y: number }) {
-    const { x, y } = position;
+  setPositionSelf(position: Vec2ish) {
+    const { x, y } = Vec2.of(position);
     const { _matrix } = this;
     _matrix[2] = x;
     _matrix[5] = y;
@@ -63,14 +73,17 @@ export class Transform {
     _matrix[1] = sin;
     _matrix[3] = -sin;
     _matrix[4] = cos;
+
     return this;
   }
 
-  setScale(size: { x: number; y: number }) {
-    return this.copy().setScaleSelf(size);
+  setScale(factor: Vec2ish | number) {
+    return this.copy().setScaleSelf(factor);
   }
-  setScaleSelf(size: { x: number; y: number }) {
-    const { x, y } = size;
+  setScaleSelf(factor: Vec2ish | number) {
+    const { x, y } = Vec2.of(
+      typeof factor === "number" ? [factor, factor] : factor
+    );
     const { _matrix } = this;
     _matrix[0] = x;
     _matrix[4] = y;
@@ -80,14 +93,15 @@ export class Transform {
   /*
    * Scale the transform by the given factor.
    */
-  scale(factor: number): this;
-  scale(x: number, y: number): this;
-  scale(x: number, y: number = x) {
-    return this.copy().scaleSelf(x, y);
+
+  scale(factor: Vec2ish | number) {
+    return this.copy().scaleSelf(factor);
   }
-  scaleSelf(factor: number): this;
-  scaleSelf(x: number, y: number): this;
-  scaleSelf(x: number, y: number = x) {
+
+  scaleSelf(factor: Vec2ish | number) {
+    const { x, y } = Vec2.of(
+      typeof factor === "number" ? [factor, factor] : factor
+    );
     const { _matrix } = this;
     _matrix[0] *= x;
     _matrix[1] *= x;
@@ -119,11 +133,12 @@ export class Transform {
     return this;
   }
 
-  translate(x: number, y: number) {
-    return this.copy().translateSelf(x, y);
+  translate(offset: Vec2ish) {
+    return this.copy().translateSelf(offset);
   }
 
-  translateSelf(x: number, y: number) {
+  translateSelf(offset: Vec2ish) {
+    const { x, y } = Vec2.of(offset);
     const { _matrix } = this;
     _matrix[2] += x;
     _matrix[5] += y;

@@ -49,7 +49,7 @@ describe("Transform", () => {
   test("scale", () => {
     const t1 = transform().setScale({ x: 2, y: 3 });
     const t2 = t1.scale(2);
-    const t3 = t1.scale(2, 3);
+    const t3 = t1.scale([2, 3]);
     expect(t1.getScale()).toEqual({ x: 2, y: 3 });
     expect(t2.getScale()).toEqual({ x: 4, y: 6 });
     expect(t3.getScale()).toEqual({ x: 4, y: 9 });
@@ -65,7 +65,7 @@ describe("Transform", () => {
 
   test("translate", () => {
     const t1 = transform().setPosition({ x: 3, y: 6 });
-    const t2 = t1.translate(2, 3);
+    const t2 = t1.translate([2, 3]);
     expect(t1.getPosition()).toEqual({ x: 3, y: 6 });
     expect(t2.getPosition()).toEqual({ x: 5, y: 9 });
   });
@@ -95,7 +95,7 @@ describe("Transform", () => {
   });
 
   test("invert", () => {
-    const t1 = transform().scale(2).translate(5, 5);
+    const t1 = transform().scale(2).translate([5, 5]);
     const t2 = t1.invert();
 
     const p = point(5, 5);
@@ -107,7 +107,7 @@ describe("Transform", () => {
   });
 
   test("applyInverseTo", () => {
-    const t1 = transform().scale(2).translate(5, 5);
+    const t1 = transform().scale(2).translate([5, 5]);
 
     const p = point(5, 5);
     const q = t1.applyTo(p);

@@ -1,7 +1,7 @@
 import React from "react";
 import { ScalarPoint } from "@/types";
 import { Scalar } from "@/types";
-import { GraphElement, withGraphContext } from "@/utils";
+import { GraphElement, renderNumber, withGraphContext } from "@/utils";
 
 export type TextProps = {
   position?: ScalarPoint;
@@ -36,8 +36,8 @@ const Component = ({
   };
   return (
     <text
-      x={x}
-      y={y}
+      x={renderNumber(x)}
+      y={renderNumber(y)}
       {...props}
       fill={computeColor(color ?? theme.body)}
       textAnchor={"middle"}

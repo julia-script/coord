@@ -1,14 +1,16 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 
 import { all } from "@/flow";
 import { point } from "@coord/core";
 import { controlPoint } from "./point-control";
+import { makeScene } from "@/movie";
 
 describe("point control", async () => {
   test("tweens to a value", async () => {
-    let executed = runMotion(
+    const scene = makeScene(
+      "Test",
       {
         point: point(0, 0),
       },
@@ -16,6 +18,7 @@ describe("point control", async () => {
         yield* all(controlPoint("point", (t) => t.tweenTo([10, 10], 1)));
       }
     );
+    let executed = runScene(scene);
 
     expect(executed.frames.length).toBe(60);
     expect(executed.frames.at(-1)).toEqual({

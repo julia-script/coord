@@ -1,8 +1,9 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 import { frameMaker } from "@/test-utils";
 import { wait } from "./wait";
+import { makeScene } from "..";
 
 describe("wait", async () => {
   test("waits the specified time before continuing", async () => {
@@ -13,7 +14,8 @@ describe("wait", async () => {
       0
     );
 
-    const executed = runMotion(
+    const scene = makeScene(
+      "test",
       {
         a: "Waiting",
       },
@@ -23,11 +25,11 @@ describe("wait", async () => {
           a: "One second later",
         });
         yield;
-      },
-      {
-        fps: 3,
       }
     );
+    const executed = runScene(scene, {
+      fps: 3,
+    });
 
     expect(executed.frames.length).toBe(4);
     expect(executed.frames).toEqual([

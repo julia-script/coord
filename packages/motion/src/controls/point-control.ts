@@ -12,47 +12,54 @@ import {
   EasingOptions,
   Vec2ish,
   Vec2,
+  ExtractPathsOfType,
 } from "@coord/core";
-
-type OnlyKeysOfType<T, TType> = Omit<
-  T,
-  {
-    [K in keyof T]: T[K] extends TType ? never : K;
-  }[keyof T]
->;
 
 export function* controlPoint<
   TState extends MotionState,
-  TTree extends OnlyKeysOfType<InferPathValueTree<TState>, Vec2 | undefined>,
-  TKey extends keyof TTree,
-  TControl extends PointControl<TState, TTree[TKey]>
+  TKey extends ExtractPathsOfType<TState, Vec2>
 >(
   key: TKey & string,
-  fn?: (control: TControl) => ReturnType<MotionBuilder<TState>>
+  fn?: (control: PointControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: Vec2ish
 ) {
   const context = yield* requestContext<TState>();
-  const control = new PointControl(context, key) as TControl;
+  const control = new PointControl<TState>(
+    context,
+    key,
+    initialValue ? Vec2.of(initialValue) : undefined
+  );
   if (fn) {
     yield* fn(control);
   }
   return control;
 }
 
-export class PointControl<TState extends MotionState, TType = Vec2> {
-  chain: ReturnType<MotionBuilder<TState>>[] = [];
-
-  constructor(public context: MotionContext<MotionState>, public key: string) {}
+export class PointControl<TState extends MotionState> {
+  _targetValue: Vec2;
+  constructor(
+    public context: MotionContext<MotionState>,
+    public key: string,
+    private _initialValue = Vec2.of([0, 0])
+  ) {
+    this._targetValue = this.get();
+  }
 
   get() {
     const value = getDeep(this.context._state, this.key);
-    return value as TType;
+    if (value instanceof Vec2) {
+      return value;
+    }
+    this.set(this._initialValue);
+    return this._initialValue;
   }
   set(value: Vec2ish) {
     this.context._state = setDeep(this.context._state, this.key, value);
   }
 
   tweenTo(value: Vec2ish, duration: number, easing?: EasingOptions) {
-    const initialValue = this.get();
+    const initialValue = Vec2.of(this.get());
+
     if (
       !(initialValue instanceof Vec2) ||
       (initialValue instanceof Vec2 && !initialValue.isFinite())
@@ -73,18 +80,19 @@ export class PointControl<TState extends MotionState, TType = Vec2> {
   }
 
   springTo(to: Vec2ish, parameters?: SpringParameters) {
-    const initialValue = this.get() ?? 0;
+    const initialValue = Vec2.of(this.get());
+
     if (
       !(initialValue instanceof Vec2) ||
       (initialValue instanceof Vec2 && !initialValue.isFinite())
     ) {
       throw new Error(
-        `Cannot tween to a non-finite value, got ${initialValue}`
+        `Cannot tween to a non-finite value, got ${initialValue.toString()}`
       );
     }
     const target = Vec2.of(to);
 
-    return spring(
+    return spring<Vec2, TState>(
       initialValue,
       target,
       (t) => {
@@ -92,5 +100,23 @@ export class PointControl<TState extends MotionState, TType = Vec2> {
       },
       parameters
     );
+  }
+
+  from(value: Vec2ish) {
+    this.set(value);
+    return this;
+  }
+
+  to(value: Vec2ish) {
+    this._targetValue = Vec2.of(value);
+    return this;
+  }
+
+  in(duration: number, easing?: EasingOptions) {
+    return this.tweenTo(this._targetValue, duration, easing);
+  }
+
+  spring(parameters?: SpringParameters) {
+    return this.springTo(this._targetValue, parameters);
   }
 }

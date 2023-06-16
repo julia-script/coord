@@ -1,8 +1,9 @@
 import { test, describe, expect } from "vitest";
 
-import { runMotion } from "@/context";
+import { runScene } from "@/context";
 import { frameMaker } from "@/test-utils";
 import { tween } from "./tween";
+import { makeScene } from "@/movie";
 
 describe("tween", async () => {
   test("waits the specified time before continuing", async () => {
@@ -12,18 +13,19 @@ describe("tween", async () => {
       },
       0
     );
-
-    const executed = runMotion(
+    const scene = makeScene(
+      "test",
       {
         t: 0,
       },
       function* (context) {
-        yield* tween(1, (t) => context.state({ t }));
-      },
-      {
-        fps: 3,
+        yield* tween(1, (t) => context.state({ t }), "linear");
       }
     );
+
+    const executed = runScene(scene, {
+      fps: 3,
+    });
 
     expect(executed.frames.length).toBe(3);
     expect(executed.frames).toEqual([
