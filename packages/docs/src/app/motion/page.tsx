@@ -58,7 +58,7 @@ const sceneA = makeScene(
   "Scene A",
   {
     color: "#ffffff",
-    // shape: transform(),
+
     text: "",
   },
   function* () {
@@ -70,37 +70,11 @@ const sceneA = makeScene(
       wait(1),
       text.to(", my name is Julia").in(0.6, "append"),
       wait(1.5),
-      text.to("I'm a software engineer").in(0.6),
-      wait(3),
-      text.clear(0.5)
-      // wait(1)
+      text.to("I'm a software engineer").in(0.6, "shuffle"),
+      wait(2),
+      text.clear(0.5),
+      wait(1)
     );
-
-    // yield* all(
-    //   text.to("Hello, world!").in(1)
-
-    //   // color.tweenTo("red", 1),
-    //   // shape.scale(2).positionTo([3, 3]).in(1)
-    // );
-
-    // yield* all(
-    //   color.tweenTo("yellow", 1),
-    //   shape
-    //     .positionTo([5, 5])
-
-    //     .scale(3)
-
-    //     .in(1)
-    // );
-
-    // yield* all(
-    //   color.tweenTo("blue", 1),
-    //   shape
-    //     .positionTo([0, 0])
-
-    //     .scaleTo(1)
-    //     .in(1)
-    // );
   }
 );
 export default function Page() {

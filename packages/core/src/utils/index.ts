@@ -7,3 +7,4 @@ export * from "./setDeep";
 export * from "./getDeep";
 export * from "./clamp";
 export * from "./formatDuration";
+export * from "./random";

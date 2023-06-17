@@ -10,6 +10,7 @@ import {
   setDeep,
   EasingOptions,
   ExtractPathsOfType,
+  Random,
 } from "@coord/core";
 import { Control, makeControlUtility } from "./control";
 import { assertType } from "vitest";
@@ -88,7 +89,7 @@ export const lerpText = (a: string, b: string, t: number, splitter = "") => {
   for (let i = 0; i < length; i++) {
     out[i] = b[i] ?? " ";
   }
-  return out.join(splitter); //.trim();
+  return out.join(splitter);
 };
 
 export const overwriteString = (a: string, b: string, t: number) => {
@@ -116,8 +117,24 @@ export const clearThenAppend = (a: string, b: string, t: number) => {
   }
 };
 
+export const shuffleCharacters = (a: string, b: string, t: number) => {
+  const random = new Random(a + b);
+  const length = Math.max(a.length, b.length);
+
+  const out = a.split("");
+
+  const chance = 2 * t;
+  for (let i = 0; i < length; i++) {
+    if (random.chance(chance)) {
+      out[i] = b[i] ?? " ";
+    }
+  }
+  return out.join("").trim();
+};
+
 const TextLerpModes = {
   overwrite: overwriteString,
+  shuffle: shuffleCharacters,
   "word-overwrite": overwriteByWord,
   "char-overwrite": overwriteString,
   clear: clear,
