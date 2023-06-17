@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "lint": "tsc",
-    "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run && vitest typecheck",
     "test:watch": "vitest",
+    "build": "tsup",
     "clean": "rm -rf ./dist ./.turbo ./node_modules"
   },
   "tsup": {
@@ -23,6 +23,7 @@
     "entryPoints": [
       "src/index.ts"
     ],
+    "injectStyle": true,
     "sourcemap": true
   },
   "peerDependencies": {
@@ -45,9 +46,12 @@
   "dependencies": {
     "@coord/core": "workspace:*",
     "@coord/motion": "workspace:*",
+    "@rollup/plugin-typescript": "^11.1.1",
     "@use-gesture/react": "^10.2.27",
     "clsx": "^1.2.1",
     "events": "^3.3.0",
-    "react-icons": "^4.9.0"
+    "react-icons": "^4.9.0",
+    "rollup": "^3.25.1",
+    "rollup-plugin-postcss": "^4.0.2"
   }
 }

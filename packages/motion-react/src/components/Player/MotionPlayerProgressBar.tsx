@@ -3,6 +3,7 @@ import { MotionControls } from "@/hooks";
 import { MotionContextMeta } from "@coord/motion";
 import { clamp, inverseLerp } from "@coord/core";
 import { useDrag } from "@use-gesture/react";
+import clsx from "clsx";
 
 export function MotionPlayerProgressBar({
   controls,
@@ -56,10 +57,7 @@ export function MotionPlayerProgressBar({
   }, [meta]);
 
   return (
-    <div
-      ref={ref}
-      className={"group/bar relative flex w-full touch-none select-none gap-1"}
-    >
+    <div ref={ref} className={clsx("motion-player-progress-bar")}>
       {Object.keys(normalizedMeta).map((key) => {
         const scene = normalizedMeta[key];
         if (!scene) return null;
@@ -67,28 +65,22 @@ export function MotionPlayerProgressBar({
         return (
           <div
             key={key}
-            className="group/bar-scene relative h-1 w-full cursor-pointer"
+            className={clsx("motion-player-progress-bar-scene")}
             style={{
               width: `${(scene.duration / movieDuration) * 100}%`,
             }}
           >
             <div
-              className={
-                "absolute bottom-1 w-full py-2 opacity-0 transition-opacity duration-150 group-hover/bar:opacity-100"
-              }
+              className={clsx("motion-player-progress-bar-scene-title-area")}
             >
-              <h2 className="w-full overflow-hidden text-ellipsis whitespace-nowrap px-1 text-xs">
+              <h2 className="motion-player-progress-bar-scene-title">
                 {scene.title}
               </h2>
             </div>
 
-            <div
-              className={
-                "h-1 w-full bg-gray-200/10 transition-transform duration-150 group-hover/bar-scene:scale-y-150"
-              }
-            >
+            <div className={clsx("motion-player-progress-bar-scene-bar")}>
               <div
-                className={"h-full bg-blue-500 "}
+                className={"motion-player-progress-bar-scene-bar-progress"}
                 style={{
                   width: `${clamp(
                     inverseLerp(
@@ -107,9 +99,7 @@ export function MotionPlayerProgressBar({
       })}
 
       <button
-        className={
-          "absolute -left-0.5 top-0  h-1 w-1 rounded-full bg-blue-500 opacity-0 transition-transform duration-150 group-hover/bar:scale-[4] group-hover/bar:opacity-100"
-        }
+        className={clsx("motion-player-progress-bar-head")}
         style={{
           left: `${(frame / movieDuration) * 100}%`,
         }}

@@ -1,0 +1,243 @@
+.motion-player {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.motion-player-progress-bar-area {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+.motion-player-progress-bar-area-visible {
+  opacity: 1;
+}
+.motion-player-controls {
+  width: 100%;
+}
+.motion-player-controls-progress-bar {
+  width: 100%;
+}
+.motion-player-controls-actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.motion-player-controls-button {
+  border-radius: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.motion-player-controls-button-active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+.motion-player-controls-time {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-controls-title {
+  flex-grow: 1;
+  overflow: hidden;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-progress-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  gap: 0.25rem;
+}
+.motion-player-progress-bar-scene {
+  position: relative;
+  height: 0.25rem;
+  width: 100%;
+  cursor: pointer;
+}
+.motion-player-progress-bar-scene-title-area {
+  position: absolute;
+  bottom: 0.25rem;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar-scene-title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-progress-bar-scene-bar {
+  height: 0.25rem;
+  width: 100%;
+  background-color: rgb(229 231 235 / 0.1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar-scene-bar-progress {
+  height: 100%;
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+.motion-player-progress-bar-head {
+  position: absolute;
+  left: -0.125rem;
+  top: 0px;
+  height: 0.25rem;
+  width: 0.25rem;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+  opacity: 0;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.motion-player {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.motion-player-progress-bar-area {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+.motion-player-progress-bar-area-visible {
+  opacity: 1;
+}
+.motion-player-controls {
+  width: 100%;
+}
+.motion-player-controls-progress-bar {
+  width: 100%;
+}
+.motion-player-controls-actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.motion-player-controls-button {
+  border-radius: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.motion-player-controls-button-active {
+  background-color: rgb(59 130 246 / 1);
+}
+.motion-player-controls-time {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-controls-title {
+  flex-grow: 1;
+  overflow: hidden;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-progress-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  gap: 0.25rem;
+}
+.motion-player-progress-bar-scene {
+  position: relative;
+  height: 0.25rem;
+  width: 100%;
+  cursor: pointer;
+}
+.motion-player-progress-bar-scene-title-area {
+  position: absolute;
+  bottom: 0.25rem;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.motion-player-progress-bar-scene-title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+.motion-player-progress-bar-scene-bar {
+  height: 0.25rem;
+  width: 100%;
+  background-color: rgb(229 231 235 / 0.1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar-scene-bar-progress {
+  height: 100%;
+  background-color: rgb(59 130 246 / 1);
+}
+.motion-player-progress-bar-head {
+  position: absolute;
+  left: -0.125rem;
+  top: 0px;
+  height: 0.25rem;
+  width: 0.25rem;
+  border-radius: 9999px;
+  background-color: rgb(59 130 246 / 1);
+  opacity: 0;
+  transition-property: transform opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar:hover .motion-player-progress-bar-scene-title-area {
+  opacity: 1;
+}
+
+.motion-player-progress-bar:hover .motion-player-progress-bar-head {
+  opacity: 1;
+  transform: scale(4);
+}

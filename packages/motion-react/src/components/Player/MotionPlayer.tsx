@@ -20,6 +20,10 @@ export function MotionPlayer({
 
   ...rest
 }: MotionPlayerProps) {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
   const ref = React.useRef<HTMLDivElement>(null);
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
@@ -35,6 +39,8 @@ export function MotionPlayer({
 
   const timeout = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const isProgressBarVisible = controls.playing === false || !cursorIsIdle;
+
   useEffect(() => {
     if (autoplay) {
       controls.play();
@@ -47,10 +53,7 @@ export function MotionPlayer({
   return (
     <div
       ref={ref}
-      className={clsx(
-        "group/player relative flex cursor-pointer items-center justify-center",
-        className
-      )}
+      className={clsx("motion-player", className)}
       onMouseMove={() => {
         setCursorIsIdle(false);
         if (timeout.current) {
@@ -69,25 +72,25 @@ export function MotionPlayer({
       }}
       {...rest}
     >
-      {children}
+      {!loading && (
+        <>
+          {children}
 
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className={clsx(
-          "absolute bottom-0 w-full transition-opacity duration-300 ",
-          {
-            "opacity-0": controls.playing,
-            "group-hover/player:opacity-100": !cursorIsIdle,
-          }
-        )}
-      >
-        <MotionPlayerControls
-          controls={controls}
-          toggleFullScreen={toggleFullScreen}
-        />
-      </div>
+          <div
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            className={clsx("motion-player-progress-bar-area", {
+              "motion-player-progress-bar-area-visible": isProgressBarVisible,
+            })}
+          >
+            <MotionPlayerControls
+              controls={controls}
+              toggleFullScreen={toggleFullScreen}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

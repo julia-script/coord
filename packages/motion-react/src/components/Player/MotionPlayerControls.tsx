@@ -7,7 +7,7 @@ import {
   HiArrowPath,
 } from "react-icons/hi2";
 import { MotionPlayerProgressBar } from "./MotionPlayerProgressBar";
-import { formatDuration } from "@coord/core/dist";
+import { formatDuration } from "@coord/core";
 import clsx from "clsx";
 
 type MotionPlayerControlsProps = {
@@ -36,14 +36,14 @@ export function MotionPlayerControls({
   const longerThanAnHour = duration >= oneHour;
 
   return (
-    <div className={"w-full"}>
-      <div className={"w-full"}>
+    <div className={"motion-player-controls"}>
+      <div className={"motion-player-controls-progress-bar"}>
         <MotionPlayerProgressBar controls={controls} />
       </div>
-      <div className={"flex w-full items-center gap-2 py-2"}>
+      <div className={"motion-player-controls-actions"}>
         <div>
           {playing ? (
-            <button className="px-3">
+            <button className="motion-player-controls-button">
               <HiPause
                 onClick={() => {
                   pause();
@@ -52,7 +52,7 @@ export function MotionPlayerControls({
             </button>
           ) : (
             <button
-              className="px-3"
+              className="motion-player-controls-button"
               onClick={() => {
                 play();
               }}
@@ -62,8 +62,8 @@ export function MotionPlayerControls({
           )}
 
           <button
-            className={clsx("rounded px-2 py-1", {
-              "bg-blue-500": repeat,
+            className={clsx("motion-player-controls-button", {
+              "motion-player-controls-button-active": repeat,
             })}
             onClick={() => {
               setRepeat(!repeat);
@@ -73,16 +73,16 @@ export function MotionPlayerControls({
           </button>
         </div>
 
-        <div className="text-xs">
+        <div className="motion-player-controls-time">
           {formatDuration(currentTime, longerThanAnHour)}
           {" / "}
           {formatDuration(duration, longerThanAnHour)}
         </div>
-        <div className={"flex-grow overflow-hidden text-xs"}>{meta.title}</div>
+        <div className={"motion-player-controls-title"}>{meta.title}</div>
         {toggleFullScreen && (
           <div>
             <button
-              className="px-3"
+              className="motion-player-controls-button"
               onClick={() => {
                 toggleFullScreen?.();
               }}
