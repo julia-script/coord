@@ -1,0 +1,196 @@
+.motion-player-progress-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  gap: 0.5em;
+}
+.motion-player-progress-bar_scene {
+  position: relative;
+  height: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+.motion-player-progress-bar_scene-title-area {
+  position: absolute;
+  bottom: 0.5em;
+  width: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar_scene-title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  font-size: 1.5em;
+  line-height: 1em;
+}
+.motion-player-progress-bar_scene-bar {
+  height: 0.5em;
+  width: 100%;
+  background-color: rgb(229 231 235 / 0.1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar_scene-bar-progress {
+  height: 100%;
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+.motion-player-progress-bar_head {
+  position: absolute;
+  left: -0.125em;
+  top: 0px;
+  height: 0.5em;
+  width: 0.5em;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+  opacity: 0;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.motion-player {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.motion-player-progress-bar_area {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+.motion-player-progress-bar_area-visible {
+  opacity: 1;
+}
+.motion-player-controls {
+  width: 100%;
+}
+.motion-player-controls-progress-bar {
+  width: 100%;
+}
+.motion-player-controls-actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.motion-player-controls-button {
+  border-radius: 0.5em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.motion-player-controls-button-active {
+  background-color: var(--motion-player-accent-color);
+}
+.motion-player-controls-time {
+  font-size: 1.5em;
+  line-height: 1em;
+}
+.motion-player-controls-title {
+  flex-grow: 1;
+  overflow: hidden;
+  font-size: 1.5em;
+  line-height: 1em;
+}
+.motion-player-progress-bar {
+  position: relative;
+  display: flex;
+  width: 100%;
+  touch-action: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  gap: 0.25em;
+}
+.motion-player-progress-bar_scene {
+  position: relative;
+  height: 0.5em;
+  width: 100%;
+  cursor: pointer;
+}
+.motion-player-progress-bar_scene-title-area {
+  position: absolute;
+  bottom: 0.5em;
+
+  width: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  opacity: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.motion-player-progress-bar_scene-title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  font-size: 1.2em;
+  line-height: 1em;
+}
+.motion-player-progress-bar_scene-bar {
+  height: 0.5em;
+  width: 100%;
+  background-color: rgb(229 231 235 / 0.1);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.motion-player-progress-bar_scene:hover .motion-player-progress-bar_scene-bar {
+  transform: scaley(1.5);
+}
+
+.motion-player-progress-bar_scene-bar-progress {
+  height: 100%;
+  background-color: var(--motion-player-accent-color);
+}
+
+.motion-player-progress-bar_head {
+  position: absolute;
+  left: -0.25em;
+  top: 0px;
+  height: 0.5em;
+  width: 0.5em;
+  border-radius: 9999px;
+  background-color: var(--motion-player-accent-color);
+  opacity: 0;
+  transition-property: transform opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.motion-player-progress-bar:hover .motion-player-progress-bar_scene-title-area {
+  opacity: 1;
+}
+
+.motion-player-progress-bar:hover .motion-player-progress-bar_head {
+  opacity: 1;
+  transform: scale(4);
+}

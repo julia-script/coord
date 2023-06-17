@@ -2,6 +2,7 @@ import {
   MotionBuilder,
   MotionContext,
   MotionState,
+  MotionStateContextProps,
   isMotionBuilderRequest,
   requestTransition,
 } from "@/context";
@@ -17,7 +18,7 @@ export type SceneMap = Record<string, MotionScene<any>> & {
 
 export type SceneMapInitialState<TSceneMap extends SceneMap> = {
   [K in keyof TSceneMap]: TSceneMap[K] extends MotionScene<infer TState>
-    ? TState & { $transitionIn: number }
+    ? TState & MotionStateContextProps
     : never;
 };
 

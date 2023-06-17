@@ -1,40 +1,7 @@
-import {
-  MotionBuilder,
-  MotionContext,
-  MotionState,
-  requestContext,
-} from "@/context";
+import { MotionContext, MotionState } from "@/context";
 import { tween } from "@/tweening";
-import {
-  getDeep,
-  setDeep,
-  InferPathValueTree,
-  EasingOptions,
-} from "@coord/core";
-
-type OnlyKeysOfType<T, TType> = Omit<
-  T,
-  {
-    [K in keyof T]: T[K] extends TType ? never : K;
-  }[keyof T]
->;
-
-export function* controlColor<
-  TState extends MotionState,
-  TTree extends OnlyKeysOfType<InferPathValueTree<TState>, string | undefined>,
-  TKey extends keyof TTree,
-  TControl extends ColorControl<TState, TTree[TKey]>
->(
-  key: TKey & string,
-  fn?: (control: TControl) => ReturnType<MotionBuilder<TState>>
-) {
-  const context = yield* requestContext<TState>();
-  const control = new ColorControl(context, key) as TControl;
-  if (fn) {
-    yield* fn(control);
-  }
-  return control;
-}
+import { EasingOptions } from "@coord/core";
+import { Control, makeControlUtility } from "./control";
 
 type RectangularColorSpace =
   | "srgb"
@@ -73,37 +40,48 @@ type ColorTweeningOptions = {
   easing: EasingOptions;
 } & ColorMixOptions;
 
-export class ColorControl<TState extends MotionState, TType = string> {
-  chain: ReturnType<MotionBuilder<TState>>[] = [];
-  constructor(public context: MotionContext<MotionState>, public key: string) {}
-
-  get() {
-    return getDeep(this.context._state, this.key) as TType;
-  }
-  set(value: string) {
-    this.context._state = setDeep(this.context._state, this.key, value);
+export class ColorControl extends Control<string> {
+  assertType(value: unknown): asserts value is string {
+    if (typeof value !== "string") {
+      throw new Error(`Expected a color string, got ${typeof value}`);
+    }
   }
 
-  tweenTo(
+  private *tweenColor<TState extends MotionState>(
     value: string,
     duration: number,
     config: Partial<ColorTweeningOptions> = {}
   ) {
     const { easing, ...colorMixOptions } = config;
-    const initialValue = this.get() ?? "#ffffff";
-
-    if (typeof initialValue !== "string") {
-      throw new Error(
-        `Cannot tween to a non-string value, got ${initialValue}`
-      );
-    }
+    let initialValue: string;
 
     return tween<TState>(
       duration,
       (t) => {
+        if (!initialValue) {
+          initialValue = this.get();
+          this.assertType(initialValue);
+        }
+
         this.set(colorMix(initialValue, value, t, colorMixOptions));
       },
       easing
     );
   }
+
+  in<TState extends MotionState>(
+    duration: number,
+    config: Partial<ColorTweeningOptions>
+  ) {
+    const next = this.nextTarget;
+    this._nextTarget = null;
+    return this.tweenColor<TState>(next, duration, config);
+  }
 }
+const createColorControl = (context: MotionContext<MotionState>, key: string) =>
+  new ColorControl(context, key);
+
+export const controlColor = makeControlUtility<
+  string,
+  typeof createColorControl
+>(createColorControl);

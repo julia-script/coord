@@ -15,7 +15,7 @@ describe("point control", async () => {
         point: point(0, 0),
       },
       function* () {
-        yield* all(controlPoint("point", (t) => t.tweenTo([10, 10], 1)));
+        yield* all(controlPoint("point", (t) => t.to([10, 10]).in(1)));
       }
     );
     let executed = runScene(scene);

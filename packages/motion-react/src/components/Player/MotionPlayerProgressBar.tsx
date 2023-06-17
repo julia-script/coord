@@ -4,6 +4,7 @@ import { MotionContextMeta } from "@coord/motion";
 import { clamp, inverseLerp } from "@coord/core";
 import { useDrag } from "@use-gesture/react";
 import clsx from "clsx";
+import "./MotionPlayerProgressBar.css";
 
 export function MotionPlayerProgressBar({
   controls,
@@ -55,32 +56,33 @@ export function MotionPlayerProgressBar({
     });
     return scenes;
   }, [meta]);
-
+  const sceneKeys = Object.keys(normalizedMeta);
   return (
     <div ref={ref} className={clsx("motion-player-progress-bar")}>
-      {Object.keys(normalizedMeta).map((key) => {
+      {sceneKeys.map((key) => {
         const scene = normalizedMeta[key];
         if (!scene) return null;
 
         return (
           <div
             key={key}
-            className={clsx("motion-player-progress-bar-scene")}
+            className={clsx("motion-player-progress-bar_scene")}
             style={{
               width: `${(scene.duration / movieDuration) * 100}%`,
             }}
           >
-            <div
-              className={clsx("motion-player-progress-bar-scene-title-area")}
-            >
-              <h2 className="motion-player-progress-bar-scene-title">
-                {scene.title}
-              </h2>
-            </div>
-
-            <div className={clsx("motion-player-progress-bar-scene-bar")}>
+            {sceneKeys.length > 1 && (
               <div
-                className={"motion-player-progress-bar-scene-bar-progress"}
+                className={clsx("motion-player-progress-bar_scene-title-area")}
+              >
+                <h2 className="motion-player-progress-bar_scene-title">
+                  {scene.title}
+                </h2>
+              </div>
+            )}
+            <div className={clsx("motion-player-progress-bar_scene-bar")}>
+              <div
+                className={"motion-player-progress-bar_scene-bar-progress"}
                 style={{
                   width: `${clamp(
                     inverseLerp(
@@ -99,7 +101,7 @@ export function MotionPlayerProgressBar({
       })}
 
       <button
-        className={clsx("motion-player-progress-bar-head")}
+        className={clsx("motion-player-progress-bar_head")}
         style={{
           left: `${(frame / movieDuration) * 100}%`,
         }}

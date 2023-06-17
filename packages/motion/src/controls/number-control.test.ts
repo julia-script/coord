@@ -17,8 +17,8 @@ describe("number control", async () => {
       function* () {
         const t = yield* controlNumber("t");
         yield* all(
-          t.tweenTo(10, 1),
-          controlNumber("b.0", (t) => t.tweenTo(10, 1))
+          t.to(10).in(1),
+          controlNumber("b.0", (t) => t.to(10).in(1))
         );
       }
     );

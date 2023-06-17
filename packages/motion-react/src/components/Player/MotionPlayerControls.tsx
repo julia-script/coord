@@ -9,6 +9,7 @@ import {
 import { MotionPlayerProgressBar } from "./MotionPlayerProgressBar";
 import { formatDuration } from "@coord/core";
 import clsx from "clsx";
+import "./MotionPlayerControls.css";
 
 type MotionPlayerControlsProps = {
   controls: MotionControls;
@@ -37,14 +38,15 @@ export function MotionPlayerControls({
 
   return (
     <div className={"motion-player-controls"}>
-      <div className={"motion-player-controls-progress-bar"}>
+      <div className={"motion-player-controls_progress-bar"}>
         <MotionPlayerProgressBar controls={controls} />
       </div>
-      <div className={"motion-player-controls-actions"}>
+      <div className={"motion-player-controls_actions"}>
         <div>
           {playing ? (
-            <button className="motion-player-controls-button">
+            <button className="motion-player-controls_button">
               <HiPause
+                size={"1.7em"}
                 onClick={() => {
                   pause();
                 }}
@@ -52,28 +54,27 @@ export function MotionPlayerControls({
             </button>
           ) : (
             <button
-              className="motion-player-controls-button"
+              className="motion-player-controls_button"
               onClick={() => {
                 play();
               }}
             >
-              <HiPlay />
+              <HiPlay size={"1.7em"} />
             </button>
           )}
-
           <button
-            className={clsx("motion-player-controls-button", {
-              "motion-player-controls-button-active": repeat,
+            className={clsx("motion-player-controls_button", {
+              "motion-player-controls_button_active": repeat,
             })}
             onClick={() => {
               setRepeat(!repeat);
             }}
           >
-            <HiArrowPath />
+            <HiArrowPath size={"1.7em"} />
           </button>
         </div>
 
-        <div className="motion-player-controls-time">
+        <div className="motion-player-controls_time">
           {formatDuration(currentTime, longerThanAnHour)}
           {" / "}
           {formatDuration(duration, longerThanAnHour)}
@@ -82,12 +83,12 @@ export function MotionPlayerControls({
         {toggleFullScreen && (
           <div>
             <button
-              className="motion-player-controls-button"
+              className="motion-player-controls_button"
               onClick={() => {
                 toggleFullScreen?.();
               }}
             >
-              <HiOutlineArrowsPointingOut />
+              <HiOutlineArrowsPointingOut size={"1.7em"} />
             </button>
           </div>
         )}

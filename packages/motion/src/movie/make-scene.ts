@@ -16,3 +16,7 @@ export function makeScene<TState extends MotionState>(
 export type MotionScene<TState extends MotionState> = ReturnType<
   typeof makeScene<TState>
 >;
+
+const scene = makeScene("scene", { x: 0, y: 0 }, function* () {
+  // yield { x: 100, y: 100 };
+});

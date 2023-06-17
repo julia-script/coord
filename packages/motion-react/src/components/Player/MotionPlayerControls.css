@@ -1,0 +1,35 @@
+.motion-player-controls {
+  width: 100%;
+  position: relative;
+}
+.motion-player-controls_progress-bar {
+  width: 100%;
+}
+.motion-player-controls_actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.motion-player-controls_button {
+  border-radius: 0.5em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+.motion-player-controls_button_active {
+  background-color: var(--motion-player-accent-color);
+}
+.motion-player-controls_time {
+  font-size: 1.2em;
+  line-height: 1em;
+}
+.motion-player-controls_title {
+  flex-grow: 1;
+  overflow: hidden;
+  font-size: 1.2em;
+  line-height: 1em;
+}

@@ -2,6 +2,7 @@ import { MotionControls } from "@/hooks";
 import React, { useEffect, useState } from "react";
 import { MotionPlayerControls } from "./MotionPlayerControls";
 import clsx from "clsx";
+import "./MotionPlayer.css";
 
 type MotionPlayerProps = React.PropsWithChildren<{
   controls: MotionControls;
@@ -80,8 +81,8 @@ export function MotionPlayer({
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className={clsx("motion-player-progress-bar-area", {
-              "motion-player-progress-bar-area-visible": isProgressBarVisible,
+            className={clsx("motion-player_progress-bar-area", {
+              "motion-player_progress-bar-area_visible": isProgressBarVisible,
             })}
           >
             <MotionPlayerControls
