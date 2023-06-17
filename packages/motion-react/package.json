@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "tsc",
     "dev": "tsup --watch",
-    "test": "vitest run && vitest typecheck",
+    "test": "vitest run",
     "test:watch": "vitest",
     "build": "tsup",
     "clean": "rm -rf ./dist ./.turbo ./node_modules"
@@ -31,9 +31,11 @@
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^14.0.0",
     "@types/events": "^3.0.0",
     "@types/react": "^18.2.12",
     "autoprefixer": "10.4.14",
+    "happy-dom": "^9.20.3",
     "postcss": "8.4.24",
     "tailwindcss": "3.3.2",
     "tsconfig": "workspace:*",
@@ -47,6 +49,7 @@
     "@coord/core": "workspace:*",
     "@coord/motion": "workspace:*",
     "@rollup/plugin-typescript": "^11.1.1",
+    "@testing-library/react-hooks": "^8.0.1",
     "@use-gesture/react": "^10.2.27",
     "clsx": "^1.2.1",
     "events": "^3.3.0",

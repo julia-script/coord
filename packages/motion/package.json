@@ -9,7 +9,7 @@
     "lint": "tsc",
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "vitest run && vitest typecheck",
+    "test": "vitest run",
     "test:watch": "vitest",
     "clean": "rm -rf ./dist ./.turbo ./node_modules"
   },
