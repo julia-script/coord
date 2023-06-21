@@ -8,7 +8,7 @@ import { useSafeLayoutEffect, useSafeRef } from "@/hooks/safe-server-hooks";
 
 export type LabelProps = {
   onChange?: (position: Vec2) => void;
-} & Omit<LabelContainerProps, "size">;
+} & Omit<LabelContainerProps, "size" | "onChange">;
 
 const Component = ({
   onChange,

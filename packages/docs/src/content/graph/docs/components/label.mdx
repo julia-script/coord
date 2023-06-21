@@ -83,16 +83,15 @@ export default function MyGraph() {
 ## Cardinal directions
 
 ```jsx live
-import { useState } from "react";
 import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
-
+  const directions = ["n", "ne", "e", "se", "s", "sw", "w", "nw"] as const;
   return (
     <Graph height={400} width="100%">
       <Grid />
-      {["n", "ne", "e", "se", "s", "sw", "w", "nw"].map((cardinalDir, i) => (
+      {directions.map((cardinalDir, i) => (
         <Label
           key={i}
           direction={cardinalDir}
@@ -116,12 +115,12 @@ export default function MyGraph() {
     </Graph>
   );
 }
+
 ```
 
 ## Distance
 
 ```jsx live
-import { useState } from "react";
 import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
@@ -176,7 +175,6 @@ export default function MyGraph() {
 ## Draggable
 
 ```jsx live
-import { useState } from "react";
 import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {

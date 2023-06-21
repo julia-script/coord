@@ -1,17 +1,16 @@
 "use client";
 import { CodeBlock, LiveCodeBlock } from "./CodeBlock";
 
-export function PreMdx({
-  children,
-  live,
-  collapsed,
-}: {
+export type PreMDXProps = {
   children: React.ReactNode;
   live?: boolean;
   previewOnly?: boolean;
   collapsed?: boolean;
+  partial?: boolean;
   className?: string;
-}) {
+};
+
+export function PreMDX({ children, live, collapsed, partial }: PreMDXProps) {
   if (
     typeof children === "object" &&
     children !== null &&
@@ -22,7 +21,11 @@ export function PreMdx({
     const language = children.props.className?.replace("language-", "");
 
     if (live)
-      return <LiveCodeBlock collapsed={collapsed}>{code}</LiveCodeBlock>;
+      return (
+        <LiveCodeBlock collapsed={collapsed} partialCode={partial}>
+          {code}
+        </LiveCodeBlock>
+      );
     return <CodeBlock language={language}>{code}</CodeBlock>;
   }
   return children;

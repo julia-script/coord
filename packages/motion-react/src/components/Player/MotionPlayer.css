@@ -5,9 +5,13 @@
   cursor: pointer;
   align-items: center;
   justify-content: center;
+
   font-size: 10px;
+  color: var(--motion-player-text-color, #fff);
+  background: var(--motion-player-background-color, #0c0c0c);
 }
-.motion-player_progress-bar-area {
+.motion-player_controls {
+  cursor: auto;
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -16,7 +20,7 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
 }
-.motion-player_progress-bar-area::before {
+.motion-player_controls::before {
   background-image: linear-gradient(
     180deg,
     rgba(0, 0, 0, 0) 0%,
@@ -32,6 +36,6 @@
   height: 200px;
 }
 
-.motion-player_progress-bar-area_visible {
+.motion-player_controls_visible {
   opacity: 1;
 }

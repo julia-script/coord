@@ -1,47 +1,19 @@
-import {
-  MotionBuilder,
-  MotionContext,
-  MotionState,
-  requestContext,
-} from "@/context";
+import { MotionBuilder, MotionState, requestContext } from "@/context";
 import { tween } from "@/tweening";
-import {
-  getDeep,
-  setDeep,
-  EasingOptions,
-  ExtractPathsOfType,
-  Random,
-} from "@coord/core";
-import { Control, makeControlUtility } from "./control";
-import { assertType } from "vitest";
+import { EasingOptions, Random, KPaths, VPaths } from "@coord/core";
+import { Control } from "./control";
 
-// export function* controlString<
-//   TState extends MotionState,
-//   TKey extends ExtractPathsOfType<TState, string>
-// >(
-//   key: TKey & string,
-//   fn?: (control: StringControl<TState>) => ReturnType<MotionBuilder<TState>>,
-//   initialValue?: string
-// ) {
-//   const context = yield* requestContext<TState>();
-//   const control = new StringControl<TState>(context, key);
-//   if (typeof initialValue === "string") {
-//     control.set(initialValue);
-//   }
-//   if (fn) {
-//     yield* fn(control);
-//   }
-//   return control;
-// }
-
-export class StringControl extends Control<string> {
+export class StringControl<TState extends MotionState> extends Control<
+  TState,
+  string
+> {
   assertType(value: unknown): asserts value is string {
     if (typeof value !== "string") {
       throw new Error(`Expected string, got ${typeof value}`);
     }
   }
 
-  private *tweenString<TState extends MotionState>(
+  private *tweenString(
     to: string,
     duration: number,
     config: Partial<{
@@ -62,22 +34,30 @@ export class StringControl extends Control<string> {
       easing
     );
   }
-
-  clear<TState extends MotionState>(duration: number, easing?: EasingOptions) {
-    this._nextTarget = null;
-    return this.in<TState>(duration, "clear", easing);
+  append(text: string) {
+    this.defer((v) => v + text);
+    return this;
   }
-  in<TState extends MotionState>(
+  prepend(text: string) {
+    this.defer((v) => text + v);
+    return this;
+  }
+
+  clear(duration: number, easing?: EasingOptions) {
+    return this.in(duration, "clear", easing);
+  }
+  in(
     duration: number,
     mode?: keyof typeof TextLerpModes,
     easing?: EasingOptions
   ) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return this.tweenString<TState>(next, duration, {
-      easing,
-      mode,
-    });
+    const self = this;
+    return this.applyDeferred((next) =>
+      self.tweenString(next, duration, {
+        easing,
+        mode,
+      })
+    );
   }
 }
 
@@ -142,12 +122,21 @@ const TextLerpModes = {
   "clear-then-append": clearThenAppend,
 };
 
-const createStringControl = (
-  context: MotionContext<MotionState>,
-  key: string
-) => new StringControl(context, key);
-
-export const controlString = makeControlUtility<
-  string,
-  typeof createStringControl
->(createStringControl);
+export function* controlString<
+  TState extends MotionState,
+  TKey extends KPaths<TState, string>
+>(
+  key: TKey & string,
+  fn?: (control: StringControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey, Array<any>>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new StringControl<TState>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
+}

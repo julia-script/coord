@@ -148,3 +148,11 @@ export const easingsFunctions = {
 export type EasingKeys = keyof typeof easingsFunctions;
 export type EasingFunction = (progress: number) => number;
 export type EasingOptions = EasingKeys | EasingFunction;
+
+export const applyEasing = (easing: EasingOptions, t: number) => {
+  if (typeof easing === "function") {
+    return easing(t);
+  } else {
+    return easingsFunctions[easing](t);
+  }
+};

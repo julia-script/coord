@@ -12,7 +12,8 @@ export type YieldedType<T extends (...args: any) => any> =
 
 export type MotionBuilderRequest<T extends MotionState> =
   | YieldedType<typeof requestContext<T>>
-  | YieldedType<typeof requestTransition>;
+  | YieldedType<typeof requestTransition>
+  | YieldedType<typeof requestPassTime>;
 
 export const isMotionBuilderRequest = (
   value: unknown
@@ -42,6 +43,10 @@ export function* motionRunner<TState extends MotionState>(
     if (isMotionBuilderRequest(currentIteration.value)) {
       if (currentIteration.value.type === "REQUEST_CONTEXT") {
         currentIteration.value.context = context;
+        continue;
+      }
+      if (currentIteration.value.type === "REQUEST_PASS_TIME") {
+        context.passTime(currentIteration.value.time);
         continue;
       }
     }
@@ -79,26 +84,6 @@ export function runScene<TState extends MotionState>(
   return context;
 }
 
-// export function runMotion<
-//   TState extends MotionState
-//   // TBuilder extends MotionBuilder<TState>
-// >(
-//   initialState: TState,
-//   builder: MotionBuilder<TState>,
-//   contextSettings: Partial<MotionContextSettings> = {}
-// ) {
-//   const [context, runner] = createMotion(
-//     initialState,
-//     builder,
-//     contextSettings
-//   );
-//   while (!runner.next().done) {
-//     continue;
-//   }
-
-//   return context;
-// }
-
 export function* requestContext<TState extends MotionState>() {
   const request: {
     type: "REQUEST_CONTEXT";
@@ -117,5 +102,12 @@ export function* requestTransition(duration?: number) {
   yield {
     type: "REQUEST_TRANSITION" as const,
     duration,
+  };
+}
+
+export function* requestPassTime(time: number) {
+  yield {
+    type: "REQUEST_PASS_TIME" as const,
+    time,
   };
 }

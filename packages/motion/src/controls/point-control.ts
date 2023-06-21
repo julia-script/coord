@@ -1,9 +1,13 @@
-import { MotionContext, MotionState } from "@/context";
+import { MotionBuilder, MotionState, requestContext } from "@/context";
 import { tween, spring, SpringParameters } from "@/tweening";
-import { EasingOptions, Vec2ish, Vec2 } from "@coord/core";
-import { Control, makeControlUtility } from "./control";
+import { EasingOptions, Vec2ish, Vec2, KPaths, VPaths } from "@coord/core";
+import { Control } from "./control";
 
-export class PointControl extends Control<Vec2, Vec2ish> {
+export class PointControl<TState extends MotionState> extends Control<
+  TState,
+  Vec2,
+  Vec2ish
+> {
   assertType(value: unknown): asserts value is Vec2 {
     if (!(value instanceof Vec2)) {
       throw new Error(`Expected Vec2, got ${typeof value}`);
@@ -16,42 +20,46 @@ export class PointControl extends Control<Vec2, Vec2ish> {
     return Vec2.of(value);
   }
 
-  private *tweenPoint<TState extends MotionState>(
-    value: Vec2,
-    duration: number,
-    easing?: EasingOptions
-  ) {
-    let initialValue: Vec2;
-
+  private *tweenPoint(value: Vec2, duration: number, easing?: EasingOptions) {
+    const initialValue = this.get();
+    this.assertType(initialValue);
     yield* tween<TState>(
       duration,
       (t) => {
-        if (!initialValue) {
-          initialValue = this.get();
-          this.assertType(initialValue);
-        }
         this.set(initialValue.lerp(value, t));
       },
       easing
     );
   }
 
-  in<TState extends MotionState>(duration: number, easing?: EasingOptions) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return this.tweenPoint<TState>(next, duration, easing);
+  in(duration: number, easing?: EasingOptions) {
+    return this.applyDeferred((next) =>
+      this.tweenPoint(next, duration, easing)
+    );
   }
 
-  spring<TState extends MotionState>(parameters?: SpringParameters) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return spring<Vec2, TState>(this.get, next, this.set, parameters);
+  spring(parameters?: SpringParameters) {
+    return this.applyDeferred((next) =>
+      spring<Vec2, TState>(this.get, next, this.set, parameters)
+    );
   }
 }
 
-const createPointControl = (context: MotionContext<MotionState>, key: string) =>
-  new PointControl(context, key);
-
-export const controlPoint = makeControlUtility<Vec2, typeof createPointControl>(
-  createPointControl
-);
+export function* controlPoint<
+  TState extends MotionState,
+  TKey extends KPaths<TState, Vec2>
+>(
+  key: TKey & string,
+  fn?: (control: PointControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey, Array<any>>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new PointControl<TState>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
+}

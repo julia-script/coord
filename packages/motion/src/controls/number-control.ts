@@ -1,28 +1,16 @@
-import {
-  MotionBuilder,
-  MotionContext,
-  MotionState,
-  requestContext,
-} from "@/context";
+import { MotionBuilder, MotionState, requestContext } from "@/context";
 import { tween, spring, SpringParameters } from "@/tweening";
-import {
-  getDeep,
-  setDeep,
-  InferPathValueTree,
-  lerp,
-  EasingOptions,
-  InferPath,
-  InferPathValue,
-  InferPathValueImplementation,
-  ExtractPathsOfType,
-} from "@coord/core";
-import { Control, makeControlUtility } from "./control";
+import { lerp, EasingOptions, KPaths, VPaths } from "@coord/core";
+import { Control } from "./control";
 
 const isNumber = (value: unknown): value is number => typeof value === "number";
 
 const isFinite = (value: unknown): value is number => Number.isFinite(value);
 
-export class NumberControl extends Control<number> {
+export class NumberControl<TState extends MotionState> extends Control<
+  TState,
+  number
+> {
   assertType(value: unknown): asserts value is number {
     if (!isNumber(value)) {
       throw new Error(`Expected  number, got ${typeof value}`);
@@ -32,45 +20,50 @@ export class NumberControl extends Control<number> {
     }
   }
 
-  private *tweenNumber<TState extends MotionState>(
+  private *tweenNumber(
     value: number,
     duration: number,
     easing?: EasingOptions
   ) {
-    let initialValue: number;
-
+    const initialValue = this.get();
+    this.assertType(initialValue);
     yield* tween<TState>(
       duration,
       (t) => {
-        if (!initialValue) {
-          initialValue = this.get();
-          this.assertType(initialValue);
-        }
         this.set(lerp(initialValue, value, t));
       },
       easing
     );
   }
 
-  in<TState extends MotionState>(duration: number, easing?: EasingOptions) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return this.tweenNumber<TState>(next, duration, easing);
+  in(duration: number, easing?: EasingOptions) {
+    return this.applyDeferred((next) =>
+      this.tweenNumber(next, duration, easing)
+    );
   }
 
-  spring<TState extends MotionState>(parameters?: SpringParameters) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return spring<number, TState>(this.get, next, this.set, parameters);
+  spring(parameters?: SpringParameters) {
+    return this.applyDeferred((next) =>
+      spring<number, TState>(this.get, next, this.set, parameters)
+    );
   }
 }
 
-const createNumberControl = (
-  context: MotionContext<MotionState>,
-  key: string
-) => new NumberControl(context, key);
-
-export const controlNumber = makeControlUtility<
-  number,
-  typeof createNumberControl
->(createNumberControl);
+export function* controlNumber<
+  TState extends MotionState,
+  TKey extends KPaths<TState, number>
+>(
+  key: TKey & string,
+  fn?: (control: NumberControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey, Array<any>>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new NumberControl<TState>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
+}

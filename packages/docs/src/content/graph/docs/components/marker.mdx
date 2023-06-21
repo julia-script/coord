@@ -1,10 +1,10 @@
 ```tsx live collapsed
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
   Plot,
   Marker,
-  Vec2,
   PolyLine,
   LabelContainer,
   Text,
@@ -82,7 +82,8 @@ The Marker component is a utility for placing labels or icons at specific
 positions on your graph.
 
 ```tsx live
-import { Graph, Grid, Marker, PolyLine, useCoord, Vec2ish } from "@coord/graph";
+import { Vec2ish } from "@coord/core";
+import { Graph, Grid, Marker, PolyLine } from "@coord/graph";
 
 export default function MyGraph() {
   const pathOfLove: Vec2ish[] = [
@@ -125,7 +126,6 @@ import {
   Marker,
   PolyLine,
   Text,
-  Vec2,
   useCoordState,
 } from "@coord/graph";
 

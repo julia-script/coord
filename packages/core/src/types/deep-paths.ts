@@ -120,3 +120,126 @@ export type ExtractPathsOfType<TObject, TType> = {
     ? K
     : never;
 }[InferPath<TObject>];
+
+export type KeyOfTree<TState> = keyof InferPathValueTree<TState> & string;
+export type ValueOfTree<TState> = InferPathValueTree<TState>[KeyOfTree<TState>];
+/**
+ * v2
+ */
+
+type Join<K, P> = K extends string | number
+  ? P extends string | number
+    ? `${K}${"" extends P ? "" : "."}${P}`
+    : never
+  : never;
+
+type Prev = [
+  never,
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  ...0[]
+];
+
+export type Paths<T, D extends number = 3> = [D] extends [never]
+  ? never
+  : T extends object
+  ? {
+      [K in keyof T]-?: K extends string | number
+        ? `${K}` | Join<K, Paths<T[K], Prev[D]>>
+        : never;
+    }[keyof T]
+  : "";
+
+type Leaves<T, D extends number = 3> = [D] extends [never]
+  ? never
+  : T extends object
+  ? { [K in keyof T]-?: Join<K, Leaves<T[K], Prev[D]>> }[keyof T]
+  : "";
+
+export type FilteredPaths<T, TType, D extends number = 3> = [D] extends [never]
+  ? never
+  : T extends object
+  ? {
+      [K in keyof T]-?: K extends string | number
+        ? T[K] extends object
+          ? Join<K, FilteredPaths<T[K], TType, Prev[D]>>
+          : T[K] extends TType
+          ? `${K}` //| Join<K, Paths<T[K], Prev[D]>>
+          : never
+        : never;
+    }[keyof T]
+  : "";
+
+type TuplesJoin<K, P> = P extends string | number
+  ? K extends string | number
+    ? `${K}${"" extends K ? "" : "."}${P}`
+    : never
+  : never;
+export type KVPathsImpl<T, TPath = "", D extends number = 3> = [D] extends [
+  never
+]
+  ? never
+  : T extends object
+  ? {
+      [K in keyof T]-?: K extends string | number
+        ?
+            | [TuplesJoin<TPath, K>, T[K]]
+            | KVPathsImpl<T[K], TuplesJoin<TPath, K>, Prev[D]> // TuplesJoin<K, KVPaths<T[K], Prev[D]>>
+        : never;
+    }[keyof T]
+  : never;
+
+export type KVPaths<T, D extends number = 3> = Extract<
+  KVPathsImpl<T, "", D>,
+  [string, any]
+>;
+
+type NestedObjectType = {
+  a: string;
+  b: number;
+  nest: {
+    c: number;
+  }[];
+  otherNest: {
+    c: string;
+  };
+};
+
+type test = KPaths<NestedObjectType, number>;
+//     ^?
+type test2 = VPaths<NestedObjectType, "b">;
+//     ^?
+export type KPaths<T, TTypeFilter = any, D extends number = 3> = Extract<
+  KVPaths<T, D>,
+  [any, TTypeFilter]
+> extends [infer K, any]
+  ? K & string
+  : never;
+
+export type VPaths<T, K, TTypeFilter = any, D extends number = 3> = Extract<
+  KVPaths<T, D>,
+  [K, TTypeFilter]
+> extends [any, infer V]
+  ? V extends TTypeFilter
+    ? V
+    : never
+  : never;

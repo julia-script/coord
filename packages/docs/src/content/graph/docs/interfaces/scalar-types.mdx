@@ -73,22 +73,29 @@ const scalarPoint: ScalarPoint = Vec2.of(10, 10);
 - The Vec2 class offers a static method `of` to conveniently create a `Vec2` instance from a `Vec2ish` value.
 
 ```tsx live
-import { useLayoutEffect } from "react";
+import { CSSProperties } from "react";
+import { point } from "@coord/core";
 import {
   Graph,
   Grid,
   Marker,
-  Vec2,
   Label,
-  point,
   useNavigationState,
   useStopwatch,
+  ScalarPoint,
 } from "@coord/graph";
 
+const labelStyle: CSSProperties = {
+  width: 180,
+  textAlign: "center",
+  padding: 10,
+  fontSize: 12,
+};
+
 export default function MyGraph() {
-  const p0 = ["200vs", "200vs"];
-  const p1 = [0, 0];
-  const p2 = ["400vs", 0];
+  const p0: ScalarPoint = ["200vs", "200vs"];
+  const p1: ScalarPoint = [0, 0];
+  const p2: ScalarPoint = ["400vs", 0];
 
   const initialCoordBox = {
     horizontal: point(-10, 10),
@@ -96,13 +103,6 @@ export default function MyGraph() {
   };
 
   const [coordBox, setCoordBox] = useNavigationState(initialCoordBox);
-
-  const labelStyle = {
-    width: 180,
-    textAlign: "center",
-    padding: 10,
-    fontSize: 12,
-  };
 
   const { pause } = useStopwatch(
     (t) => {
@@ -137,7 +137,6 @@ export default function MyGraph() {
       <Marker position={p0} color={1} />
       <Label target={p0} direction={"s"} strokeColor={1}>
         <div style={labelStyle}>
-
           I'm a label positioned at <strong>[{p0.toString()}]</strong>, So I'm
           relative to the graph viewport.
         </div>

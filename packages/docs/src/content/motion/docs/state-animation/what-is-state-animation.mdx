@@ -1,0 +1,660 @@
+# What is State animation?
+
+State animation is a way of controlling the animation flow by computing how the
+state changes over time.
+
+So as an example, let's say you want to animate a circle moving from left to
+right.
+
+```tsx live collapsed
+import { makeScene, controlNumber, controlColor } from "@coord/motion";
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+
+const scene = makeScene(
+  "Circle moving from left to right",
+  {
+    x: 20,
+    opacity: 0,
+  },
+  function* () {
+    const x = yield* controlNumber("x");
+    const opacity = yield* controlNumber("opacity");
+    yield* opacity.to(1).in(0.5);
+    yield* x.to(80).in(1.5);
+    yield* opacity.to(0).in(0.5);
+  }
+);
+
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+  const { state } = controls;
+
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <svg width="100%" height="100%">
+        <circle
+          cx={`${state.x}%`}
+          cy={"50%"}
+          r={100}
+          fill={"#F5A9B8"}
+          opacity={state.opacity}
+        />
+      </svg>
+    </MotionPlayer>
+  );
+}
+```
+
+A more traditional way you could approach it would be to follow the steps:
+
+## Frame 1:
+
+1. Set the `x` position of the circle
+1. Draw the circle
+
+## Frame 2:
+
+1. Clear the canvas
+1. Update the `x` value (let's say `x += 1`)
+1. Draw the circle
+
+Rinse and repeat..
+
+```tsx live collapsed
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+import {
+  all,
+  chain,
+  controlColor,
+  controlNumber,
+  controlString,
+  makeScene,
+  repeat,
+  wait,
+} from "@coord/motion";
+import { Circle, Graph, TextBlock, Text } from "@coord/graph";
+
+const scene = makeScene(
+  "Rendering a frame",
+  {
+    frame: {
+      opacity: 0,
+      x: 0,
+      ghostified: 1,
+    },
+    steps: {
+      clear: {
+        opacity: 0,
+        color: "#fff",
+        text: "Clear frame",
+      },
+      updateState: {
+        opacity: 0,
+        color: "#fff",
+        text: "Initialize state",
+      },
+      render: {
+        opacity: 0,
+        color: "#fff",
+        text: "Render",
+      },
+    },
+  },
+  function* () {
+    const state = yield* controlNumber("frame.x");
+    const ghostified = yield* controlNumber("frame.ghostified");
+    const opacity = yield* controlNumber("frame.opacity");
+
+    const clear = {
+      color: yield* controlColor("steps.clear.color"),
+      opacity: yield* controlNumber("steps.clear.opacity"),
+    };
+
+    const update = {
+      color: yield* controlColor("steps.updateState.color"),
+      opacity: yield* controlNumber("steps.updateState.opacity"),
+      text: yield* controlString("steps.updateState.text"),
+    };
+
+    const render = {
+      color: yield* controlColor("steps.render.color"),
+      opacity: yield* controlNumber("steps.render.opacity"),
+    };
+
+    const highlightColor = "#f1fa8c";
+
+    yield* repeat(10, (i) =>
+      chain(
+        all(
+          ghostified.as(1),
+          opacity.to(1).in(1),
+          ...(i !== 0
+            ? [
+                clear.color.to("white").in(1),
+                clear.opacity.to(0.2).in(1),
+                state.to(i).in(1),
+              ]
+            : []),
+          ...(i === 1
+            ? [update.text.to("Update state").in(0.5, "clear-then-append")]
+            : []),
+          update.color.as(highlightColor),
+          update.opacity.to(1).in(1)
+        ),
+        wait(2),
+        all(
+          ghostified.to(0).in(1),
+
+          update.color.to("white").in(1),
+          update.opacity.to(0.2).in(1),
+
+          render.color.as(highlightColor),
+          render.opacity.to(1).in(1)
+        ),
+        wait(2),
+        all(
+          opacity.to(0).in(1),
+
+          render.color.to("white").in(1),
+          render.opacity.to(0.2).in(1),
+
+          clear.color.as(highlightColor),
+          clear.opacity.to(1).in(1)
+        ),
+        wait(2)
+      )
+    );
+  }
+);
+
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+  const { state } = controls;
+  const labels = {
+    clear: "Clear Canvas",
+    updateState: "Update State",
+    render: "Render",
+  };
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <Graph
+        coordBox={{
+          horizontal: [0, 10],
+          vertical: [4, -3.8],
+        }}
+        padding={20}
+        width="100%"
+        height="100%"
+      >
+        <g opacity={state.frame.opacity}>
+          <Circle
+            position={[state.frame.x, 0]}
+            strokeDasharray={"10 10"}
+            radius={1.5}
+            strokeOpacity={state.frame.ghostified}
+            fillOpacity={1 - state.frame.ghostified}
+            fillColor={0}
+          />
+          <Text position={[state.frame.x, 0]} color={0} fontSize={30}>
+            x = {Math.floor(state.frame.x)}
+          </Text>
+        </g>
+
+        {Object.entries(state.steps).map(
+          ([step, { opacity, color, text }], i) => (
+            <TextBlock
+              key={step}
+              opacity={opacity}
+              className="flex items-center justify-center rounded-2xl border-[5px] border-dashed p-6 font-mono text-[27px]"
+              position={[(i * 10) / 3, 3]}
+              size={[3.1, 1]}
+              style={{
+                borderColor: color,
+                color: color,
+              }}
+            >
+              {text}
+            </TextBlock>
+          )
+        )}
+      </Graph>
+    </MotionPlayer>
+  );
+}
+```
+
+```typescript
+// Initialize state (x position of the circle)
+let x = 0;
+
+const renderFrame = () => {
+  // Clears previous rendered frame
+  clearPreviousFrame();
+
+  // Updates the state for the current frame
+  x = x + 1;
+
+  // Paint the current frame
+  drawCircle(x);
+};
+
+// The render loop
+const tick = () => {
+  renderFrame();
+  requestAnimationFrame(tick);
+};
+
+tick();
+```
+
+Now let's consider separating the state update from the rendering part, so
+instead of the `update state` > `render frame` pipeline, we pre-compute the
+state for each frame, and then render it.
+
+```tsx live collapsed
+"use client";
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+import {
+  all,
+  chain,
+  controlColor,
+  controlList,
+  controlNumber,
+  makeScene,
+  repeat,
+  tween,
+  wait,
+} from "@coord/motion";
+import { Circle, Graph, TextBlock, Text } from "@coord/graph";
+import { lerp } from "@coord/core";
+
+const scene = makeScene(
+  "Rendering a frame",
+  {
+    frames: [] as {
+      opacity: number;
+      x: number;
+      ghostified: number;
+    }[],
+    steps: {
+      initializeState: {
+        opacity: 0,
+        color: "#fff",
+        text: "Initialize state",
+      },
+      selectFrame: {
+        opacity: 0,
+        color: "#fff",
+        text: "Select frame",
+      },
+
+      render: {
+        opacity: 0,
+        color: "#fff",
+        text: "Update view",
+      },
+    },
+  },
+  function* () {
+    const frames = yield* controlList("frames");
+
+    const initialize = {
+      color: yield* controlColor("steps.initializeState.color"),
+      opacity: yield* controlNumber("steps.initializeState.opacity"),
+    };
+
+    const render = {
+      color: yield* controlColor("steps.render.color"),
+      opacity: yield* controlNumber("steps.render.opacity"),
+    };
+
+    const selectFrame = {
+      color: yield* controlColor("steps.selectFrame.color"),
+      opacity: yield* controlNumber("steps.selectFrame.opacity"),
+    };
+
+    const highlightColor = "#f1fa8c";
+
+    yield* all(
+      initialize.color.as(highlightColor),
+      initialize.opacity.to(1).in(1),
+      frames.tweenAppend(10, 1, (i, frame) =>
+        tween(1, (t) => {
+          frame.set({
+            opacity: t * 0.4,
+            x: i,
+            ghostified: 1,
+          });
+        })
+      )
+    );
+    yield* repeat(10, (i) =>
+      chain(
+        all(
+          initialize.color.to("white").in(1),
+          initialize.opacity.to(0.2).in(1),
+          ...(i !== 0
+            ? [render.color.as("white"), render.opacity.to(0.2).in(1)]
+            : []),
+          selectFrame.color.as(highlightColor),
+          selectFrame.opacity.to(1).in(1),
+          frames.tweenEach(1, (t, { opacity, ...rest }, index) => {
+            if (index === i) return { opacity: lerp(opacity, 1, t), ...rest };
+            return {
+              opacity: lerp(opacity, 0.1, t),
+              ...rest,
+            };
+          })
+        ),
+        wait(2),
+        all(
+          frames.tweenAt(
+            i,
+            (t, curr) => ({
+              ...curr,
+              ghostified: 1 - t,
+            }),
+            1
+          ),
+          frames.tweenAt(
+            i - 1,
+            (t, curr) => ({
+              ...curr,
+              ghostified: t,
+            }),
+            1
+          ),
+          selectFrame.color.to("white").in(1),
+          selectFrame.opacity.to(0.2).in(1),
+
+          render.color.as(highlightColor),
+          render.opacity.to(1).in(1),
+          wait(2)
+        )
+      )
+    );
+  }
+);
+
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+  const { state } = controls;
+  const labels = {
+    clear: "Clear Canvas",
+    updateState: "Update State",
+    render: "Render",
+  };
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <Graph
+        coordBox={{
+          horizontal: [0, 10],
+          vertical: [4.3, -3.5],
+        }}
+        padding={20}
+        width="100%"
+        height="100%"
+      >
+        {state.frames.map(({ opacity, x, ghostified }, i) => (
+          <g key={i} opacity={opacity}>
+            <Circle
+              position={[x, 0]}
+              strokeDasharray={"10 10"}
+              radius={1.5}
+              strokeOpacity={ghostified}
+              fillOpacity={1 - ghostified}
+              fillColor={0}
+            />
+            <Text position={[x, 0]} color={0} fontSize={30}>
+              x = {Math.floor(x)}
+            </Text>
+          </g>
+        ))}
+
+        {Object.entries(state.steps).map(
+          ([step, { opacity, color, text }], i) => (
+            <TextBlock
+              key={step}
+              opacity={opacity}
+              className="flex items-center justify-center rounded-2xl border-[5px] border-dashed p-6 font-mono text-[27px]"
+              position={
+                step === "initializeState"
+                  ? [5 - 1.5, 4]
+                  : [(i === 1 ? 2 : 8) - 1.5, 3]
+              }
+              size={[3, 0.8]}
+              style={{
+                borderColor: color,
+                color: color,
+              }}
+            >
+              {text}
+            </TextBlock>
+          )
+        )}
+      </Graph>
+    </MotionPlayer>
+  );
+}
+```
+
+```tsx
+// Initialize state (x position of the circle) for each frame
+const animationState = []; // x: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ...]
+for (let i = 0; i < 400; i++) {
+  animationState.push(i);
+}
+
+// defines frame index to be rendered
+let frameIndex = 0;
+
+const renderFrame = () => {
+  // Clears previous rendered frame
+  clearPreviousFrame();
+
+  // Gets the precalculated state for the current frame
+  const x = animationState[frameIndex];
+
+  // Paint the current frame
+  drawCircle(x);
+};
+
+// The render loop
+const tick = () => {
+  renderFrame();
+  requestAnimationFrame(tick);
+  frameIndex = frameIndex + 1;
+};
+
+tick();
+```
+
+I'll be the first to admit that in this simple example, it doesn't look like
+much, it might even complicate things a bit.
+
+We may want to consider a few things though:
+
+1. When writing the rendering logic, we only have to think about the state for
+   the current frame.
+1. The performance cost of calculating the state is paid upfront, so when
+   playing it in real time, you only have to worry about the rendering cost.
+1. You can quickly jump to any frame form any point in the animation without
+   pre-renderign the entire video, without any additional cost.
+
+But to me the real advantage is to be able to program the view and the animation
+following different paradigms.
+
+## Imperative vs Declarative
+
+One of the reasons frameworks like React are so popular is because they allow
+you to create interfaces in a declarative way. For UIs, it feels more natural to
+design the rendering logic to reflect the current state of the application. So
+this
+
+```tsx
+// Declarative Counter
+import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+Is easier to reason about than this
+
+```tsx
+// Imperative Counter
+const counterElement = document.createElement("div");
+const paragraphElement = document.createElement("p");
+const incrementButton = document.createElement("button");
+
+document.body.appendChild(counterElement);
+counterElement.appendChild(paragraphElement);
+counterElement.appendChild(incrementButton);
+
+let count = 0;
+
+incrementButton.addEventListener("click", () => {
+  count = count + 1;
+  counterElement.innerText = `Count: ${count}`;
+});
+```
+
+Does this mean that declarative is better than imperative?
+
+Not necessarily, I would argue there are cases where imperative code makes a lot
+more sense.
+
+When animating, you're usually describing how the animation changes over time,
+so it's easier to give the program a list of sequential instructions.
+
+Let's take Manim as an example, a popular animation framework for Python.
+
+```python
+from manim import *
+
+class MovingCircle(Scene):
+    def construct(self):
+        # Instantiate circle into view
+        circle = Circle(radius=1, color=BLUE)
+
+        # move circle to the left over 2 seconds
+        self.play(circle.animate.shift(LEFT), run_time=2)
+
+        # THEN move circle to the right over 2 seconds
+        self.play(circle.animate.shift(RIGHT), run_time=2)
+
+        # THEN Change circle color to red over 2 seconds
+        self.play(circle.animate.set_fill(RED), run_time=2)
+
+```
+
+It's very simple to wrap your head around this in an imperative form, but it's a
+nightmare to do it declaratively (I was going to write an example but geez, I
+really don't want to).
+
+## The problem with imperative animations
+
+The first time I saw [motion-canvas](https://motioncanvas.io/), I was blown away
+by how easy it was to control the animation flow, and most of it is due to its
+imperative workflow.
+
+```tsx
+import { makeScene2D, Circle } from "@motion-canvas/2d";
+import { all, createRef } from "@motion-canvas/core";
+
+export default makeScene2D(function* (view) {
+  // Instantiate circle into view
+  const myCircle = createRef<Circle>();
+
+  view.add(
+    <Circle ref={myCircle} x={-300} width={140} height={140} fill="#e13238" />
+  );
+  // Animate circle
+  yield* all(myCircle().position.x(300, 1).to(-300, 1));
+});
+```
+
+But as I started to use it more, and as the number and complexity of elements in
+the scene grew, this pattern of instantiating and managing nodes in the scene
+started to feel a bit cumbersome.
+
+Don't get me wrong, Manim and Motion Canvas are great tools, and might be the
+right one for you, but I wanted a way to describe the animation flow in an
+imperative fashion, without sacrificing the declarative nature of modern UI
+frameworks I grew accustomed to.
+
+That's why I created `@coord/motion`.
+
+```tsx live
+import {
+  makeScene,
+  controlNumber,
+  controlColor,
+  all,
+  chain,
+  wait,
+} from "@coord/motion";
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+
+const scene = makeScene(
+  // Give the scene a cool name:
+  "Super Cool Circle Going Places",
+  // Define the initial state:
+  {
+    x: 20,
+    radius: 100,
+    fill: "#F5A9B8",
+  },
+  function* () {
+    const x = yield* controlNumber("x");
+    const radius = yield* controlNumber("radius");
+    const fill = yield* controlColor("fill");
+
+    // Animate..
+    yield* all(
+      chain(
+        fill.to("#5BCEFA").in(1),
+        wait(0.5),
+        fill.to("#F5A9B8").in(1),
+        wait(0.5)
+      ),
+      chain(
+        x.to(80).in(1),
+        radius.to(200).in(0.5),
+        x.to(20).in(1),
+        radius.to(100).in(0.5)
+      )
+    );
+  }
+);
+
+// Now render the scene
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+
+  const {
+    state, // state of the current frame
+  } = controls;
+
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <svg width="100%" height="100%">
+        <circle
+          cx={`${state.x}%`}
+          cy={"50%"}
+          r={state.radius}
+          fill={state.fill}
+        />
+      </svg>
+    </MotionPlayer>
+  );
+}
+```

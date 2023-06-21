@@ -9,7 +9,6 @@ export type TextProps = {
   fontWeight?: number | string;
   fontFamily?: string;
   color?: number | string;
-  children?: React.ReactNode;
 } & Omit<React.SVGProps<SVGTextElement>, "color"> &
   GraphElement;
 

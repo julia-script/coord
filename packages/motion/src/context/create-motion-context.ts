@@ -32,6 +32,7 @@ export class MotionContext<TState extends MotionState> {
   frames: (TState & MotionStateContextProps)[];
   meta: MotionContextMeta;
   settings: MotionContextSettings;
+  time = 0;
 
   constructor(
     scene: MotionScene<TState>,
@@ -87,6 +88,7 @@ export class MotionContext<TState extends MotionState> {
     }
   }
   pushFrame() {
+    this.passTime(1 / this.settings.fps);
     this.collectChildStates();
     this.frames.push(this._state);
 
@@ -96,6 +98,12 @@ export class MotionContext<TState extends MotionState> {
       $frame: this.frames.length,
     };
   }
+  passTime = (time: number) => {
+    if (time > 1 / this.settings.fps) {
+      throw new Error(`Time should be less than 1 frame, got ${time}`);
+    }
+    this.time += time;
+  };
 }
 
 export function createMotionContext<TState extends MotionState>(

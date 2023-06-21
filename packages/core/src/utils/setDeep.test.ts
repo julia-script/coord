@@ -6,6 +6,10 @@ describe("setDeep", () => {
       foo: {
         bar: {
           baz: 1,
+          other: 2,
+        },
+        otherObj: {
+          baz: 1,
         },
       },
     };
@@ -15,6 +19,10 @@ describe("setDeep", () => {
       foo: {
         bar: {
           baz: 2,
+          other: 2,
+        },
+        otherObj: {
+          baz: 1,
         },
       },
     });

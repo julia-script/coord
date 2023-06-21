@@ -47,18 +47,8 @@ export const stringToPath = (input: string): string[] =>
 const copy = <T extends Array<any> | object>(obj: T): T => {
   return Array.isArray(obj) ? ([...obj] as T) : ({ ...obj } as T);
 };
-// export const splitPathAtHead = <T extends string>(path: T) => {
-//   const [head, ...rest] = stringToPath(path);
-//   return [head, rest.join(".")] as SplitAtHead<T>;
-// };
 
 export const setDeep = <
-  // TFieldValues extends {
-  //   [key: string]: unknown;
-  // },
-  // TFieldPath extends InferPath<TFieldValues>,
-  // TValue extends InferPathValue<TFieldValues, TFieldPath>
-
   T extends {
     [key: string]: unknown;
   },
@@ -70,9 +60,6 @@ export const setDeep = <
   value: TTree[TKey]
 ) => {
   let index = -1;
-  // if (path === "") {
-  // return value;
-  // }
 
   const tempPath = isKey(path) ? [path] : stringToPath(path);
   const length = tempPath.length;
@@ -86,7 +73,7 @@ export const setDeep = <
 
     let newValue = value;
     if (index !== lastIndex) {
-      const objValue = newObj[key];
+      const objValue = tempObj[key];
 
       if (isObject(objValue) || Array.isArray(objValue)) {
         newValue = copy(objValue) as TTree[TKey];

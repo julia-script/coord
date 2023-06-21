@@ -3,7 +3,8 @@
 `BoundingBox` is similar to `Rect` but it takes a `BBoxish` object to draw a rect. It's specially usefull when you want to draw a rect around a coordinate area.
 
 ```tsx live
-import { Graph, Grid, Plot, Rect, Text, BoundingBox } from "@coord/graph";
+import { point } from "@coord/core";
+import { Graph, Grid, Text, BoundingBox } from "@coord/graph";
 
 export default function MyGraph() {
   const top = 10;
@@ -12,8 +13,8 @@ export default function MyGraph() {
   const left = -10;
 
   const coordBox = {
-    horizontal: [left, right],
-    vertical: [top, bottom],
+    horizontal: point(left, right),
+    vertical: point(top, bottom),
   };
 
   return (

@@ -1,37 +1,54 @@
 import {
   MotionBuilder,
+  MotionBuilderGenerator,
   MotionContext,
   MotionState,
   requestContext,
 } from "@/context";
-import { ExtractPathsOfType, getDeep, setDeep } from "@coord/core";
 
-export abstract class Control<TValue, TValueIn = TValue> {
-  _nextTarget: TValue | null = null;
+import {
+  ExtractPathsOfType,
+  KPaths,
+  VPaths,
+  getDeep,
+  isFunction,
+  setDeep,
+} from "@coord/core";
 
-  constructor(public context: MotionContext<MotionState>, public key: string) {}
-
-  get nextTarget() {
-    if (this._nextTarget === null) {
-      const curr = this.get();
-
-      this._nextTarget = curr;
-      return curr;
-    }
-    return this._nextTarget;
-  }
-
-  set nextTarget(value: TValue) {
-    this._nextTarget = value;
-  }
+export class Control<TState extends MotionState, TValue, TValueIn = TValue> {
+  _deferred: ((current: TValue) => TValue)[] = [];
 
   assertType(value: unknown): asserts value is TValue {
-    throw new Error(
-      `Type assertion for ${this.constructor.name} not implemented`
-    );
+    //not implemented
+  }
+  constructor(public context: MotionContext<MotionState>, public key: string) {}
+
+  defer(fn: (current: TValue) => TValue) {
+    this._deferred.push(fn);
+  }
+  getDeferred() {
+    const deferred = this._deferred;
+    this._deferred = [];
+    return deferred;
+  }
+  applyDeferred(gen: (next: TValue) => MotionBuilderGenerator<TState>) {
+    const deferred = this.getDeferred();
+    const self = this;
+    const applyDeferred = function* () {
+      const next = self.computeDeferred(deferred);
+      yield* gen(next);
+    };
+    return applyDeferred();
+  }
+  computeDeferred(deferred: ((current: TValue) => TValue)[]) {
+    let current = this.get();
+    for (const fn of deferred) {
+      current = fn(current);
+    }
+    return current;
   }
 
-  normalizeValue(value: TValueIn): TValue {
+  normalizeValue(value: TValueIn | TValue): TValue {
     this.assertType(value);
     return value;
   }
@@ -41,7 +58,14 @@ export abstract class Control<TValue, TValueIn = TValue> {
     return value;
   };
 
-  set = (value: TValueIn) => {
+  set = (value: TValueIn | TValue) => {
+    if (this.key in this.context._state) {
+      this.context.state({
+        [this.key]: this.normalizeValue(value),
+      });
+      return;
+    }
+
     this.context._state = setDeep(
       this.context._state,
       this.key,
@@ -49,43 +73,48 @@ export abstract class Control<TValue, TValueIn = TValue> {
     );
   };
 
-  *as(value: TValueIn) {
-    this._nextTarget = null;
-    this.set(value);
-    yield;
+  *do() {
+    const deferred = this.getDeferred();
+    const next = this.computeDeferred(deferred);
+    this.assertType(next);
+    this.set(next);
+  }
+  *as(value: TValueIn | ((prev: TValue) => TValueIn)) {
+    const v = isFunction(value) ? value(this.get()) : value;
+    this.set(v);
   }
 
   from(value: TValueIn) {
-    this.nextTarget = this.normalizeValue(value);
+    this.defer((v) => {
+      this.set(this.normalizeValue(value));
+      return v;
+    });
     return this;
   }
 
   to(value: TValueIn) {
-    this.nextTarget = this.normalizeValue(value);
+    this.defer(() => this.normalizeValue(value));
     return this;
   }
 }
 
-function hasSet<T>(value: unknown): value is { set: (value: T) => void } {
-  return typeof value === "object" && value !== null && "set" in value;
-}
-export function makeControlUtility<
-  TType,
-  TFactory extends (context: MotionContext<MotionState>, key: string) => any
->(factory: TFactory) {
-  return function* controlUtility<TState extends MotionState>(
-    key: ExtractPathsOfType<TState, TType>,
-    fn?: (control: ReturnType<TFactory>) => ReturnType<MotionBuilder<TState>>,
-    initialValue?: TType
-  ) {
-    const context = yield* requestContext<TState>();
-    const control = factory(context, key);
-    if (initialValue !== undefined && hasSet<TType>(control)) {
-      control.set(initialValue);
-    }
-    if (fn) {
-      yield* fn(control);
-    }
-    return control as ReturnType<TFactory>;
-  };
+export function* control<
+  TState extends MotionState,
+  TKey extends KPaths<TState>
+>(
+  key: TKey & string,
+  fn?: (
+    control: Control<TState, VPaths<TState, TKey>>
+  ) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new Control<TState, VPaths<TState, TKey>>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
 }

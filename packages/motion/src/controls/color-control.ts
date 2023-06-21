@@ -1,7 +1,7 @@
-import { MotionContext, MotionState } from "@/context";
+import { MotionBuilder, MotionState, requestContext } from "@/context";
 import { tween } from "@/tweening";
-import { EasingOptions } from "@coord/core";
-import { Control, makeControlUtility } from "./control";
+import { EasingOptions, KPaths, VPaths } from "@coord/core";
+import { Control } from "./control";
 
 type RectangularColorSpace =
   | "srgb"
@@ -40,14 +40,17 @@ type ColorTweeningOptions = {
   easing: EasingOptions;
 } & ColorMixOptions;
 
-export class ColorControl extends Control<string> {
+export class ColorControl<TState extends MotionState> extends Control<
+  TState,
+  string
+> {
   assertType(value: unknown): asserts value is string {
     if (typeof value !== "string") {
       throw new Error(`Expected a color string, got ${typeof value}`);
     }
   }
 
-  private *tweenColor<TState extends MotionState>(
+  private tweenColor(
     value: string,
     duration: number,
     config: Partial<ColorTweeningOptions> = {}
@@ -69,19 +72,28 @@ export class ColorControl extends Control<string> {
     );
   }
 
-  in<TState extends MotionState>(
-    duration: number,
-    config: Partial<ColorTweeningOptions>
-  ) {
-    const next = this.nextTarget;
-    this._nextTarget = null;
-    return this.tweenColor<TState>(next, duration, config);
+  in(duration: number, config?: Partial<ColorTweeningOptions>) {
+    return this.applyDeferred((next) =>
+      this.tweenColor(next, duration, config)
+    );
   }
 }
-const createColorControl = (context: MotionContext<MotionState>, key: string) =>
-  new ColorControl(context, key);
 
-export const controlColor = makeControlUtility<
-  string,
-  typeof createColorControl
->(createColorControl);
+export function* controlColor<
+  TState extends MotionState,
+  TKey extends KPaths<TState, string>
+>(
+  key: TKey & string,
+  fn?: (control: ColorControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey, Array<any>>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new ColorControl<TState>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
+}

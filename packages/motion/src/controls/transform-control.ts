@@ -4,59 +4,23 @@ import {
   MotionState,
   requestContext,
 } from "@/context";
-import { tween, spring, SpringParameters } from "@/tweening";
+import { tween } from "@/tweening";
 import {
   getDeep,
   setDeep,
-  InferPathValueTree,
   EasingOptions,
   Transform,
   Vec2ish,
   Vec2,
-  ExtractPathsOfType,
+  KPaths,
+  VPaths,
 } from "@coord/core";
+import { Control } from "./control";
 
-export function* controlTransform<
-  TState extends MotionState,
-  TKey extends ExtractPathsOfType<TState, Transform>
->(
-  key: TKey & string,
-  fn?: (control: TransformControl<TState>) => ReturnType<MotionBuilder<TState>>,
-  initialValue?: Transform
-) {
-  const context = yield* requestContext<TState>();
-  const control = new TransformControl<TState>(context, key);
-  if (fn) {
-    yield* fn(control);
-  }
-  return control;
-}
-
-export class TransformControl<TState extends MotionState> {
-  _nextTarget: Transform = Transform.identity();
-
-  constructor(
-    public context: MotionContext<MotionState>,
-    public key: string,
-    private _initialValue = Transform.identity()
-  ) {
-    this._initialValue = this._initialValue;
-    this._nextTarget = this.get().copy();
-  }
-
-  get() {
-    const value = getDeep(this.context._state, this.key);
-    if (value instanceof Transform) {
-      return value;
-    }
-    this.set(this._initialValue);
-
-    return this._initialValue;
-  }
-  set(value: Transform) {
-    this.context._state = setDeep(this.context._state, this.key, value);
-  }
-
+export class TransformControl<TState extends MotionState> extends Control<
+  TState,
+  Transform
+> {
   tweenTo = (target: Transform, duration: number, easing?: EasingOptions) => {
     const initialValue = this.get();
 
@@ -69,40 +33,57 @@ export class TransformControl<TState extends MotionState> {
     );
   };
 
-  from(target: Transform) {
-    this.set(target.copy());
-    return this;
-  }
-
   positionTo = (pos: Vec2ish) => {
-    this._nextTarget.setPositionSelf(Vec2.of(pos));
+    this.defer((next) => next.setPosition(Vec2.of(pos)));
     return this;
   };
   scaleTo = (scale: Vec2ish | number) => {
-    this._nextTarget.setScaleSelf(scale);
+    this.defer((next) =>
+      next.setScale(typeof scale === "number" ? scale : Vec2.of(scale))
+    );
     return this;
   };
 
   rotateTo = (angle: number) => {
-    this._nextTarget.setRotationSelf(angle);
+    this.defer((next) => next.rotate(angle));
     return this;
   };
 
   translate = (pos: Vec2ish) => {
-    this._nextTarget.translateSelf(Vec2.of(pos));
+    this.defer((next) => next.translate(Vec2.of(pos)));
     return this;
   };
   scale = (scale: Vec2ish | number) => {
-    this._nextTarget.scaleSelf(scale);
+    this.defer((next) =>
+      next.scale(typeof scale === "number" ? scale : Vec2.of(scale))
+    );
     return this;
   };
 
   rotate = (angle: number) => {
-    this._nextTarget.rotateSelf(angle);
+    this.defer((next) => next.rotate(angle));
     return this;
   };
 
   in = (duration: number, easing?: EasingOptions) => {
-    return this.tweenTo(this._nextTarget, duration, easing);
+    return this.applyDeferred((next) => this.tweenTo(next, duration, easing));
   };
+}
+export function* controlTransform<
+  TState extends MotionState,
+  TKey extends KPaths<TState, Transform>
+>(
+  key: TKey & string,
+  fn?: (control: TransformControl<TState>) => ReturnType<MotionBuilder<TState>>,
+  initialValue?: VPaths<TState, TKey, Array<any>>
+) {
+  const context = yield* requestContext<TState>();
+  const control = new TransformControl<TState>(context, key);
+  if (typeof initialValue !== "undefined") {
+    control.set(initialValue);
+  }
+  if (fn) {
+    yield* fn(control);
+  }
+  return control;
 }

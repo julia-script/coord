@@ -13,23 +13,31 @@
   padding-top: 1em;
   padding-bottom: 1em;
 }
-.motion-player-controls_button {
-  border-radius: 0.5em;
-  padding-left: 1.5em;
-  padding-right: 1.5em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+.motion-player-controls_actions_controls {
+  display: flex;
 }
+.motion-player-controls_button {
+  padding: 0.5em 1em;
+  opacity: 0.8;
+  border-radius: 0.7em;
+}
+
+.motion-player-controls_button:hover {
+  opacity: 1;
+}
+
 .motion-player-controls_button_active {
   background-color: var(--motion-player-accent-color);
 }
 .motion-player-controls_time {
   font-size: 1.2em;
-  line-height: 1em;
+  white-space: nowrap;
 }
 .motion-player-controls_title {
   flex-grow: 1;
   overflow: hidden;
   font-size: 1.2em;
-  line-height: 1em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

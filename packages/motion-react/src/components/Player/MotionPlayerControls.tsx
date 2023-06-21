@@ -26,10 +26,8 @@ export function MotionPlayerControls({
     play,
     pause,
     meta,
-    setFrame,
     repeat,
     setRepeat,
-    frame,
     currentTime,
     duration,
   } = controls;
@@ -42,7 +40,7 @@ export function MotionPlayerControls({
         <MotionPlayerProgressBar controls={controls} />
       </div>
       <div className={"motion-player-controls_actions"}>
-        <div>
+        <div className={"motion-player-controls_actions_controls"}>
           {playing ? (
             <button className="motion-player-controls_button">
               <HiPause
@@ -79,7 +77,7 @@ export function MotionPlayerControls({
           {" / "}
           {formatDuration(duration, longerThanAnHour)}
         </div>
-        <div className={"motion-player-controls-title"}>{meta.title}</div>
+        <div className={"motion-player-controls_title"}>{meta.title}</div>
         {toggleFullScreen && (
           <div>
             <button

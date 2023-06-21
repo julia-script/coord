@@ -1,5 +1,7 @@
 "use client";
 import { LiveCodeBlock } from "@/components/CodeBlock";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 
 import {
   Graph,
@@ -10,14 +12,12 @@ import {
   Plot,
   Text,
   darkTheme,
-  point,
   useNavigationState,
   useStopwatch,
-  lerp,
 } from "@coord/graph";
+import { lerp, point } from "@coord/core";
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
-
 
 const easeInOut = (t: number) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -177,7 +177,8 @@ const Hero = () => {
 
 export default function Page() {
   return (
-    <div>
+    <>
+      <Header />
       <Hero />
       <div className="from-dark-950/0 to-dark-950/100 pointer-events-none  relative mx-auto -mt-32 bg-gradient-to-b  px-4 text-center">
         <h1 className=" text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
@@ -246,10 +247,7 @@ export default function Page() {
                 </>
               ),
               right: (
-                <LiveCodeBlock
-                  collapsed={true}
-                  partiallyVisibleWhenCollapsed={true}
-                >{`
+                <LiveCodeBlock collapsed={true} partialCode={true}>{`
                   import {
                     Graph,
                     Grid,
@@ -338,6 +336,7 @@ export default function Page() {
           ))}
         </section>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

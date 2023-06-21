@@ -12,7 +12,6 @@ export type RouteSection = {
 export type RouteItem = {
   title: string;
   route: string;
-  file: string;
 };
 export function Sidebar({ items }: { items: Readonly<RouteSection[]> }) {
   const [open, setOpen] = useState(false);

@@ -1,0 +1,92 @@
+# Introduction
+
+`@coord/motion` is a library for creating and controlling animation
+programatically.
+
+```tsx live  collapsed
+import { makeScene, controlString, chain, wait } from "@coord/motion";
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+
+const scene = makeScene(
+  "Hello World",
+  {
+    text: "",
+  },
+  function* () {
+    const text = yield* controlString("text");
+
+    yield* chain(
+      wait(0.2),
+      text.to("Hello World!").in(1),
+      wait(2),
+      text.clear(0.5)
+    );
+  }
+);
+
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+
+  const { state, currentTime } = controls;
+
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <div className="flex h-full w-full items-center justify-center">
+        <h1 className="font-mono text-6xl font-bold">{state.text}</h1>
+      </div>
+    </MotionPlayer>
+  );
+}
+```
+
+It's heavily inspired by [motion-canvas](https://motioncanvas.io/), but with a
+fundamental difference. `@coord/motion` is at its core, a tool for **animating
+state**.
+
+```tsx live  collapsed
+import { makeScene, controlString, chain, wait } from "@coord/motion";
+import { useMotionController, MotionPlayer } from "@coord/motion-react";
+
+const blink = (t: number, blinkDuration = 0.5) => {
+  const blink = Math.floor(t / (blinkDuration * 1000)) % 2;
+  return blink === 1;
+};
+
+const scene = makeScene(
+  "Text Animation",
+  {
+    text: "",
+  },
+  function* () {
+    const text = yield* controlString("text");
+
+    yield* chain(
+      wait(0.2),
+      text.to("Hi").in(0.2),
+      wait(1),
+      text.to(", I'm Julia!").in(0.4, "append"),
+      wait(1.5),
+      text.to("I'm a software engineer").in(0.4, "shuffle"),
+      wait(1),
+      text.clear(0.3)
+    );
+  }
+);
+
+export default function MyAnimation() {
+  const controls = useMotionController(scene);
+
+  const { state, currentTime } = controls;
+
+  return (
+    <MotionPlayer controls={controls} autoplay repeat>
+      <div className="flex h-full w-full flex-col justify-center bg-gray-200">
+        <span className="whitespace-pre-wrap p-28 font-mono text-[60px] text-pink-700">
+          {state.text}
+          {blink(currentTime) ? "|" : ""}
+        </span>
+      </div>
+    </MotionPlayer>
+  );
+}
+```

@@ -6,9 +6,13 @@ import {
   useLiveRunner,
   CodeEditor,
 } from "react-live-runner";
+import { HiChevronDoubleDown, HiChevronDoubleUp } from "react-icons/hi";
 
 import * as graph from "@coord/graph";
-import React from "react";
+import * as motion from "@coord/motion";
+import * as motionReact from "@coord/motion-react";
+import * as core from "@coord/core";
+import React, { useEffect } from "react";
 import dedent from "ts-dedent";
 import clsx from "clsx";
 
@@ -16,26 +20,32 @@ const scope = {
   import: {
     react: React,
     "@coord/graph": graph,
+    "@coord/motion": motion,
+    "@coord/motion-react": motionReact,
+    "@coord/core": core,
   },
 };
 
 export function LiveCodeBlock({
   children,
   collapsed: collapsedInitialValue = false,
-  partiallyVisibleWhenCollapsed,
+  partialCode,
 }: {
   children: string;
   collapsed?: boolean;
-  partiallyVisibleWhenCollapsed?: boolean;
+  partialCode?: boolean;
 }) {
   const { element, error, code, onChange } = useLiveRunner({
-    initialCode: dedent(children),
+    // initialCode: "",
     scope,
   });
+  useEffect(() => {
+    onChange(dedent(children));
+  }, []);
   const [collapsed, setCollapsed] = React.useState(collapsedInitialValue);
 
   return (
-    <div className="bg-dark-200/5 not-prose relative mb-4 flex flex-col gap-2 rounded-md p-2">
+    <div className="not-prose relative mb-4 flex flex-col gap-2 rounded-md">
       <div className="relative">
         <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
           {element}
@@ -51,50 +61,46 @@ export function LiveCodeBlock({
           {error}
         </pre>
       )}
-      {!collapsed && (
-        <div className={"border-dark-700/60 overflow-hidden rounded-md border"}>
-          <CodeEditor
-            className="font-mono text-xs"
-            value={code}
-            onChange={onChange}
-          />
-        </div>
-      )}
-      {collapsed && partiallyVisibleWhenCollapsed && (
-        <div
-          className={
-            "border-dark-700/60 relative max-h-32 overflow-hidden rounded-b-md border-t"
-          }
-        >
-          <CodeEditor
-            className="font-mono text-xs"
-            value={code}
-            onChange={onChange}
-          />
+      <div className={"relative flex flex-col gap-2"}>
+        {(!collapsed || partialCode) && (
           <div
-            className={
-              "from-dark-900/40 to-dark-900/100 absolute bottom-0 left-0 right-0 h-full bg-gradient-to-b"
-            }
-          />
-        </div>
-      )}
-      <button
-        className={clsx("hover:text-dark-100 text-sm font-bold", {
-          "absolute bottom-14 w-full":
-            collapsed && partiallyVisibleWhenCollapsed,
-        })}
-        onClick={() => setCollapsed((collapsed) => !collapsed)}
-      >
-        {collapsed ? (
-          <span>
-            Edit code <span className="text-lg">🐵</span>
-          </span>
-        ) : (
-          <span>
-            Hide code <span className="text-lg">🙈</span>
-          </span>
+            className={clsx(
+              "border-dark-700/60 overflow-hidden rounded-md border",
+              {
+                "max-h-32 opacity-30": collapsed && partialCode,
+              }
+            )}
+          >
+            <CodeEditor
+              className="font-mono text-xs"
+              value={code}
+              onChange={onChange}
+            />
+          </div>
         )}
-      </button>
+
+        <button
+          className={clsx(
+            "hover:text-dark-100 flex w-full items-center justify-center gap-2 pb-4  text-sm font-bold",
+            {
+              "absolute left-0 top-0 h-full ": collapsed && partialCode,
+            }
+          )}
+          onClick={() => setCollapsed((collapsed) => !collapsed)}
+        >
+          {collapsed ? (
+            <>
+              <span>Edit code</span>
+              <HiChevronDoubleDown />
+            </>
+          ) : (
+            <>
+              <span>Hide code</span>
+              <HiChevronDoubleUp />
+            </>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

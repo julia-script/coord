@@ -5,14 +5,15 @@ import { Text } from "./Text";
 import { point } from "@coord/core";
 import { PolyLine, PolyLineProps } from "./PolyLine";
 
-export type RulerProps = {
-  from?: ScalarPoint;
-  to: ScalarPoint;
-  offset?: Scalar;
-  children?: string;
-  alwaysOnTop?: boolean;
-  labelPosition?: "top" | "bottom" | "auto";
-} & Omit<PolyLineProps, "offset" | "from" | "points">;
+export type RulerProps = React.PropsWithChildren<
+  {
+    from?: ScalarPoint;
+    to: ScalarPoint;
+    offset?: Scalar;
+    alwaysOnTop?: boolean;
+    labelPosition?: "top" | "bottom" | "auto";
+  } & Omit<PolyLineProps, "offset" | "from" | "points" | "to">
+>;
 
 const Component = ({
   from = point(0, 0),

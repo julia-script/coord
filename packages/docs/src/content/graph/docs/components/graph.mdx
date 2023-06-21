@@ -13,7 +13,8 @@ The `padding` property determines the amount of space in pixels that is added ar
 The `width` and `height` properties specify the dimensions of the rendering viewport, they accept the same values as CSS `width` and `height` properties.
 
 ```tsx live
-import { Graph, Grid, Plot, Rect, Text, BoundingBox } from "@coord/graph";
+import { point } from "@coord/core";
+import { Graph, Grid, Text, BoundingBox } from "@coord/graph";
 
 export default function MyGraph() {
   const top = 10;
@@ -22,8 +23,8 @@ export default function MyGraph() {
   const left = -10;
 
   const coordBox = {
-    horizontal: [left, right],
-    vertical: [top, bottom],
+    horizontal: point(left, right),
+    vertical: point(top, bottom),
   };
 
   return (
@@ -49,7 +50,8 @@ The `coordStep` property defines the step size of the grid in the horizontal and
 Sometimes you want the horizontal axis to increment at a different rate than the vertical axis. This is where the `coordStep` property comes in.
 
 ```tsx
-import { Graph, Grid, Plot, Rect, Text, BoundingBox } from "@coord/graph";
+import { point } from "@coord/core/dist";
+import { Graph, Grid, Text, BoundingBox } from "@coord/graph";
 
 export default function MyGraph() {
   const top = 10;
@@ -58,8 +60,8 @@ export default function MyGraph() {
   const left = -10;
 
   const coordBox = {
-    horizontal: [left, right],
-    vertical: [top, bottom],
+    horizontal: point(left, right),
+    vertical: point(top, bottom),
   };
 
   return (
@@ -85,7 +87,7 @@ The theme prop is used to style and customize the appearance of your Graph. It c
 ### Predefined Themes
 
 ```tsx live collapsed
-import { Graph, Grid, Text, BoundingBox, Line } from "@coord/graph";
+import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
@@ -105,7 +107,7 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
-import { Graph, Grid, Text, BoundingBox, Line } from "@coord/graph";
+import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
@@ -125,7 +127,7 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
-import { Graph, Grid, Text, BoundingBox, Line } from "@coord/graph";
+import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
@@ -145,7 +147,7 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
-import { Graph, Grid, Text, BoundingBox, Line } from "@coord/graph";
+import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (

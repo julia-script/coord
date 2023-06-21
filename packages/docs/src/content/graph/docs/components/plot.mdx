@@ -7,16 +7,7 @@ These are the components used to graph your equations. They adaptively sample th
 `Plot.Parametric` takes a function `f` with a `t` parameter, and must return a `Vec2ish` object. It also takes a domain range `[a, b]` . It will sample the function at `n` points in the domain and plot the resulting points.
 
 ```tsx live
-import { useState } from "react";
-import {
-  Graph,
-  Grid,
-  Plot,
-  LabelContainer,
-  Text,
-  Marker,
-  useCoordState,
-} from "@coord/graph";
+import { Graph, Grid, Plot, Text, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
   const [point, setPoint] = useCoordState([3, 3]);
@@ -44,7 +35,7 @@ export default function MyGraph() {
 `Plot.ofY` and `Plot.ofX` are similar to `Plot.Parametric` except they take a function `f` with a value of `x` or `y` respectively, and they should return a single number. The domain is optional, if not provided, it will default to the visible coordBox.
 
 ```tsx live
-import { Graph, Grid, Plot, LabelContainer, Text } from "@coord/graph";
+import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {
   return (
@@ -57,7 +48,7 @@ export default function MyGraph() {
 ```
 
 ```tsx live
-import { Graph, Grid, Plot, LabelContainer, Text } from "@coord/graph";
+import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {
   return (

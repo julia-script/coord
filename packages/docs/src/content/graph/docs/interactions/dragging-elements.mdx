@@ -60,18 +60,7 @@ point; // ✅ [0, 0]
 
 ## Example
 
-```jsx live
-import { useState } from "react";
-import {
-  Graph,
-  Grid,
-  Label,
-  Marker,
-  useCoordState,
-  Text,
-  point,
-} from "@coord/graph";
-
+```jsx liveimport { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
   const [labelPosition, setLabelPosition] = useCoordState([0, 4]);

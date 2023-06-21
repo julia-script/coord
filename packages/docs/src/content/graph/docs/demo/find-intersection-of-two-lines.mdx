@@ -12,10 +12,11 @@ In our setup, we are going to draw two lines on a graph.
 Line A - B goes from point A to point B. Similarly, Line C - D travels from point C, to point D.
 
 ```tsx live collapsed
+import { CSSProperties } from "react";
+
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
   Label,
@@ -23,7 +24,7 @@ import {
   useNavigationState,
 } from "@coord/graph";
 
-const labelStyle = {
+const labelStyle: CSSProperties = {
   width: 40,
   textAlign: "center",
 };
@@ -86,16 +87,13 @@ m_{AB} = \frac{x_B - x_A}{y_B - yA}
 $$
 
 ```tsx live collapsed
-import {
+iimport {
   Graph,
-  Grid,
-  Plot,
   Line,
   Marker,
   Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
 } from "@coord/graph";
 
 export default function MyGraph() {
@@ -155,6 +153,7 @@ export default function MyGraph() {
     </Graph>
   );
 }
+
 ```
 
 This, my dears, is the slope of _Line A - B_, denoted as $m_{AB}$. Why we represent slopes with the letter $m$ is beyound me, but it is what it is.
@@ -181,16 +180,15 @@ const findSlope = (a: Vec2, b: Vec2) => {
 Much better! We have a function that takes two points and returns the slope of the line that connects them.
 
 ```tsx live collapsed
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
   Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -252,16 +250,14 @@ We will deal with this case later.
 ## Step 2: Find the y-intercept for each line
 
 ```tsx live collapsed
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
   Label,
 } from "@coord/graph";
 
@@ -378,18 +374,14 @@ const findYIntercept = (point: Vec2, slope: number) => {
 ## Step 3: Find the intersection point of the two lines at infinity
 
 ```tsx live collapsed
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
-  Label,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -560,26 +552,23 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
     y = abSlope * x + abIntercept;
   }
 
-  return point(x, y);
+  return { x, y };
 };
 ```
 
 ## Step 4: Find the intersection within the two line segments
 
 ```tsx live collapsed
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   Text,
   BoundingBox,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
   Label,
 } from "@coord/graph";
 
@@ -776,6 +765,7 @@ const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
 ## Step 5: Putting it all together
 
 ```tsx live collapsed
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
@@ -783,9 +773,6 @@ import {
   Line,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
-  Label,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -948,7 +935,7 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
     y = abSlope * x + abIntercept;
   }
 
-  const intersection = point(x, y);
+  const intersection = { x, y };
 
   // If the intersection point is within the bounding boxes of both lines, then we have an intersection.
   const isWithinAB = isWithinBoundingBox(intersection, a, b);

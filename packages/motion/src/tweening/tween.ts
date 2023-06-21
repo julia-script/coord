@@ -1,5 +1,6 @@
-import { MotionState, requestContext } from "@/context";
-import { EasingOptions, easingsFunctions } from "@coord/core";
+import { MotionState, requestContext, requestPassTime } from "@/context";
+import { countFrames } from "@/utils/countFrames";
+import { EasingOptions, easingsFunctions, inverseLerp } from "@coord/core";
 
 export function* tween<TState extends MotionState>(
   duration: number,
@@ -10,10 +11,19 @@ export function* tween<TState extends MotionState>(
     typeof easing === "function" ? easing : easingsFunctions[easing];
   const context = yield* requestContext<TState>();
   const { fps } = context.settings;
-  const frames = Math.round(fps * duration);
 
+  const [frames, remainder] = countFrames(context.time, fps, duration);
+  const startTime = context.time;
+  const endTime = startTime + duration;
+  let time = context.time;
   for (let i = 1; i <= frames; i++) {
-    fn(easingFn(i / frames));
+    time = startTime + (i / frames) * duration;
+    fn(easingFn(inverseLerp(startTime, endTime, time)));
     yield;
+  }
+
+  if (remainder > 0) {
+    fn(easingFn(1));
+    yield* requestPassTime(remainder);
   }
 }
