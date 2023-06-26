@@ -96,6 +96,7 @@ export function MotionPlayer({
       <style>
         {`
           #${elId} {
+            display: flex;
             aspect-ratio: ${
               playerAspectRatio === "source"
                 ? videoSize.x / videoSize.y

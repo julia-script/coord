@@ -12,6 +12,7 @@ export function MotionPlayerView({
 
   const videoShellRef = React.useRef<HTMLDivElement>(null);
   const videoRef = React.useRef<HTMLDivElement>(null);
+
   const ref = useClientRect((playerSize) => {
     if (!videoShellRef.current) return;
     if (!videoRef.current) return;

@@ -13,6 +13,7 @@
     "@coord/graph": "workspace:*",
     "@coord/motion": "workspace:*",
     "@coord/core": "workspace:*",
+    "@coord/code": "workspace:*",
     "@coord/motion-react": "workspace:*",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/mdx": "^2.3.0",

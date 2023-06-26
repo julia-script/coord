@@ -51,9 +51,8 @@ export class StringControl<TState extends MotionState> extends Control<
     mode?: keyof typeof TextLerpModes,
     easing?: EasingOptions
   ) {
-    const self = this;
     return this.applyDeferred((next) =>
-      self.tweenString(next, duration, {
+      this.tweenString(next, duration, {
         easing,
         mode,
       })

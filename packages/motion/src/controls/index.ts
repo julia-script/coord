@@ -7,3 +7,4 @@ export * from "./transform-control";
 export * from "./string-control";
 export * from "./boolean-control";
 export * from "./list-control";
+export * from "./code-control";

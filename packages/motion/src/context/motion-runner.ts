@@ -13,7 +13,8 @@ export type YieldedType<T extends (...args: any) => any> =
 export type MotionBuilderRequest<T extends MotionState> =
   | YieldedType<typeof requestContext<T>>
   | YieldedType<typeof requestTransition>
-  | YieldedType<typeof requestPassTime>;
+  | YieldedType<typeof requestPassTime>
+  | YieldedType<typeof makeState>;
 
 export const isMotionBuilderRequest = (
   value: unknown
@@ -109,5 +110,16 @@ export function* requestPassTime(time: number) {
   yield {
     type: "REQUEST_PASS_TIME" as const,
     time,
+  };
+}
+
+export function* makeState<TKey extends string, TValue>(
+  key: TKey,
+  value: TValue
+) {
+  yield {
+    type: "MAKE_STATE" as const,
+    key,
+    value,
   };
 }
