@@ -1,13 +1,16 @@
-import { MotionState, requestContext } from "@/context";
-import { MotionBuilderish, asIterable } from "@/utils";
+import { InferThread, Threadish, normalizeThread } from "@/utils";
+import { wait } from "./wait";
+import { YieldedType } from "@coord/core/dist";
 
-export function* repeat<TState extends MotionState>(
+export function* repeat<TThread extends Threadish>(
   n: number,
-  factory: (i: number) => MotionBuilderish<TState>
-) {
-  const context = yield* requestContext<TState>();
-
+  factory: (i: number) => TThread
+): Generator<YieldedType<InferThread<TThread>>> {
   for (let i = 0; i < n; i++) {
-    yield* asIterable<TState>(factory(i), context);
+    const thread = factory(i);
+
+    yield* normalizeThread(thread);
   }
 }
+
+const test = repeat(3, (i) => wait(i));

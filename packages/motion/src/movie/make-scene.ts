@@ -1,15 +1,13 @@
-import { MotionBuilder, MotionState } from "@/context";
+import { MotionState, YieldedType, makeState } from "@/context";
 import { SceneMetaish, generateMeta } from "@/utils";
 
-export function makeScene<TState extends MotionState>(
+export function makeScene<TBuilder extends MotionBuilder>(
   meta: SceneMetaish,
-  initialState: TState,
-  builder: MotionBuilder<TState>
+  builder: TBuilder
 ) {
   return {
     meta: generateMeta(meta),
     builder,
-    initialState,
   };
 }
 
@@ -17,6 +15,17 @@ export type MotionScene<TState extends MotionState> = ReturnType<
   typeof makeScene<TState>
 >;
 
-const scene = makeScene("scene", { x: 0, y: 0 }, function* () {
-  // yield { x: 100, y: 100 };
+const scene = makeScene("scene", function* () {
+  yield* makeState("test", 2);
 });
+
+type ExtractStateFromBuilder<TBuilder extends MotionBuilder> = Extract<
+  YieldedType<TBuilder>,
+  YieldedType<typeof makeState>
+>;
+
+type StateFromBuilder<TBuilder extends MotionBuilder> = {
+  [K in ExtractStateFromBuilder<TBuilder> as K["key"]]: K["initialState"];
+};
+type MotionBuilder = () => Generator;
+type test = StateFromBuilder<typeof scene.builder>;

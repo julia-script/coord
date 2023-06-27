@@ -1,67 +1,55 @@
+import { makeState, runMotion } from "@/motion";
+import { makeMotion } from "@/motion";
 import { test, describe, expect } from "vitest";
-
-import { runScene } from "@/context";
-import { frameMaker } from "@/test-utils";
-import { chain } from "./chain";
 import { wait } from "./wait";
-import { makeScene } from "..";
 
 describe("chain", async () => {
   test("should run threads in sequence", async () => {
-    const makeSceneFrame = frameMaker(
-      {
-        a: "Waiting",
-      },
-      0
-    );
-
-    const scene = makeScene(
-      "Test",
-      {
-        a: "Waiting",
-      },
-      function* (context) {
-        yield* chain(
-          function* () {
-            context.state({
-              a: "First",
-            });
-            yield;
-          },
-          function* () {
-            context.state({
-              a: "Second",
-            });
-            yield;
-          },
-          function* () {
-            context.state({
-              a: "Third",
-            });
-            yield;
-          },
-          wait(1)
-        );
-      }
-    );
-    const executed = runScene(scene, {
+    const scene = makeMotion("Test", function* () {
+      const a = yield* makeState("a", "Waiting");
+      yield a.set("First");
+      yield a.set("Second");
+      yield a.set("Third");
+      yield* wait(1);
+    });
+    const executed = runMotion(scene, {
       fps: 3,
+      transitionDuration: 1,
     });
 
-    expect(executed.frames.length).toBe(6);
     expect(executed.frames).toEqual([
-      makeSceneFrame({
-        a: "First",
-      }),
-      makeSceneFrame({
-        a: "Second",
-      }),
-      makeSceneFrame({
-        a: "Third",
-      }),
-      makeSceneFrame(),
-      makeSceneFrame(),
-      makeSceneFrame(),
+      [
+        {
+          a: "First",
+          $frame: 0,
+          $transition: 0.3333333333333333,
+        },
+        {
+          a: "Second",
+          $frame: 1,
+          $transition: 0.6666666666666666,
+        },
+        {
+          a: "Third",
+          $frame: 2,
+          $transition: 1,
+        },
+        {
+          a: "Third",
+          $frame: 3,
+          $transition: 1,
+        },
+        {
+          a: "Third",
+          $frame: 4,
+          $transition: 1,
+        },
+        {
+          a: "Third",
+          $frame: 5,
+          $transition: 1,
+        },
+      ],
     ]);
   });
 });

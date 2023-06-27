@@ -1,15 +1,8 @@
-import { MotionState, requestContext } from "@/context";
-import { MotionBuilderish, asIterable } from "@/utils";
+import { Threadish, normalizeThreadsSet } from "@/utils";
 
-export function* chain<TState extends MotionState>(
-  ...threads: MotionBuilderish<TState>[]
-) {
-  const context = yield* requestContext<TState>();
-
-  for (let i = 0; i < threads.length; i++) {
-    const thread = threads[i]!;
-
-    const threadIterable = asIterable<TState>(thread, context);
-    yield* threadIterable;
+export function* chain<TThread extends Threadish[]>(...threads: TThread) {
+  const iterables = normalizeThreadsSet(threads);
+  for (const iterable of iterables) {
+    yield* iterable;
   }
 }

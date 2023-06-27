@@ -1,65 +1,44 @@
 import { test, describe, expect } from "vitest";
-
-import { runScene } from "@/context";
-import { frameMaker } from "@/test-utils";
-
+import { makeState, runMotion } from "@/motion";
+import { makeMotion } from "@/motion";
 import { all } from "./all";
-import { wait } from "./wait";
-import { makeScene } from "@/movie";
 
 describe("all", async () => {
   test("should run threads in parallel", async () => {
-    const makeSceneFrame = frameMaker(
-      {
-        a: "Waiting",
-        b: "Waiting",
-        c: "Waiting",
-      },
-      0
-    );
-    const scene = makeScene(
-      "Test",
-      {
-        a: "Waiting",
-        b: "Waiting",
-        c: "Waiting",
-      },
-      function* (context) {
-        yield* all(
-          function* A() {
-            context.state({
-              a: "A",
-            });
-            yield;
-          },
-          function* B() {
-            context.state({
-              b: "B",
-            });
-            yield;
-          },
-          function* C() {
-            context.state({
-              c: "C",
-            });
-            yield;
-          },
-          wait(1)
-        );
-      }
-    );
-    const executed = runScene(scene, {
+    const scene = makeMotion("Test", function* () {
+      const a = yield* makeState("a", 1);
+      const b = yield* makeState("b", 1);
+      const c = yield* makeState("c", 1);
+      yield;
+      yield* all(a.as(2), b.as(2), c.as(2));
+      yield* all(a.as(3), b.as(3), c.as(3));
+    });
+    const executed = runMotion(scene, {
       fps: 3,
     });
 
     expect(executed.frames).toEqual([
-      makeSceneFrame({
-        a: "A",
-        b: "B",
-        c: "C",
-      }),
-      makeSceneFrame(),
-      makeSceneFrame(),
+      {
+        a: 1,
+        b: 1,
+        c: 1,
+        $frame: 0,
+        $transition: 1,
+      },
+      {
+        a: 2,
+        b: 2,
+        c: 2,
+        $frame: 1,
+        $transition: 1,
+      },
+      {
+        a: 3,
+        b: 3,
+        c: 3,
+        $frame: 2,
+        $transition: 1,
+      },
     ]);
   });
 });

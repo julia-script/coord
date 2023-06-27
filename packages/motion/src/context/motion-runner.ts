@@ -115,11 +115,11 @@ export function* requestPassTime(time: number) {
 
 export function* makeState<TKey extends string, TValue>(
   key: TKey,
-  value: TValue
+  initialState: TValue
 ) {
   yield {
     type: "MAKE_STATE" as const,
     key,
-    value,
+    initialState,
   };
 }

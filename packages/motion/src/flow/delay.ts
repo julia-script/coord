@@ -1,11 +1,10 @@
-import { MotionState } from "@/context";
-import { chain } from "./chain";
+import { Threadish } from "@/utils";
 import { wait } from "./wait";
-import { MotionBuilderish } from "@/utils";
+import { chain } from "./chain";
 
-export function* delay<TState extends MotionState>(
+export function* delay<TThread extends Threadish[]>(
   time: number,
-  ...threads: MotionBuilderish<TState>[]
+  ...threads: TThread
 ) {
-  yield* chain<TState>(wait(time), ...threads);
+  yield* chain(wait(time), ...threads);
 }
