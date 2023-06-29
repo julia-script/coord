@@ -1,6 +1,7 @@
 import { YieldedType } from "@coord/core";
 import { makeMotion } from "./make-scene";
 import { makeState, requestContext } from "./requests";
+import { runMotion } from "./run-scene";
 
 export type MotionBuilder = () => MotionBuilderGenerator;
 export type MotionBuilderGenerator = Generator<unknown, unknown, unknown>;
@@ -23,9 +24,8 @@ export type MakeStateRequest<TKey extends string, TValue> = Readonly<{
   type: "MAKE_STATE";
   state: { key: TKey; initialState: TValue };
 }>;
-export type MotionScene<TBuilder extends MotionBuilder> = ReturnType<
-  typeof makeMotion<TBuilder>
->;
+export type MotionScene<TBuilder extends MotionBuilder = MotionBuilder> =
+  ReturnType<typeof makeMotion<TBuilder>>;
 
 export type BuilderState<
   TBuilder extends MotionBuilder | MotionBuilderGenerator
@@ -40,12 +40,14 @@ export type BuilderState<
 > extends {
   state: infer TState & { key: infer K; initialState: any };
 }
-  ? {
-      [TKey in K & string]: Extract<
-        TState,
-        { key: TKey; initialState: any }
-      >["initialState"];
-    }
+  ? K extends string
+    ? {
+        [TKey in K]: Extract<
+          TState,
+          { key: TKey; initialState: any }
+        >["initialState"];
+      }
+    : MotionState
   : never;
 
 export type SceneState<TScene extends MotionScene<MotionBuilder>> =
@@ -65,3 +67,7 @@ export type MotionMeta = {
     [key: string]: MotionMeta;
   };
 };
+
+export type Motion<
+  TScene extends MotionScene<MotionBuilder> = MotionScene<MotionBuilder>
+> = ReturnType<typeof runMotion<TScene>>;

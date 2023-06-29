@@ -1,4 +1,4 @@
-import { requestContext, requestPassTime } from "@/context";
+import { requestContext } from "@/motion";
 import { countFrames } from "@/utils";
 
 export function* wait(duration: number) {
@@ -10,5 +10,5 @@ export function* wait(duration: number) {
     yield;
   }
 
-  yield* requestPassTime(remainder);
+  // yield* requestPassTime(remainder);
 }

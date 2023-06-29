@@ -1,10 +1,6 @@
 export * from "./control";
-export * from "./number-control";
-export * from "./point-control";
-export * from "./color-control";
-export * from "./transform-control";
-
-export * from "./string-control";
-export * from "./boolean-control";
-export * from "./list-control";
-export * from "./code-control";
+export * from "./control-code";
+export * from "./control-color";
+export * from "./control-number";
+export * from "./control-vec2";
+export * from "./control-transform";

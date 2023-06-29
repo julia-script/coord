@@ -1,6 +1,6 @@
 import { test, describe, expect } from "vitest";
 
-import { runScene } from "@/context";
+import { runScene } from "@/context-old";
 import { frameMaker } from "@/test-utils";
 import { tween } from "./tween";
 import { makeScene } from "@/movie";

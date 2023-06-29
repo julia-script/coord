@@ -1,17 +1,12 @@
 import { useLayoutEffect, useState } from "react";
-import {
-  MotionController,
-  MotionState,
-  MotionContextSettings,
-  MotionScene,
-} from "@coord/motion";
+import { MotionController, MotionScene, MotionSettings } from "@coord/motion";
 
-export function useMotionController<TState extends MotionState>(
-  scene: MotionScene<TState>,
-  contextSettings?: Partial<MotionContextSettings>
+export function useMotionController<TScene extends MotionScene>(
+  scene: TScene,
+  contextSettings?: Partial<MotionSettings>
 ) {
-  const [motionPlayer] = useState(() =>
-    MotionController.from(scene, contextSettings)
+  const [motionPlayer] = useState<MotionController<TScene>>(() =>
+    MotionController.from<TScene>(scene, contextSettings)
   );
 
   const [frame, setFrame] = useState(motionPlayer.currentFrame);
@@ -49,12 +44,13 @@ export function useMotionController<TState extends MotionState>(
     setTime: motionPlayer.setTime,
     setFrame: motionPlayer.setFrame,
 
+    frames: motionPlayer.motion.frames,
     state: motionPlayer.state,
     duration: motionPlayer.duration,
     durationInFrames: motionPlayer.durationInFrames,
     fps: motionPlayer.fps,
     currentTime: motionPlayer.currentTime,
-    meta: motionPlayer.context.meta,
+    meta: motionPlayer.motion.meta,
 
     frame,
     playing,
@@ -63,5 +59,5 @@ export function useMotionController<TState extends MotionState>(
   } as const;
 }
 
-export type MotionControls<TState extends MotionState = MotionState> =
-  ReturnType<typeof useMotionController<TState>>;
+export type MotionControls<TScene extends MotionScene = MotionScene> =
+  ReturnType<typeof useMotionController<TScene>>;

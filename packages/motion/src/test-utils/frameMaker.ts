@@ -1,4 +1,4 @@
-import { MotionState } from "@/context";
+import { MotionState } from "@/context-old";
 
 export function frameMaker<TState extends MotionState>(
   initialState: TState,

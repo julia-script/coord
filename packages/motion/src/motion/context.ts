@@ -37,6 +37,9 @@ export class MotionContext<TState extends MotionState> {
     physicsFps: 120,
   };
 
+  get time() {
+    return this.frames.length / this.settings.fps;
+  }
   constructor() {
     this._state = {} as FullState<TState>;
   }
@@ -125,7 +128,8 @@ export class MotionContext<TState extends MotionState> {
     key: TKey,
     value: FullState<TState>[TKey]
   ) {
-    this._state[key] = value;
+    this.setState(key, value);
+
     for (let i = this.frames.length - 1; i >= 0; i--) {
       const frame = this.frames[i]!;
       if (key in frame) {

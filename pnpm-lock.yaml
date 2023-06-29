@@ -31,10 +31,15 @@ importers:
       '@lezer/javascript': ^1.4.3
       '@lezer/lr': ^1.3.6
       '@types/css': ^0.0.33
-      '@types/react': ^18.2.12
+      '@types/react': ^18.2.0
+      '@types/react-dom': ^18.2.0
       '@uiw/codemirror-themes': ^4.21.3
       '@uiw/codemirror-themes-all': ^4.21.3
       css: ^3.0.0
+      diff: ^5.1.0
+      fast-diff: ^1.3.0
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
       ts-dedent: ^2.2.0
       tsconfig: workspace:*
       tsup: ^6.7.0
@@ -51,10 +56,15 @@ importers:
       '@uiw/codemirror-themes': 4.21.3_gpdc2rtbufo2jkovswlebkimk4
       '@uiw/codemirror-themes-all': 4.21.3_gpdc2rtbufo2jkovswlebkimk4
       css: 3.0.0
+      diff: 5.1.0
+      fast-diff: 1.3.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
       ts-dedent: 2.2.0
     devDependencies:
       '@types/css': 0.0.33
       '@types/react': 18.2.12
+      '@types/react-dom': 18.2.4
       tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@5.1.3
       typescript: 5.1.3
@@ -3661,7 +3671,6 @@ packages:
 
   /fast-diff/1.3.0:
     resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
-    dev: true
 
   /fast-glob/3.2.12:
     resolution: {integrity: sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==}

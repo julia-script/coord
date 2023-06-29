@@ -166,9 +166,6 @@ const useViewspaceSize = (
 
     setSize(rect.width, rect.height);
     const observer = new ResizeObserver(([entry]) => {
-      // const { width, height } = current.getBoundingClientRect();
-
-      // console.log(width, current.clientWidth, height);
       setSize(current.clientWidth, current.clientHeight);
     });
     observer.observe(current);

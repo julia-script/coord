@@ -23,7 +23,7 @@ export function MotionPlayerView({
     );
     videoShellRef.current.style.maxWidth = `${width * scale}px`;
     videoRef.current.style.transform = `scale(${scale})`;
-    videoRef.current.style.display = "block";
+    videoRef.current.style.display = "flex";
   });
   return (
     <div
@@ -54,6 +54,7 @@ export function MotionPlayerView({
           style={{
             width,
             height,
+
             position: "absolute",
             background: "black",
             display: "none",

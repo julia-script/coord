@@ -1,23 +1,22 @@
-import { isGenerator } from "@coord/core";
+import { isFunction, isGenerator } from "@coord/core";
 
-export type Thread = Generator<unknown, unknown, unknown>;
+export type Thread = Generator<any, any, any>;
 export type Threadish =
-  | Generator<unknown, unknown, unknown>
-  | (() => Generator<unknown, unknown, unknown>);
+  | (() => Generator<any, any, any>)
+  | Generator<any, any, any>;
 
 export type InferThread<TThread extends Threadish> = TThread extends () => any
   ? ReturnType<TThread>
   : TThread;
 
-export function normalizeThread<TThread extends Threadish>(thread: TThread) {
-  const out = isGenerator(thread) ? thread : thread();
-  return out;
+export function normalizeThread<TThread extends Thread>(
+  thread: TThread | (() => TThread)
+) {
+  return isFunction(thread) ? thread() : thread;
 }
 
-export function normalizeThreadsSet<TThreads extends Threadish[]>(
-  threads: TThreads
+export function normalizeThreadsSet<TThreads extends Threadish>(
+  threads: TThreads[]
 ) {
-  return new Set(threads.map(normalizeThread)) as Set<
-    InferThread<TThreads[number]>
-  >;
+  return new Set(threads.map(normalizeThread)) as Set<InferThread<TThreads>>;
 }

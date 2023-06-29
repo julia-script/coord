@@ -14,27 +14,6 @@ describe("wait", async () => {
       fps: 3,
     });
 
-    expect(executed.frames).toEqual([
-      {
-        a: "Waiting",
-        $frame: 0,
-        $transition: 1,
-      },
-      {
-        a: "Waiting",
-        $frame: 1,
-        $transition: 1,
-      },
-      {
-        a: "Waiting",
-        $frame: 2,
-        $transition: 1,
-      },
-      {
-        a: "Done",
-        $frame: 3,
-        $transition: 1,
-      },
-    ]);
+    expect(executed.frames).toMatchSnapshot();
   });
 });

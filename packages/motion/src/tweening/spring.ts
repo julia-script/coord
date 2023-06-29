@@ -1,9 +1,7 @@
-import { MotionState, requestContext } from "@/context";
-import { Vec2, point } from "@coord/core";
-const isNumber = (n: unknown): n is number => typeof n === "number";
+import { requestContext } from "@/motion";
+import { Vec2, isFunction, isNumber, point } from "@coord/core";
 
-const isFunction = (fn: unknown): fn is Function => typeof fn === "function";
-export function* spring<T extends number | Vec2, TState extends MotionState>(
+export function* spring<T extends number | Vec2>(
   intialValue: T | (() => T),
   targetValue: T | (() => T),
   fn: (t: T) => void,
@@ -11,7 +9,7 @@ export function* spring<T extends number | Vec2, TState extends MotionState>(
 ) {
   const from = isFunction(intialValue) ? intialValue() : intialValue;
   const to = isFunction(targetValue) ? targetValue() : targetValue;
-  const { settings } = yield* requestContext<TState>();
+  const { settings } = yield* requestContext();
 
   const { settleTolerance = 0.001 } = spring;
 

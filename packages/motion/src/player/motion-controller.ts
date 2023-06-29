@@ -1,11 +1,11 @@
 import {
+  runMotion,
+  MotionScene,
   MotionBuilder,
-  MotionContext,
-  MotionContextSettings,
-  MotionState,
-  runScene,
-} from "@/context";
-import { MotionScene } from "@/movie";
+  MotionSettings,
+  Motion,
+} from "@/motion";
+
 import { clamp } from "@coord/core";
 
 import { EventEmitter } from "events";
@@ -17,7 +17,7 @@ interface MotionControllerEvents<MotionController> {
   "repeat-changed": MotionController;
 }
 
-export class MotionController<TState extends MotionState> extends EventEmitter {
+export class MotionController<TScene extends MotionScene> extends EventEmitter {
   on<EventName extends keyof MotionControllerEvents<typeof this>>(
     event: EventName,
     listener: (payload: MotionControllerEvents<typeof this>[EventName]) => void
@@ -30,18 +30,18 @@ export class MotionController<TState extends MotionState> extends EventEmitter {
   ): boolean {
     return super.emit(event, payload);
   }
-  context: MotionContext<TState>;
-  constructor(context: MotionContext<TState>) {
+
+  constructor(public motion: Motion<TScene>) {
     super();
-    this.context = context;
-    this._playRangeEnd = (context.frames.length * 1000) / context.settings.fps;
+
+    this._playRangeEnd = (motion.frames.length * 1000) / motion.settings.fps;
   }
 
-  static from<TState extends MotionState>(
-    scene: MotionScene<TState>,
-    settings?: Partial<MotionContextSettings>
-  ): MotionController<TState> {
-    return new MotionController<TState>(runScene<TState>(scene, settings));
+  static from<TScene extends MotionScene>(
+    scene: TScene,
+    settings?: Partial<MotionSettings>
+  ) {
+    return new MotionController<TScene>(runMotion<TScene>(scene, settings));
   }
 
   private _frameRequest = 0;
@@ -58,11 +58,11 @@ export class MotionController<TState extends MotionState> extends EventEmitter {
   }
 
   get durationInFrames() {
-    return this.context.frames.length;
+    return this.motion.frames.length;
   }
 
   get fps() {
-    return this.context.settings.fps;
+    return this.motion.settings.fps;
   }
 
   get duration() {
@@ -73,7 +73,7 @@ export class MotionController<TState extends MotionState> extends EventEmitter {
     return this._currentTime;
   }
   get state() {
-    const frame = this.context.frames[this.currentFrame];
+    const frame = this.motion.frames[this.currentFrame];
     if (!frame) throw new Error("Frame not found");
     return frame;
   }

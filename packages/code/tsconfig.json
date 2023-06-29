@@ -1,9 +1,11 @@
 {
-  "extends": "tsconfig/base.json",
+  "extends": "tsconfig/react-library.json",
   "compilerOptions": {
-    "target": "ESNext",
+    "jsx": "react",
+
     "noUncheckedIndexedAccess": true,
     "noEmit": true,
+    "isolatedModules": false,
     "paths": {
       "@/*": ["./src/*"]
     }
