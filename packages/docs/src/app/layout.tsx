@@ -2,7 +2,7 @@ import { Header } from "@/components/Header";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { Footer } from "@/components/Footer";
-
+import cn from "clsx";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,11 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-dark-950 dark text-white">
-      <body className={inter.className}>
-        <main className="flex min-h-screen w-full flex-col items-center justify-stretch">
-          {children}
-        </main>
+    <html lang="en" className="dark" dir="ltr">
+      <body className={cn(inter.className, "dark:bg-dark dark:text-white")}>
+        {children}
       </body>
     </html>
   );

@@ -35,6 +35,22 @@ type EnteringTag = {
 
 export type AnimatedTag = MovingTag | LeavingTag | EnteringTag;
 
+const js = javascript({
+  jsx: true,
+  typescript: true,
+});
+const languages = {
+  javascript: js,
+  typescript: js,
+  jsx: js,
+  tsx: js,
+};
+
+type Languages = keyof typeof languages;
+export type LanguageOptions =
+  | Languages
+  | Omit<string, keyof {}>
+  | LanguageSupport;
 export class Tagifier {
   private tags: AnimatedTag[] = [];
 
@@ -59,18 +75,27 @@ export class Tagifier {
   static generateTags(
     regions: Regions[],
     theme: Theme,
-    parser: LanguageSupport = javascript({
-      jsx: true,
-      typescript: true,
-    })
+    parser: LanguageOptions = "tsx"
   ) {
+    let selectedParser: LanguageSupport | null = null;
+    if (isString(parser)) {
+      if (parser in languages) {
+        selectedParser = languages[parser as Languages];
+      }
+    } else {
+      selectedParser = parser as LanguageSupport;
+    }
     const tagifier = new Tagifier();
 
     const left = stringifyLeft(regions);
     const right = stringifyRight(regions);
 
-    const leftStyles = theme.highlight(left, parser);
-    const rightStyles = theme.highlight(right, parser);
+    const leftStyles = selectedParser
+      ? theme.highlight(left, selectedParser)
+      : [];
+    const rightStyles = selectedParser
+      ? theme.highlight(right, selectedParser)
+      : [];
 
     for (const style of leftStyles) {
       tagifier.setStyleAt(style, "left");
@@ -234,8 +259,8 @@ export class Tagifier {
   }
   pushString(string: string, left: boolean, right: boolean) {
     this.makeTag(left, right);
-    for (const char of string) {
-      this.pushChar(char, left, right);
+    for (let i = 0; i < string.length; i++) {
+      this.pushChar(string[i]!, left, right);
     }
   }
 }

@@ -1,8 +1,9 @@
 # Label Component
 
-`Label` component allows you to attach a label with any valid JSX to a specific position on a graph.
-The size of the label adapts to its children.
-You can also adjust its position, orientation, distance from target, and color, among other properties.
+`Label` component allows you to attach a label with any valid JSX to a specific
+position on a graph. The size of the label adapts to its children. You can also
+adjust its position, orientation, distance from target, and color, among other
+properties.
 
 ```jsx live
 import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
@@ -10,7 +11,7 @@ import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <Label target={position} targetOffset={30} strokeColor={3}>
         <div
@@ -54,7 +55,7 @@ export default function MyGraph() {
     autoplay: true,
   });
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <Label
         direction={direction}
@@ -89,7 +90,7 @@ export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
   const directions = ["n", "ne", "e", "se", "s", "sw", "w", "nw"] as const;
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       {directions.map((cardinalDir, i) => (
         <Label
@@ -127,7 +128,7 @@ export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
 
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
 
       <Label
@@ -182,7 +183,7 @@ export default function MyGraph() {
   const [labelPosition, setLabelPosition] = useCoordState([0, 4]);
 
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <Label
         position={labelPosition}

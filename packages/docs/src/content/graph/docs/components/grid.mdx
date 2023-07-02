@@ -11,7 +11,7 @@ import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {
   return (
-    <Graph height={400} width="100%">
+    <Graph height={400} width="100%" height="100%">
       <Grid />
       <Plot.ofX f={(x) => Math.sin(x) * Math.exp(-x / 10)} strokeColor={2} />
     </Graph>

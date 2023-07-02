@@ -1,11 +1,16 @@
 # Navigation
 
-The way navigation works on `@coord/graph`, is by directly controlling the `coordBox` prop of the `Graph` component, and using the `onCoordBoxChange` callback prop to update it.
-We provide a `useNavigationState` hook to make this easier, but keep in mind that this is only a wrapper of the `useState` hook that normalizes the `coordBox` value.
+The way navigation works on `@coord/graph`, is by directly controlling the
+`coordBox` prop of the `Graph` component, and using the `onCoordBoxChange`
+callback prop to update it. We provide a `useNavigationState` hook to make this
+easier, but keep in mind that this is only a wrapper of the `useState` hook that
+normalizes the `coordBox` value.
 
-The supported interactions are zooming and panning. Hold Ctrl to zoom with the mouse/trackpad scroll.
+The supported interactions are zooming and panning. Hold Ctrl to zoom with the
+mouse/trackpad scroll.
 
 ```tsx live
+import * as React from "react";
 import { Graph, Grid, Plot, useNavigationState } from "@coord/graph";
 
 export default function MyGraph() {
@@ -15,7 +20,7 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />

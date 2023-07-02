@@ -3,11 +3,14 @@
 Right now, `Markes` and `Labels` can be dragged around the screen when enabled.
 Both components accept a `position` and `onChange` callback prop.
 
-We also provide a `useCoordState` hook, that's just a wrapper on useState with a few convienience features.
+We also provide a `useCoordState` hook, that's just a wrapper on useState with a
+few convienience features.
 
-It automatically normalizes's any `Vec2ish` value passed as initial prop and types it accordingly.
+It automatically normalizes's any `Vec2ish` value passed as initial prop and
+types it accordingly.
 
-You could, however, just use `useState` and pass a `Vec2` directly if you prefer.
+You could, however, just use `useState` and pass a `Vec2` directly if you
+prefer.
 
 ## With `useCoordState`
 
@@ -35,10 +38,12 @@ const [point, setPoint] = useState({ x: 0, y: 0 }); // ❌ { x: 0, y: 0 }
 <Marker position={point} onChange={setPoint} label={"🔥"} />;
 ```
 
-Note that even in the ❌ cases, the Marker will still probably work, but the `point` state will change to a Vec2 after the first `onChange` callback
-So if you're using Typescript, it will complain about the type mismatch.
+Note that even in the ❌ cases, the Marker will still probably work, but the
+`point` state will change to a Vec2 after the first `onChange` callback So if
+you're using Typescript, it will complain about the type mismatch.
 
-You could solve make it type safe again by doing something like this. (is it worth it though? 🤔)
+You could solve make it type safe again by doing something like this. (is it
+worth it though? 🤔)
 
 ```tsx
 const [point, setPoint] = useState<Vec2ish>([0, 0]); // ✅ [0, 0]
@@ -60,13 +65,16 @@ point; // ✅ [0, 0]
 
 ## Example
 
-```jsx liveimport { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
+```jsx live
+import * as React from "react";
+import { Graph, Grid, Label, Marker, useCoordState } from "@coord/graph";
+
 export default function MyGraph() {
   const [position, setPosition] = useCoordState([0, 0]);
   const [labelPosition, setLabelPosition] = useCoordState([0, 4]);
 
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <Label
         position={labelPosition}
@@ -111,4 +119,5 @@ export default function MyGraph() {
 }
 ```
 
-For finer control, you can also leverage other HTML native events, such as `onMouse*`, `onPointer*`, etc.
+For finer control, you can also leverage other HTML native events, such as
+`onMouse*`, `onPointer*`, etc.

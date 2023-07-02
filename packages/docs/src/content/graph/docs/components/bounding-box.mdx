@@ -1,8 +1,11 @@
 # BoundingBox Component
 
-`BoundingBox` is similar to `Rect` but it takes a `BBoxish` object to draw a rect. It's specially usefull when you want to draw a rect around a coordinate area.
+`BoundingBox` is similar to `Rect` but it takes a `BBoxish` object to draw a
+rect. It's specially usefull when you want to draw a rect around a coordinate
+area.
 
 ```tsx live
+import * as React from "react";
 import { point } from "@coord/core";
 import { Graph, Grid, Text, BoundingBox } from "@coord/graph";
 
@@ -18,7 +21,7 @@ export default function MyGraph() {
   };
 
   return (
-    <Graph coordBox={coordBox} height={300} width="100%" padding={15}>
+    <Graph coordBox={coordBox} height="100%" width="100%" padding={15}>
       <Grid />
       <BoundingBox
         bbox={coordBox}

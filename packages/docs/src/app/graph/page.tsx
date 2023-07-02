@@ -1,5 +1,5 @@
 "use client";
-import { LiveCodeBlock } from "@/components/CodeBlock";
+import { CodeBlock } from "@/components/CodeBlock";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 
@@ -18,6 +18,7 @@ import {
 import { lerp, point } from "@coord/core";
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
+import { header } from "@/content/graph/meta";
 
 const easeInOut = (t: number) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -178,35 +179,33 @@ const Hero = () => {
 export default function Page() {
   return (
     <>
-      <Header />
+      <Header items={header} />
       <Hero />
-      <div className="from-dark-950/0 to-dark-950/100 pointer-events-none  relative mx-auto -mt-32 bg-gradient-to-b  px-4 text-center">
-        <h1 className=" text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
-          Visualize Math with{" "}
-          <span className="text-accent-graph-400">Code</span>
+      <div className="from-dark/0 to-dark/100 pointer-events-none relative mx-auto -mt-32 w-full bg-gradient-to-b  px-4 text-center">
+        <h1 className="p-2 text-center text-2xl font-bold text-white md:text-4xl">
+          Visualize Math with <span className="text-graph">Code</span>
         </h1>
-        <h2 className="text-md  text-dark-100 text-center  font-mono md:text-xl">
+        <h2 className="text-md text-center font-mono  text-white md:text-xl">
           <code>
-            @coord/<span className="text-accent-graph-400">graph</span>
+            @coord/<span className="text-graph">graph</span>
           </code>{" "}
           is Graphing React Library{" "}
         </h2>
         <div className="mt-8">
           <Link
             href="/graph/docs"
-            className="bg-accent-graph-400 pointer-events-auto rounded-md px-6 py-3 text-white"
+            className="bg-graph-400 pointer-events-auto rounded-md px-6 py-3 text-white"
           >
             Get Started
           </Link>
         </div>
       </div>
-      <div className="container mx-auto flex flex-col items-center  px-4">
-        <section className="flex flex-col gap-y-8 py-12 md:mt-16">
+      <div className="container mx-auto flex w-full flex-col items-center px-4">
+        <section className="flex w-full flex-col gap-y-8 overflow-hidden py-12 md:mt-16">
           {[
             {
               left: (
                 <>
-                  {" "}
                   <h3>Visual Math for React developers</h3>
                   <p>
                     Complex and abstract ideas often becomes easier to grasp
@@ -219,21 +218,28 @@ export default function Page() {
                 </>
               ),
               right: (
-                <LiveCodeBlock>{`
-                import { Graph, Grid, Plot } from "@coord/graph";
+                <CodeBlock
+                  height={300}
+                  preview
+                  editable
+                  language="tsx"
+                  code={`
+                    import * as React from "react";
+                    import { Graph, Grid, Plot } from "@coord/graph";
 
-                export default function MyGraph() {
-                  return (
-                    <Graph padding={20} width="100%" height={300}>
-                      <Grid />
-                      <Plot.ofX 
-                        f={(x) => Math.sin(x) * Math.exp(-x / 10)} 
-                        strokeColor={8} 
-                      />
-                    </Graph>
-                  );
-                }
-              `}</LiveCodeBlock>
+                    export default function MyGraph() {
+                      return (
+                        <Graph padding={20} width="100%" height="100%">
+                          <Grid />
+                          <Plot.ofX
+                            f={(x) => Math.sin(x) * Math.exp(-x / 10)}
+                            strokeColor={8}
+                          />
+                        </Graph>
+                      );
+                    }
+                `}
+                />
               ),
             },
             {
@@ -247,19 +253,28 @@ export default function Page() {
                 </>
               ),
               right: (
-                <LiveCodeBlock collapsed={true} partialCode={true}>{`
+                <CodeBlock
+                  height={300}
+                  language="tsx"
+                  preview
+                  editable
+                  code={` 
+                  import * as React from "react";
                   import {
                     Graph,
                     Grid,
                     Plot,
                     Marker,
-                    Vec2,
                     PolyLine,
                     LabelContainer,
                     Text,
                     useCoordState,
                     useNavigationState,
                   } from "@coord/graph";
+                  import {
+                    Vec2
+                  } from "@coord/core";
+
 
                   const cubicBezier = (p0: Vec2, p1: Vec2, p2: Vec2, p3: Vec2, t: number) => {
                     const u = 1 - t;
@@ -286,7 +301,7 @@ export default function Page() {
                     return (
                       <>
                         <Graph
-                          height={300}
+                          height="100%"
                           width="100%"
                           coordBox={coordBox}
                           onCoordBoxChange={setCoordBox}
@@ -323,15 +338,18 @@ export default function Page() {
                       </>
                     );
                   }
-              `}</LiveCodeBlock>
+                `}
+                />
               ),
             },
           ].map(({ left, right }, i) => (
-            <div key={i} className="grid gap-8 md:grid-cols-[40%,60%]">
-              <div className="prose prose-invert max-w-full text-center md:text-right">
+            <div key={i} className="grid gap-8 md:flex">
+              <div className="prose prose-invert w-full max-w-none grow text-center md:w-5/12 md:text-right">
                 {left}
               </div>
-              <div>{right}</div>
+              <div className="w-full grow overflow-hidden md:w-8/12">
+                {right}
+              </div>
             </div>
           ))}
         </section>

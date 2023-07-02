@@ -1,12 +1,17 @@
 # Plot Components
 
-These are the components used to graph your equations. They adaptively sample the `f` function to produce a smooth curve. Currently, there are three components available: Plot.Parametric, Plot.ofY, and Plot.ofX.
+These are the components used to graph your equations. They adaptively sample
+the `f` function to produce a smooth curve. Currently, there are three
+components available: Plot.Parametric, Plot.ofY, and Plot.ofX.
 
 ## Plot.Parametric
 
-`Plot.Parametric` takes a function `f` with a `t` parameter, and must return a `Vec2ish` object. It also takes a domain range `[a, b]` . It will sample the function at `n` points in the domain and plot the resulting points.
+`Plot.Parametric` takes a function `f` with a `t` parameter, and must return a
+`Vec2ish` object. It also takes a domain range `[a, b]` . It will sample the
+function at `n` points in the domain and plot the resulting points.
 
 ```tsx live
+import * as React from "react";
 import { Graph, Grid, Plot, Text, Marker, useCoordState } from "@coord/graph";
 
 export default function MyGraph() {
@@ -32,9 +37,13 @@ export default function MyGraph() {
 
 ## Plot.ofY and Plot.ofX
 
-`Plot.ofY` and `Plot.ofX` are similar to `Plot.Parametric` except they take a function `f` with a value of `x` or `y` respectively, and they should return a single number. The domain is optional, if not provided, it will default to the visible coordBox.
+`Plot.ofY` and `Plot.ofX` are similar to `Plot.Parametric` except they take a
+function `f` with a value of `x` or `y` respectively, and they should return a
+single number. The domain is optional, if not provided, it will default to the
+visible coordBox.
 
 ```tsx live
+import * as React from "react";
 import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {
@@ -48,6 +57,7 @@ export default function MyGraph() {
 ```
 
 ```tsx live
+import * as React from "react";
 import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {

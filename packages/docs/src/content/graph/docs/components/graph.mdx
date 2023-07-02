@@ -1,18 +1,25 @@
 # Graph
 
-The Graph component by itself is pretty boring. It's just a container for the other components. It is also where the global definitions of your graph are set.
+The Graph component by itself is pretty boring. It's just a container for the
+other components. It is also where the global definitions of your graph are set.
 
 ## Controlling the Coordinate Box
 
-The `coordBox` defines the visible area of the graph. This property defines a bounding box within the coordinate system of the graph that is guaranteed to be shown, regardless of the size or aspect ratio of the rendering viewport.
+The `coordBox` defines the visible area of the graph. This property defines a
+bounding box within the coordinate system of the graph that is guaranteed to be
+shown, regardless of the size or aspect ratio of the rendering viewport.
 
-The actual dimensions of the bounding box of the graph can be influenced by other properties. These include `padding`, `width`, and `height`.
+The actual dimensions of the bounding box of the graph can be influenced by
+other properties. These include `padding`, `width`, and `height`.
 
-The `padding` property determines the amount of space in pixels that is added around the edges of the `coordBox`.
+The `padding` property determines the amount of space in pixels that is added
+around the edges of the `coordBox`.
 
-The `width` and `height` properties specify the dimensions of the rendering viewport, they accept the same values as CSS `width` and `height` properties.
+The `width` and `height` properties specify the dimensions of the rendering
+viewport, they accept the same values as CSS `width` and `height` properties.
 
 ```tsx live
+import * as React from "react";
 import { point } from "@coord/core";
 import { Graph, Grid, Text, BoundingBox } from "@coord/graph";
 
@@ -28,7 +35,7 @@ export default function MyGraph() {
   };
 
   return (
-    <Graph coordBox={coordBox} height={300} width="100%" padding={15}>
+    <Graph coordBox={coordBox} height="100%" width="100%" padding={15}>
       <Grid />
       <BoundingBox
         bbox={coordBox}
@@ -45,9 +52,11 @@ export default function MyGraph() {
 
 ## Controlling the Coordinate Step
 
-The `coordStep` property defines the step size of the grid in the horizontal and vertical directions. The default value is 1 for both axes.
+The `coordStep` property defines the step size of the grid in the horizontal and
+vertical directions. The default value is 1 for both axes.
 
-Sometimes you want the horizontal axis to increment at a different rate than the vertical axis. This is where the `coordStep` property comes in.
+Sometimes you want the horizontal axis to increment at a different rate than the
+vertical axis. This is where the `coordStep` property comes in.
 
 ```tsx
 import { point } from "@coord/core/dist";
@@ -65,7 +74,7 @@ export default function MyGraph() {
   };
 
   return (
-    <Graph coordBox={coordBox} height={300} width="100%" padding={15}>
+    <Graph coordBox={coordBox} height="100%" width="100%" padding={15}>
       <Grid />
       <BoundingBox
         bbox={coordBox}
@@ -82,18 +91,21 @@ export default function MyGraph() {
 
 ## Themes
 
-The theme prop is used to style and customize the appearance of your Graph. It can either accept the name of one of the predefined themes or a custom theme object.
+The theme prop is used to style and customize the appearance of your Graph. It
+can either accept the name of one of the predefined themes or a custom theme
+object.
 
 ### Predefined Themes
 
 ```tsx live collapsed
+import * as React from "react";
 import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
     <Graph
       theme="dark"
-      height={300}
+      height="100%"
       width="100%"
       coordBox={{ horizontal: [-4, 4], vertical: [4, -4] }}
     >
@@ -107,13 +119,14 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
+import * as React from "react";
 import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
     <Graph
       theme="light"
-      height={300}
+      height="100%"
       width="100%"
       coordBox={{ horizontal: [-4, 4], vertical: [4, -4] }}
     >
@@ -127,13 +140,14 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
+import * as React from "react";
 import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
     <Graph
       theme="dracula"
-      height={300}
+      height="100%"
       width="100%"
       coordBox={{ horizontal: [-4, 4], vertical: [4, -4] }}
     >
@@ -147,13 +161,14 @@ export default function MyGraph() {
 ```
 
 ```tsx live collapsed
+import * as React from "react";
 import { Graph, Grid, Line } from "@coord/graph";
 
 export default function MyGraph() {
   return (
     <Graph
       theme="3b1b"
-      height={300}
+      height="100%"
       width="100%"
       coordBox={{ horizontal: [-4, 4], vertical: [4, -4] }}
     >
@@ -168,7 +183,9 @@ export default function MyGraph() {
 
 ### Custom Themes
 
-You can also define a custom theme by passing an object to the theme prop. This object should conform to the Theme interface. Here's an example of a custom theme:
+You can also define a custom theme by passing an object to the theme prop. This
+object should conform to the Theme interface. Here's an example of a custom
+theme:
 
 ```tsx
 const customTheme: Theme = {

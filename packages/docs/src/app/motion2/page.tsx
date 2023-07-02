@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/Button";
 import {
   code,
   insert,
@@ -92,7 +93,12 @@ const scene = makeMotion("Hello World", builder);
 export default function Page() {
   const controls = useMotionController(scene);
   const { state } = controls;
-
+  return (
+    <div>
+      {" "}
+      <Button>Hi</Button>
+    </div>
+  );
   return (
     <MotionPlayer controls={controls} repeat autoplay>
       <CodeMotion
@@ -103,7 +109,7 @@ export default function Page() {
     </MotionPlayer>
   );
 }
-export function Pageold() {
+function Pageold() {
   const controls = useMotionController(scene);
   const [codeString, setCodeString] = useState(
     dedent(`
@@ -117,7 +123,7 @@ export function Pageold() {
   return (
     <div className="container grid w-full grid-cols-2 p-8">
       <div>
-        <CodeBlock {...rest} transition={Math.min(manualT, transition)} />
+        {/* <CodeBlock {...rest} transition={Math.min(manualT, transition)} /> */}
         <div>
           {/* <input
               className="w-full"
@@ -197,7 +203,3 @@ export function Pageold() {
     </div>
   );
 }
-code`
-  ${remove("type MyType = boolean;")}
-  const my${replace("Bool:MyType", "String")} = ${replace("true", '"Hi"')};
-`;

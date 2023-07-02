@@ -1,14 +1,14 @@
-import { AnimatedTag, Tagifier, diffCode } from "@/code";
+import { AnimatedTag, LanguageOptions, Tagifier, diffCode } from "@/code";
 import { EasingOptions, applyEasing, isNumber, isUndefined } from "@coord/core";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { Theme, sublime } from "@/themes";
+import { Theme, curves, sublime } from "@/themes";
 import { LanguageSupport } from "@codemirror/language";
 
 export type CodeOptions = {
   duration: number;
   durationPerChar: number;
   easing: EasingOptions;
-  language?: LanguageSupport;
+  language?: LanguageOptions;
   theme: Theme;
   mode: "fade" | "type";
 };
@@ -18,7 +18,7 @@ const defaultOptions: CodeOptions = {
   durationPerChar: 0,
   easing: "easeInOutSine",
 
-  theme: sublime,
+  theme: curves,
   mode: "fade",
 };
 
@@ -51,6 +51,12 @@ export function useCode(code: string, options: OptionsInput = {}) {
 
   const [current, setCurrent] = useState(code);
   const [prev, setPrev] = useState(code);
+
+  useEffect(() => {
+    setPrev(current);
+
+    setCurrent(code);
+  }, [code]);
   useEffect(() => {
     return () => {
       setPrev(current);

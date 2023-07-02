@@ -3,6 +3,7 @@
 `PolyLine` is a component that takes an array of points and connects them.
 
 ```tsx live
+import * as React from "react";
 import { Vec2ish } from "@coord/core";
 import { Graph, Grid, Marker, PolyLine } from "@coord/graph";
 
@@ -21,7 +22,7 @@ export default function MyGraph() {
     [-3, 2], // back to left ear start
   ];
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <PolyLine
         points={cat}

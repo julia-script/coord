@@ -13,7 +13,7 @@ export async function generateStaticParams(): Promise<
   DocPageProps["params"][]
 > {
   return allDocPages.map((post) => ({
-    slug: post.slugAsParams.split("/"),
+    slug: post.slug.split("/").filter(Boolean),
   }));
 }
 function getPostFromParams(params: DocPageProps["params"]) {

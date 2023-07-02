@@ -22,3 +22,4 @@ export * from "./tokyoNightDay";
 export * from "./tokyoNightStorm";
 export * from "./vscode";
 export * from "./xcode";
+export * from "./curves";

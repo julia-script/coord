@@ -1,4 +1,5 @@
-```tsx collapsed live
+```tsx live collapsed
+import * as React from "react";
 import { Graph, Grid, Plot, useNavigationState } from "@coord/graph";
 
 export default function MyGraph() {
@@ -8,8 +9,8 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
       width="100%"
+      height="100%"
     >
       <Grid />
       <Plot.ofX f={(x) => Math.sin(x)} />
@@ -28,21 +29,12 @@ the web.
 Graph is available as an npm package. To install it, run the following
 command:
 
-### npm
-
-```bash
+```bash morph
+# option: NPM
 npm install @coord/graph
-```
-
-### pnpm
-
-```bash
+# option: PNPM
 pnpm install @coord/graph
-```
-
-### yarn
-
-```bash
+# option: YARN
 yarn add @coord/graph
 ```
 
@@ -50,14 +42,55 @@ yarn add @coord/graph
 
 The following example shows how to plot a sine wave.
 
-```tsx live
+```tsx live morph
+// step: Display Grid
+import * as React from "react";
 import { Graph, Grid, Plot } from "@coord/graph";
 
 export default function MyGraph() {
   return (
-    <Graph width="100%">
+    <Graph width="100%" height="100%">
       <Grid />
-      <Plot.ofX f={(x) => Math.sin(x)} strokeColor={8} />
+    </Graph>
+  );
+}
+// step: Plot of X
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX f={(x) => x} />
+    </Graph>
+  );
+}
+// step: Sine wave
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x)} />
+    </Graph>
+  );
+}
+// step: Style it!
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX
+        f={(x) => Math.sin(x)}
+        strokeColor={"hsl(337 100.00% 60%)"}
+        strokeWidth={8}
+      />
     </Graph>
   );
 }
