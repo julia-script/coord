@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 
 import { getMDXComponent } from "next-contentlayer/hooks";
 import { PreMDX } from "@/components";
+import dynamic from "next/dynamic";
+import Module from "node:module";
+import React from "react";
+import { Example } from "@/components/motion/Example";
 
 interface DocPageProps {
   params: {
@@ -31,6 +35,9 @@ function getPostFromParams(params: DocPageProps["params"]) {
 }
 const components = {
   pre: (props: any) => <PreMDX {...props} />,
+  MotionLandingPage: () => {
+    return <Example />;
+  },
 };
 
 export default async function Page({ params }: DocPageProps) {
@@ -39,7 +46,7 @@ export default async function Page({ params }: DocPageProps) {
     notFound();
   }
 
-  const Mdx = getMDXComponent(page.body.code);
+  const Mdx = await getMDXComponent(page.body.code);
 
   return <Mdx components={components} />;
 }

@@ -1,5 +1,5 @@
 import { test, expect, describe, vi } from "vitest";
-import { useMotionController } from "./useMotionController";
+import { useMotion } from "./useMotionController";
 import { renderHook } from "@testing-library/react-hooks";
 import { MotionScene, makeScene } from "@coord/motion";
 
@@ -11,7 +11,7 @@ describe("useMotionController", () => {
       yield;
     });
 
-    const { result } = renderHook(() => useMotionController(scene));
+    const { result } = renderHook(() => useMotion(scene));
     expect(result.current.playing).toBe(false);
     expect(result.current.frame).toBe(0);
     expect(result.current.playRange).toEqual([0, 50]);

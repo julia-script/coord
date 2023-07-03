@@ -31,7 +31,7 @@ export function controlNumber(
   getter: () => number,
   setter: (value: number) => void
 ) {
-  return new Control(getter, setter);
+  return new NumberControl(getter, setter);
 }
 
 export function* makeNumberState<TKey extends string>(

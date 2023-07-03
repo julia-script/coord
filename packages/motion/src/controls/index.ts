@@ -4,3 +4,4 @@ export * from "./control-color";
 export * from "./control-number";
 export * from "./control-vec2";
 export * from "./control-transform";
+export * from "./control-list";

@@ -1,4 +1,5 @@
-import { isFunction } from "@coord/core/dist";
+import { tween } from "@/tweening";
+import { EasingOptions, isFunction } from "@coord/core/dist";
 
 export type Dispatcher<TValue, TValueIn = TValue> =
   | TValueIn
@@ -43,6 +44,18 @@ export class Control<TValue, TValueIn = TValue> {
   *as(value: Dispatcher<TValue, TValueIn>) {
     this.set(value);
     yield;
+  }
+
+  tween(
+    duration: number,
+    fn: (t: number, initialValue: TValue) => TValueIn,
+    easing?: EasingOptions
+  ) {
+    const self = this;
+    return this._applyDeferred(function* (next) {
+      const from = next();
+      yield* tween(duration, (t) => self.set(fn(t, from)), easing);
+    });
   }
 }
 

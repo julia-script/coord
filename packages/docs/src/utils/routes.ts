@@ -13,8 +13,9 @@ const allRoutes: PageItem[][] = [
 ];
 
 export const getProjectRoutes = (route: string) => {
-  if (route === "/graph") return graph;
-  if (route === "/motion") return motion;
+  route = normalizeRoute(route);
+  if (route.startsWith("/graph")) return graph;
+  if (route.startsWith("/motion")) return motion;
   return {
     sidebar: [],
     header: [],

@@ -3,7 +3,9 @@ import { all } from "./all";
 import { delay } from "./delay";
 import { EasingOptions, applyEasing } from "@coord/core";
 
-type OffsetConfig = number | { duration: number; easing?: EasingOptions };
+export type OffsetConfig =
+  | number
+  | { duration: number; easing?: EasingOptions };
 export function* sequence<TThread extends Threadish[]>(
   offset: OffsetConfig,
   ...threads: TThread
