@@ -1,19 +1,29 @@
-import React, { ComponentProps, useMemo } from "react";
-import { AnimatedTag, LanguageOptions, Regions, Tagifier } from "@/code";
+import React, {
+  ComponentProps,
+  useMemo,
+} from "react";
+import {
+  AnimatedTag,
+  LanguageOptions,
+  Regions,
+  Tagifier,
+} from "@/code";
 import { SmoothReplace } from "./smooth-replace";
-import { CodeOptions, normalizeOptions } from "@/hooks";
+import {
+  CodeOptions,
+  normalizeOptions,
+} from "@/hooks";
 import { Typewriter } from "./type-replace";
-import { Theme, atomone, curves, gruvboxDark, nord, sublime } from "..";
-import { LRParser } from "@lezer/lr";
-import { javascript } from "@codemirror/lang-javascript";
-import { LRLanguage, LanguageSupport } from "@codemirror/language";
+import { Theme, curves } from "..";
 
 export type CodeState = {
   theme?: Theme;
   code: AnimatedTag[];
   transition: number;
   noBg?: boolean;
-  options?: Partial<Omit<CodeOptions, "language" | "easing">>;
+  options?: Partial<
+    Omit<CodeOptions, "language" | "easing">
+  >;
 } & React.HTMLAttributes<HTMLPreElement>;
 
 export function CodeBlock({
@@ -30,14 +40,23 @@ export function CodeBlock({
   language?: LanguageOptions;
 } & ComponentProps<"pre">) {
   const tags = useMemo(
-    () => Tagifier.generateTags(["", code], theme, language),
+    () =>
+      Tagifier.generateTags(
+        ["", code],
+        theme,
+        language
+      ),
     [code]
   );
   const style = Object.assign(
     { overflow: "hidden" },
     noBg
       ? {}
-      : { padding: "0.5em", borderRadius: "0.2em", ...theme.styles.background }
+      : {
+          padding: "0.5em",
+          borderRadius: "0.2em",
+          ...theme.styles.background,
+        }
   );
   return (
     <pre style={style} {...rest}>
@@ -65,14 +84,24 @@ export function CodeMorph({
     { overflow: "auto" },
     noBg
       ? {}
-      : { padding: "0.5em", borderRadius: "0.2em", ...theme.styles.background }
+      : {
+          padding: "0.5em",
+          borderRadius: "0.2em",
+          ...theme.styles.background,
+        }
   );
   return (
     <pre style={style} {...rest}>
       {config.mode === "fade" ? (
-        <SmoothReplace transition={transition} tags={code} />
+        <SmoothReplace
+          transition={transition}
+          tags={code}
+        />
       ) : (
-        <Typewriter transition={transition} tags={code} />
+        <Typewriter
+          transition={transition}
+          tags={code}
+        />
       )}
     </pre>
   );
@@ -90,7 +119,12 @@ export function CodeMotion({
   ...rest
 }: CodeMotionProps) {
   const tags = useMemo(
-    () => Tagifier.generateTags(code, theme, language),
+    () =>
+      Tagifier.generateTags(
+        code,
+        theme,
+        language
+      ),
     [code]
   );
   return <CodeMorph code={tags} {...rest} />;

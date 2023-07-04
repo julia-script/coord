@@ -1,8 +1,16 @@
-import { EasingOptions, isString } from "@coord/core";
+import {
+  EasingOptions,
+  isString,
+} from "@coord/core";
 import { Control } from "./control";
 import { tween } from "@/tweening";
 import { makeState } from "@/motion";
-import { Code, code, diffCode, stringifyRight } from "@coord/code";
+import {
+  Code,
+  code,
+  diffCode,
+  stringifyRight,
+} from "@coord/code";
 
 type CodeState = {
   code: Code;
@@ -33,7 +41,10 @@ export class CodeControl extends Control<CodeState> {
     }));
     return this;
   }
-  in(duration: number, easing: EasingOptions = "easeInOutSine") {
+  in(
+    duration: number,
+    easing: EasingOptions = "easeInOutSine"
+  ) {
     const self = this;
     return this._applyDeferred(function* (next) {
       const to = next();
@@ -57,14 +68,18 @@ export function controlCode(
   return new Control(getter, setter);
 }
 
-export function* makeCodeState<TKey extends string>(
-  key: TKey,
-  initialState: Code | string
-) {
+export function* makeCodeState<
+  TKey extends string
+>(key: TKey, initialState: Code | string) {
   const control = yield* makeState(key, {
-    code: isString(initialState) ? code(initialState) : initialState,
+    code: isString(initialState)
+      ? code(initialState)
+      : initialState,
     transition: 1,
   });
 
-  return new CodeControl(control._get, control._set);
+  return new CodeControl(
+    control._get,
+    control._set
+  );
 }

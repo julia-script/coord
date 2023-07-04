@@ -9,10 +9,10 @@ import {
   MotionPlayer,
   useMotion,
 } from "@coord/motion-react";
-import {
-  BezierScene,
-  bezierScene,
-} from "./BezierScene";
+// import {
+//   BezierScene,
+//   bezierScene,
+// } from "./BezierScene";
 
 const scene = makeMotion(
   "Hello World",
@@ -72,14 +72,14 @@ export function Example2() {
 }
 
 export function Example() {
-  const [state, controls] =
-    useMotion(bezierScene);
+  // const [state, controls] =
+  //   useMotion(bezierScene);
 
   return (
     <div>
-      <MotionPlayer controls={controls}>
-        <BezierScene state={state} />
-      </MotionPlayer>
+      {/* <MotionPlayer controls={controls}> */}
+      {/* <BezierScene state={state} /> */}
+      {/* </MotionPlayer> */}
       {/* <pre>{JSON.stringify(state, null, 2)}</pre> */}
     </div>
   );

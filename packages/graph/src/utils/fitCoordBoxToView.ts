@@ -14,8 +14,12 @@ export const fitCoordBoxToView = (
   const coordWidth = horizontal.y - horizontal.x;
   const coordHeight = vertical.y - vertical.x;
 
-  const coordRatio = Math.abs(coordWidth / xStep / (coordHeight / yStep));
-  const ratio = (width - padding * 2) / (height - padding * 2);
+  const coordRatio = Math.abs(
+    coordWidth / xStep / (coordHeight / yStep)
+  );
+  const ratio =
+    (width - padding * 2) /
+    (height - padding * 2);
 
   const multiplier = coordRatio / ratio;
 
@@ -26,8 +30,10 @@ export const fitCoordBoxToView = (
   xFactor *= width / (width - padding * 2);
   yFactor *= height / (height - padding * 2);
 
-  const xCoordPadding = (coordWidth * xFactor - coordWidth) / 2;
-  const yCoordPadding = (coordHeight * yFactor - coordHeight) / 2;
+  const xCoordPadding =
+    (coordWidth * xFactor - coordWidth) / 2;
+  const yCoordPadding =
+    (coordHeight * yFactor - coordHeight) / 2;
 
   const xMin = horizontal.x - xCoordPadding;
   const xMax = horizontal.y + xCoordPadding;
