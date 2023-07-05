@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { CodeBlock } from "./CodeBlock";
 import { get } from "lodash-es";
@@ -16,8 +16,14 @@ export type PreMDXProps = {
 };
 
 const parseProps = (props: PreMDXProps) => {
-  const code: unknown = get(props, "children.props.children");
-  const className: unknown = get(props, "children.props.className");
+  const code: unknown = get(
+    props,
+    "children.props.children"
+  );
+  const className: unknown = get(
+    props,
+    "children.props.className"
+  );
   const live = !!props.live;
 
   const {
@@ -44,7 +50,8 @@ const parseProps = (props: PreMDXProps) => {
     morph,
   };
 };
-export function PreMDX(props: PreMDXProps) {
+
+export async function PreMDX(props: PreMDXProps) {
   const {
     morph,
     editable,

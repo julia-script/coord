@@ -1,4 +1,4 @@
-import { EasingOptions, applyEasing } from "@coord/core/dist";
+import { EasingOptions, applyEasing } from "@coord/core";
 
 export const blink = (
   t: number,

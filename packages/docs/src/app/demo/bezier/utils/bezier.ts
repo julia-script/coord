@@ -1,10 +1,10 @@
-import { Vec2, point } from "@coord/core/dist";
+import { Vec2, point } from "@coord/core";
 import {
   Control,
   Spring,
   SpringParameters,
   spring,
-} from "@coord/motion/dist";
+} from "@coord/motion";
 
 const lut = [
   [1], // n=0

@@ -1,7 +1,4 @@
-import {
-  CodeMotion,
-  code,
-} from "@coord/code/dist";
+import { CodeMotion, code } from "@coord/code";
 import { point } from "@coord/core";
 import {
   Graph,

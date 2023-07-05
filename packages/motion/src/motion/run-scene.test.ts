@@ -7,20 +7,29 @@ import {
   isFunction,
   isGenerator,
   isGeneratorFunction,
-} from "@coord/core/dist";
-import { isMakeStateRequest, isRequest } from "./assertions";
+} from "@coord/core";
+import {
+  isMakeStateRequest,
+  isRequest,
+} from "./assertions";
 import { T } from "vitest/dist/types-dea83b3d";
 
 describe("run-scene", () => {
   test("should return correct values", () => {
-    const scene = makeMotion("name", function* () {
-      const [get, set] = yield* makeState("x", 0);
-      yield* makeState("y", 0);
-      yield* makeState("z", 0);
-      yield set(1);
-      yield set(2);
-      yield set(3);
-    });
+    const scene = makeMotion(
+      "name",
+      function* () {
+        const [get, set] = yield* makeState(
+          "x",
+          0
+        );
+        yield* makeState("y", 0);
+        yield* makeState("z", 0);
+        yield set(1);
+        yield set(2);
+        yield set(3);
+      }
+    );
 
     const result = runMotion(scene);
     expect(result.frames).toEqual([
@@ -30,18 +39,23 @@ describe("run-scene", () => {
     ]);
   });
   test("should return correct values 2", () => {
-    const scene = makeMotion("name", function* () {
-      const x = yield* makeControl("x", "a");
-      const y = yield* makeControl("y", 0);
-      const z = yield* makeControl("z", 0);
+    const scene = makeMotion(
+      "name",
+      function* () {
+        const x = yield* makeControl("x", "a");
+        const y = yield* makeControl("y", 0);
+        const z = yield* makeControl("z", 0);
 
-      yield* all(function* () {
-        yield* makeState("z", "a");
-      });
-    });
+        yield* all(function* () {
+          yield* makeState("z", "a");
+        });
+      }
+    );
 
     const result = runMotion(scene);
 
-    expect(result.frames).toEqual([{ x: 1, y: 1, z: 1 }]);
+    expect(result.frames).toEqual([
+      { x: 1, y: 1, z: 1 },
+    ]);
   });
 });

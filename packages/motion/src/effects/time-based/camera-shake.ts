@@ -1,4 +1,9 @@
-import { Random, Vec2, point, transform } from "@coord/core";
+import {
+  Random,
+  Vec2,
+  point,
+  transform,
+} from "@coord/core";
 
 type CameraShakeConfig = {
   timeFactor?: number;
@@ -9,12 +14,30 @@ type CameraShakeConfig = {
 const SCALE_FACTOR = 0.001;
 const MAX_ROTATION = Math.PI / 1000;
 
-export const makeCameraShake = (config: CameraShakeConfig = {}) => {
-  const { timeFactor = 1, seed = 0, waveCount = 4 } = config;
+export const makeCameraShake = (
+  config: CameraShakeConfig = {}
+) => {
+  const {
+    timeFactor = 1,
+    seed = 0,
+    waveCount = 4,
+  } = config;
   const random = new Random(seed);
-  const xWaves = random.list(waveCount, 100, 1000);
-  const yWaves = random.list(waveCount, 100, 1000);
-  const scaleWaves = random.list(waveCount, 100, 1000);
+  const xWaves = random.list(
+    waveCount,
+    100,
+    1000
+  );
+  const yWaves = random.list(
+    waveCount,
+    100,
+    1000
+  );
+  const scaleWaves = random.list(
+    waveCount,
+    100,
+    1000
+  );
   const phases = random.list(waveCount, 0, 0.5);
   return (t: number, intensity = 1) => {
     let x = 0;
@@ -28,10 +51,22 @@ export const makeCameraShake = (config: CameraShakeConfig = {}) => {
       const scaleWave = scaleWaves[i]!;
       const phase = phases[i]!;
 
-      x += Math.sin(((t + xWave * phase) / xWave) * Math.PI * 2);
-      y += Math.cos(((t + yWave * phase) / yWave) * Math.PI * 2);
+      x += Math.sin(
+        ((t + xWave * phase) / xWave) *
+          Math.PI *
+          2
+      );
+      y += Math.cos(
+        ((t + yWave * phase) / yWave) *
+          Math.PI *
+          2
+      );
 
-      scale += Math.sin(((t + scaleWave * phase) / scaleWave) * Math.PI * 2);
+      scale += Math.sin(
+        ((t + scaleWave * phase) / scaleWave) *
+          Math.PI *
+          2
+      );
     }
     x /= waveCount;
     y /= waveCount;
@@ -42,7 +77,9 @@ export const makeCameraShake = (config: CameraShakeConfig = {}) => {
     scale = 1 + scale * SCALE_FACTOR * intensity;
     const out = transform();
 
-    out.translateSelf(point(x, y).scale(intensity));
+    out.translateSelf(
+      point(x, y).scale(intensity)
+    );
     out.scaleSelf(scale);
     out.rotateSelf(rot);
     return out;

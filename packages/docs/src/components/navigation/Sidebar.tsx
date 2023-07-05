@@ -1,15 +1,12 @@
+"use client";
 import {
-  useState,
   useRef,
-  Component,
   ComponentProps,
   PropsWithChildren,
 } from "react";
 import { PageItem } from "./types";
 import cn from "clsx";
 import Link from "next/link";
-import { GoChevronDown } from "react-icons/go";
-import { isString } from "@coord/core/dist";
 import { usePathname } from "next/navigation";
 import { normalizeRoute } from "@/utils/routes";
 
@@ -36,7 +33,9 @@ function MenuLabel({
 function MenuItem({ item }: { item: PageItem }) {
   // const [open, setOpen] = useState(true);
   const pathname = usePathname();
-  const active = normalizeRoute(pathname) === normalizeRoute(item.route);
+  const active =
+    normalizeRoute(pathname) ===
+    normalizeRoute(item.route);
 
   return (
     <li className={"flex flex-col gap-1"}>
@@ -49,8 +48,10 @@ function MenuItem({ item }: { item: PageItem }) {
             ["bg-white/10 font-semibold"]: active,
             ["dark:text-white/80"]: !active,
 
-            [cn("cursor-pointer", "hover:bg-gray-100 dark:hover:bg-white/20")]:
-              item.isPage ?? true,
+            [cn(
+              "cursor-pointer",
+              "hover:bg-gray-100 dark:hover:bg-white/20"
+            )]: item.isPage ?? true,
           }
         )}
         href={item.route}
@@ -90,7 +91,12 @@ function MenuItem({ item }: { item: PageItem }) {
 }
 function Menu({ items, className }: MenuProps) {
   return (
-    <ul className={cn("flex flex-col gap-1", className)}>
+    <ul
+      className={cn(
+        "flex flex-col gap-1",
+        className
+      )}
+    >
       {items.map((item) => (
         <MenuItem key={item.route} item={item} />
       ))}
@@ -102,7 +108,8 @@ type SidebarProps = {
   items: PageItem[];
 };
 export function Sidebar({ items }: SidebarProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef =
+    useRef<HTMLDivElement>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
   return (
     <aside

@@ -97,14 +97,19 @@ const files = {
       height: 100vh;
     }
   `),
-  "package.json": JSON.stringify(packageJson, null, 2),
+  "package.json": JSON.stringify(
+    packageJson,
+    null,
+    2
+  ),
 };
 
 function CopyButton({
   code,
   ...rest
 }: { code: string } & ComponentProps<"button">) {
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] =
+    React.useState(false);
 
   useEffect(() => {
     if (!copied) return;
@@ -149,16 +154,30 @@ export function CodeBlock({
 }) {
   const codeSections = useMemo(() => {
     code = dedent(code);
-    if (!morph) return [{ type: "option", description: "", code, name: "" }];
+    if (!morph)
+      return [
+        {
+          type: "option",
+          description: "",
+          code,
+          name: "",
+        },
+      ];
     return parseMorphingCode(code);
   }, [code]);
 
-  const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
-  const activeCode = codeSections[activeSectionIndex]?.code ?? "";
+  const [
+    activeSectionIndex,
+    setActiveSectionIndex,
+  ] = React.useState(0);
+  const activeCode =
+    codeSections[activeSectionIndex]?.code ?? "";
 
   const [edit, setEdit] = React.useState(false);
-  const [isCollapsed, setIsCollapsed] = React.useState(collapsed);
-  const [loading, setLoading] = React.useState(false);
+  const [isCollapsed, setIsCollapsed] =
+    React.useState(collapsed);
+  const [loading, setLoading] =
+    React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -191,21 +210,30 @@ export function CodeBlock({
         setLoading(false);
       });
   }, [edit]);
-  const steps = codeSections.filter(({ type }) => type === "step");
-  const options = codeSections.filter(({ type }) => type === "option");
+  const steps = codeSections.filter(
+    ({ type }) => type === "step"
+  );
+  const options = codeSections.filter(
+    ({ type }) => type === "option"
+  );
   return (
-    <div className="not-prose relative mb-2 flex w-full flex-col overflow-hidden">
+    <div className="not-prose relative mb-2 flex w-full flex-col ">
       <div
-        className={clsx("w-full overflow-hidden rounded", {
-          absolute: edit === false || loading === true,
-        })}
+        className={clsx(
+          "w-full overflow-hidden rounded",
+          {
+            absolute:
+              edit === false || loading === true,
+          }
+        )}
       >
         <div ref={ref} />
       </div>
       <div
         className={clsx({
           "opacity-50": loading,
-          hidden: edit === true && loading === false,
+          hidden:
+            edit === true && loading === false,
         })}
       >
         {preview && (
@@ -213,59 +241,80 @@ export function CodeBlock({
             style={{
               height,
             }}
-            className={clsx("relative overflow-hidden rounded")}
+            className={clsx(
+              "relative overflow-hidden rounded"
+            )}
           >
-            {codeSections.map(({ type, description, code, name }, i) => (
-              <div
-                key={i}
-                className={clsx(
-                  "absolute h-full w-full transition-all duration-1000",
-                  {
-                    "opacity-0": i !== activeSectionIndex,
-                  }
-                )}
-              >
-                <Runner key={i} code={code} scope={scope} />
-              </div>
-            ))}
+            {codeSections.map(
+              (
+                { type, description, code, name },
+                i
+              ) => (
+                <div
+                  key={i}
+                  className={clsx(
+                    "absolute h-full w-full transition-all duration-1000",
+                    {
+                      "opacity-0":
+                        i !== activeSectionIndex,
+                    }
+                  )}
+                >
+                  <Runner
+                    key={i}
+                    code={code}
+                    scope={scope}
+                  />
+                </div>
+              )
+            )}
           </div>
         )}
         {morph && !!steps.length && (
           <div className="my-2 flex gap-2">
-            {steps.map(({ name, description, code }, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  setActiveSectionIndex(i);
-                }}
-                className={clsx(
-                  "flex w-0 grow flex-col items-center justify-center rounded border border-white/5 px-1 py-4 transition-all duration-200 hover:scale-105",
-                  {
-                    "border-accent/50 bg-accent-graph-300/5":
-                      i === activeSectionIndex,
-                  }
-                )}
-              >
-                <span className="flex flex-col items-center gap-2 text-xs font-bold md:text-sm">
-                  <span
-                    className={clsx(
-                      "inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-xs",
-                      {
-                        "bg-accent-graph-300/20": i === activeSectionIndex,
-                      }
-                    )}
-                  >
-                    {i + 1}
-                  </span>{" "}
-                  {name}
-                </span>
-                {description && (
-                  <span className="mt-2 text-xs text-white/60">
-                    {description}
+            {steps.map(
+              (
+                { name, description, code },
+                i
+              ) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setActiveSectionIndex(i);
+                  }}
+                  className={clsx(
+                    "flex w-0 grow flex-col items-center justify-center rounded border  px-1 py-4 transition-all duration-200 hover:scale-105",
+                    {
+                      "border-white/5":
+                        i !== activeSectionIndex,
+                      "border-accent/50 bg-accent-graph-300/5":
+                        i === activeSectionIndex,
+                    }
+                  )}
+                >
+                  <span className="flex flex-col items-center gap-2 text-xs font-bold md:text-sm">
+                    <span
+                      className={clsx(
+                        "inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-xs",
+                        {
+                          "bg-accent-graph-300/20":
+                            i ===
+                            activeSectionIndex,
+                        }
+                      )}
+                    >
+                      {i + 1}
+                    </span>{" "}
+                    {name}
                   </span>
-                )}
-              </button>
-            ))}
+                  {description && (
+                    <span className="mt-2 text-xs text-white/60">
+                      {description}
+                    </span>
+                  )}
+                </button>
+              )
+            )}
           </div>
         )}
         <CodeContainer
@@ -278,9 +327,11 @@ export function CodeBlock({
                       "flex items-center gap-2 border-b  px-3 py-2 transition-colors duration-200",
                       {
                         "border-accent border-solid font-bold text-white":
-                          i === activeSectionIndex,
+                          i ===
+                          activeSectionIndex,
                         "border-transparent font-normal":
-                          i !== activeSectionIndex,
+                          i !==
+                          activeSectionIndex,
                       }
                     )}
                     onClick={() => {
@@ -306,7 +357,8 @@ export function CodeBlock({
                   </>
                 ) : (
                   <>
-                    <EyeClosedIcon size={12} /> Hide
+                    <EyeClosedIcon size={12} />{" "}
+                    Hide
                   </>
                 )}
               </button>
@@ -340,7 +392,10 @@ export function CodeBlock({
             />
           )}
           {!isCollapsed && morph && (
-            <MorphingCodeBlock language={language ?? "txt"} code={activeCode} />
+            <MorphingCodeBlock
+              language={language ?? "txt"}
+              code={activeCode}
+            />
           )}
         </CodeContainer>
       </div>
@@ -356,7 +411,7 @@ function CodeContainer({
   buttonsLeft?: React.ReactNode[];
 }>) {
   return (
-    <div className="bg-dark-750 mt-2 flex w-full flex-col overflow-hidden rounded-lg border border-white/5">
+    <div className="bg-dark-750 mt-2 flex w-full flex-col rounded-lg border border-white/5">
       <header className="flex items-center bg-neutral-600/10">
         <div className="flex">
           {buttonsLeft.map((c, i) => (
@@ -384,7 +439,9 @@ function CodeContainer({
         </div>
       </header>
       <div className="grow-1 w-full overflow-scroll">
-        <div className=" flex w-fit">{children}</div>
+        <div className=" flex w-fit">
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -408,7 +465,9 @@ const parseMorphingCode = (code: string) => {
       if (codeParts.at(-1)?.code.trim() === "") {
         codeParts.pop();
       }
-      const [name, description] = (optionName ?? stepName).split(" - ");
+      const [name, description] = (
+        optionName ?? stepName
+      ).split(" - ");
 
       const type = optionName ? "option" : "step";
       codeParts.push({

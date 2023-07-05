@@ -1,4 +1,9 @@
-import { isString, isNumber, isUndefined, Nullable } from "@coord/core/dist";
+import {
+  isString,
+  isNumber,
+  isUndefined,
+  Nullable,
+} from "@coord/core";
 import { DedentOptions, trim } from "./dedent";
 
 type CodeTagInput =
@@ -19,7 +24,8 @@ const getLineIndent = (line: string) => {
   let indent = "";
   for (let i = 0; i < line.length; i++) {
     const char = line[i]!;
-    if (char === " " || char === "\t") indent += char;
+    if (char === " " || char === "\t")
+      indent += char;
     else break;
   }
   return indent;
@@ -49,7 +55,10 @@ export function code(
 
     code += DELIMITER;
 
-    liveRegions.push([arg[0] ?? "", arg[1] ?? ""]);
+    liveRegions.push([
+      arg[0] ?? "",
+      arg[1] ?? "",
+    ]);
   }
 
   const { value, trimmedIndent } = trim(code);
@@ -97,8 +106,12 @@ export function code(
       if (liveRegion) {
         const [left, right] = liveRegion;
         const newRegion: LiveRegion = [
-          trimLiveRegion(left, { baseIndent: trimmedIndent }),
-          trimLiveRegion(right, { baseIndent: trimmedIndent }),
+          trimLiveRegion(left, {
+            baseIndent: trimmedIndent,
+          }),
+          trimLiveRegion(right, {
+            baseIndent: trimmedIndent,
+          }),
         ];
 
         lineRegions.push(newRegion);
@@ -107,12 +120,19 @@ export function code(
       }
     });
 
-    const leftIsRelevant = /[^ \t\n]/.test(leftCode);
-    const rightIsRelevant = /[^ \t\n]/.test(rightCode);
+    const leftIsRelevant = /[^ \t\n]/.test(
+      leftCode
+    );
+    const rightIsRelevant = /[^ \t\n]/.test(
+      rightCode
+    );
 
     if (leftIsRelevant !== rightIsRelevant) {
       lineRegions = [
-        [leftIsRelevant ? leftCode : "", rightIsRelevant ? rightCode : ""],
+        [
+          leftIsRelevant ? leftCode : "",
+          rightIsRelevant ? rightCode : "",
+        ],
       ];
     }
 
@@ -131,7 +151,10 @@ export function code(
 }
 
 export type Code = ReturnType<typeof code>;
-const trimLiveRegion = (code: string, options: Partial<DedentOptions> = {}) => {
+const trimLiveRegion = (
+  code: string,
+  options: Partial<DedentOptions> = {}
+) => {
   const isMultiline = code.includes("\n");
   if (!isMultiline) return code;
   return trim(code, {

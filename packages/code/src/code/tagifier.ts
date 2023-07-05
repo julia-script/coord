@@ -1,11 +1,17 @@
 import { Theme } from "@/themes";
-import { javascript, javascriptLanguage } from "@codemirror/lang-javascript";
-import { isString, makeId } from "@coord/core/dist";
+import {
+  javascript,
+  javascriptLanguage,
+} from "@codemirror/lang-javascript";
+import { isString, makeId } from "@coord/core";
 import { LRParser } from "@lezer/lr";
 import { gruvboxDark } from "@/themes";
 import { CSSProperties } from "react";
 import { Regions } from "./code-tag";
-import { stringifyLeft, stringifyRight } from "./code-tag-utils";
+import {
+  stringifyLeft,
+  stringifyRight,
+} from "./code-tag-utils";
 import { LanguageSupport } from "@codemirror/language";
 
 type MovingTag = {
@@ -33,7 +39,10 @@ type EnteringTag = {
   styles: CSSProperties;
 };
 
-export type AnimatedTag = MovingTag | LeavingTag | EnteringTag;
+export type AnimatedTag =
+  | MovingTag
+  | LeavingTag
+  | EnteringTag;
 
 const js = javascript({
   jsx: true,
@@ -54,10 +63,13 @@ export type LanguageOptions =
 export class Tagifier {
   private tags: AnimatedTag[] = [];
 
-  private right: [line: number, column: number] = [0, 0];
+  private right: [line: number, column: number] =
+    [0, 0];
   private rightPosition = 0;
 
-  private left: [line: number, column: number] = [0, 0];
+  private left: [line: number, column: number] = [
+    0, 0,
+  ];
   private leftPosition = 0;
 
   leftStyles = {
@@ -77,10 +89,12 @@ export class Tagifier {
     theme: Theme,
     parser: LanguageOptions = "tsx"
   ) {
-    let selectedParser: LanguageSupport | null = null;
+    let selectedParser: LanguageSupport | null =
+      null;
     if (isString(parser)) {
       if (parser in languages) {
-        selectedParser = languages[parser as Languages];
+        selectedParser =
+          languages[parser as Languages];
       }
     } else {
       selectedParser = parser as LanguageSupport;
@@ -120,22 +134,41 @@ export class Tagifier {
     return tagifier.tags;
   }
   setStyleAt(
-    style: CSSProperties & { start: number; end: number },
+    style: CSSProperties & {
+      start: number;
+      end: number;
+    },
     side: "left" | "right"
   ) {
     const styles = this[`${side}Styles`];
-    const current = styles.inMap.get(style.start) ?? new Set();
-    styles.inMap.set(style.start, current.add(style));
+    const current =
+      styles.inMap.get(style.start) ?? new Set();
+    styles.inMap.set(
+      style.start,
+      current.add(style)
+    );
 
-    const currentOut = styles.outMap.get(style.end) ?? new Set();
-    styles.outMap.set(style.end, currentOut.add(style));
+    const currentOut =
+      styles.outMap.get(style.end) ?? new Set();
+    styles.outMap.set(
+      style.end,
+      currentOut.add(style)
+    );
   }
   updateStyle(left: boolean, right: boolean) {
-    const leftIn = this.leftStyles.inMap.get(this.leftPosition);
-    const leftOut = this.leftStyles.outMap.get(this.leftPosition);
+    const leftIn = this.leftStyles.inMap.get(
+      this.leftPosition
+    );
+    const leftOut = this.leftStyles.outMap.get(
+      this.leftPosition
+    );
 
-    const rightIn = this.rightStyles.inMap.get(this.rightPosition);
-    const rightOut = this.rightStyles.outMap.get(this.rightPosition);
+    const rightIn = this.rightStyles.inMap.get(
+      this.rightPosition
+    );
+    const rightOut = this.rightStyles.outMap.get(
+      this.rightPosition
+    );
 
     if (leftIn) {
       for (const style of leftIn) {
@@ -162,7 +195,8 @@ export class Tagifier {
     const leftUpdated = leftIn || leftOut;
     const rightUpdated = rightIn || rightOut;
     if (left && right) {
-      if (leftUpdated || rightUpdated) this.makeTag(left, right);
+      if (leftUpdated || rightUpdated)
+        this.makeTag(left, right);
     }
     if (left && !right) {
       if (leftUpdated) this.makeTag(left, right);
@@ -172,7 +206,10 @@ export class Tagifier {
     }
   }
 
-  increasePosition(left: boolean, right: boolean) {
+  increasePosition(
+    left: boolean,
+    right: boolean
+  ) {
     if (left) {
       this.leftPosition++;
     }
@@ -205,7 +242,11 @@ export class Tagifier {
     this.makeTag(left, right);
   }
 
-  pushChar(char: string, left: boolean, right: boolean) {
+  pushChar(
+    char: string,
+    left: boolean,
+    right: boolean
+  ) {
     this.tags.at(-1)!.code += char;
     switch (char) {
       case "\n": {
@@ -221,10 +262,16 @@ export class Tagifier {
   }
 
   get computedRightStyle() {
-    return Object.assign({}, ...this.rightStyles.active) as CSSProperties;
+    return Object.assign(
+      {},
+      ...this.rightStyles.active
+    ) as CSSProperties;
   }
   get computedLeftStyle() {
-    return Object.assign({}, ...this.leftStyles.active) as CSSProperties;
+    return Object.assign(
+      {},
+      ...this.leftStyles.active
+    ) as CSSProperties;
   }
   makeTag(left: boolean, right: boolean) {
     if (this.tags.at(-1)?.code === "") {
@@ -257,7 +304,11 @@ export class Tagifier {
       });
     }
   }
-  pushString(string: string, left: boolean, right: boolean) {
+  pushString(
+    string: string,
+    left: boolean,
+    right: boolean
+  ) {
     this.makeTag(left, right);
     for (let i = 0; i < string.length; i++) {
       this.pushChar(string[i]!, left, right);

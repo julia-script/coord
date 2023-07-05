@@ -4,29 +4,48 @@ import {
   MotionBuilder,
   MotionSettings,
   Motion,
+  SceneState,
 } from "@/motion";
 
 import { clamp } from "@coord/core";
 
 import { EventEmitter } from "events";
 
-interface MotionControllerEvents<MotionController> {
+interface MotionControllerEvents<
+  MotionController
+> {
   "frame-changed": MotionController;
   "play-status-changed": MotionController;
   "play-range-changed": MotionController;
   "repeat-changed": MotionController;
 }
 
-export class MotionController<TScene extends MotionScene> extends EventEmitter {
-  on<EventName extends keyof MotionControllerEvents<typeof this>>(
+export class MotionController<
+  TScene extends MotionScene
+> extends EventEmitter {
+  on<
+    EventName extends keyof MotionControllerEvents<
+      typeof this
+    >
+  >(
     event: EventName,
-    listener: (payload: MotionControllerEvents<typeof this>[EventName]) => void
+    listener: (
+      payload: MotionControllerEvents<
+        typeof this
+      >[EventName]
+    ) => void
   ): this {
     return super.on(event, listener);
   }
-  emit<EventName extends keyof MotionControllerEvents<typeof this>>(
+  emit<
+    EventName extends keyof MotionControllerEvents<
+      typeof this
+    >
+  >(
     event: EventName,
-    payload: MotionControllerEvents<typeof this>[EventName]
+    payload: MotionControllerEvents<
+      typeof this
+    >[EventName]
   ): boolean {
     return super.emit(event, payload);
   }
@@ -34,14 +53,18 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
   constructor(public motion: Motion<TScene>) {
     super();
 
-    this._playRangeEnd = (motion.frames.length * 1000) / motion.settings.fps;
+    this._playRangeEnd =
+      (motion.frames.length * 1000) /
+      motion.settings.fps;
   }
 
   static from<TScene extends MotionScene>(
     scene: TScene,
     settings?: Partial<MotionSettings>
   ) {
-    return new MotionController<TScene>(runMotion<TScene>(scene, settings));
+    return new MotionController<TScene>(
+      runMotion<TScene>(scene, settings)
+    );
   }
 
   private _frameRequest = 0;
@@ -66,16 +89,26 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
   }
 
   get duration() {
-    return (this.durationInFrames * 1000) / this.fps;
+    return (
+      (this.durationInFrames * 1000) / this.fps
+    );
   }
 
   get currentTime() {
     return this._currentTime;
   }
-  get state() {
-    const frame = this.motion.frames[this.currentFrame];
-    if (!frame) throw new Error("Frame not found");
+  get state(): SceneState<TScene> {
+    const frame =
+      this.motion.frames[this.currentFrame];
+    if (!frame)
+      throw new Error("Frame not found");
     return frame;
+    // return {
+    //   ...frame,
+    //   subscribe: this.subscribe,
+    // } as typeof frame & {
+    //   subscribe: typeof this.subscribe;
+    // };
   }
 
   get repeat() {
@@ -83,12 +116,17 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
   }
 
   get playRange() {
-    return [this._playRangeStart, this._playRangeEnd] as const;
+    return [
+      this._playRangeStart,
+      this._playRangeEnd,
+    ] as const;
   }
 
   get currentFrame() {
     return clamp(
-      Math.floor((this._currentTime / 1000) * this.fps),
+      Math.floor(
+        (this._currentTime / 1000) * this.fps
+      ),
       0,
       this.durationInFrames - 1
     );
@@ -111,7 +149,9 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
 
     this.setTime(currentTime);
 
-    this._frameRequest = requestAnimationFrame(this.tick);
+    this._frameRequest = requestAnimationFrame(
+      this.tick
+    );
   };
 
   play = (time = this._currentTime) => {
@@ -121,8 +161,11 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
       time = this._playRangeStart;
     }
     this.setTime(time);
-    this._startTime = performance.now() - this._currentTime;
-    this._frameRequest = requestAnimationFrame(this.tick);
+    this._startTime =
+      performance.now() - this._currentTime;
+    this._frameRequest = requestAnimationFrame(
+      this.tick
+    );
   };
 
   pause = () => {
@@ -141,7 +184,9 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
     end = Math.min(this.duration, end);
 
     if (start > end) {
-      throw new Error("Play range start is greater than end");
+      throw new Error(
+        "Play range start is greater than end"
+      );
     }
 
     this._playRangeStart = start;
@@ -152,7 +197,11 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
 
   setTime = (time: number) => {
     const prevFrame = this.currentFrame;
-    this._currentTime = clamp(time, this._playRangeStart, this._playRangeEnd);
+    this._currentTime = clamp(
+      time,
+      this._playRangeStart,
+      this._playRangeEnd
+    );
 
     if (this.currentFrame !== prevFrame) {
       this.emit("frame-changed", this);
@@ -160,7 +209,10 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
   };
 
   setFrame = (frame: number) => {
-    this.setTime((frame / this.durationInFrames) * this.duration);
+    this.setTime(
+      (frame / this.durationInFrames) *
+        this.duration
+    );
   };
 
   setRepeat = (repeat: boolean) => {
@@ -180,4 +232,30 @@ export class MotionController<TScene extends MotionScene> extends EventEmitter {
     this.pause();
     this.removeAllListeners();
   };
+
+  subscribe(
+    fn: (state: SceneState<TScene>) => void
+  ): () => void {
+    const handler = () => {
+      console.log("frame changed", this.state);
+      fn(this.state);
+    };
+    this.on("frame-changed", handler);
+    fn(this.state);
+    return () => {
+      this.off("frame-changed", handler);
+    };
+  }
+}
+
+export function makeControls<
+  TScene extends MotionScene
+>(
+  scene: TScene,
+  contextSettings?: Partial<MotionSettings>
+) {
+  return MotionController.from<TScene>(
+    scene,
+    contextSettings
+  );
 }

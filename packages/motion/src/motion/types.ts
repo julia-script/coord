@@ -41,15 +41,15 @@ export type MotionScene<
 
 type ExtractMakeState<
   TBuilder extends
-    | MotionBuilder
-    | MotionBuilderGenerator
+    | Generator<any>
+    | (() => Generator<any>)
 > = Extract<
   YieldedType<TBuilder>,
   {
-    readonly type: "MAKE_STATE";
-    readonly state: {
-      readonly key: string;
-      readonly initialState: any;
+    type: "MAKE_STATE";
+    state: {
+      key: string;
+      initialState: any;
     };
   }
 >;
@@ -61,6 +61,26 @@ export type BuilderState<
   [T in ExtractMakeState<TBuilder>["state"] as T["key"]]: T["initialState"];
 };
 
+type test = SceneState<
+  MotionScene<
+    () => Generator<
+      | {
+          type: "MAKE_STATE";
+          state: {
+            key: "test";
+            initialState: number;
+          };
+        }
+      | {
+          type: "MAKE_STATE";
+          state: {
+            key: "test2";
+            initialState: string;
+          };
+        }
+    >
+  >
+>;
 export type MergeUnion<T> = (
   T extends any ? (x: T) => any : never
 ) extends (x: infer R) => any

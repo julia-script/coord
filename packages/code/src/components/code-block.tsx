@@ -81,7 +81,6 @@ export function CodeMorph({
 }: CodeState) {
   const config = normalizeOptions(options);
   const style = Object.assign(
-    { overflow: "auto" },
     noBg
       ? {}
       : {

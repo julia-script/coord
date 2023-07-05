@@ -4,15 +4,29 @@ import * as motion from "@/content/motion/meta";
 
 const allRoutes: PageItem[][] = [
   [
-    { title: "Graph", route: "/graph", layout: "full" },
-    { title: "Motion", route: "/motion", layout: "full" },
-    { title: "Editor", route: "/editor", layout: "full" },
+    {
+      title: "Graph",
+      route: "/graph",
+      layout: "full",
+    },
+    {
+      title: "Motion",
+      route: "/motion",
+      layout: "full",
+    },
+    {
+      title: "Editor",
+      route: "/editor",
+      layout: "full",
+    },
   ],
   graph.sidebar,
   motion.sidebar,
 ];
 
-export const getProjectRoutes = (route: string) => {
+export async function getProjectRoutes(
+  route: string
+) {
   route = normalizeRoute(route);
   if (route.startsWith("/graph")) return graph;
   if (route.startsWith("/motion")) return motion;
@@ -20,12 +34,18 @@ export const getProjectRoutes = (route: string) => {
     sidebar: [],
     header: [],
   };
-};
+}
 
 export const normalizeRoute = (route: string) => {
-  return "/" + route.split("/").filter(Boolean).join("/");
+  return (
+    "/" +
+    route.split("/").filter(Boolean).join("/")
+  );
 };
-export type RouteSummary = Pick<PageItem, "title" | "route" | "isPage">;
+export type RouteSummary = Pick<
+  PageItem,
+  "title" | "route" | "isPage"
+>;
 export type RouteInfo = {
   item: PageItem;
   previous: RouteSummary | null;
@@ -33,11 +53,16 @@ export type RouteInfo = {
   breadcrumbs: RouteSummary[];
   layout: "full" | "default";
 };
-export const mapRoutesToHref = (items: PageItem[][]) => {
+export const mapRoutesToHref = (
+  items: PageItem[][]
+) => {
   const map: Record<string, RouteInfo> = {};
   let prev: RouteInfo | null = null;
 
-  const traverse = (items: PageItem[], path: RouteSummary[]) => {
+  const traverse = (
+    items: PageItem[],
+    path: RouteSummary[]
+  ) => {
     for (const item of items) {
       const summary = {
         title: item.title,
@@ -78,11 +103,27 @@ export const mapRoutesToHref = (items: PageItem[][]) => {
 };
 
 const routeMap = mapRoutesToHref(allRoutes);
-
-export const getRouteInfo = (route: string) => {
+export async function getAllRoutes() {
+  return Object.keys(routeMap);
+}
+export async function getRouteInfo(
+  route: string
+) {
   const normalized = normalizeRoute(route);
   if (!routeMap[normalized]) {
-    throw new Error(`Route ${route} does not exist`);
+    throw new Error(
+      `Route ${route} does not exist`
+    );
   }
   return routeMap[normalized];
+}
+// import { cache } from "react";
+export const fetchPageMdx = async (
+  route: string
+) => {
+  console.log(route);
+  const C = await import(
+    `@/content/${route}.mdx`
+  ).then((mod) => mod.default);
+  return C;
 };

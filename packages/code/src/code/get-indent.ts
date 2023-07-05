@@ -1,7 +1,8 @@
-import { isString } from "@coord/core/dist";
+import { isString } from "@coord/core";
 
 export const getIndent = (str: string) => {
-  const indentationFinder = new IndentationFinder();
+  const indentationFinder =
+    new IndentationFinder();
   indentationFinder.feedString(str);
   return indentationFinder.getIndent();
 };
@@ -19,7 +20,10 @@ export class IndentationFinder {
   feedString(str: string) {
     for (let i = 0; i < str.length; i++) {
       if (str[i] === "\n") {
-        if (!this.isEmptyLine || (this.isEmptyLine && !this.isOnIndent))
+        if (
+          !this.isEmptyLine ||
+          (this.isEmptyLine && !this.isOnIndent)
+        )
           this.indents.push(this.currentIndent);
         this.currentLine++;
         this.isOnIndent = true;
@@ -51,7 +55,8 @@ export class IndentationFinder {
     };
   }
   getIndent() {
-    if (!this.isOnIndent) this.indents.push(this.currentIndent);
+    if (!this.isOnIndent)
+      this.indents.push(this.currentIndent);
     if (this.indents.length === 0) return null;
     return Math.min(...this.indents);
   }

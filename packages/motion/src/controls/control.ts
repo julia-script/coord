@@ -1,32 +1,47 @@
 import { tween } from "@/tweening";
-import { EasingOptions, isFunction } from "@coord/core/dist";
+import {
+  EasingOptions,
+  isFunction,
+} from "@coord/core";
 
-export type Dispatcher<TValue, TValueIn = TValue> =
-  | TValueIn
-  | ((prev: TValue) => TValueIn);
+export type Dispatcher<
+  TValue,
+  TValueIn = TValue
+> = TValueIn | ((prev: TValue) => TValueIn);
 export class Control<TValue, TValueIn = TValue> {
-  private _deferred: Dispatcher<TValue, TValueIn>[] = [];
+  private _deferred: Dispatcher<
+    TValue,
+    TValueIn
+  >[] = [];
 
   normalizeValue(value: TValueIn): TValue {
     return value as any;
   }
-  protected _computeDeferred(deferred: Dispatcher<TValue, TValueIn>[]) {
+  protected _computeDeferred(
+    deferred: Dispatcher<TValue, TValueIn>[]
+  ) {
     let next = this.get();
     for (const value of deferred) {
-      next = this.normalizeValue(isFunction(value) ? value(next) : value);
+      next = this.normalizeValue(
+        isFunction(value) ? value(next) : value
+      );
     }
 
     return next;
   }
-  protected _applyDeferred<T extends (next: () => TValue) => any>(
-    fn: T
-  ): ReturnType<T> {
+  protected _applyDeferred<
+    T extends (next: () => TValue) => any
+  >(fn: T): ReturnType<T> {
     const deferred = this._deferred;
     this._deferred = [];
-    return fn(() => this._computeDeferred(deferred));
+    return fn(() =>
+      this._computeDeferred(deferred)
+    );
   }
 
-  protected _defer(value: Dispatcher<TValue, TValueIn>) {
+  protected _defer(
+    value: Dispatcher<TValue, TValueIn>
+  ) {
     this._deferred.push(value);
   }
 
@@ -38,7 +53,11 @@ export class Control<TValue, TValueIn = TValue> {
 
   set = (value: Dispatcher<TValue, TValueIn>) => {
     this._set(
-      this.normalizeValue(isFunction(value) ? value(this.get()) : value)
+      this.normalizeValue(
+        isFunction(value)
+          ? value(this.get())
+          : value
+      )
     );
   };
   *as(value: Dispatcher<TValue, TValueIn>) {
@@ -48,13 +67,20 @@ export class Control<TValue, TValueIn = TValue> {
 
   tween(
     duration: number,
-    fn: (t: number, initialValue: TValue) => TValueIn,
+    fn: (
+      t: number,
+      initialValue: TValue
+    ) => TValueIn,
     easing?: EasingOptions
   ) {
     const self = this;
     return this._applyDeferred(function* (next) {
       const from = next();
-      yield* tween(duration, (t) => self.set(fn(t, from)), easing);
+      yield* tween(
+        duration,
+        (t) => self.set(fn(t, from)),
+        easing
+      );
     });
   }
 }

@@ -11,7 +11,12 @@ import {
   rm,
   remove,
 } from "@coord/code";
-import { YieldedType, clamp, lerp, remap } from "@coord/core/dist";
+import {
+  YieldedType,
+  clamp,
+  lerp,
+  remap,
+} from "@coord/core";
 import {
   wait,
   makeMotion,
@@ -19,12 +24,23 @@ import {
   chain,
   BuilderState,
 } from "@coord/motion";
-import { useMotionController, MotionPlayer } from "@coord/motion-react";
-import { Fragment, memo, useMemo, useState } from "react";
+import {
+  useMotionController,
+  MotionPlayer,
+} from "@coord/motion-react";
+import {
+  Fragment,
+  memo,
+  useMemo,
+  useState,
+} from "react";
 import dedent from "ts-dedent";
 
 const builder = function* () {
-  const codeControl = yield* makeCodeState("test", `function test() {}`);
+  const codeControl = yield* makeCodeState(
+    "test",
+    `function test() {}`
+  );
 
   yield* chain(
     codeControl
@@ -48,13 +64,20 @@ const builder = function* () {
     codeControl.to("var myVar;").in(1),
     wait(1),
     codeControl
-      .to(code`${r("var", "const")} my${r("Var", "Const = 1")};`)
+      .to(
+        code`${r("var", "const")} my${r(
+          "Var",
+          "Const = 1"
+        )};`
+      )
       .in(1),
 
     wait(1),
     codeControl.to("const myBool = true;").in(1),
     wait(1),
-    codeControl.to("const myBool:boolean = true;").in(1),
+    codeControl
+      .to("const myBool:boolean = true;")
+      .in(1),
     wait(1),
 
     codeControl
@@ -70,17 +93,22 @@ const builder = function* () {
       .to(
         code`
         ${remove("type MyType = boolean;")}
-        const my${replace("Bool:MyType", "String")} = ${replace(
-          "true",
-          '"Hi"'
-        )};
+        const my${replace(
+          "Bool:MyType",
+          "String"
+        )} = ${replace("true", '"Hi"')};
       `
       )
       .in(1),
 
     wait(1),
     codeControl
-      .to(code`${r("const", "var")} my${r('String = "Hi"', "Var")};`)
+      .to(
+        code`${r("const", "var")} my${r(
+          'String = "Hi"',
+          "Var"
+        )};`
+      )
       .in(1),
     wait(1),
     codeControl.to(`function test() {}`).in(1),
@@ -100,7 +128,11 @@ export default function Page() {
     </div>
   );
   return (
-    <MotionPlayer controls={controls} repeat autoplay>
+    <MotionPlayer
+      controls={controls}
+      repeat
+      autoplay
+    >
       <CodeMotion
         className="code m-auto text-5xl leading-normal"
         noBg
@@ -116,9 +148,16 @@ function Pageold() {
       function(){}
     `)
   );
-  const { setCode, transition, isAnimating, ...rest } = useCode(codeString);
+  const {
+    setCode,
+    transition,
+    isAnimating,
+    ...rest
+  } = useCode(codeString);
   const [manualT, setTransition] = useState(1);
-  const [mode, setMode] = useState<"fade" | "type">("fade");
+  const [mode, setMode] = useState<
+    "fade" | "type"
+  >("fade");
 
   return (
     <div className="container grid w-full grid-cols-2 p-8">
@@ -141,7 +180,9 @@ function Pageold() {
         <textarea
           className="h-56 w-full rounded bg-gray-900 p-2 font-mono text-xs text-white"
           value={codeString}
-          onChange={(e) => setCodeString(e.target.value)}
+          onChange={(e) =>
+            setCodeString(e.target.value)
+          }
         />
         <button
           className="rounded bg-blue-500 p-1 text-xs text-white"
@@ -187,17 +228,19 @@ function Pageold() {
           ))}
         </div>
         <div className="flex gap-2 ">
-          {(["fade", "type"] as const).map((m) => (
-            <label key={m}>
-              <input
-                type="radio"
-                name="mode"
-                checked={mode === m}
-                onChange={() => setMode(m)}
-              />{" "}
-              {m}
-            </label>
-          ))}
+          {(["fade", "type"] as const).map(
+            (m) => (
+              <label key={m}>
+                <input
+                  type="radio"
+                  name="mode"
+                  checked={mode === m}
+                  onChange={() => setMode(m)}
+                />{" "}
+                {m}
+              </label>
+            )
+          )}
         </div>
       </div>
     </div>

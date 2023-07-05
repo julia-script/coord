@@ -1,6 +1,6 @@
 import { InferThread, Threadish, normalizeThread } from "@/utils";
 import { wait } from "./wait";
-import { YieldedType } from "@coord/core/dist";
+import { YieldedType } from "@coord/core";
 
 export function* repeat<TThread extends Threadish>(
   n: number,

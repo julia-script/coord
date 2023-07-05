@@ -1,9 +1,18 @@
-import { YieldedType, isFunction, isObject } from "@coord/core/dist";
-import { MotionRequest, MotionState } from "./types";
+import {
+  YieldedType,
+  isFunction,
+  isObject,
+} from "@coord/core";
+import {
+  MotionRequest,
+  MotionState,
+} from "./types";
 import type { MotionContext } from "./context";
 import { control } from "@/controls/control";
 
-export function* requestContext<TState extends MotionState>() {
+export function* requestContext<
+  TState extends MotionState
+>() {
   const request: {
     type: "REQUEST_CONTEXT";
     context?: MotionContext<TState>;
@@ -24,19 +33,24 @@ export function* requestEnd() {
   yield { type: "REQUEST_END" } as const;
 }
 
-export function* makeState<TKey extends string, TValue>(
-  key: TKey,
-  initialState: TValue
-) {
+export function* makeState<
+  TKey extends string,
+  TValue
+>(key: TKey, initialState: TValue) {
   const context = yield* requestContext();
   yield {
     type: "MAKE_STATE",
     state: { key, initialState },
   } as const;
 
-  const getter = () => context._state[key] as TValue;
-  const setter = (value: TValue | ((prev: TValue) => TValue)) => {
-    context._state[key] = isFunction(value) ? value(getter()) : value;
+  const getter = () =>
+    context._state[key] as TValue;
+  const setter = (
+    value: TValue | ((prev: TValue) => TValue)
+  ) => {
+    context._state[key] = isFunction(value)
+      ? value(getter())
+      : value;
   };
   return control(getter, setter);
 }

@@ -3,13 +3,23 @@ import {
   isFunction,
   isGenerator,
   isUndefined,
-} from "@coord/core/dist";
+} from "@coord/core";
 import { Control, Dispatcher } from "./control";
-import { SpringParameters, spring, tween } from "@/tweening";
+import {
+  SpringParameters,
+  spring,
+  tween,
+} from "@/tweening";
 import { makeState } from "@/motion";
-import { OffsetConfig, Threadish, sequence } from "..";
+import {
+  OffsetConfig,
+  Threadish,
+  sequence,
+} from "..";
 
-export class ControlList<TValue> extends Control<TValue[]> {
+export class ControlList<TValue> extends Control<
+  TValue[]
+> {
   setAt(index: number, value: TValue) {
     this._defer((v) => {
       const next = [...v];
@@ -39,11 +49,17 @@ export class ControlList<TValue> extends Control<TValue[]> {
     return this;
   }
 
-  map(fn: (value: TValue, index: number) => TValue) {
+  map(
+    fn: (value: TValue, index: number) => TValue
+  ) {
     this._defer((v) => v.map(fn));
     return this;
   }
-  fill(value: TValue, n: number, overwrite = false) {
+  fill(
+    value: TValue,
+    n: number,
+    overwrite = false
+  ) {
     this._defer((next) => {
       next = [...next];
       for (let i = 0; i < n; i++) {
@@ -56,20 +72,28 @@ export class ControlList<TValue> extends Control<TValue[]> {
     return this;
   }
   appendFill(value: TValue, n: number) {
-    this._defer((v) => [...v, ...new Array(n).fill(value)]);
+    this._defer((v) => [
+      ...v,
+      ...new Array(n).fill(value),
+    ]);
     return this;
   }
 
   tweenAt(
     duration: number,
     index: number | ((list: TValue[]) => number),
-    fn: (t: number, initialValue?: TValue) => TValue,
+    fn: (
+      t: number,
+      initialValue?: TValue
+    ) => TValue,
     easing?: EasingOptions
   ) {
     const self = this;
     return this._applyDeferred(function* (next) {
       const from = next();
-      const i = isFunction(index) ? index(from) : index;
+      const i = isFunction(index)
+        ? index(from)
+        : index;
       const initialValue = from[i];
 
       yield* tween(
@@ -86,14 +110,25 @@ export class ControlList<TValue> extends Control<TValue[]> {
   }
   tweenLast(
     duration: number,
-    fn: (t: number, initialValue?: TValue) => TValue,
+    fn: (
+      t: number,
+      initialValue?: TValue
+    ) => TValue,
     easing?: EasingOptions
   ) {
-    return this.tweenAt(duration, (list) => list.length - 1, fn, easing);
+    return this.tweenAt(
+      duration,
+      (list) => list.length - 1,
+      fn,
+      easing
+    );
   }
   tweenFirst(
     duration: number,
-    fn: (t: number, initialValue?: TValue) => TValue,
+    fn: (
+      t: number,
+      initialValue?: TValue
+    ) => TValue,
     easing?: EasingOptions
   ) {
     return this.tweenAt(duration, 0, fn, easing);
@@ -125,7 +160,9 @@ export class ControlList<TValue> extends Control<TValue[]> {
         if (i <= last) return list;
         const next = [...list];
         last = i;
-        next[i] = isFunction(factory) ? factory(i) : factory;
+        next[i] = isFunction(factory)
+          ? factory(i)
+          : factory;
         return next;
       },
       easing
@@ -134,12 +171,17 @@ export class ControlList<TValue> extends Control<TValue[]> {
 
   tweenMap(
     duration: number,
-    fn: (t: number, initialValue: TValue, list: TValue[]) => TValue,
+    fn: (
+      t: number,
+      initialValue: TValue,
+      list: TValue[]
+    ) => TValue,
     easing?: EasingOptions
   ) {
     return this.tween(
       duration,
-      (t, from) => from.map((v) => fn(t, v, from)),
+      (t, from) =>
+        from.map((v) => fn(t, v, from)),
       easing
     );
   }
@@ -162,18 +204,24 @@ export class ControlList<TValue> extends Control<TValue[]> {
           duration,
           easing: easing,
         },
-        ...self.get().map((initialValue, index) => {
-          const control = new Control(
-            () => self.get()[index] as TValue,
-            (value) => {
-              const next = [...self.get()];
-              next[index] = value;
-              self.set(next);
-            }
-          );
+        ...self
+          .get()
+          .map((initialValue, index) => {
+            const control = new Control(
+              () => self.get()[index] as TValue,
+              (value) => {
+                const next = [...self.get()];
+                next[index] = value;
+                self.set(next);
+              }
+            );
 
-          return factory(control, initialValue, index);
-        })
+            return factory(
+              control,
+              initialValue,
+              index
+            );
+          })
       );
     });
   }
@@ -207,11 +255,17 @@ export function controlList<TValue>(
   return new ControlList(getter, setter);
 }
 
-export function* makeListState<TValue, TKey extends string>(
-  key: TKey,
-  initialState: TValue[]
-) {
-  const control = yield* makeState<TKey, TValue[]>(key, initialState);
+export function* makeListState<
+  TValue,
+  TKey extends string
+>(key: TKey, initialState: TValue[]) {
+  const control = yield* makeState<
+    TKey,
+    TValue[]
+  >(key, initialState);
 
-  return new ControlList<TValue>(control._get, control._set);
+  return new ControlList<TValue>(
+    control._get,
+    control._set
+  );
 }
