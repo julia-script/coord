@@ -55,7 +55,11 @@ export const vscodeDark = makeTheme(
       ],
       color: "#9cdcfe",
     },
-    { tag: t.heading, fontWeight: "bold", color: "#9cdcfe" },
+    {
+      tag: t.heading,
+      fontWeight: "bold",
+      color: "#9cdcfe",
+    },
     {
       tag: [
         t.typeName,
@@ -70,12 +74,22 @@ export const vscodeDark = makeTheme(
       color: "#4ec9b0",
     },
     {
-      tag: [t.function(t.variableName), t.function(t.propertyName)],
+      tag: [
+        t.function(t.variableName),
+        t.function(t.propertyName),
+      ],
       color: "#dcdcaa",
     },
     { tag: [t.number], color: "#b5cea8" },
     {
-      tag: [t.operator, t.punctuation, t.separator, t.url, t.escape, t.regexp],
+      tag: [
+        t.operator,
+        t.punctuation,
+        t.separator,
+        t.url,
+        t.escape,
+        t.regexp,
+      ],
       color: "#d4d4d4",
     },
     {
@@ -83,15 +97,30 @@ export const vscodeDark = makeTheme(
       color: "#d16969",
     },
     {
-      tag: [t.special(t.string), t.processingInstruction, t.string, t.inserted],
+      tag: [
+        t.special(t.string),
+        t.processingInstruction,
+        t.string,
+        t.inserted,
+      ],
       color: "#ce9178",
     },
     { tag: [t.angleBracket], color: "#808080" },
     { tag: t.strong, fontWeight: "bold" },
     { tag: t.emphasis, fontStyle: "italic" },
-    { tag: t.strikethrough, textDecoration: "line-through" },
-    { tag: [t.meta, t.comment], color: "#6a9955" },
-    { tag: t.link, color: "#6a9955", textDecoration: "underline" },
+    {
+      tag: t.strikethrough,
+      textDecoration: "line-through",
+    },
+    {
+      tag: [t.meta, t.comment],
+      color: "#6a9955",
+    },
+    {
+      tag: t.link,
+      color: "#6a9955",
+      textDecoration: "underline",
+    },
     { tag: t.invalid, color: "#ff0000" },
   ]
 );

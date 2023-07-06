@@ -2,9 +2,10 @@ import { Threadish } from "@/utils";
 import { wait } from "./wait";
 import { chain } from "./chain";
 
-export function* delay<TThread extends Threadish[]>(
+export function* delay<TThread extends Threadish>(
   time: number,
-  ...threads: TThread
+  ...threads: TThread[]
 ) {
-  yield* chain(wait(time), ...threads);
+  const delayedThreads = [wait(time), ...threads];
+  yield* chain(...delayedThreads);
 }

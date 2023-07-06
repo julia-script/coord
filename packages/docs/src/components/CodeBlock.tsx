@@ -245,38 +245,30 @@ export function CodeBlock({
               "relative overflow-hidden rounded"
             )}
           >
-            {codeSections.map(
-              (
-                { type, description, code, name },
-                i
-              ) => (
-                <div
+            {codeSections.map(({ code }, i) => (
+              <div
+                key={i}
+                className={clsx(
+                  "absolute h-full w-full transition-all duration-1000",
+                  {
+                    "opacity-0":
+                      i !== activeSectionIndex,
+                  }
+                )}
+              >
+                <Runner
                   key={i}
-                  className={clsx(
-                    "absolute h-full w-full transition-all duration-1000",
-                    {
-                      "opacity-0":
-                        i !== activeSectionIndex,
-                    }
-                  )}
-                >
-                  <Runner
-                    key={i}
-                    code={code}
-                    scope={scope}
-                  />
-                </div>
-              )
-            )}
+                  code={code}
+                  scope={scope}
+                />
+              </div>
+            ))}
           </div>
         )}
         {morph && !!steps.length && (
           <div className="my-2 flex gap-2">
             {steps.map(
-              (
-                { name, description, code },
-                i
-              ) => (
+              ({ name, description }, i) => (
                 <button
                   key={i}
                   onClick={() => {
@@ -346,6 +338,7 @@ export function CodeBlock({
           buttonsRight={[
             collapsable && (
               <button
+                key="collapse"
                 className="flex items-center gap-2 px-3 py-2"
                 onClick={() => {
                   setIsCollapsed((v) => !v);
@@ -366,6 +359,7 @@ export function CodeBlock({
 
             editable && (
               <button
+                key="edit"
                 className="flex items-center gap-2 px-3 py-2"
                 disabled={loading}
                 onClick={() => {
@@ -378,6 +372,7 @@ export function CodeBlock({
               </button>
             ),
             <CopyButton
+              key="copy"
               className="flex items-center gap-2 px-3 py-2"
               code={activeCode}
             />,
@@ -458,8 +453,8 @@ const parseMorphingCode = (code: string) => {
   ];
 
   for (const line of lines) {
-    const [_, optionName] = line.split("option:");
-    const [__, stepName] = line.split("step:");
+    const optionName = line.split("option:")[1];
+    const stepName = line.split("step:")[1];
 
     if (optionName || stepName) {
       if (codeParts.at(-1)?.code.trim() === "") {

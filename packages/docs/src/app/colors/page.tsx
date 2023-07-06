@@ -1,29 +1,25 @@
-const colorWeights = [
-  "",
-  "bg-dark-50",
-  "bg-dark-100",
-  "bg-dark-200",
-  "bg-dark-300",
-  "bg-dark-400",
-  "bg-dark-500",
-  "bg-dark-600",
-  "bg-dark-700",
-  "bg-dark-750",
-  "bg-dark-800",
-  "bg-dark-900",
-];
-function Pallete({ className }: { className: string[] }) {
+function Pallete({
+  className,
+}: {
+  className: string[];
+}) {
   return (
     <div>
       <h2>{className[0]?.split("-")[1]}</h2>
       <div className="flex gap-2">
         {className.map((w, i) => (
-          <div key={i} className={`flex w-full flex-col items-center`}>
-            <div className={`aspect-square w-full rounded-md ${w}`} />
+          <div
+            key={i}
+            className={`flex w-full flex-col items-center`}
+          >
+            <div
+              className={`aspect-square w-full rounded-md ${w}`}
+            />
             <span
               className={`py-2 font-mono text-xs text-gray-500 dark:text-gray-400`}
             >
-              {parseInt(w.split("-")[2]) || "default"}
+              {parseInt(w.split("-")[2]) ||
+                "default"}
             </span>
           </div>
         ))}

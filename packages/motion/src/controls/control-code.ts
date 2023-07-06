@@ -3,7 +3,7 @@ import {
   isString,
 } from "@coord/core";
 import { Control } from "./control";
-import { tween } from "@/tweening";
+
 import { makeState } from "@/motion";
 import {
   Code,
@@ -48,13 +48,12 @@ export class CodeControl extends Control<CodeState> {
     const self = this;
     return this._applyDeferred(function* (next) {
       const to = next();
-      yield* tween(
+      yield* self.tween(
         duration,
-        (t) =>
-          self.set({
-            code: to.code,
-            transition: t,
-          }),
+        (t) => ({
+          code: to.code,
+          transition: t,
+        }),
         easing
       );
     });

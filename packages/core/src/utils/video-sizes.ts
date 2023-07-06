@@ -19,7 +19,9 @@ export const videoSizes = {
 export type VideoSize = keyof typeof videoSizes;
 export type VideoSizeish = VideoSize | Vec2ish;
 
-export const getVideoSize = (size: VideoSizeish) => {
+export const getVideoSize = (
+  size: VideoSizeish
+) => {
   if (typeof size === "string") {
     return videoSizes[size];
   }

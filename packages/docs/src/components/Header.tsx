@@ -1,9 +1,21 @@
 "use client";
 import Link from "next/link";
-import { Menu, Transition } from "@headlessui/react";
-import { MarkGithubIcon, ThreeBarsIcon, XIcon } from "@primer/octicons-react";
+import {
+  Menu,
+  Transition,
+} from "@headlessui/react";
+import {
+  MarkGithubIcon,
+  ThreeBarsIcon,
+  XIcon,
+} from "@primer/octicons-react";
 import cn from "clsx";
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import {
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { PageItem } from "./navigation";
 import { Logo } from "./GraphLogo";
 
@@ -39,20 +51,22 @@ export function NavbarMenu({
             className="absolute right-0 z-20 mt-1 max-h-64 min-w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black/5 dark:bg-neutral-800 dark:ring-white/20"
             // tabIndex={0}
           >
-            {Object.entries(items || {}).map(([key, item]) => (
-              <Menu.Item key={key}>
-                <Link
-                  href={item.route}
-                  className={cn(
-                    "relative hidden w-full select-none whitespace-nowrap text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 md:inline-block",
-                    "py-1.5 transition-colors ltr:pl-3 ltr:pr-9 rtl:pl-9 rtl:pr-3"
-                  )}
-                  target={item.target}
-                >
-                  {item.title || key}
-                </Link>
-              </Menu.Item>
-            ))}
+            {Object.entries(items || {}).map(
+              ([key, item]) => (
+                <Menu.Item key={key}>
+                  <Link
+                    href={item.route}
+                    className={cn(
+                      "relative hidden w-full select-none whitespace-nowrap text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 md:inline-block",
+                      "py-1.5 transition-colors ltr:pl-3 ltr:pr-9 rtl:pl-9 rtl:pr-3"
+                    )}
+                    target={item.target}
+                  >
+                    {item.title || key}
+                  </Link>
+                </Menu.Item>
+              )
+            )}
           </Menu.Items>
         </Transition>
       </Menu>
@@ -63,7 +77,9 @@ export function NavbarMenu({
 type HeaderProps = {
   items?: PageItem[];
 };
-export function Header({ items = [] }: HeaderProps): ReactElement {
+export function Header({
+  items = [],
+}: HeaderProps): ReactElement {
   const [menu, setMenu] = useState(false);
 
   useEffect(() => {
@@ -96,7 +112,7 @@ export function Header({ items = [] }: HeaderProps): ReactElement {
             route:
               "https://github.com/julia-script/coord/tree/main/packages/graph",
           } as PageItem,
-        ].map((menu, i) => {
+        ].map((menu) => {
           const isActive = false;
           if (!menu.items?.length ?? false)
             return (
@@ -109,7 +125,9 @@ export function Header({ items = [] }: HeaderProps): ReactElement {
                 href={menu.route}
               >
                 {menu.icon}{" "}
-                <span className="hidden sm:inline-flex">{menu.title}</span>
+                <span className="hidden sm:inline-flex">
+                  {menu.title}
+                </span>
               </Link>
             );
           return (
@@ -121,7 +139,8 @@ export function Header({ items = [] }: HeaderProps): ReactElement {
                 {
                   "text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200":
                     !isActive,
-                  "font-medium subpixel-antialiased": isActive,
+                  "font-medium subpixel-antialiased":
+                    isActive,
                 }
               )}
               menu={menu}

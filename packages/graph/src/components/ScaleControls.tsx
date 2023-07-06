@@ -1,5 +1,8 @@
 import React from "react";
-import { GraphContext, withGraphContext } from "@/utils";
+import {
+  GraphContext,
+  withGraphContext,
+} from "@/utils";
 
 const Component = ({
   scale,
@@ -44,7 +47,9 @@ const Component = ({
             `}</style>
         <div className={"graph-scale-controls"}>
           <button
-            className={"graph-scale-controls-button"}
+            className={
+              "graph-scale-controls-button"
+            }
             onClick={() => {
               scale(0.5);
             }}
@@ -52,7 +57,9 @@ const Component = ({
             +
           </button>
           <button
-            className={"graph-scale-controls-button"}
+            className={
+              "graph-scale-controls-button"
+            }
             onClick={() => {
               scale(2);
             }}
@@ -65,4 +72,5 @@ const Component = ({
   );
 };
 
-export const ScaleControls = withGraphContext(Component);
+export const ScaleControls =
+  withGraphContext(Component);

@@ -1,6 +1,10 @@
 import { LanguageSupport } from "@codemirror/language";
-import { Tag, highlightTree, tagHighlighter } from "@lezer/highlight";
-import { LRParser } from "@lezer/lr";
+import {
+  Tag,
+  highlightTree,
+  tagHighlighter,
+} from "@lezer/highlight";
+
 import { CSSProperties } from "react";
 
 export type ThemeType = "light" | "dark";
@@ -50,7 +54,10 @@ export function makeTheme(
     tag: Tag | readonly Tag[];
     class: string;
   }[] = [];
-  for (const { tag, ...rest } of highlighterRules) {
+  for (const {
+    tag,
+    ...rest
+  } of highlighterRules) {
     const id = `s-${i++}`;
     Object.assign(styles, { [id]: rest });
     rules.push({ tag, class: id });
@@ -59,28 +66,37 @@ export function makeTheme(
   const out = {
     mode,
     styles,
-    highlight(code: string, language: LanguageSupport) {
-      const tree = language.language.parser.parse(code);
+    highlight(
+      code: string,
+      language: LanguageSupport
+    ) {
+      const tree =
+        language.language.parser.parse(code);
       const styled: CodeStyle[] = [];
       let pos = 0;
-      highlightTree(tree, highlighter, (from, to, id) => {
-        const style = styles[id as keyof Styles];
-        if (style) {
-          if (pos < from) {
+      highlightTree(
+        tree,
+        highlighter,
+        (from, to, id) => {
+          const style =
+            styles[id as keyof Styles];
+          if (style) {
+            if (pos < from) {
+              styled.push({
+                start: pos,
+                end: from,
+                ...styles.foreground,
+              });
+            }
             styled.push({
-              start: pos,
-              end: from,
-              ...styles.foreground,
+              start: from,
+              end: to,
+              ...style,
             });
+            pos = to;
           }
-          styled.push({
-            start: from,
-            end: to,
-            ...style,
-          });
-          pos = to;
         }
-      });
+      );
       if (pos < code.length) {
         styled.push({
           start: pos,

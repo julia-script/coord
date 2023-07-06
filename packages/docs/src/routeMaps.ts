@@ -1,3 +1,5 @@
+import { raise } from "@coord/core";
+
 export const routes = {
   graph: [
     {
@@ -46,7 +48,8 @@ export const routes = {
         },
         {
           title: "BoundingBox",
-          route: "graph/docs/components/bounding-box",
+          route:
+            "graph/docs/components/bounding-box",
         },
         {
           title: "Label",
@@ -63,11 +66,13 @@ export const routes = {
       children: [
         {
           title: "Navigation",
-          route: "graph/docs/interactions/navigation",
+          route:
+            "graph/docs/interactions/navigation",
         },
         {
           title: "Markers and Labels",
-          route: "graph/docs/interactions/dragging-elements",
+          route:
+            "graph/docs/interactions/dragging-elements",
         },
       ],
     },
@@ -76,11 +81,13 @@ export const routes = {
       children: [
         {
           title: "Scalar Types",
-          route: "graph/docs/interfaces/scalar-types",
+          route:
+            "graph/docs/interfaces/scalar-types",
         },
         {
           title: "Bounding Box",
-          route: "graph/docs/interfaces/bounding-box",
+          route:
+            "graph/docs/interfaces/bounding-box",
         },
       ],
     },
@@ -89,9 +96,11 @@ export const routes = {
       title: "Demo",
       children: [
         {
-          title: "Tutorial: Find intersection of two lines",
+          title:
+            "Tutorial: Find intersection of two lines",
 
-          route: "graph/docs/demo/find-intersection-of-two-lines",
+          route:
+            "graph/docs/demo/find-intersection-of-two-lines",
         },
       ],
     },
@@ -115,15 +124,18 @@ export const routes = {
       children: [
         {
           title: "What is it?",
-          route: "motion/docs/state-animation/what-is-state-animation",
+          route:
+            "motion/docs/state-animation/what-is-state-animation",
         },
         {
           title: "Make Scene",
-          route: "motion/docs/state-animation/make-scene",
+          route:
+            "motion/docs/state-animation/make-scene",
         },
         {
           title: "Make Movie",
-          route: "motion/docs/state-animation/make-movie",
+          route:
+            "motion/docs/state-animation/make-movie",
         },
       ],
     },
@@ -132,40 +144,49 @@ export const routes = {
       children: [
         {
           title: "Controlling State",
-          route: "motion/docs/state-controls/state-controls",
+          route:
+            "motion/docs/state-controls/state-controls",
         },
         {
           title: "Flow",
-          route: "motion/docs/state-controls/animation-flow",
+          route:
+            "motion/docs/state-controls/animation-flow",
         },
         {
           title: "Tweening",
-          route: "motion/docs/state-controls/tweening",
+          route:
+            "motion/docs/state-controls/tweening",
         },
         {
           title: "Spring",
-          route: "motion/docs/state-controls/spring",
+          route:
+            "motion/docs/state-controls/spring",
         },
 
         {
           title: "Number Control",
-          route: "motion/docs/state-controls/number-state-control",
+          route:
+            "motion/docs/state-controls/number-state-control",
         },
         {
           title: "Point Control",
-          route: "motion/docs/state-controls/point-state-control",
+          route:
+            "motion/docs/state-controls/point-state-control",
         },
         {
           title: "Transform Control",
-          route: "motion/docs/state-controls/transform-state-control",
+          route:
+            "motion/docs/state-controls/transform-state-control",
         },
         {
           title: "Color Control",
-          route: "motion/docs/state-controls/color-state-control",
+          route:
+            "motion/docs/state-controls/color-state-control",
         },
         {
           title: "String Control",
-          route: "motion/docs/state-controls/string-state-control",
+          route:
+            "motion/docs/state-controls/string-state-control",
         },
       ],
     },
@@ -178,7 +199,8 @@ export const routes = {
         },
         {
           title: "Hooks",
-          route: "motion/docs/react/use-motion-controller",
+          route:
+            "motion/docs/react/use-motion-controller",
         },
         {
           title: "Components",
@@ -186,7 +208,8 @@ export const routes = {
         },
         {
           title: "@coord/graph integration",
-          route: "motion/docs/react/coord-graph-integration",
+          route:
+            "motion/docs/react/coord-graph-integration",
         },
       ],
     },
@@ -194,15 +217,19 @@ export const routes = {
       title: "Guides",
       children: [
         {
-          title: "Not everything needs to be in state",
-          route: "motion/docs/guides/not-everything-needs-to-be-in-state",
+          title:
+            "Not everything needs to be in state",
+          route:
+            "motion/docs/guides/not-everything-needs-to-be-in-state",
         },
       ],
     },
   ],
 } as const;
 
-function assertProjectKey(key: string): asserts key is keyof typeof routes {
+function assertProjectKey(
+  key: string
+): asserts key is keyof typeof routes {
   if (key in routes === false) {
     throw new Error(`Project ${key} not found`);
   }
@@ -226,10 +253,14 @@ export type RouteItem = {
 type RoutePath =
   (typeof routes)[keyof typeof routes][number]["children"][number]["route"];
 
-export const routeMap = new Map<RoutePath, RouteItem>();
+export const routeMap = new Map<
+  RoutePath,
+  RouteItem
+>();
 
 for (const project in routes) {
-  const projectRoutes = routes[project as keyof typeof routes];
+  const projectRoutes =
+    routes[project as keyof typeof routes];
   let prev: RouteItem | null = null;
 
   for (const section of projectRoutes) {
@@ -251,13 +282,19 @@ for (const project in routes) {
 }
 export const routePaths = [...routeMap.keys()];
 
-export function assertRoute(route: string): asserts route is RoutePath {
+export function assertRoute(
+  route: string
+): asserts route is RoutePath {
   if (!routeMap.has(route)) {
-    throw new Error(`Route ${route} does not exist`);
+    throw new Error(
+      `Route ${route} does not exist`
+    );
   }
 }
 
-export function getRoute(route: string): Omit<RouteItem, "component"> {
+export function getRoute(
+  route: string
+): Omit<RouteItem, "component"> {
   assertRoute(route);
-  return routeMap.get(route)!;
+  return routeMap.get(route) ?? raise();
 }

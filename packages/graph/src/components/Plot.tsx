@@ -1,16 +1,30 @@
 import React from "react";
-import { Vec2, point, Vec2ish } from "@coord/core";
-import { withGraphContext, parametricAdaptiveSampling } from "@/utils";
-import { PolyLineProps, PolyLine } from "./PolyLine";
-import { useSafeMemo } from "..";
+import {
+  Vec2,
+  point,
+  Vec2ish,
+  useSafeMemo,
+} from "@coord/core";
+import {
+  withGraphContext,
+  parametricAdaptiveSampling,
+  GraphElement,
+} from "@/utils";
+import {
+  PolyLineProps,
+  PolyLine,
+} from "./PolyLine";
 
-export interface PlotParametricProps extends Omit<PolyLineProps, "points"> {
-  domain: [number, number];
-  f: (t: number) => Vec2ish;
-  errorTolerance?: number;
-  minSamplesDepth?: number;
-  maxSamplesDepth?: number;
-}
+export type PlotParametricProps = GraphElement<
+  {
+    domain: [number, number];
+    f: (t: number) => Vec2ish;
+    errorTolerance?: number;
+    minSamplesDepth?: number;
+    maxSamplesDepth?: number;
+  },
+  Omit<PolyLineProps, "points">
+>;
 
 const Parametric = withGraphContext(
   ({
@@ -32,43 +46,71 @@ const Parametric = withGraphContext(
           minSamplesDepth,
           maxSamplesDepth
         ),
-      [domain, errorTolerance, maxSamplesDepth, minSamplesDepth, f]
+      [
+        domain,
+        errorTolerance,
+        maxSamplesDepth,
+        minSamplesDepth,
+        f,
+      ]
     );
 
-    return <PolyLine points={points} strokeWidth={strokeWidth} {...rest} />;
+    return (
+      <PolyLine
+        points={points}
+        strokeWidth={strokeWidth}
+        {...rest}
+      />
+    );
   }
 );
-export type OfXProps = {
-  domain?: [number, number];
-  f: (x: number) => number;
-} & Omit<PlotParametricProps, "f" | "domain">;
+export type OfXProps = GraphElement<
+  {
+    domain?: [number, number];
+    f: (x: number) => number;
+  },
+  Omit<PlotParametricProps, "f" | "domain">
+>;
 
-const OfX = withGraphContext(({ f, domain, context, ...rest }: OfXProps) => {
-  return (
-    <Parametric
-      domain={domain ?? context.coordBox.horizontal.toArray()}
-      f={(x) => point(x, f(x))}
-      context={context}
-      {...rest}
-    />
-  );
-});
+const OfX = withGraphContext(
+  ({ f, domain, context, ...rest }: OfXProps) => {
+    return (
+      <Parametric
+        domain={
+          domain ??
+          context.coordBox.horizontal.toArray()
+        }
+        f={(x: number) => point(x, f(x))}
+        context={context}
+        {...rest}
+      />
+    );
+  }
+);
 
-export type OfYProps = {
-  domain?: [number, number];
-  f: (y: number) => number;
-} & Omit<PlotParametricProps, "f" | "domain">;
+export type OfYProps = GraphElement<
+  {
+    domain?: [number, number];
+    f: (y: number) => number;
+  },
+  Omit<PlotParametricProps, "f" | "domain">
+>;
 
-const OfY = withGraphContext(({ f, domain, context, ...rest }: OfYProps) => {
-  return (
-    <Parametric
-      domain={domain ?? context.coordBox.vertical.toArray()}
-      context={context}
-      f={(y) => point(f(y), y)}
-      {...rest}
-    />
-  );
-});
+const OfY = withGraphContext(
+  ({ f, domain, context, ...rest }: OfYProps) => {
+    return (
+      <Parametric
+        domain={
+          domain ??
+          context.coordBox.vertical.toArray()
+        }
+        context={context}
+        f={(y: number) => point(f(y), y)}
+        {...rest}
+      />
+    );
+  }
+);
 
 export const Plot = {
   Parametric,

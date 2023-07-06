@@ -14,7 +14,10 @@ const mergeTailwind = (): Plugin => {
         console.log(virtualStyles);
         code += `@layer components {`;
 
-        for (const [className, styles] of virtualStyles.entries()) {
+        for (const [
+          className,
+          styles,
+        ] of virtualStyles.entries()) {
           code += `
             .${className} {
               @apply ${styles}
@@ -33,9 +36,13 @@ const mergeTailwind = (): Plugin => {
           pattern,
           (_, quote, className, styles) => {
             // Add extracted styles to the CSS content
-            const existing = virtualStyles.get(className);
+            const existing =
+              virtualStyles.get(className);
             if (!existing) {
-              virtualStyles.set(className, styles);
+              virtualStyles.set(
+                className,
+                styles
+              );
               console.log(className, styles);
             } else {
               if (existing !== styles) {

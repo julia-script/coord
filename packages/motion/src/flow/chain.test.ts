@@ -5,13 +5,19 @@ import { wait } from "./wait";
 
 describe("chain", async () => {
   test("should run threads in sequence", async () => {
-    const scene = makeMotion("Test", function* () {
-      const a = yield* makeState("a", "Waiting");
-      yield a.set("First");
-      yield a.set("Second");
-      yield a.set("Third");
-      yield* wait(1);
-    });
+    const scene = makeMotion(
+      "Test",
+      function* () {
+        const a = yield* makeState(
+          "a",
+          "Waiting"
+        );
+        yield a.set("First");
+        yield a.set("Second");
+        yield a.set("Third");
+        yield* wait(1);
+      }
+    );
     const executed = runMotion(scene, {
       fps: 3,
       transitionDuration: 1,

@@ -22,18 +22,7 @@ export async function generateStaticParams(): Promise<
 }
 
 const components = {
-  pre: (props: any) => <PreMDX {...props} />,
-};
-const pageMap = new Map<
-  string,
-  Promise<React.ComponentType<any>>
->();
-const fetchPage = (route: string) => {
-  if (!pageMap.has(route)) {
-    pageMap.set(route, fetchPageMdx(route));
-  }
-
-  return pageMap.get(route)!;
+  pre: PreMDX,
 };
 
 export default async function Page({
@@ -41,7 +30,7 @@ export default async function Page({
 }: DocPageProps) {
   let C;
   try {
-    C = await fetchPage(
+    C = await fetchPageMdx(
       params.slug.join("/" ?? "")
     );
   } catch (e) {

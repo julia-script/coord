@@ -1,7 +1,11 @@
 import React from "react";
 import { ScalarPoint } from "@/types";
 import { Scalar } from "@/types";
-import { GraphElement, renderNumber, withGraphContext } from "@/utils";
+import {
+  GraphElement,
+  renderNumber,
+  withGraphContext,
+} from "@/utils";
 
 export type TextProps = {
   position?: ScalarPoint;
@@ -9,21 +13,26 @@ export type TextProps = {
   fontWeight?: number | string;
   fontFamily?: string;
   color?: number | string;
-} & Omit<React.SVGProps<SVGTextElement>, "color"> &
+} & Omit<
+  React.SVGProps<SVGTextElement>,
+  "color"
+> &
   GraphElement;
 
 const Component = ({
   children,
   fontSize,
-  fontWeight,
   color,
-  fontFamily,
   position = ["0vs", "0vs"],
-
   context,
   ...rest
 }: TextProps) => {
-  const { projectCoord, projectAbsoluteSize, theme, computeColor } = context;
+  const {
+    projectCoord,
+    projectAbsoluteSize,
+    theme,
+    computeColor,
+  } = context;
 
   const { x, y } = projectCoord(position);
 

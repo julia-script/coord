@@ -1,7 +1,11 @@
 "use client";
 import { Graph, Plot } from "@coord/graph";
 import Link, { LinkProps } from "next/link";
-import { ComponentProps, Fragment, PropsWithChildren, useState } from "react";
+import {
+  Fragment,
+  PropsWithChildren,
+  useState,
+} from "react";
 import { GoChevronRight } from "react-icons/go";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
@@ -43,7 +47,9 @@ export function Logo() {
   const pathname = usePathname();
   const selected = pathname.split("/")[1] ?? "";
 
-  const [hover, setHover] = useState<"motion" | "editor" | "graph">("motion");
+  const [hover, setHover] = useState<
+    "motion" | "editor" | "graph"
+  >("motion");
 
   const c = {
     motion: (
@@ -90,7 +96,9 @@ export function Logo() {
         <GoChevronRight />
       </span>
       {selected in c ? (
-        <div className="flex items-center">{c[selected as keyof typeof c]}</div>
+        <div className="flex items-center">
+          {c[selected as keyof typeof c]}
+        </div>
       ) : null}
       <div
         className={cn(
@@ -99,9 +107,12 @@ export function Logo() {
           "glow shadow-white/5",
           "ml-2 flex items-center overflow-hidden rounded-md border border-white/20 px-1 sm:ml-4 sm:px-2",
           {
-            "hover:shadow-graph/40": hover === "graph",
-            "hover:shadow-motion/40": hover === "motion",
-            "hover:shadow-editor/40": hover === "editor",
+            "hover:shadow-graph/40":
+              hover === "graph",
+            "hover:shadow-motion/40":
+              hover === "motion",
+            "hover:shadow-editor/40":
+              hover === "editor",
           }
         )}
       >
@@ -109,7 +120,11 @@ export function Logo() {
           .filter(([k]) => k !== selected)
           .map(([k, v], i) => (
             <Fragment key={k}>
-              {i > 0 && <span className="mx-1 text-white opacity-30">/</span>}
+              {i > 0 && (
+                <span className="mx-1 text-white opacity-30">
+                  /
+                </span>
+              )}
 
               {v}
             </Fragment>
@@ -127,9 +142,17 @@ export const GraphLogo = ({
   globalMultiplier?: number;
 }) => {
   const PI2 = Math.PI * 2;
-  const [a1, b1, a2, b2] = [PI2 * 0.04, PI2 * 1, PI2 * 0.27, PI2 * 0.93];
+  const [a1, b1, a2, b2] = [
+    PI2 * 0.04,
+    PI2 * 1,
+    PI2 * 0.27,
+    PI2 * 0.93,
+  ];
   const dashMultiplier = size / 400;
-  const dasharray = [15 * dashMultiplier, 20 * dashMultiplier];
+  const dasharray = [
+    15 * dashMultiplier,
+    20 * dashMultiplier,
+  ];
   const domain: [number, number] = [-3, 3];
   const f = (x: number, a: number, b: number) =>
     Math.sin(((x - a) * Math.PI * 2) / (b - a));
@@ -145,21 +168,31 @@ export const GraphLogo = ({
         domain={domain}
         f={(x) => f(x, a1, b1)}
         strokeColor={0}
-        strokeWidth={`${0.12 * globalMultiplier}cs`}
-        strokeDasharray={dasharray.map((v) => v + "px").join(" ")}
+        strokeWidth={`${
+          0.12 * globalMultiplier
+        }cs`}
+        strokeDasharray={dasharray
+          .map((v) => v + "px")
+          .join(" ")}
       />
       <Plot.ofX
         domain={domain}
         f={(x) => f(x, a2, b2)}
         strokeColor={2}
-        strokeWidth={`${0.12 * globalMultiplier}cs`}
-        strokeDasharray={dasharray.map((v) => v + "px").join(" ")}
+        strokeWidth={`${
+          0.12 * globalMultiplier
+        }cs`}
+        strokeDasharray={dasharray
+          .map((v) => v + "px")
+          .join(" ")}
       />
       <Plot.ofX
         domain={domain}
         f={(x) => f(x, a1, b1) + f(x, a2, b2)}
         strokeColor={1}
-        strokeWidth={`${0.3 * globalMultiplier}cs`}
+        strokeWidth={`${
+          0.3 * globalMultiplier
+        }cs`}
       />
     </Graph>
   );

@@ -5,6 +5,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "lint": "tsc",
     "dev": "tsup --watch",
@@ -38,7 +39,7 @@
     "happy-dom": "^9.20.3",
     "postcss": "8.4.24",
     "tailwindcss": "3.3.2",
-    "tsconfig": "workspace:*",
+    "@coord/config": "workspace:*",
     "tsup": "^6.7.0",
     "typescript": "^5.1.3"
   },

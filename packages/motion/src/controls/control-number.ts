@@ -1,12 +1,8 @@
-import {
-  EasingOptions,
-  isFunction,
-} from "@coord/core";
+import { EasingOptions } from "@coord/core";
 import { Control, Dispatcher } from "./control";
 import {
   SpringParameters,
   spring,
-  tween,
 } from "@/tweening";
 import { makeState } from "@/motion";
 
@@ -18,16 +14,16 @@ export class NumberControl extends Control<number> {
   in(duration: number, easing?: EasingOptions) {
     const self = this;
     return this._applyDeferred(function* (next) {
-      const from = self.get();
       const to = next();
 
-      yield* tween(
+      yield* self.tween(
         duration,
-        (t) => self.set(from + (to - from) * t),
+        (t, from) => from + (to - from) * t,
         easing
       );
     });
   }
+
   spring(parameters?: SpringParameters) {
     const self = this;
     return this._applyDeferred(function* (next) {

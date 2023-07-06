@@ -1,12 +1,5 @@
-import {
-  YieldedType,
-  isFunction,
-  isObject,
-} from "@coord/core";
-import {
-  MotionRequest,
-  MotionState,
-} from "./types";
+import { isFunction } from "@coord/core";
+import { MotionState } from "./types";
 import type { MotionContext } from "./context";
 import { control } from "@/controls/control";
 

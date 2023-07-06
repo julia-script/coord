@@ -37,15 +37,24 @@ export class Transform {
   }
 
   getPosition() {
-    return point(this._matrix[2], this._matrix[5]);
+    return point(
+      this._matrix[2],
+      this._matrix[5]
+    );
   }
 
   getRotation() {
-    return Math.atan2(this._matrix[1], this._matrix[0]);
+    return Math.atan2(
+      this._matrix[1],
+      this._matrix[0]
+    );
   }
 
   getScale() {
-    return point(this._matrix[0], this._matrix[4]);
+    return point(
+      this._matrix[0],
+      this._matrix[4]
+    );
   }
 
   copy() {
@@ -82,7 +91,9 @@ export class Transform {
   }
   setScaleSelf(factor: Vec2ish | number) {
     const { x, y } = Vec2.of(
-      typeof factor === "number" ? [factor, factor] : factor
+      typeof factor === "number"
+        ? [factor, factor]
+        : factor
     );
     const { _matrix } = this;
     _matrix[0] = x;
@@ -100,7 +111,9 @@ export class Transform {
 
   scaleSelf(factor: Vec2ish | number) {
     const { x, y } = Vec2.of(
-      typeof factor === "number" ? [factor, factor] : factor
+      typeof factor === "number"
+        ? [factor, factor]
+        : factor
     );
     const { _matrix } = this;
     _matrix[0] *= x;
@@ -110,9 +123,15 @@ export class Transform {
     return this;
   }
   scaleAboutOrigin(center: Vec2, factor: number) {
-    return this.copy().scaleAboutOriginSelf(center, factor);
+    return this.copy().scaleAboutOriginSelf(
+      center,
+      factor
+    );
   }
-  scaleAboutOriginSelf(center: Vec2, factor: number) {
+  scaleAboutOriginSelf(
+    center: Vec2,
+    factor: number
+  ) {
     const { x, y } = center;
     const { _matrix } = this;
 
@@ -169,7 +188,8 @@ export class Transform {
   lerpSelf(target: Transform, factor: number) {
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
-    const [ta, tb, ttx, tc, td, tty] = target._matrix;
+    const [ta, tb, ttx, tc, td, tty] =
+      target._matrix;
     _matrix[0] = a + (ta - a) * factor;
     _matrix[1] = b + (tb - b) * factor;
     _matrix[2] = tx + (ttx - tx) * factor;
@@ -198,7 +218,10 @@ export class Transform {
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
 
-    return point(a * x + c * y + tx, b * x + d * y + ty);
+    return point(
+      a * x + c * y + tx,
+      b * x + d * y + ty
+    );
   }
 
   applyInverseTo(p: Vec2) {
@@ -215,7 +238,9 @@ export class Transform {
   toCss() {
     const [a, b, tx, c, d, ty] = this._matrix;
     // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
-    return `matrix(${[a, c, b, d, tx, ty].join(",")})`;
+    return `matrix(${[a, c, b, d, tx, ty].join(
+      ","
+    )})`;
   }
 }
 export function transform(): Transform;
@@ -228,7 +253,14 @@ export function transform(
   ty: number
 ): Transform;
 
-export function transform(a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0) {
+export function transform(
+  a = 1,
+  b = 0,
+  c = 0,
+  d = 1,
+  tx = 0,
+  ty = 0
+) {
   return new Transform(a, b, c, d, tx, ty);
 }
 // prettier-ignore

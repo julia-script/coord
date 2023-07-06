@@ -1,13 +1,20 @@
 import { Vec2, Vec2ish } from "@coord/core";
 
-export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+export type PartialBy<
+  T,
+  K extends keyof T
+> = Omit<T, K> & Partial<Pick<T, K>>;
 
 export type ScalarUnits = "vs" | "cs";
 export type Space = "viewspace" | "coordspace";
 
-export type Scalar = number | `${number}${ScalarUnits}`;
+export type Scalar =
+  | number
+  | `${number}${ScalarUnits}`;
 export type ScalarPoint = Readonly<
-  Vec2 | [Scalar, Scalar] | { x: Scalar; y: Scalar }
+  | Vec2
+  | [Scalar, Scalar]
+  | { x: Scalar; y: Scalar }
 >;
 
 export type Color = string;
@@ -15,7 +22,9 @@ export type Color = string;
 export type SVGProps = React.SVGProps<SVGElement>;
 export type SVGPropsKeys = keyof SVGProps;
 export type FilteredSvgProps = {
-  [K in SVGPropsKeys]: SVGProps[K] extends (...args: any[]) => any
+  [K in SVGPropsKeys]: SVGProps[K] extends (
+    ...args: unknown[]
+  ) => unknown
     ? never
     : SVGProps[K];
 };

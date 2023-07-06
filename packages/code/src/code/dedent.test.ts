@@ -10,6 +10,8 @@ describe("dedent", () => {
         console.log("bar");  
       }
     `).value
-    ).toBe(`function foo() {\n  console.log("bar");\n}`);
+    ).toBe(
+      `function foo() {\n  console.log("bar");\n}`
+    );
   });
 });

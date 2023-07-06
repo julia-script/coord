@@ -1,17 +1,21 @@
-import React from "react";
-import { useMemo } from "react";
-import { GraphElement, renderNumber, withGraphContext } from "@/utils";
+import React, { ComponentProps } from "react";
+import {
+  GraphElement,
+  renderNumber,
+  withGraphContext,
+} from "@/utils";
 import { ScalarPoint, Scalar } from "@/types";
-import { useSafeMemo } from "..";
 import { clamp } from "lodash-es";
+import { useSafeMemo } from "@coord/core";
 
-export type PolyLineProps = {
-  points: Readonly<ScalarPoint[]>;
-  strokeWidth?: Scalar;
-  strokeColor?: number | string;
-  strokeStyle?: "dotted" | "dashed" | "solid" | number[];
-} & GraphElement &
-  Omit<React.SVGProps<SVGPolylineElement>, "points">;
+export type PolyLineProps = GraphElement<
+  {
+    points: Readonly<ScalarPoint[]>;
+    strokeWidth?: Scalar;
+    strokeColor?: number | string;
+  },
+  Omit<ComponentProps<"polyline">, "points">
+>;
 
 const Component = ({
   points,
@@ -20,13 +24,19 @@ const Component = ({
   context,
   ...rest
 }: PolyLineProps) => {
-  const { computeColor, projectCoord, projectAbsoluteSize } = context;
+  const {
+    computeColor,
+    projectCoord,
+    projectAbsoluteSize,
+  } = context;
 
   const pathPoints = useSafeMemo(
     () =>
       points.reduce((acc, point) => {
         const { x, y } = projectCoord(point);
-        acc += `${renderNumber(clamp(x, -5000, 5000))},${renderNumber(
+        acc += `${renderNumber(
+          clamp(x, -5000, 5000)
+        )},${renderNumber(
           clamp(y, -5000, 5000)
         )} `;
         return acc;
@@ -38,7 +48,10 @@ const Component = ({
     <polyline
       points={pathPoints}
       stroke={computeColor(strokeColor)}
-      strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
+      strokeWidth={projectAbsoluteSize(
+        strokeWidth,
+        "viewspace"
+      )}
       fill="none"
       pointerEvents={"none"}
       strokeLinejoin="round"
@@ -47,4 +60,5 @@ const Component = ({
   );
 };
 
-export const PolyLine = withGraphContext(Component);
+export const PolyLine =
+  withGraphContext(Component);

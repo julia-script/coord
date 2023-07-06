@@ -1,8 +1,6 @@
-import { makeState, runMotion } from "@/motion";
+import { runMotion } from "@/motion";
 import { makeMotion } from "@/motion";
 import { test, describe, expect } from "vitest";
-import { control } from "./control";
-import { makeNumberState } from "./control-number";
 import { makeTransformState } from "./control-transform";
 import { transform } from "@coord/core";
 

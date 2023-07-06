@@ -143,7 +143,7 @@ const Hero = () => {
         color={3}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave1(([_, b]) => [x, b]);
+          setWave1(([, b]) => [x, b]);
         }}
       />
       <Marker
@@ -151,7 +151,7 @@ const Hero = () => {
         color={3}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave1(([a, _]) => [a, x]);
+          setWave1(([a]) => [a, x]);
         }}
       />
 
@@ -182,7 +182,7 @@ const Hero = () => {
         color={2}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave2(([_, b]) => [x, b]);
+          setWave2(([, b]) => [x, b]);
         }}
       />
       <Marker
@@ -190,7 +190,7 @@ const Hero = () => {
         color={2}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave2(([a, _]) => [a, x]);
+          setWave2(([a]) => [a, x]);
         }}
       />
       {/* Sum of the waves */}

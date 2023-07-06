@@ -19,7 +19,11 @@ const editor = makeColor(200, 1);
 
 const accent = makeColor("var(--accent-color)");
 
-const makePalette = (color, center = 50, step = 5) => {
+const makePalette = (
+  color,
+  center = 50,
+  step = 5
+) => {
   return {
     DEFAULT: color(center),
     50: color(center + step * 4),
@@ -81,7 +85,8 @@ module.exports = {
         accent: makePalette(accent, 60, 7),
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-radial":
+          "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
@@ -98,12 +103,24 @@ module.exports = {
               },
 
               code: {
-                backgroundColor: theme("colors.dark.400"),
-                fontFamily: theme("fontFamily.mono"),
-                fontWeight: theme("fontWeight.normal"),
-                borderRadius: theme("borderRadius.DEFAULT"),
-                paddingLeft: theme("spacing[1.5]"),
-                paddingRight: theme("spacing[1.5]"),
+                backgroundColor: theme(
+                  "colors.dark.400"
+                ),
+                fontFamily: theme(
+                  "fontFamily.mono"
+                ),
+                fontWeight: theme(
+                  "fontWeight.normal"
+                ),
+                borderRadius: theme(
+                  "borderRadius.DEFAULT"
+                ),
+                paddingLeft: theme(
+                  "spacing[1.5]"
+                ),
+                paddingRight: theme(
+                  "spacing[1.5]"
+                ),
                 paddingTop: theme("spacing.1"),
                 paddingBottom: theme("spacing.1"),
               },

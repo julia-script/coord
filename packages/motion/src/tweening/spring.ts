@@ -1,5 +1,10 @@
 import { requestContext } from "@/motion";
-import { Vec2, isFunction, isNumber, point } from "@coord/core";
+import {
+  Vec2,
+  isFunction,
+  isNumber,
+  point,
+} from "@coord/core";
 
 export function* spring<T extends number | Vec2>(
   intialValue: T | (() => T),
@@ -7,16 +12,29 @@ export function* spring<T extends number | Vec2>(
   fn: (t: T) => void,
   spring: SpringParameters = Spring.Plop
 ) {
-  const from = isFunction(intialValue) ? intialValue() : intialValue;
-  const to = isFunction(targetValue) ? targetValue() : targetValue;
+  const from = isFunction(intialValue)
+    ? intialValue()
+    : intialValue;
+  const to = isFunction(targetValue)
+    ? targetValue()
+    : targetValue;
   const { settings } = yield* requestContext();
 
   const { settleTolerance = 0.001 } = spring;
 
-  let position = isNumber(from) ? point(from, from) : from.clone();
-  const target = isNumber(to) ? point(to, to) : to.clone();
-  const velocity = isNumber(spring.initialVelocity)
-    ? point(spring.initialVelocity, spring.initialVelocity)
+  let position = isNumber(from)
+    ? point(from, from)
+    : from.clone();
+  const target = isNumber(to)
+    ? point(to, to)
+    : to.clone();
+  const velocity = isNumber(
+    spring.initialVelocity
+  )
+    ? point(
+        spring.initialVelocity,
+        spring.initialVelocity
+      )
     : spring.initialVelocity;
   const update = (dt: number) => {
     if (spring === null) {
@@ -28,8 +46,10 @@ export function* spring<T extends number | Vec2>(
     // to the settling position
 
     const force = point(
-      -spring.stiffness * positionDelta.x - spring.damping * velocity.x,
-      -spring.stiffness * positionDelta.y - spring.damping * velocity.y
+      -spring.stiffness * positionDelta.x -
+        spring.damping * velocity.x,
+      -spring.stiffness * positionDelta.y -
+        spring.damping * velocity.y
     );
 
     // Update the velocity based on the given timestep
@@ -41,13 +61,19 @@ export function* spring<T extends number | Vec2>(
 
   const fixedStep = 1 / settings.physicsFps;
   const updateStep = 1 / settings.fps;
-  const loopStep = Math.min(fixedStep, updateStep);
+  const loopStep = Math.min(
+    fixedStep,
+    updateStep
+  );
 
   let settled = false;
 
   let frameTime = 0;
   let fixedTime = 0;
-  const toleranceSquared = Math.pow(settleTolerance, 2);
+  const toleranceSquared = Math.pow(
+    settleTolerance,
+    2
+  );
   while (!settled) {
     frameTime += loopStep;
     fixedTime += loopStep;
@@ -57,8 +83,11 @@ export function* spring<T extends number | Vec2>(
       update(fixedStep);
 
       if (
-        Math.abs(position.squaredDistanceTo(target)) < toleranceSquared &&
-        Math.abs(velocity.lengthSquared()) < toleranceSquared
+        Math.abs(
+          position.squaredDistanceTo(target)
+        ) < toleranceSquared &&
+        Math.abs(velocity.lengthSquared()) <
+          toleranceSquared
       ) {
         settled = true;
         position = target;
@@ -67,7 +96,11 @@ export function* spring<T extends number | Vec2>(
 
     if (frameTime >= updateStep) {
       frameTime -= updateStep;
-      fn((isNumber(from) ? position.x : position) as T);
+      fn(
+        (isNumber(from)
+          ? position.x
+          : position) as T
+      );
       yield;
     }
   }

@@ -1,8 +1,9 @@
 import React from "react";
-import { GraphElement, withGraphContext } from "@/utils";
-import { point } from "@coord/core";
-import { useCoordState } from "@/hooks";
-import { useSafeLayoutEffect, useSafeRef } from "@/hooks/safe-server-hooks";
+import {
+  GraphElement,
+  withGraphContext,
+} from "@/utils";
+import { useSafeRef } from "@coord/core";
 import { ScalarPoint } from "..";
 
 export type TextBlockProps = GraphElement<
@@ -26,11 +27,15 @@ const Component = ({
 
   ...rest
 }: TextBlockProps) => {
-  const { projectCoord, projectAbsoluteSize, computeColor } = context;
-  // const [size, setSize] = useCoordState([10, 10]);
+  const { projectCoord, projectAbsoluteSize } =
+    context;
 
-  const projectedSize = projectAbsoluteSize(size, "coordspace");
-  const projectedPosition = projectCoord(position);
+  const projectedSize = projectAbsoluteSize(
+    size,
+    "coordspace"
+  );
+  const projectedPosition =
+    projectCoord(position);
   const ref = useSafeRef<HTMLDivElement>(null);
 
   return (
@@ -44,7 +49,8 @@ const Component = ({
         style={{
           width: projectedSize.x,
           height: projectedSize.y,
-          color: context.computeColor(strokeColor),
+          color:
+            context.computeColor(strokeColor),
           opacity,
           ...style,
         }}
@@ -57,4 +63,5 @@ const Component = ({
   );
 };
 
-export const TextBlock = withGraphContext(Component);
+export const TextBlock =
+  withGraphContext(Component);

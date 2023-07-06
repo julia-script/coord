@@ -8,8 +8,12 @@ export type BoundingBoxProps = {
   bbox: BBoxish;
 } & Omit<RectProps, "position" | "size" | "bbox">;
 
-const Component = ({ bbox, ...rest }: BoundingBoxProps) => {
-  const { horizontal, vertical } = normalizeBBox(bbox);
+const Component = ({
+  bbox,
+  ...rest
+}: BoundingBoxProps) => {
+  const { horizontal, vertical } =
+    normalizeBBox(bbox);
   const { x: left, y: right } = horizontal;
   const { x: top, y: bottom } = vertical;
   return (
@@ -21,4 +25,5 @@ const Component = ({ bbox, ...rest }: BoundingBoxProps) => {
   );
 };
 
-export const BoundingBox = withGraphContext(Component);
+export const BoundingBox =
+  withGraphContext(Component);

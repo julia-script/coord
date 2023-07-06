@@ -14,9 +14,22 @@ export const okaidia = makeTheme(
     lineHighlight: { color: "#00000059" },
   },
   [
-    { tag: [t.comment, t.documentMeta], color: "#8292a2" },
-    { tag: [t.number, t.bool, t.null, t.atom], color: "#ae81ff" },
-    { tag: [t.attributeValue, t.className, t.name], color: "#e6db74" },
+    {
+      tag: [t.comment, t.documentMeta],
+      color: "#8292a2",
+    },
+    {
+      tag: [t.number, t.bool, t.null, t.atom],
+      color: "#ae81ff",
+    },
+    {
+      tag: [
+        t.attributeValue,
+        t.className,
+        t.name,
+      ],
+      color: "#e6db74",
+    },
     {
       tag: [t.propertyName, t.attributeName],
       color: "#a6e22e",
@@ -34,7 +47,12 @@ export const okaidia = makeTheme(
       color: "#e6db74",
     },
     {
-      tag: [t.regexp, t.className, t.typeName, t.definition(t.typeName)],
+      tag: [
+        t.regexp,
+        t.className,
+        t.typeName,
+        t.definition(t.typeName),
+      ],
       color: "#66d9ef",
     },
     {

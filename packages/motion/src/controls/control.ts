@@ -1,4 +1,5 @@
 import { tween } from "@/tweening";
+import { Thread } from "@/utils";
 import {
   EasingOptions,
   isFunction,
@@ -14,24 +15,20 @@ export class Control<TValue, TValueIn = TValue> {
     TValueIn
   >[] = [];
 
-  normalizeValue(value: TValueIn): TValue {
-    return value as any;
-  }
   protected _computeDeferred(
     deferred: Dispatcher<TValue, TValueIn>[]
   ) {
-    let next = this.get();
     for (const value of deferred) {
-      next = this.normalizeValue(
-        isFunction(value) ? value(next) : value
-      );
+      this.set(value);
     }
 
-    return next;
+    return this.get();
   }
   protected _applyDeferred<
-    T extends (next: () => TValue) => any
-  >(fn: T): ReturnType<T> {
+    TThread extends Thread
+  >(
+    fn: (next: () => TValue) => TThread
+  ): TThread {
     const deferred = this._deferred;
     this._deferred = [];
     return fn(() =>
@@ -47,17 +44,15 @@ export class Control<TValue, TValueIn = TValue> {
 
   constructor(
     public _get: () => TValue,
-    public _set: (value: TValue) => void
+    public _set: (value: TValueIn) => void
   ) {}
   get = () => this._get();
 
   set = (value: Dispatcher<TValue, TValueIn>) => {
     this._set(
-      this.normalizeValue(
-        isFunction(value)
-          ? value(this.get())
-          : value
-      )
+      isFunction(value)
+        ? value(this.get())
+        : value
     );
   };
   *as(value: Dispatcher<TValue, TValueIn>) {
@@ -74,14 +69,15 @@ export class Control<TValue, TValueIn = TValue> {
     easing?: EasingOptions
   ) {
     const self = this;
-    return this._applyDeferred(function* (next) {
+    function* gen(next: () => TValue) {
       const from = next();
       yield* tween(
         duration,
         (t) => self.set(fn(t, from)),
         easing
       );
-    });
+    }
+    return this._applyDeferred(gen);
   }
 }
 

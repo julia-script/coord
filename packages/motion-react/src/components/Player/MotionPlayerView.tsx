@@ -1,17 +1,25 @@
 import React from "react";
-import { VideoSizeish, getVideoSize, useClientRect } from "@coord/core";
+import {
+  VideoSizeish,
+  getVideoSize,
+  useClientRect,
+} from "@coord/core";
 
-type MotionPlayerViewProps = React.PropsWithChildren<{
-  videoSize: VideoSizeish;
-}>;
+type MotionPlayerViewProps =
+  React.PropsWithChildren<{
+    videoSize: VideoSizeish;
+  }>;
 export function MotionPlayerView({
   videoSize,
   children,
 }: MotionPlayerViewProps) {
-  const { x: width, y: height } = getVideoSize(videoSize);
+  const { x: width, y: height } =
+    getVideoSize(videoSize);
 
-  const videoShellRef = React.useRef<HTMLDivElement>(null);
-  const videoRef = React.useRef<HTMLDivElement>(null);
+  const videoShellRef =
+    React.useRef<HTMLDivElement>(null);
+  const videoRef =
+    React.useRef<HTMLDivElement>(null);
 
   const ref = useClientRect((playerSize) => {
     if (!videoShellRef.current) return;
@@ -21,7 +29,9 @@ export function MotionPlayerView({
       playerSize.width / width,
       playerSize.height / height
     );
-    videoShellRef.current.style.maxWidth = `${width * scale}px`;
+    videoShellRef.current.style.maxWidth = `${
+      width * scale
+    }px`;
     videoRef.current.style.transform = `scale(${scale})`;
     videoRef.current.style.display = "flex";
   });

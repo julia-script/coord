@@ -55,7 +55,8 @@ export const sidebar: PageItem[] = [
       },
       {
         title: "BoundingBox",
-        route: "/graph/docs/components/bounding-box",
+        route:
+          "/graph/docs/components/bounding-box",
       },
       {
         title: "Label",
@@ -75,11 +76,13 @@ export const sidebar: PageItem[] = [
     items: [
       {
         title: "Navigation",
-        route: "/graph/docs/interactions/navigation",
+        route:
+          "/graph/docs/interactions/navigation",
       },
       {
         title: "Markers and Labels",
-        route: "/graph/docs/interactions/dragging-elements",
+        route:
+          "/graph/docs/interactions/dragging-elements",
       },
     ],
   },
@@ -90,11 +93,13 @@ export const sidebar: PageItem[] = [
     items: [
       {
         title: "Scalar Types",
-        route: "/graph/docs/interfaces/scalar-types",
+        route:
+          "/graph/docs/interfaces/scalar-types",
       },
       {
         title: "Bounding Box",
-        route: "/graph/docs/interfaces/bounding-box",
+        route:
+          "/graph/docs/interfaces/bounding-box",
       },
     ],
   },
@@ -104,8 +109,10 @@ export const sidebar: PageItem[] = [
     isPage: false,
     items: [
       {
-        title: "Tutorial: Find intersection of two lines",
-        route: "/graph/docs/demo/find-intersection-of-two-lines",
+        title:
+          "Tutorial: Find intersection of two lines",
+        route:
+          "/graph/docs/demo/find-intersection-of-two-lines",
       },
     ],
   },

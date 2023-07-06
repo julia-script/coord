@@ -3,6 +3,7 @@ import {
   isNumber,
   isUndefined,
   Nullable,
+  raise,
 } from "@coord/core";
 import { DedentOptions, trim } from "./dedent";
 
@@ -20,16 +21,6 @@ export type Regions = string | LiveRegion;
 
 const DELIMITER = "⛿";
 
-const getLineIndent = (line: string) => {
-  let indent = "";
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i]!;
-    if (char === " " || char === "\t")
-      indent += char;
-    else break;
-  }
-  return indent;
-};
 export function code(
   src: TemplateStringsArray | string,
   ...inputs: (CodeTagInput | string | number)[]
@@ -42,7 +33,7 @@ export function code(
   let code = "";
 
   for (let i = 0; i < raw.length; i++) {
-    const part = raw[i]!;
+    const part = raw[i] ?? raise();
     code += part;
     const arg = inputs[i];
     if (isString(arg) || isNumber(arg)) {

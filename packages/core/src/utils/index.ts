@@ -15,3 +15,4 @@ export * from "./is-undefined";
 export * from "./is-generator";
 export * from "./is-string";
 export * from "./is-number";
+export * from "./raise";

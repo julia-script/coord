@@ -28,15 +28,27 @@ export const noctisLilac = makeTheme(
       color: "#ff5792",
     },
     {
-      tag: [t.className, t.tagName, t.definition(t.typeName)],
+      tag: [
+        t.className,
+        t.tagName,
+        t.definition(t.typeName),
+      ],
       color: "#0094f0",
     },
     {
-      tag: [t.number, t.bool, t.null, t.special(t.brace)],
+      tag: [
+        t.number,
+        t.bool,
+        t.null,
+        t.special(t.brace),
+      ],
       color: "#5842ff",
     },
     {
-      tag: [t.definition(t.propertyName), t.function(t.variableName)],
+      tag: [
+        t.definition(t.propertyName),
+        t.function(t.variableName),
+      ],
       color: "#0095a8",
     },
     {

@@ -4,11 +4,10 @@ import {
   projectRadOnRect,
   withGraphContext,
 } from "@/utils";
-import { point } from "@coord/core";
+import { point, useSafeMemo } from "@coord/core";
 import { ScalarPoint, Scalar } from "@/types";
 import { Rect, RectProps } from "./Rect";
 import { Line } from "./Line";
-import { useSafeMemo } from "..";
 
 const cardinalMap = {
   n: Math.PI / 2,
@@ -37,7 +36,10 @@ export type LabelContainerProps = {
   arrowColor?: number | string;
   arrowSize?: Scalar;
   arrowStartOffset?: Scalar;
-} & Omit<RectProps, "position" | "size" | "target"> &
+} & Omit<
+  RectProps,
+  "position" | "size" | "target"
+> &
   React.PropsWithChildren;
 
 const Component = ({
@@ -64,50 +66,88 @@ const Component = ({
 
   ...rest
 }: LabelContainerProps) => {
-  const { projectCoord, projectAbsoluteSize, computeColor } = context;
+  const {
+    projectCoord,
+    projectAbsoluteSize,
+    computeColor,
+  } = context;
   const { x: tx, y: ty } = projectCoord(target);
 
-  let { x: width, y: height } = projectAbsoluteSize(size, "viewspace");
+  const { x: width, y: height } =
+    projectAbsoluteSize(size, "viewspace");
 
   const halfWidth = width / 2;
   const halfHeight = height / 2;
-  const dist = projectAbsoluteSize(distance, "viewspace");
+  const dist = projectAbsoluteSize(
+    distance,
+    "viewspace"
+  );
   const directionRad = useSafeMemo(() => {
     if (position)
-      return -projectCoord(position).sub(projectCoord(target)).angle();
-    return typeof direction === "number" ? direction : cardinalMap[direction];
+      return -projectCoord(position)
+        .sub(projectCoord(target))
+        .angle();
+    return typeof direction === "number"
+      ? direction
+      : cardinalMap[direction];
   }, [direction, position, target]);
 
-  const connectionPoint = projectRadOnRect(-directionRad, point(width, height));
+  const connectionPoint = projectRadOnRect(
+    -directionRad,
+    point(width, height)
+  );
   const { x: cx, y: cy } = useMemo(() => {
     if (position) return projectCoord(position);
-    const [cos, sin] = [Math.cos(directionRad), Math.sin(directionRad)];
+    const [cos, sin] = [
+      Math.cos(directionRad),
+      Math.sin(directionRad),
+    ];
 
     const { x: dx, y: dy } = connectionPoint;
     let [x, y] = [tx + dx, ty + dy];
     [x, y] = [x + dist * cos, y + dist * -sin];
 
     return point(x, y);
-  }, [position, projectCoord, connectionPoint, tx, ty, dist]);
+  }, [
+    position,
+    projectCoord,
+    connectionPoint,
+    tx,
+    ty,
+    dist,
+  ]);
 
   const x = cx - halfWidth;
   const y = cy - halfHeight;
 
   const theming = {
-    strokeWidth: projectAbsoluteSize(strokeWidth, "viewspace"),
+    strokeWidth: projectAbsoluteSize(
+      strokeWidth,
+      "viewspace"
+    ),
     cornerRadius,
     strokeColor: computeColor(strokeColor),
-    backgroundColor: computeColor(backgroundColor),
-    arrowColor: computeColor(arrowColor ?? strokeColor),
+    backgroundColor: computeColor(
+      backgroundColor
+    ),
+    arrowColor: computeColor(
+      arrowColor ?? strokeColor
+    ),
   };
 
   return (
     <g {...rest}>
       <Line
         context={context}
-        from={[`${cx - connectionPoint.x}vs`, `${cy - connectionPoint.y}vs`]}
+        from={[
+          `${cx - connectionPoint.x}vs`,
+          `${cy - connectionPoint.y}vs`,
+        ]}
         to={target}
-        endOffset={projectAbsoluteSize(targetOffset, "viewspace")}
+        endOffset={projectAbsoluteSize(
+          targetOffset,
+          "viewspace"
+        )}
         strokeColor={theming.arrowColor}
         strokeWidth={theming.strokeWidth}
         arrowSize={arrowSize}
@@ -138,4 +178,5 @@ const Component = ({
   );
 };
 
-export const LabelContainer = withGraphContext(Component);
+export const LabelContainer =
+  withGraphContext(Component);

@@ -1,22 +1,12 @@
 import {
-  InferThread,
+  ThreadOf,
   Threadish,
-  normalizeThread,
   normalizeThreadsSet,
 } from "@/utils";
-import {
-  YieldedType,
-  isFunction,
-} from "@coord/core";
-import { wait } from "./wait";
 
 export function* chain<
-  TThreads extends Threadish[]
->(
-  ...threads: TThreads
-): Generator<
-  YieldedType<TThreads[number]> | undefined
-> {
+  TThreads extends Threadish
+>(...threads: TThreads[]): ThreadOf<TThreads> {
   for (const thread of normalizeThreadsSet(
     threads
   )) {

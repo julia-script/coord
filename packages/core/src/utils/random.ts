@@ -24,11 +24,18 @@ export class Random {
     return min + this.next() * (max - min);
   }
 
-  public intRange(min: number, max: number): number {
+  public intRange(
+    min: number,
+    max: number
+  ): number {
     return Math.floor(this.range(min, max));
   }
 
-  public list(n: number, min: number = 0, max: number = 1): number[] {
+  public list(
+    n: number,
+    min = 0,
+    max = 1
+  ): number[] {
     const result: number[] = [];
     for (let i = 0; i < n; i++) {
       result.push(this.range(min, max));
@@ -40,7 +47,7 @@ export class Random {
     this._seed = this._initialSeed;
   }
 
-  public chance = (chance: number = 0.5): boolean => {
+  public chance = (chance = 0.5): boolean => {
     return this.next() <= chance;
   };
 

@@ -27,7 +27,8 @@ export const sidebar: PageItem[] = [
     items: [
       {
         title: "What is it",
-        route: "/motion/docs/state-animation/what-is-state-animation",
+        route:
+          "/motion/docs/state-animation/what-is-state-animation",
       },
     ],
   },

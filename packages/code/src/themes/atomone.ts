@@ -30,12 +30,34 @@ export const atomone = makeTheme(
       ],
       color: "hsl(207, 82%, 66%)",
     },
-    { tag: [t.tagName, t.heading], color: "#e06c75" },
+    {
+      tag: [t.tagName, t.heading],
+      color: "#e06c75",
+    },
     { tag: t.comment, color: "#54636D" },
-    { tag: [t.propertyName], color: "hsl(220, 14%, 71%)" },
-    { tag: [t.attributeName, t.number], color: "hsl( 29, 54%, 61%)" },
-    { tag: t.className, color: "hsl( 39, 67%, 69%)" },
-    { tag: t.keyword, color: "hsl(286, 60%, 67%)" },
-    { tag: [t.string, t.regexp, t.special(t.propertyName)], color: "#98c379" },
+    {
+      tag: [t.propertyName],
+      color: "hsl(220, 14%, 71%)",
+    },
+    {
+      tag: [t.attributeName, t.number],
+      color: "hsl( 29, 54%, 61%)",
+    },
+    {
+      tag: t.className,
+      color: "hsl( 39, 67%, 69%)",
+    },
+    {
+      tag: t.keyword,
+      color: "hsl(286, 60%, 67%)",
+    },
+    {
+      tag: [
+        t.string,
+        t.regexp,
+        t.special(t.propertyName),
+      ],
+      color: "#98c379",
+    },
   ]
 );

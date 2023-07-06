@@ -1,7 +1,11 @@
 export type YieldedType<
-  T extends ((...args: any) => Generator<any>) | Generator<any>
-> = T extends Generator<infer U, any, any>
+  T extends
+    | ((...args: unknown[]) => Generator<unknown>)
+    | Generator<unknown>
+> = T extends Generator<infer U, unknown, unknown>
   ? U
-  : T extends (...args: any) => Generator<infer U, any, any>
+  : T extends (
+      ...args: unknown[]
+    ) => Generator<infer U, unknown, unknown>
   ? U
   : never;

@@ -1,7 +1,9 @@
 import { Vec2, point } from "@coord/core";
 import { BBoxish, BBox } from "../types";
 
-export const normalizeBBox = (bbox: BBoxish): BBox => {
+export const normalizeBBox = (
+  bbox: BBoxish
+): BBox => {
   if (Array.isArray(bbox)) {
     return {
       horizontal: point(bbox[0], bbox[2]),

@@ -1,21 +1,12 @@
 import {
   EasingOptions,
   isFunction,
-  isGenerator,
   isUndefined,
 } from "@coord/core";
-import { Control, Dispatcher } from "./control";
-import {
-  SpringParameters,
-  spring,
-  tween,
-} from "@/tweening";
+import { Control } from "./control";
+import { tween } from "@/tweening";
 import { makeState } from "@/motion";
-import {
-  OffsetConfig,
-  Threadish,
-  sequence,
-} from "..";
+import { Threadish, sequence } from "..";
 
 export class ControlList<TValue> extends Control<
   TValue[]
@@ -199,7 +190,7 @@ export class ControlList<TValue> extends Control<
     return this._applyDeferred(function* (next) {
       const from = next();
       self.set(from);
-      yield* sequence<TThread[]>(
+      yield* sequence<TThread>(
         {
           duration,
           easing: easing,
@@ -225,27 +216,6 @@ export class ControlList<TValue> extends Control<
       );
     });
   }
-
-  // to(value: Dispatcher<TValue>) {
-  //   this._defer(value);
-  //   return this;
-  // }
-  // in(duration: number, easing?: EasingOptions) {
-  //   const self = this;
-  //   return this._applyDeferred(function* (next) {
-  //     const from = self.get();
-  //     const to = next();
-  //     yield* tween(duration, (t) => self.set(from + (to - from) * t), easing);
-  //   });
-  // }
-  // spring(parameters?: SpringParameters) {
-  //   const self = this;
-  //   return this._applyDeferred(function* (next) {
-  //     const from = self.get();
-  //     const to = next();
-  //     yield* spring(from, to, self.set, parameters);
-  //   });
-  // }
 }
 
 export function controlList<TValue>(

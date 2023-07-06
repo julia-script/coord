@@ -119,10 +119,8 @@ export function Sidebar({ items }: SidebarProps) {
         "motion-reduce:transform-none md:shrink-0",
         "transition-transform duration-300 ease-in-out",
         "print:hidden",
-        // showSidebar ? "md:w-64" : "md:w-20",
         "md:w-64",
         "md:sticky md:self-start",
-        // true ? "md:hidden" : "md:sticky md:self-start",
         "max-md:-translate-y-full [body.menu-open_&]:max-md:translate-y-0"
       )}
       ref={containerRef}
@@ -130,8 +128,7 @@ export function Sidebar({ items }: SidebarProps) {
       <div
         className={cn(
           "overflow-y-auto overflow-x-hidden",
-          "grow p-4 md:h-[calc(100vh-var(--navbar-height)-var(--menu-height))]"
-          // showSidebar ? "scrollbar" : "no-scrollbar"
+          "grow p-4"
         )}
         ref={sidebarRef}
       >

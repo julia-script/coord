@@ -16,7 +16,7 @@ import {
 import { MotionPlayerView } from "./MotionPlayerView";
 
 type MotionPlayerProps = React.PropsWithChildren<{
-  controls: MotionControls<any>;
+  controls: MotionControls;
   autoplay?: boolean;
   repeat?: boolean;
   size?: VideoSizeish;
@@ -30,7 +30,6 @@ type MotionPlayerProps = React.PropsWithChildren<{
   React.HTMLAttributes<HTMLDivElement>;
 
 export function MotionPlayer({
-  id,
   controls,
   children,
   className,

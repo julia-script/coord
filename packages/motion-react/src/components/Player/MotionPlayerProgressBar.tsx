@@ -11,7 +11,14 @@ export function MotionPlayerProgressBar({
 }: {
   controls: MotionControls;
 }) {
-  const { playing, play, pause, meta, setFrame, frame } = controls;
+  const {
+    playing,
+    play,
+    pause,
+    meta,
+    setFrame,
+    frame,
+  } = controls;
   const ref = useRef<HTMLDivElement>(null);
   const { duration: movieDuration } = meta;
 
@@ -23,8 +30,13 @@ export function MotionPlayerProgressBar({
         pause();
         memo = playing;
       }
-      const rect = ref.current.getBoundingClientRect();
-      const pos = clamp((x - rect.x) / rect.width, 0, 1);
+      const rect =
+        ref.current.getBoundingClientRect();
+      const pos = clamp(
+        (x - rect.x) / rect.width,
+        0,
+        1
+      );
       setFrame(Math.round(movieDuration * pos));
 
       if (last && memo) {
@@ -45,7 +57,10 @@ export function MotionPlayerProgressBar({
     }
 
     const scenes: {
-      [key: string]: Omit<MotionContextMeta, "scenes">;
+      [key: string]: Omit<
+        MotionContextMeta,
+        "scenes"
+      >;
     } = {};
 
     Object.keys(meta.scenes).forEach((key) => {
@@ -58,7 +73,12 @@ export function MotionPlayerProgressBar({
   }, [meta]);
   const sceneKeys = Object.keys(normalizedMeta);
   return (
-    <div ref={ref} className={clsx("motion-player-progress-bar")}>
+    <div
+      ref={ref}
+      className={clsx(
+        "motion-player-progress-bar"
+      )}
+    >
       {sceneKeys.map((key) => {
         const scene = normalizedMeta[key];
         if (!scene) return null;
@@ -66,28 +86,43 @@ export function MotionPlayerProgressBar({
         return (
           <div
             key={key}
-            className={clsx("motion-player-progress-bar_scene")}
+            className={clsx(
+              "motion-player-progress-bar_scene"
+            )}
             style={{
-              width: `${(scene.duration / movieDuration) * 100}%`,
+              width: `${
+                (scene.duration / movieDuration) *
+                100
+              }%`,
             }}
           >
             {sceneKeys.length > 1 && (
               <div
-                className={clsx("motion-player-progress-bar_scene-title-area")}
+                className={clsx(
+                  "motion-player-progress-bar_scene-title-area"
+                )}
               >
                 <h2 className="motion-player-progress-bar_scene-title">
                   {scene.title}
                 </h2>
               </div>
             )}
-            <div className={clsx("motion-player-progress-bar_scene-bar")}>
+            <div
+              className={clsx(
+                "motion-player-progress-bar_scene-bar"
+              )}
+            >
               <div
-                className={"motion-player-progress-bar_scene-bar-progress"}
+                className={
+                  "motion-player-progress-bar_scene-bar-progress"
+                }
                 style={{
                   width: `${clamp(
                     inverseLerp(
                       scene.start,
-                      scene.start + scene.duration - 1,
+                      scene.start +
+                        scene.duration -
+                        1,
                       frame
                     ) * 100,
                     0,
@@ -101,9 +136,13 @@ export function MotionPlayerProgressBar({
       })}
 
       <button
-        className={clsx("motion-player-progress-bar_head")}
+        className={clsx(
+          "motion-player-progress-bar_head"
+        )}
         style={{
-          left: `${(frame / movieDuration) * 100}%`,
+          left: `${
+            (frame / movieDuration) * 100
+          }%`,
         }}
       />
     </div>

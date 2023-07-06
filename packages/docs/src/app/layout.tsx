@@ -1,7 +1,5 @@
-import { Header } from "@/components/Header";
 import "./globals.css";
 // import { Inter } from "@next/font/google";
-import { Footer } from "@/components/Footer";
 import cn from "clsx";
 // const inter = Inter({ subsets: ["latin"] });
 

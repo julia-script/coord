@@ -1,6 +1,4 @@
 import "katex/dist/katex.min.css";
-import { PreMDX } from "@/components/PreMdx";
-
 import { Sidebar } from "@/components/navigation";
 import cn from "clsx";
 import { Header } from "@/components/Header";

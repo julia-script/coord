@@ -1,12 +1,16 @@
 import { MotionState } from "@/context-old";
 
-export function frameMaker<TState extends MotionState>(
+export function frameMaker<
+  TState extends MotionState
+>(
   initialState: TState,
   expectedTransitionDurationInFrames: number
 ) {
   let currentState = initialState;
   let frame = -1;
-  const out = function (stateUpdate: Partial<TState> = {}) {
+  const out = function (
+    stateUpdate: Partial<TState> = {}
+  ) {
     currentState = {
       ...currentState,
       ...stateUpdate,
@@ -18,7 +22,11 @@ export function frameMaker<TState extends MotionState>(
       $transitionIn:
         expectedTransitionDurationInFrames === 0
           ? 1
-          : Math.min((frame + 1) / expectedTransitionDurationInFrames, 1),
+          : Math.min(
+              (frame + 1) /
+                expectedTransitionDurationInFrames,
+              1
+            ),
     };
   };
   out.initialState = {

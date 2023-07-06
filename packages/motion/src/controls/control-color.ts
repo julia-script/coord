@@ -1,14 +1,9 @@
 import {
   EasingOptions,
-  isFunction,
   isObject,
 } from "@coord/core";
 import { Control, Dispatcher } from "./control";
-import {
-  SpringParameters,
-  spring,
-  tween,
-} from "@/tweening";
+
 import { makeState } from "@/motion";
 
 type RectangularColorSpace =
@@ -45,7 +40,7 @@ const colorMix = (
   t: number,
   config: Partial<ColorMixOptions> = {}
 ) => {
-  let {
+  const {
     method = "srgb",
     interpolationMethod = "shorter",
   } = config;
@@ -84,12 +79,10 @@ export class ColorControl extends Control<string> {
       const from = self.get();
       const to = next();
 
-      yield* tween(
+      yield* self.tween(
         duration,
         (t) =>
-          self.set(
-            colorMix(from, to, t, colorMixOptions)
-          ),
+          colorMix(from, to, t, colorMixOptions),
         easing
       );
     });

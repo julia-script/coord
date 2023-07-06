@@ -19,8 +19,14 @@ export function SmoothReplace({
     fromLine,
     toLine,
   } = useMemo(() => {
-    const right: Extract<AnimatedTag, { right: [number, number] }>[] = [];
-    const left: Extract<AnimatedTag, { left: [number, number] }>[] = [];
+    const right: Extract<
+      AnimatedTag,
+      { right: [number, number] }
+    >[] = [];
+    const left: Extract<
+      AnimatedTag,
+      { left: [number, number] }
+    >[] = [];
     let fromCol = 0;
     let toCol = 0;
     let fromLine = 0;
@@ -33,10 +39,16 @@ export function SmoothReplace({
         left.push(tag);
       }
 
-      const leftCol = tag.left ? tag.left[1] + tag.code.length : 0;
-      const rightCol = tag.right ? tag.right[1] + tag.code.length : 0;
+      const leftCol = tag.left
+        ? tag.left[1] + tag.code.length
+        : 0;
+      const rightCol = tag.right
+        ? tag.right[1] + tag.code.length
+        : 0;
       const leftLine = tag.left ? tag.left[0] : 0;
-      const rightLine = tag.right ? tag.right[0] : 0;
+      const rightLine = tag.right
+        ? tag.right[0]
+        : 0;
       fromCol = Math.max(fromCol, leftCol);
       toCol = Math.max(toCol, rightCol);
       fromLine = Math.max(fromLine, leftLine);
@@ -53,17 +65,37 @@ export function SmoothReplace({
       toLine,
     };
   }, [tags]);
-  const resizeT = clamp(remap(transition, 0.2, 0.8, 0, 1), 0, 1);
-  const leaveT = clamp(remap(transition, 0, 0.2, 0, 1), 0, 1);
-  const enterT = clamp(remap(transition, 0.8, 1, 0, 1), 0, 1);
+  const resizeT = clamp(
+    remap(transition, 0.2, 0.8, 0, 1),
+    0,
+    1
+  );
+  const leaveT = clamp(
+    remap(transition, 0, 0.2, 0, 1),
+    0,
+    1
+  );
+  const enterT = clamp(
+    remap(transition, 0.8, 1, 0, 1),
+    0,
+    1
+  );
   return (
     <div
       style={{
         position: "relative",
         whiteSpace: "pre",
 
-        width: `${lerp(fromCol, toCol, resizeT)}ch`,
-        height: `${lerp(fromLine + 1, toLine + 1, resizeT)}lh`,
+        width: `${lerp(
+          fromCol,
+          toCol,
+          resizeT
+        )}ch`,
+        height: `${lerp(
+          fromLine + 1,
+          toLine + 1,
+          resizeT
+        )}lh`,
       }}
     >
       {leaveT < 1 && (
@@ -79,7 +111,9 @@ export function SmoothReplace({
               style={{
                 position: "absolute",
                 display: "inline-block",
-                translate: `${tag.left[1]}ch ${tag.left[0] * 100}%`,
+                translate: `${tag.left[1]}ch ${
+                  tag.left[0] * 100
+                }%`,
                 ...tag.styles,
               }}
             >
@@ -89,29 +123,43 @@ export function SmoothReplace({
         </div>
       )}
       {right.map((tag) => {
-        const lineOffset = tag.left ? tag.left[0] - tag.right[0] : 0;
-        const columnOffset = tag.left ? tag.left[1] - tag.right[1] : 0;
+        const lineOffset = tag.left
+          ? tag.left[0] - tag.right[0]
+          : 0;
+        const columnOffset = tag.left
+          ? tag.left[1] - tag.right[1]
+          : 0;
 
         return (
           <Fragment key={tag._id}>
-            {tag.code.split(/(\n)/g).map((code, i) => {
-              if (code === "\n") return <br key={i} />;
-              return (
-                <span
-                  key={i}
-                  style={{
-                    display: "inline-block",
-                    translate: `${columnOffset * (1 - resizeT)}ch ${
-                      lineOffset * (1 - resizeT) * 100
-                    }%`,
-                    ...tag.styles,
-                    opacity: !tag.left ? enterT : 1,
-                  }}
-                >
-                  {code}
-                </span>
-              );
-            })}
+            {tag.code
+              .split(/(\n)/g)
+              .map((code, i) => {
+                if (code === "\n")
+                  return <br key={i} />;
+                return (
+                  <span
+                    key={i}
+                    style={{
+                      display: "inline-block",
+                      translate: `${
+                        columnOffset *
+                        (1 - resizeT)
+                      }ch ${
+                        lineOffset *
+                        (1 - resizeT) *
+                        100
+                      }%`,
+                      ...tag.styles,
+                      opacity: !tag.left
+                        ? enterT
+                        : 1,
+                    }}
+                  >
+                    {code}
+                  </span>
+                );
+              })}
           </Fragment>
         );
       })}

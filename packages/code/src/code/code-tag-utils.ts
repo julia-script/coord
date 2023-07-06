@@ -1,7 +1,9 @@
 import { isString } from "@coord/core";
 import { Regions } from "./code-tag";
 
-export function stringifyLeft(regions: Regions[]) {
+export function stringifyLeft(
+  regions: Regions[]
+) {
   let code = "";
   for (const region of regions) {
     if (isString(region)) {
@@ -14,7 +16,9 @@ export function stringifyLeft(regions: Regions[]) {
   return code;
 }
 
-export function stringifyRight(regions: Regions[]) {
+export function stringifyRight(
+  regions: Regions[]
+) {
   let code = "";
   for (const region of regions) {
     if (isString(region)) {
@@ -35,7 +39,10 @@ export function remove(code: string): Regions {
   return [code, ""];
 }
 
-export function replace(left: string, right: string): Regions {
+export function replace(
+  left: string,
+  right: string
+): Regions {
   return [left, right];
 }
 

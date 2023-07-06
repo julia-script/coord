@@ -1,6 +1,10 @@
 import React, { CSSProperties } from "react";
 import { Vec2ish, point } from "@coord/core";
-import { defaultThemes, passContextToChildren, useGraphContext } from "@/utils";
+import {
+  defaultThemes,
+  passContextToChildren,
+  useGraphContext,
+} from "@/utils";
 import { BBox, BBoxish, Theme } from "@/types";
 import { Navigation } from "./Navigation";
 
@@ -64,7 +68,6 @@ export type GraphProps = React.PropsWithChildren<
 >;
 
 export const Graph = ({
-  scale,
   width = 400,
   height = 400,
   padding = 0,
@@ -89,11 +92,15 @@ export const Graph = ({
 
   return (
     <svg
-      {...(context.ref ? { ref: context.ref } : {})}
+      {...(context.ref
+        ? { ref: context.ref }
+        : {})}
       width={width}
       height={height}
       style={{
-        touchAction: onCoordBoxChange ? "none" : "auto",
+        touchAction: onCoordBoxChange
+          ? "none"
+          : "auto",
       }}
       {...rest}
     >
@@ -112,7 +119,8 @@ export const Graph = ({
         />
       )}
 
-      {ready && passContextToChildren(children, context)}
+      {ready &&
+        passContextToChildren(children, context)}
     </svg>
   );
 };

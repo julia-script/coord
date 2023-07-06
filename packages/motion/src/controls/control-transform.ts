@@ -1,6 +1,9 @@
-import { EasingOptions, Transform, isFunction } from "@coord/core";
+import {
+  EasingOptions,
+  Transform,
+} from "@coord/core";
 import { Control, Dispatcher } from "./control";
-import { SpringParameters, spring, tween } from "@/tweening";
+import { tween } from "@/tweening";
 import { makeState } from "@/motion";
 
 export class TransformControl extends Control<Transform> {
@@ -37,7 +40,11 @@ export class TransformControl extends Control<Transform> {
     return this._applyDeferred(function* (next) {
       const from = self.get();
       const to = next();
-      yield* tween(duration, (t) => self.set(from.lerp(to, t)), easing);
+      yield* tween(
+        duration,
+        (t) => self.set(from.lerp(to, t)),
+        easing
+      );
     });
   }
 }
@@ -49,11 +56,16 @@ export function controlTransform(
   return new Control(getter, setter);
 }
 
-export function* makeTransformState<TKey extends string>(
-  key: TKey,
-  initialState: Transform
-) {
-  const control = yield* makeState(key, initialState);
+export function* makeTransformState<
+  TKey extends string
+>(key: TKey, initialState: Transform) {
+  const control = yield* makeState(
+    key,
+    initialState
+  );
 
-  return new TransformControl(control._get, control._set);
+  return new TransformControl(
+    control._get,
+    control._set
+  );
 }

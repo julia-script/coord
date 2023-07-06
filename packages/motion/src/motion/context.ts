@@ -1,3 +1,4 @@
+import { raise } from "@coord/core";
 import {
   isContextRequest,
   isEndRequest,
@@ -14,15 +15,18 @@ import {
   SceneState,
 } from "./types";
 
-type FullState<TState extends MotionState> = TState & {
-  $transition: number;
-  $frame: number;
-  $done: boolean;
-};
-type FullStateKeys<TState extends MotionState> = keyof FullState<TState> &
-  string;
+type FullState<TState extends MotionState> =
+  TState & {
+    $transition: number;
+    $frame: number;
+    $done: boolean;
+  };
+type FullStateKeys<TState extends MotionState> =
+  keyof FullState<TState> & string;
 
-export class MotionContext<TState extends MotionState> {
+export class MotionContext<
+  TState extends MotionState = MotionState
+> {
   _state: FullState<TState>;
   frames: FullState<TState>[] = [];
   meta: MotionMeta = {
@@ -44,45 +48,63 @@ export class MotionContext<TState extends MotionState> {
     this._state = {} as FullState<TState>;
   }
 
-  static from<TScene extends MotionScene<MotionBuilder>>(
+  static from<
+    TScene extends MotionScene<MotionBuilder>
+  >(
     scene: TScene,
-    settings: Partial<MotionSettings> & { transitionDuration?: number } = {}
+    settings: Partial<MotionSettings> & {
+      transitionDuration?: number;
+    } = {}
   ): MotionContext<SceneState<TScene>> {
-    const context = new MotionContext<SceneState<TScene>>();
+    const context = new MotionContext<
+      SceneState<TScene>
+    >();
     context.meta.title = scene.meta.title;
-    context.meta.description = scene.meta.description;
+    context.meta.description =
+      scene.meta.description;
 
-    const { transitionDuration = 0, ...rest } = settings;
-    context.settings = { ...context.settings, ...rest };
+    const { transitionDuration = 0, ...rest } =
+      settings;
+    context.settings = {
+      ...context.settings,
+      ...rest,
+    };
     const builderIterator = scene.builder();
 
-    let transitionDurationInFrames = context.settings.fps * transitionDuration;
+    const transitionDurationInFrames =
+      context.settings.fps * transitionDuration;
     context._state.$done = false;
 
     let done = false;
     while (true) {
       if (done === false) {
-        const currentIteration = builderIterator.next();
+        const currentIteration =
+          builderIterator.next();
         done = !!currentIteration.done;
         if (isRequest(currentIteration.value)) {
-          context.respondRequest(currentIteration.value);
+          context.respondRequest(
+            currentIteration.value
+          );
           continue;
         }
       }
       if (
         done === true &&
-        context.frames.length >= transitionDurationInFrames
+        context.frames.length >=
+          transitionDurationInFrames
       ) {
         break;
       }
 
-      context._state.$frame = context.frames.length;
+      context._state.$frame =
+        context.frames.length;
 
       context._state.$transition =
         transitionDurationInFrames <= 0
           ? 1
           : Math.min(
-              (context.frames.length + 1) / transitionDurationInFrames,
+              (context.frames.length + 1) /
+                transitionDurationInFrames,
               1
             );
 
@@ -109,7 +131,9 @@ export class MotionContext<TState extends MotionState> {
     this._state[key] = value;
   }
 
-  respondRequest<TRequest extends MotionRequest>(request: TRequest) {
+  respondRequest<TRequest extends MotionRequest>(
+    request: TRequest
+  ) {
     if (isContextRequest<TState>(request)) {
       request.context = this;
     } else if (
@@ -118,7 +142,10 @@ export class MotionContext<TState extends MotionState> {
         FullState<TState>[FullStateKeys<TState>]
       >(request)
     ) {
-      this.makeState(request.state.key, request.state.initialState);
+      this.makeState(
+        request.state.key,
+        request.state.initialState
+      );
     } else if (isEndRequest(request)) {
       this._state.$done = true;
     }
@@ -130,8 +157,12 @@ export class MotionContext<TState extends MotionState> {
   ) {
     this.setState(key, value);
 
-    for (let i = this.frames.length - 1; i >= 0; i--) {
-      const frame = this.frames[i]!;
+    for (
+      let i = this.frames.length - 1;
+      i >= 0;
+      i--
+    ) {
+      const frame = this.frames[i] ?? raise();
       if (key in frame) {
         break;
       }

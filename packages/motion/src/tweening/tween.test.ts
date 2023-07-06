@@ -19,7 +19,11 @@ describe("tween", async () => {
         t: 0,
       },
       function* (context) {
-        yield* tween(1, (t) => context.state({ t }), "linear");
+        yield* tween(
+          1,
+          (t) => context.state({ t }),
+          "linear"
+        );
       }
     );
 

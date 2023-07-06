@@ -1,10 +1,7 @@
 import { YieldedType } from "@coord/core";
 import { makeMotion } from "./make-scene";
-import {
-  makeState,
-  requestContext,
-} from "./requests";
-import { runMotion } from "./run-scene";
+import { requestContext } from "./requests";
+import { runMotion } from "./run-motion";
 
 export type MotionBuilder =
   () => MotionBuilderGenerator;
@@ -41,15 +38,15 @@ export type MotionScene<
 
 type ExtractMakeState<
   TBuilder extends
-    | Generator<any>
-    | (() => Generator<any>)
+    | Generator<unknown>
+    | (() => Generator<unknown>)
 > = Extract<
   YieldedType<TBuilder>,
   {
     type: "MAKE_STATE";
     state: {
       key: string;
-      initialState: any;
+      initialState: unknown;
     };
   }
 >;
@@ -61,29 +58,9 @@ export type BuilderState<
   [T in ExtractMakeState<TBuilder>["state"] as T["key"]]: T["initialState"];
 };
 
-type test = SceneState<
-  MotionScene<
-    () => Generator<
-      | {
-          type: "MAKE_STATE";
-          state: {
-            key: "test";
-            initialState: number;
-          };
-        }
-      | {
-          type: "MAKE_STATE";
-          state: {
-            key: "test2";
-            initialState: string;
-          };
-        }
-    >
-  >
->;
 export type MergeUnion<T> = (
-  T extends any ? (x: T) => any : never
-) extends (x: infer R) => any
+  T extends unknown ? (x: T) => unknown : never
+) extends (x: infer R) => unknown
   ? R
   : never;
 

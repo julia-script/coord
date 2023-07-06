@@ -36,11 +36,25 @@ export function MotionPlayerControls({
 
   return (
     <div className={"motion-player-controls"}>
-      <div className={"motion-player-controls_progress-bar"}>
-        <MotionPlayerProgressBar controls={controls} />
+      <div
+        className={
+          "motion-player-controls_progress-bar"
+        }
+      >
+        <MotionPlayerProgressBar
+          controls={controls}
+        />
       </div>
-      <div className={"motion-player-controls_actions"}>
-        <div className={"motion-player-controls_actions_controls"}>
+      <div
+        className={
+          "motion-player-controls_actions"
+        }
+      >
+        <div
+          className={
+            "motion-player-controls_actions_controls"
+          }
+        >
           {playing ? (
             <button className="motion-player-controls_button">
               <HiPause
@@ -61,9 +75,13 @@ export function MotionPlayerControls({
             </button>
           )}
           <button
-            className={clsx("motion-player-controls_button", {
-              "motion-player-controls_button_active": repeat,
-            })}
+            className={clsx(
+              "motion-player-controls_button",
+              {
+                "motion-player-controls_button_active":
+                  repeat,
+              }
+            )}
             onClick={() => {
               setRepeat(!repeat);
             }}
@@ -73,11 +91,23 @@ export function MotionPlayerControls({
         </div>
 
         <div className="motion-player-controls_time">
-          {formatDuration(currentTime, longerThanAnHour)}
+          {formatDuration(
+            currentTime,
+            longerThanAnHour
+          )}
           {" / "}
-          {formatDuration(duration, longerThanAnHour)}
+          {formatDuration(
+            duration,
+            longerThanAnHour
+          )}
         </div>
-        <div className={"motion-player-controls_title"}>{meta.title}</div>
+        <div
+          className={
+            "motion-player-controls_title"
+          }
+        >
+          {meta.title}
+        </div>
         {toggleFullScreen && (
           <div>
             <button
@@ -86,7 +116,9 @@ export function MotionPlayerControls({
                 toggleFullScreen?.();
               }}
             >
-              <HiOutlineArrowsPointingOut size={"1.7em"} />
+              <HiOutlineArrowsPointingOut
+                size={"1.7em"}
+              />
             </button>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { point } from "@coord/core";
+import { point, raise } from "@coord/core";
 import {
   Graph,
   Grid,
@@ -127,7 +127,7 @@ export function* builder() {
     all(
       cursorPos.to([2, 4]).in(0.8),
       curve.tweenAt(0.8, 2, (t, from) =>
-        from!.lerp(point(2, 4), t)
+        (from ?? raise()).lerp(point(2, 4), t)
       )
     )
   );
@@ -218,7 +218,8 @@ export function BezierScene({
           key={i}
           points={line}
           strokeWidth={
-            [1, 5, 10][state.pathLerpsStrength]!
+            [1, 5, 10][state.pathLerpsStrength] ??
+            raise()
           }
           strokeColor={"#B0DAFF"}
           opacity={state.pathLerpsOpacity}

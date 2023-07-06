@@ -1,5 +1,8 @@
 import { useCallback } from "react";
-import { useSafeEffect, useSafeRef } from "./safe-server-hooks";
+import {
+  useSafeEffect,
+  useSafeRef,
+} from "@coord/core";
 
 /**
  * useStopwatch custom React hook.
@@ -30,9 +33,15 @@ export const useStopwatch = (
     autoplay = false,
   } = config;
 
-  const requestRef = useSafeRef<number | undefined>(undefined);
-  const previousTimeRef = useSafeRef<number>(Date.now());
-  const startTime = useSafeRef<number>(performance.now());
+  const requestRef = useSafeRef<
+    number | undefined
+  >(undefined);
+  const previousTimeRef = useSafeRef<number>(
+    Date.now()
+  );
+  const startTime = useSafeRef<number>(
+    performance.now()
+  );
   /**
    * Callback to be executed on each animation frame.
    *
@@ -40,8 +49,10 @@ export const useStopwatch = (
    */
   const animate = useCallback(
     (currentTime: number) => {
-      const deltaTime = currentTime - startTime.current;
-      const t = (to - from) * (deltaTime / duration);
+      const deltaTime =
+        currentTime - startTime.current;
+      const t =
+        (to - from) * (deltaTime / duration);
 
       if (t >= to) {
         if (repeat) {
@@ -51,7 +62,8 @@ export const useStopwatch = (
         }
       }
       fn(t);
-      requestRef.current = requestAnimationFrame(animate);
+      requestRef.current =
+        requestAnimationFrame(animate);
     },
     [from, to, duration, repeat]
   );
@@ -62,8 +74,10 @@ export const useStopwatch = (
    */
   const play = useCallback(
     (t: number = from) => {
-      previousTimeRef.current = performance.now() - t * duration;
-      requestRef.current = requestAnimationFrame(animate);
+      previousTimeRef.current =
+        performance.now() - t * duration;
+      requestRef.current =
+        requestAnimationFrame(animate);
     },
     [animate, from]
   );

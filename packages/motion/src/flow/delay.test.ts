@@ -5,10 +5,16 @@ import { delay } from "./delay";
 
 describe("delay", async () => {
   test("waits the specified time before continuing", async () => {
-    const scene = makeMotion("Test", function* () {
-      const a = yield* makeState("a", "Waiting");
-      yield* delay(1, a.as("Done"));
-    });
+    const scene = makeMotion(
+      "Test",
+      function* () {
+        const a = yield* makeState(
+          "a",
+          "Waiting"
+        );
+        yield* delay(1, a.as("Done"));
+      }
+    );
     const executed = runMotion(scene, {
       fps: 3,
     });

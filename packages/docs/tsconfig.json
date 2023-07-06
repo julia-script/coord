@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/nextjs.json",
+  "extends": "@coord/config/nextjs.json",
   "compilerOptions": {
     "plugins": [
       {
@@ -9,9 +9,7 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["./src/*"],
       "contentlayer/generated": [
         "./.contentlayer/generated"
       ]
@@ -26,7 +24,5 @@
     "src/reset.d.ts",
     ".contentlayer/generated"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

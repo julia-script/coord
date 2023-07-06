@@ -1,24 +1,16 @@
-import { CodeMotion, code } from "@coord/code";
-import { point } from "@coord/core";
+import { CodeMotion } from "@coord/code";
 import {
   Graph,
   Grid,
   Marker,
-  Plot,
-  PolyLine,
 } from "@coord/graph";
 import {
   BuilderState,
-  Spring,
   all,
   chain,
-  delay,
   makeCodeState,
   makeColorState,
-  makeListState,
   makeMotion,
-  makeNumberState,
-  makeState,
   makeVec2State,
   sequence,
   wait,

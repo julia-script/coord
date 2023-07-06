@@ -1,7 +1,7 @@
 import {
   Random,
-  Vec2,
   point,
+  raise,
   transform,
 } from "@coord/core";
 
@@ -46,10 +46,10 @@ export const makeCameraShake = (
     let scale = 0;
     t *= timeFactor;
     for (let i = 0; i < waveCount; i++) {
-      const xWave = xWaves[i]!;
-      const yWave = yWaves[i]!;
-      const scaleWave = scaleWaves[i]!;
-      const phase = phases[i]!;
+      const xWave = xWaves[i] ?? raise();
+      const yWave = yWaves[i] ?? raise();
+      const scaleWave = scaleWaves[i] ?? raise();
+      const phase = phases[i] ?? raise();
 
       x += Math.sin(
         ((t + xWave * phase) / xWave) *

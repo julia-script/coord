@@ -39,7 +39,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "lodash-es": "^4.17.21",
-    "tsconfig": "workspace:*",
+    "@coord/config": "workspace:*",
     "tsup": "^6.7.0",
     "typescript": "^5.1.3",
     "vitest": "^0.31.1"

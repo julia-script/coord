@@ -1,11 +1,10 @@
 import { Theme } from "@/themes";
+import { javascript } from "@codemirror/lang-javascript";
 import {
-  javascript,
-  javascriptLanguage,
-} from "@codemirror/lang-javascript";
-import { isString, makeId } from "@coord/core";
-import { LRParser } from "@lezer/lr";
-import { gruvboxDark } from "@/themes";
+  isString,
+  makeId,
+  raise,
+} from "@coord/core";
 import { CSSProperties } from "react";
 import { Regions } from "./code-tag";
 import {
@@ -60,6 +59,7 @@ export type LanguageOptions =
   | Languages
   | Omit<string, keyof {}>
   | LanguageSupport;
+
 export class Tagifier {
   private tags: AnimatedTag[] = [];
 
@@ -247,7 +247,7 @@ export class Tagifier {
     left: boolean,
     right: boolean
   ) {
-    this.tags.at(-1)!.code += char;
+    (this.tags.at(-1) ?? raise()).code += char;
     switch (char) {
       case "\n": {
         this.increaseLine(left, right);
@@ -311,7 +311,11 @@ export class Tagifier {
   ) {
     this.makeTag(left, right);
     for (let i = 0; i < string.length; i++) {
-      this.pushChar(string[i]!, left, right);
+      this.pushChar(
+        string[i] ?? raise(),
+        left,
+        right
+      );
     }
   }
 }

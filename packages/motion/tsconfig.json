@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/base.json",
+  "extends": "@coord/config/base.json",
   "compilerOptions": {
     "target": "ESNext",
     "noUncheckedIndexedAccess": true,

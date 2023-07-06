@@ -15,8 +15,14 @@ export const bbedit = makeTheme(
     lineHighlight: { color: "#00000012" },
   },
   [
-    { tag: [t.meta, t.comment], color: "#804000" },
-    { tag: [t.keyword, t.strong], color: "#0000FF" },
+    {
+      tag: [t.meta, t.comment],
+      color: "#804000",
+    },
+    {
+      tag: [t.keyword, t.strong],
+      color: "#0000FF",
+    },
     { tag: [t.number], color: "#FF0080" },
     { tag: [t.string], color: "#FF0080" },
     { tag: [t.variableName], color: "#006600" },
@@ -26,7 +32,13 @@ export const bbedit = makeTheme(
     { tag: [t.quote], color: "#000000" },
     { tag: [t.list], color: "#B90690" },
     { tag: [t.documentMeta], color: "#888888" },
-    { tag: [t.function(t.variableName)], color: "#0000A2" },
-    { tag: [t.definition(t.typeName), t.typeName], color: "#6D79DE" },
+    {
+      tag: [t.function(t.variableName)],
+      color: "#0000A2",
+    },
+    {
+      tag: [t.definition(t.typeName), t.typeName],
+      color: "#6D79DE",
+    },
   ]
 );

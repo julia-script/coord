@@ -67,6 +67,6 @@ export function* makeVec2State<
 
   return new Vec2Control(
     control._get,
-    control._set
+    (vec: Vec2ish) => control._set(Vec2.of(vec))
   );
 }

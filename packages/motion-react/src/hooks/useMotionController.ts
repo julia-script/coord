@@ -1,18 +1,37 @@
 import { useLayoutEffect, useState } from "react";
-import { MotionController, MotionScene, MotionSettings } from "@coord/motion";
+import {
+  MotionController,
+  MotionScene,
+  MotionSettings,
+} from "@coord/motion";
 
-export function useMotion<TScene extends MotionScene>(
+export function useMotion<
+  TScene extends MotionScene
+>(
   scene: TScene,
   contextSettings?: Partial<MotionSettings>
 ) {
-  const [motionPlayer] = useState<MotionController<TScene>>(() =>
-    MotionController.from<TScene>(scene, contextSettings)
+  const [motionPlayer] = useState<
+    MotionController<TScene>
+  >(() =>
+    MotionController.from<TScene>(
+      scene,
+      contextSettings
+    )
   );
 
-  const [frame, setFrame] = useState(motionPlayer.currentFrame);
-  const [playing, setPlaying] = useState(motionPlayer.playing);
-  const [repeat, setRepeat] = useState(motionPlayer.repeat);
-  const [playRange, setPlayRange] = useState(motionPlayer.playRange);
+  const [frame, setFrame] = useState(
+    motionPlayer.currentFrame
+  );
+  const [playing, setPlaying] = useState(
+    motionPlayer.playing
+  );
+  const [repeat, setRepeat] = useState(
+    motionPlayer.repeat
+  );
+  const [playRange, setPlayRange] = useState(
+    motionPlayer.playRange
+  );
 
   useLayoutEffect(() => {
     motionPlayer.on("frame-changed", () => {
@@ -49,7 +68,8 @@ export function useMotion<TScene extends MotionScene>(
       frames: motionPlayer.motion.frames,
       state: motionPlayer.state,
       duration: motionPlayer.duration,
-      durationInFrames: motionPlayer.durationInFrames,
+      durationInFrames:
+        motionPlayer.durationInFrames,
       fps: motionPlayer.fps,
       currentTime: motionPlayer.currentTime,
       meta: motionPlayer.motion.meta,
@@ -62,5 +82,6 @@ export function useMotion<TScene extends MotionScene>(
   ] as const;
 }
 
-export type MotionControls<TScene extends MotionScene = MotionScene> =
-  ReturnType<typeof useMotion<TScene>>[1];
+export type MotionControls<
+  TScene extends MotionScene = MotionScene
+> = ReturnType<typeof useMotion<TScene>>[1];

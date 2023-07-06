@@ -1,8 +1,21 @@
-import { AnimatedTag, LanguageOptions, Tagifier, diffCode } from "@/code";
-import { EasingOptions, applyEasing, isNumber, isUndefined } from "@coord/core";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Theme, curves, sublime } from "@/themes";
-import { LanguageSupport } from "@codemirror/language";
+import {
+  AnimatedTag,
+  LanguageOptions,
+  Tagifier,
+  diffCode,
+} from "@/code";
+import {
+  EasingOptions,
+  applyEasing,
+  isNumber,
+  isUndefined,
+} from "@coord/core";
+import {
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
+import { Theme, curves } from "@/themes";
 
 export type CodeOptions = {
   duration: number;
@@ -22,7 +35,10 @@ const defaultOptions: CodeOptions = {
   mode: "fade",
 };
 
-const modeDefaults: Record<CodeOptions["mode"], Partial<CodeOptions>> = {
+const modeDefaults: Record<
+  CodeOptions["mode"],
+  Partial<CodeOptions>
+> = {
   fade: {
     duration: 0.6,
     durationPerChar: 0,
@@ -33,9 +49,16 @@ const modeDefaults: Record<CodeOptions["mode"], Partial<CodeOptions>> = {
   },
 };
 
-export const normalizeOptions = (options: OptionsInput) => {
-  const mode = isNumber(options) ? "fade" : options.mode ?? "fade";
-  const config = { ...defaultOptions, ...modeDefaults[mode] };
+export const normalizeOptions = (
+  options: OptionsInput
+) => {
+  const mode = isNumber(options)
+    ? "fade"
+    : options.mode ?? "fade";
+  const config = {
+    ...defaultOptions,
+    ...modeDefaults[mode],
+  };
   if (isNumber(options)) {
     mode === "fade"
       ? (config.duration = options)
@@ -46,8 +69,13 @@ export const normalizeOptions = (options: OptionsInput) => {
   return config;
 };
 type OptionsInput = Partial<CodeOptions> | number;
-export function useCode(code: string, options: OptionsInput = {}) {
-  const [config, setConfig] = useState(() => normalizeOptions(options));
+export function useCode(
+  code: string,
+  options: OptionsInput = {}
+) {
+  const [config, setConfig] = useState(() =>
+    normalizeOptions(options)
+  );
 
   const [current, setCurrent] = useState(code);
   const [prev, setPrev] = useState(code);
@@ -64,11 +92,22 @@ export function useCode(code: string, options: OptionsInput = {}) {
   }, [current]);
 
   const [t, setT] = useState(1);
-  const [tags, setTags] = useState<AnimatedTag[]>([]);
+  const [tags, setTags] = useState<AnimatedTag[]>(
+    []
+  );
 
   useLayoutEffect(() => {
-    const { regions, total } = diffCode(prev, current);
-    setTags(Tagifier.generateTags(regions, config.theme, config.language));
+    const { regions, total } = diffCode(
+      prev,
+      current
+    );
+    setTags(
+      Tagifier.generateTags(
+        regions,
+        config.theme,
+        config.language
+      )
+    );
     if (current === prev) return;
 
     setT(0);
@@ -82,7 +121,10 @@ export function useCode(code: string, options: OptionsInput = {}) {
     let request = 0;
     const animate = () => {
       const now = performance.now();
-      const t = Math.min((now - start) / 1000 / duration, 1);
+      const t = Math.min(
+        (now - start) / 1000 / duration,
+        1
+      );
       setT(applyEasing(config.easing, t));
       if (t < 1) {
         request = requestAnimationFrame(animate);
@@ -100,7 +142,10 @@ export function useCode(code: string, options: OptionsInput = {}) {
     options: config,
     code: tags,
     isAnimating: t < 1,
-    setCode: (code: string, options?: OptionsInput) => {
+    setCode: (
+      code: string,
+      options?: OptionsInput
+    ) => {
       if (t < 1) return;
       if (!isUndefined(options)) {
         setConfig(normalizeOptions(options));

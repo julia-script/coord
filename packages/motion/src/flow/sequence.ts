@@ -10,8 +10,8 @@ export type OffsetConfig =
   | number
   | { duration: number; easing?: EasingOptions };
 export function* sequence<
-  TThread extends Threadish[]
->(offset: OffsetConfig, ...threads: TThread) {
+  TThread extends Threadish
+>(offset: OffsetConfig, ...threads: TThread[]) {
   const { duration, easing = "linear" } =
     typeof offset === "number"
       ? { duration: offset * threads.length }
@@ -24,7 +24,7 @@ export function* sequence<
         applyEasing(easing, i / threads.length);
       return delay(start, thread);
     }
-  ) as TThread;
+  );
 
   yield* all(...delayedThreads);
 }

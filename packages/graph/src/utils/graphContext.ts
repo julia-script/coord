@@ -1,6 +1,25 @@
-import { Vec2, Vec2ish, Transform, point, transform } from "@coord/core";
+import {
+  Vec2,
+  Vec2ish,
+  Transform,
+  point,
+  transform,
+  isServerComponent,
+  useSafeCallback,
+  useSafeLayoutEffect,
+  useSafeMemo,
+  useSafeRef,
+  useSafeState,
+} from "@coord/core";
 import React, { CSSProperties } from "react";
-import { BBox, Theme, PartialBy, BBoxish, ScalarPoint, Space } from "@/types";
+import {
+  BBox,
+  Theme,
+  PartialBy,
+  BBoxish,
+  ScalarPoint,
+  Space,
+} from "@/types";
 import { normalizeBBox } from "@/utils";
 import {
   projectCoordFactory,
@@ -9,23 +28,29 @@ import {
 } from "./scalars";
 import { defaultThemes } from "./themes";
 import { fitCoordBoxToView } from "./fitCoordBoxToView";
-import {
-  isServerComponent,
-  useSafeCallback,
-  useSafeLayoutEffect,
-  useSafeMemo,
-  useSafeRef,
-  useSafeState,
-} from "@/hooks/safe-server-hooks";
 
 export type GraphContext = {
   ref: React.RefObject<SVGSVGElement> | null;
-  computeColor: (color: string | number) => string;
-  projectSize: ReturnType<typeof projectSizeFactory>;
-  unprojectSize: ReturnType<typeof projectSizeFactory>;
-  projectAbsoluteSize: ReturnType<typeof projectSizeFactory>;
-  projectCoord: (point: ScalarPoint, inferredUnit?: Space) => Vec2;
-  unprojectCoord: (point: ScalarPoint, inferredUnit?: Space) => Vec2;
+  computeColor: (
+    color: string | number
+  ) => string;
+  projectSize: ReturnType<
+    typeof projectSizeFactory
+  >;
+  unprojectSize: ReturnType<
+    typeof projectSizeFactory
+  >;
+  projectAbsoluteSize: ReturnType<
+    typeof projectSizeFactory
+  >;
+  projectCoord: (
+    point: ScalarPoint,
+    inferredUnit?: Space
+  ) => Vec2;
+  unprojectCoord: (
+    point: ScalarPoint,
+    inferredUnit?: Space
+  ) => Vec2;
   projectionTransform: Transform;
   coordBox: BBox;
   coordStep: Vec2;
@@ -33,21 +58,31 @@ export type GraphContext = {
   theme: Theme;
 };
 
-export type GraphElement<T = {}, TParentElProps = {}> = {
+export type GraphElement<
+  T = Record<string, unknown>,
+  TParentElProps = Record<string, unknown>
+> = {
   context: GraphContext;
 } & T &
   TParentElProps;
 
-export const withGraphContext = <P extends GraphElement>(
+export const withGraphContext = <
+  P extends GraphElement
+>(
   Component: React.ComponentType<P>
 ): React.FC<PartialBy<P, "context">> => {
   return function withContext(props) {
     const { context } = props;
     if (!context) {
-      throw new Error("This component must be a direct child of Graph");
+      throw new Error(
+        "This component must be a direct child of Graph"
+      );
     }
 
-    return React.createElement(Component, { ...(props as P) });
+    return React.createElement(
+      Component,
+      props as P
+    );
   };
 };
 
@@ -59,7 +94,10 @@ export const passContextToChildren = (
     if (React.isValidElement(child)) {
       const props = { ...child.props };
       props.context = context;
-      props.children = passContextToChildren(props.children, context);
+      props.children = passContextToChildren(
+        props.children,
+        context
+      );
 
       return React.cloneElement(child, props);
     }
@@ -120,17 +158,23 @@ type ContextArguments = {
   theme: Theme | keyof typeof defaultThemes;
 };
 
-const parseViewspaceSizeInput = (size: CSSProperties["width"]) => {
+const parseViewspaceSizeInput = (
+  size: CSSProperties["width"]
+) => {
   const normalized = normalizeCssSize(size);
-  if (typeof normalized === "number") return normalized;
+  if (typeof normalized === "number")
+    return normalized;
   return null;
 };
 
-const normalizeCssSize = (size: CSSProperties["width"]) => {
+const normalizeCssSize = (
+  size: CSSProperties["width"]
+) => {
   if (typeof size === "number") return size;
   if (typeof size === "string") {
     const match = size.match(/(\d+)(px|$)/);
-    if (match && match[1]) return parseInt(match[1]);
+    if (match && match[1])
+      return parseInt(match[1]);
   }
   return size;
 };
@@ -139,21 +183,36 @@ const useViewspaceSize = (
   width: CSSProperties["width"],
   height: CSSProperties["height"]
 ) => {
-  const parsedWidth = parseViewspaceSizeInput(width);
-  const parsedHeight = parseViewspaceSizeInput(height);
+  const parsedWidth =
+    parseViewspaceSizeInput(width);
+  const parsedHeight =
+    parseViewspaceSizeInput(height);
   const [ready, setReady] = useSafeState(
-    isServerComponent || (parsedWidth !== null && parsedHeight !== null)
+    isServerComponent ||
+      (parsedWidth !== null &&
+        parsedHeight !== null)
   );
 
-  const [viewspaceSize, setViewspaceSize] = useSafeState<Vec2>(
-    Vec2.of([parsedWidth ?? 400, parsedHeight ?? 400])
-  );
+  const [viewspaceSize, setViewspaceSize] =
+    useSafeState<Vec2>(
+      Vec2.of([
+        parsedWidth ?? 400,
+        parsedHeight ?? 400,
+      ])
+    );
 
   useSafeLayoutEffect(() => {
-    if (parsedWidth !== null && parsedHeight !== null) return;
+    if (
+      parsedWidth !== null &&
+      parsedHeight !== null
+    )
+      return;
     const current = ref?.current;
     if (!current) return;
-    const setSize = (currentWidth: number, currentHeight: number) => {
+    const setSize = (
+      currentWidth: number,
+      currentHeight: number
+    ) => {
       const size = point(
         parsedWidth ?? currentWidth,
         parsedHeight ?? currentHeight
@@ -165,8 +224,11 @@ const useViewspaceSize = (
     const rect = current.getBoundingClientRect();
 
     setSize(rect.width, rect.height);
-    const observer = new ResizeObserver(([entry]) => {
-      setSize(current.clientWidth, current.clientHeight);
+    const observer = new ResizeObserver(() => {
+      setSize(
+        current.clientWidth,
+        current.clientHeight
+      );
     });
     observer.observe(current);
     return () => {
@@ -181,12 +243,15 @@ export const useGraphContext = (
   props: ContextArguments
 ): GraphContext & { ready: boolean } => {
   const ref = useSafeRef<SVGSVGElement>(null);
-  const { viewspaceSize, ready } = useViewspaceSize(
-    ref,
-    props.width ?? 400,
-    props.height ?? 400
+  const { viewspaceSize, ready } =
+    useViewspaceSize(
+      ref,
+      props.width ?? 400,
+      props.height ?? 400
+    );
+  const coordStep = Vec2.of(
+    props.coordStep ?? [1, 1]
   );
-  const coordStep = Vec2.of(props.coordStep ?? [1, 1]);
 
   const coordBox = fitCoordBoxToView(
     normalizeBBox(
@@ -201,8 +266,11 @@ export const useGraphContext = (
   );
 
   const projectionTransform = useSafeMemo(() => {
-    const coordWidth = coordBox.horizontal.y - coordBox.horizontal.x;
-    const coordHeight = coordBox.vertical.y - coordBox.vertical.x;
+    const coordWidth =
+      coordBox.horizontal.y -
+      coordBox.horizontal.x;
+    const coordHeight =
+      coordBox.vertical.y - coordBox.vertical.x;
 
     const a = viewspaceSize.x / coordWidth;
     const d = viewspaceSize.y / coordHeight;
@@ -221,7 +289,10 @@ export const useGraphContext = (
     if (typeof props.theme === "object") {
       return props.theme;
     }
-    if (typeof props.theme === "string" && props.theme in defaultThemes) {
+    if (
+      typeof props.theme === "string" &&
+      props.theme in defaultThemes
+    ) {
       return defaultThemes[props.theme];
     }
     return defaultThemes.dark;
@@ -232,7 +303,10 @@ export const useGraphContext = (
       if (typeof color === "string") {
         switch (color) {
           case "background":
-            return theme.background.fill ?? "transparent";
+            return (
+              theme.background.fill ??
+              "transparent"
+            );
           case "body":
             return theme.body;
           case "text":
@@ -241,7 +315,11 @@ export const useGraphContext = (
             return color;
         }
       }
-      return theme.palette[color % theme.palette.length] || "black";
+      return (
+        theme.palette[
+          color % theme.palette.length
+        ] || "black"
+      );
     },
     [theme]
   );
@@ -256,16 +334,21 @@ export const useGraphContext = (
     [projectionTransform]
   );
 
-  const projectSize = useSafeCallback(projectSizeFactory(projectionTransform), [
-    projectionTransform,
-  ]);
+  const projectSize = useSafeCallback(
+    projectSizeFactory(projectionTransform),
+    [projectionTransform]
+  );
 
   const projectAbsoluteSize = useSafeCallback(
     projectSizeFactory(projectionTransform, true),
     [projectionTransform]
   );
   const unprojectSize = useSafeCallback(
-    projectSizeFactory(projectionTransform, false, true),
+    projectSizeFactory(
+      projectionTransform,
+      false,
+      true
+    ),
     [projectionTransform]
   );
 
