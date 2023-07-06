@@ -1,19 +1,24 @@
-import React from "react";
+import React, { ComponentProps } from "react";
 import { point } from "@coord/core";
-import { GraphElement, withGraphContext } from "@/utils";
+import {
+  GraphElement,
+  withGraphContext,
+} from "@/utils";
 import { ScalarPoint, Scalar } from "@/types";
 
-export type RectProps = {
-  position: ScalarPoint;
-  size?: ScalarPoint;
-  fillColor?: number | string;
-  strokeColor?: number | string;
-  rotation?: number;
-  cornerRadius?: Scalar;
-  strokeWidth?: Scalar;
-  interactable?: boolean;
-} & GraphElement &
-  Omit<React.SVGProps<SVGRectElement>, "fill">;
+export type RectProps = GraphElement<
+  {
+    position: ScalarPoint;
+    size?: ScalarPoint;
+    fillColor?: number | string;
+    strokeColor?: number | string;
+    rotation?: number;
+    cornerRadius?: Scalar;
+    strokeWidth?: Scalar;
+    interactable?: boolean;
+  },
+  Omit<ComponentProps<"rect">, "fill">
+>;
 
 const Component = ({
   position,
@@ -25,14 +30,22 @@ const Component = ({
   context,
   ...rest
 }: RectProps) => {
-  const { projectCoord, projectSize, projectAbsoluteSize, computeColor } =
-    context;
+  const {
+    projectCoord,
+    projectSize,
+    projectAbsoluteSize,
+    computeColor,
+  } = context;
   const { x, y } = projectCoord(position);
-  let radius = projectAbsoluteSize(cornerRadius, "viewspace");
+  let radius = projectAbsoluteSize(
+    cornerRadius,
+    "viewspace"
+  );
   if (String(cornerRadius).endsWith("cs")) {
     radius /= 2;
   }
-  const { x: width, y: height } = projectSize(size);
+  const { x: width, y: height } =
+    projectSize(size);
   const fill = computeColor(fillColor);
 
   return (
@@ -43,7 +56,10 @@ const Component = ({
       width={Math.abs(width)}
       height={Math.abs(height)}
       fill={fill}
-      strokeWidth={projectAbsoluteSize(strokeWidth, "viewspace")}
+      strokeWidth={projectAbsoluteSize(
+        strokeWidth,
+        "viewspace"
+      )}
       stroke={computeColor(strokeColor)}
       pointerEvents={"none"}
       {...rest}

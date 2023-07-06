@@ -1,32 +1,42 @@
 import React from "react";
-import { point } from "@coord/core";
+import { point, useSafeId } from "@coord/core";
 import {
   renderNumber,
   GraphElement,
   withGraphContext,
   calcStepGridMultiplier,
 } from "@/utils";
-import { useSafeId } from "@/hooks";
 
-const range = (start: number, end: number, step: number) => {
-  const [rangeStart, rangeEnd] = [start, end].sort((a, b) => a - b) as [
-    number,
-    number
-  ];
+const range = (
+  start: number,
+  end: number,
+  step: number
+) => {
+  const [rangeStart, rangeEnd] = [
+    start,
+    end,
+  ].sort((a, b) => a - b) as [number, number];
   const result = [];
-  for (let i = rangeStart; i <= rangeEnd; i += step) {
+  for (
+    let i = rangeStart;
+    i <= rangeEnd;
+    i += step
+  ) {
     result.push(i);
   }
   return result;
 };
 
-export type GridProps = {
+export type GridProps = GraphElement<{
   displayNumbers?: boolean;
   displayAxis?: boolean;
   displayGrid?: boolean;
-} & GraphElement;
+}>;
 
-const originRotation = point(-Math.cos(Math.PI / 4), Math.sin(Math.PI / 4));
+const originRotation = point(
+  -Math.cos(Math.PI / 4),
+  Math.sin(Math.PI / 4)
+);
 
 const Component = ({
   displayNumbers = true,
@@ -39,20 +49,25 @@ const Component = ({
   const {
     projectCoord,
     projectAbsoluteSize,
-    computeColor,
     coordStep,
     coordBox,
     theme,
   } = context;
 
-  const unitVectorSize = projectAbsoluteSize([1, 1]);
+  const unitVectorSize = projectAbsoluteSize([
+    1, 1,
+  ]);
   const stepSize = Math.min(
     Math.abs(unitVectorSize.x),
     Math.abs(unitVectorSize.y)
   );
-  const multiplier = calcStepGridMultiplier(stepSize, theme.gridMaxStepSize);
+  const multiplier = calcStepGridMultiplier(
+    stepSize,
+    theme.gridMaxStepSize
+  );
   const viewSpaceStepSize =
-    projectAbsoluteSize(stepSize, "viewspace") * multiplier;
+    projectAbsoluteSize(stepSize, "viewspace") *
+    multiplier;
   const origin = projectCoord([0, 0]);
 
   return (
@@ -70,19 +85,31 @@ const Component = ({
               x={renderNumber(origin.x)}
               y={renderNumber(origin.y)}
               id={gridPatternId}
-              width={renderNumber(viewSpaceStepSize)}
-              height={renderNumber(viewSpaceStepSize)}
+              width={renderNumber(
+                viewSpaceStepSize
+              )}
+              height={renderNumber(
+                viewSpaceStepSize
+              )}
               patternUnits="userSpaceOnUse"
             >
               <rect
-                width={renderNumber(viewSpaceStepSize)}
-                height={renderNumber(viewSpaceStepSize)}
+                width={renderNumber(
+                  viewSpaceStepSize
+                )}
+                height={renderNumber(
+                  viewSpaceStepSize
+                )}
                 {...theme.gridStep}
                 fill="none"
               />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill={`url(#${gridPatternId})`} />
+          <rect
+            width="100%"
+            height="100%"
+            fill={`url(#${gridPatternId})`}
+          />
         </g>
       )}
 
@@ -107,27 +134,60 @@ const Component = ({
 
       {displayNumbers &&
         range(
-          Math.round(coordBox.horizontal.x / (coordStep.x * multiplier)) *
+          Math.round(
+            coordBox.horizontal.x /
+              (coordStep.x * multiplier)
+          ) *
             (coordStep.x * multiplier),
-          Math.round(coordBox.horizontal.y / (coordStep.x * multiplier)) *
+          Math.round(
+            coordBox.horizontal.y /
+              (coordStep.x * multiplier)
+          ) *
             (coordStep.x * multiplier),
           coordStep.x * multiplier
         ).map((stepX) => {
-          const { x, y } = projectCoord([stepX, 0]);
-          const isOrigin = renderNumber(stepX) === "0";
+          const { x, y } = projectCoord([
+            stepX,
+            0,
+          ]);
+          const isOrigin =
+            renderNumber(stepX) === "0";
           return (
-            <g key={stepX} transform={`translate(${renderNumber(x)} ${y})`}>
+            <g
+              key={stepX}
+              transform={`translate(${renderNumber(
+                x
+              )} ${y})`}
+            >
               <line
-                x2={isOrigin ? originRotation.x * 6 : 0}
-                y2={isOrigin ? originRotation.y * 6 : 6}
+                x2={
+                  isOrigin
+                    ? originRotation.x * 6
+                    : 0
+                }
+                y2={
+                  isOrigin
+                    ? originRotation.y * 6
+                    : 6
+                }
                 x1={0}
                 y1={0}
                 {...theme.gridAxis}
               />
               <text
-                x={isOrigin ? originRotation.x * 14 : 0}
-                y={isOrigin ? originRotation.y * 14 : 14}
-                textAnchor={stepX === 0 ? "end" : "middle"}
+                x={
+                  isOrigin
+                    ? originRotation.x * 14
+                    : 0
+                }
+                y={
+                  isOrigin
+                    ? originRotation.y * 14
+                    : 14
+                }
+                textAnchor={
+                  stepX === 0 ? "end" : "middle"
+                }
                 dominantBaseline={"hanging"}
                 {...theme.gridLabels}
               >
@@ -138,17 +198,31 @@ const Component = ({
         })}
       {displayNumbers &&
         range(
-          Math.round(coordBox.vertical.x / (coordStep.y * multiplier)) *
+          Math.round(
+            coordBox.vertical.x /
+              (coordStep.y * multiplier)
+          ) *
             (coordStep.y * multiplier),
-          Math.round(coordBox.vertical.y / (coordStep.y * multiplier)) *
+          Math.round(
+            coordBox.vertical.y /
+              (coordStep.y * multiplier)
+          ) *
             (coordStep.y * multiplier),
           coordStep.y * multiplier
         ).map((stepY) => {
           if (stepY === 0) return null;
-          const { x, y } = projectCoord([0, stepY]);
+          const { x, y } = projectCoord([
+            0,
+            stepY,
+          ]);
 
           return (
-            <g key={stepY} transform={`translate(${x} ${renderNumber(y)})`}>
+            <g
+              key={stepY}
+              transform={`translate(${x} ${renderNumber(
+                y
+              )})`}
+            >
               <line
                 x1={0}
                 y1={0}

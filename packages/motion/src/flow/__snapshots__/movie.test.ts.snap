@@ -1,0 +1,183 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`movie > with transition 1`] = `
+[
+  {
+    "$done": false,
+    "$frame": 0,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 0,
+      "$transition": 1,
+      "a": 1,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "b": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 1,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 1,
+      "$transition": 1,
+      "b": 2,
+    },
+  },
+]
+`;
+
+exports[`movie > without transition 1`] = `
+[
+  {
+    "$done": false,
+    "$frame": 0,
+    "$transition": 1,
+    "scene1": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "a": 1,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "b": 1,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "c": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 1,
+    "$transition": 1,
+    "scene1": {
+      "$done": false,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "b": 1,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "c": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 2,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "b": 1,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "c": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 3,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": false,
+      "$frame": 1,
+      "$transition": 1,
+      "b": 2,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "c": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 4,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "b": 2,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 0,
+      "$transition": 1,
+      "c": 1,
+    },
+  },
+  {
+    "$done": false,
+    "$frame": 5,
+    "$transition": 1,
+    "scene1": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "a": 2,
+    },
+    "scene2": {
+      "$done": true,
+      "$frame": 1,
+      "$transition": 1,
+      "b": 2,
+    },
+    "scene3": {
+      "$done": false,
+      "$frame": 1,
+      "$transition": 1,
+      "c": 2,
+    },
+  },
+]
+`;

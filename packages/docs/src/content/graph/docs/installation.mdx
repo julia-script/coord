@@ -1,0 +1,102 @@
+```tsx live collapsed
+import * as React from "react";
+import {
+  Graph,
+  Grid,
+  Plot,
+  useNavigationState,
+} from "@coord/graph";
+
+export default function MyGraph() {
+  const [coordBox, setCoordBox] = useNavigationState();
+
+  return (
+    <Graph
+      coordBox={coordBox}
+      onCoordBoxChange={setCoordBox}
+      width="100%"
+      height="100%"
+    >
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x)} />
+    </Graph>
+  );
+}
+```
+
+# Getting started
+
+Graph is a React component library for building data
+visualizations on the web.
+
+## Installation
+
+Graph is available as an npm package. To install it, run the
+following command:
+
+```bash morph
+# option: NPM
+npm install @coord/graph
+# option: PNPM
+pnpm install @coord/graph
+# option: YARN
+yarn add @coord/graph
+```
+
+## Hello World!
+
+The following example shows how to plot a sine wave.
+
+```tsx live morph
+// step: Display Grid
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+    </Graph>
+  );
+}
+// step: Plot of X
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX f={(x) => x} />
+    </Graph>
+  );
+}
+// step: Sine wave
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX f={(x) => Math.sin(x)} />
+    </Graph>
+  );
+}
+// step: Style it!
+import * as React from "react";
+import { Graph, Grid, Plot } from "@coord/graph";
+
+export default function MyGraph() {
+  return (
+    <Graph width="100%" height="100%">
+      <Grid />
+      <Plot.ofX
+        f={(x) => Math.sin(x)}
+        strokeColor={"hsl(337 100.00% 60%)"}
+        strokeWidth={8}
+      />
+    </Graph>
+  );
+}
+```

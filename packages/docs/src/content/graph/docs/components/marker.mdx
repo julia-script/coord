@@ -1,10 +1,11 @@
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
   Plot,
   Marker,
-  Vec2,
   PolyLine,
   LabelContainer,
   Text,
@@ -37,7 +38,7 @@ export default function MyGraph() {
   return (
     <>
       <Graph
-        height={300}
+        height="100%"
         width="100%"
         coordBox={coordBox}
         onCoordBoxChange={setCoordBox}
@@ -82,7 +83,9 @@ The Marker component is a utility for placing labels or icons at specific
 positions on your graph.
 
 ```tsx live
-import { Graph, Grid, Marker, PolyLine, useCoord, Vec2ish } from "@coord/graph";
+import * as React from "react";
+import { Vec2ish } from "@coord/core";
+import { Graph, Grid, Marker, PolyLine } from "@coord/graph";
 
 export default function MyGraph() {
   const pathOfLove: Vec2ish[] = [
@@ -97,7 +100,7 @@ export default function MyGraph() {
     [0, -4],
   ];
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <PolyLine points={pathOfLove} strokeColor={2} strokeDasharray={5} />
       {pathOfLove.map((p, i) => (
@@ -110,22 +113,25 @@ export default function MyGraph() {
 
 ## Controllable Markers with `useCoordState` hook
 
-If you're used to Controlled Components pattern in React, you can apply the concept to Markers.
+If you're used to Controlled Components pattern in React, you can apply the
+concept to Markers.
 
-Markers accepts a `position` prop and an `onChange` callback that will be called when the Marker is dragged.
+Markers accepts a `position` prop and an `onChange` callback that will be called
+when the Marker is dragged.
 
-For finer control, you can also leverage other HTML native events, such as `onMouse*`, `onPointer*`, etc.
+For finer control, you can also leverage other HTML native events, such as
+`onMouse*`, `onPointer*`, etc.
 
 ### Usage
 
 ```tsx live
+import * as React from "react";
 import {
   Graph,
   Grid,
   Marker,
   PolyLine,
   Text,
-  Vec2,
   useCoordState,
 } from "@coord/graph";
 
@@ -134,7 +140,7 @@ export default function MyGraph() {
   const [p1, setP1] = useCoordState([4, -3]);
   const [p2, setP2] = useCoordState([0, 4]);
   return (
-    <Graph height={400} width="100%">
+    <Graph height="100%" width="100%">
       <Grid />
       <PolyLine
         points={[p0, p1, p2, p0]}

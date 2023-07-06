@@ -1,14 +1,24 @@
 import React from "react";
 import { withGraphContext } from "@/utils";
-import { LabelContainer, LabelContainerProps } from "./LabelContainer";
-import { Vec2, point } from "@coord/core";
+import {
+  LabelContainer,
+  LabelContainerProps,
+} from "./LabelContainer";
+import {
+  Vec2,
+  point,
+  useSafeLayoutEffect,
+  useSafeRef,
+} from "@coord/core";
 import { useCoordState } from "@/hooks";
 import { useGesture } from "@use-gesture/react";
-import { useSafeLayoutEffect, useSafeRef } from "@/hooks/safe-server-hooks";
 
 export type LabelProps = {
   onChange?: (position: Vec2) => void;
-} & Omit<LabelContainerProps, "size">;
+} & Omit<
+  LabelContainerProps,
+  "size" | "onChange"
+>;
 
 const Component = ({
   onChange,
@@ -27,7 +37,8 @@ const Component = ({
     if (!ref.current) return;
     const setCurrentSize = () => {
       if (!ref.current) return;
-      const { width, height } = ref.current.getBoundingClientRect();
+      const { width, height } =
+        ref.current.getBoundingClientRect();
 
       setSize(point(width, height));
     };
@@ -49,14 +60,25 @@ const Component = ({
 
   const bind = useGesture(
     {
-      onDrag: ({ down, movement, memo, first }) => {
+      onDrag: ({
+        down,
+        movement,
+        memo,
+        first,
+      }) => {
         if (!position) return;
         if (!down) return;
         if (first) {
-          return context.unprojectSize(position, "coordspace");
+          return context.unprojectSize(
+            position,
+            "coordspace"
+          );
         }
         if (!memo) return;
-        const { x, y } = context.unprojectSize(movement, "viewspace");
+        const { x, y } = context.unprojectSize(
+          movement,
+          "viewspace"
+        );
         onChange?.(memo.add(point(x, y)));
       },
     },
@@ -69,7 +91,9 @@ const Component = ({
   return (
     <LabelContainer
       style={{
-        touchAction: interactable ? "none" : "auto",
+        touchAction: interactable
+          ? "none"
+          : "auto",
         cursor: interactable ? "grab" : "auto",
         ...style,
       }}
@@ -80,12 +104,16 @@ const Component = ({
       {...bind()}
       {...rest}
     >
-      <foreignObject width={size.x} height={size.y}>
+      <foreignObject
+        width={size.x}
+        height={size.y}
+      >
         <div
           style={{
             width: "fit-content",
             height: "fit-content",
-            color: context.computeColor(strokeColor),
+            color:
+              context.computeColor(strokeColor),
           }}
           ref={ref}
         >

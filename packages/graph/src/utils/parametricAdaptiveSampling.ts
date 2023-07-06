@@ -7,7 +7,8 @@ export const parametricAdaptiveSampling = (
   minSamplingDepth = 2,
   maxSamplingDepth = 10
 ): Vec2[] => {
-  const squaredTolerance = errorTolerance * errorTolerance;
+  const squaredTolerance =
+    errorTolerance * errorTolerance;
   const start = xy(domain[0]);
   const end = xy(domain[1]);
   const points: Vec2[] = [];
@@ -34,11 +35,14 @@ export const parametricAdaptiveSampling = (
       (min.y + max.y) / 2
     );
 
-    const squaredError = mid.squaredDistanceTo(estimatedMidPoint) ** 2;
+    const squaredError =
+      mid.squaredDistanceTo(estimatedMidPoint) **
+      2;
 
     if (
       depth < minSamplingDepth ||
-      (squaredError > squaredTolerance && depth < maxSamplingDepth)
+      (squaredError > squaredTolerance &&
+        depth < maxSamplingDepth)
     ) {
       split([tMin, tMid], min, mid, depth + 1);
       split([tMid, tMax], mid, max, depth + 1);

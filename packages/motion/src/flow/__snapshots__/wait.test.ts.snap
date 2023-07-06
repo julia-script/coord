@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`wait > waits the specified time before continuing 1`] = `
+[
+  {
+    "$done": false,
+    "$frame": 0,
+    "$transition": 1,
+    "a": "Waiting",
+  },
+  {
+    "$done": false,
+    "$frame": 1,
+    "$transition": 1,
+    "a": "Waiting",
+  },
+  {
+    "$done": false,
+    "$frame": 2,
+    "$transition": 1,
+    "a": "Waiting",
+  },
+  {
+    "$done": false,
+    "$frame": 3,
+    "$transition": 1,
+    "a": "Done",
+  },
+]
+`;

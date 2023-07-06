@@ -1,6 +1,9 @@
 import { GraphContext } from "./graphContext";
 
-type Handler = (e: React.PointerEvent, context: GraphContext) => void;
+type Handler = (
+  e: React.PointerEvent,
+  context: GraphContext
+) => void;
 
 export type PointerEvents = {
   onPointerMove?: Handler;
@@ -13,7 +16,8 @@ export type WithPointerEvents = {
 } & PointerEvents;
 
 export const mapPointerEvent =
-  (graph: GraphContext, handler?: Handler) => (e: React.PointerEvent) => {
+  (graph: GraphContext, handler?: Handler) =>
+  (e: React.PointerEvent) => {
     if (handler) {
       handler(e, graph);
     }

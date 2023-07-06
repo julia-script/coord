@@ -1,4 +1,4 @@
-interface Map<K, V> {
+interface Map<K> {
   has(value: string): value is K;
 }
 
@@ -8,9 +8,12 @@ declare module "@use-gesture/react" {
     EventType = EventTypes[Key],
     TMemo = unknown
   > = (
-    state: Omit<FullGestureState<Key>, "event"> & {
+    state: Omit<
+      FullGestureState<Key>,
+      "event"
+    > & {
       event: EventType;
       memo?: TMemo;
     }
-  ) => any | void;
+  ) => TMemo | void;
 }

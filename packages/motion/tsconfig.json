@@ -1,0 +1,13 @@
+{
+  "extends": "@coord/config/base.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["."],
+  "exclude": ["dist", "build", "node_modules"]
+}

@@ -12,3 +12,5 @@ export * from "./Text";
 export * from "./Navigation";
 export * from "./BoundingBox";
 export * from "./Ruler";
+export * from "./Circle";
+export * from "./TextBlock";

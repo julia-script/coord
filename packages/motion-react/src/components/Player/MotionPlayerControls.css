@@ -1,0 +1,43 @@
+.motion-player-controls {
+  width: 100%;
+  position: relative;
+}
+.motion-player-controls_progress-bar {
+  width: 100%;
+}
+.motion-player-controls_actions {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.motion-player-controls_actions_controls {
+  display: flex;
+}
+.motion-player-controls_button {
+  padding: 0.5em 1em;
+  opacity: 0.8;
+  border-radius: 0.7em;
+}
+
+.motion-player-controls_button:hover {
+  opacity: 1;
+}
+
+.motion-player-controls_button_active {
+  background-color: var(--motion-player-accent-color);
+}
+.motion-player-controls_time {
+  font-size: 1.2em;
+  white-space: nowrap;
+}
+.motion-player-controls_title {
+  flex-grow: 1;
+  overflow: hidden;
+  font-size: 1.2em;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
