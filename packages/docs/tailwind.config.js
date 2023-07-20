@@ -50,6 +50,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        mono: ["var(--font-mono, monospace)"],
+      },
       colors: {
         "accent-graph": {
           50: "#FEF1F1",

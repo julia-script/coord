@@ -1,7 +1,16 @@
 import "./globals.css";
-// import { Inter } from "@next/font/google";
+import {
+  Courier_Prime,
+  VT323,
+  Roboto_Mono,
+} from "next/font/google";
 import cn from "clsx";
-// const inter = Inter({ subsets: ["latin"] });
+const mono = Roboto_Mono({
+  weight: ["500"],
+  style: "normal",
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata = {
   title: "@coord/graph",
@@ -17,7 +26,7 @@ export default function RootLayout({
     <html lang="en" className="dark" dir="ltr">
       <body
         className={cn(
-          // inter.className,
+          mono.variable,
           "dark:bg-dark dark:text-white"
         )}
       >

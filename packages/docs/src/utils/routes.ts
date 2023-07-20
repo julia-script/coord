@@ -121,7 +121,6 @@ export async function getRouteInfo(
 export const fetchPageMdx = async (
   route: string
 ) => {
-  console.log(route);
   const C = await import(
     `@/content/${route}.mdx`
   ).then((mod) => mod.default);

@@ -1,0 +1,42 @@
+.typewriter-transition {
+  position: relative;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+/* .typewriter-transition {
+  .token {
+    overflow: hidden;
+    width: fit-content;
+  }
+  .token--insertion,
+  .token--deletion {
+    height: 1lh;
+    word-break: break-all;
+    white-space: pre-wrap;
+
+    animation-name: typewriter;
+
+    animation-duration: calc(
+      var(--cm-token-size) * 0.05s
+    );
+    animation-delay: var(--cm-token-delay, 0);
+    animation-timing-function: steps(
+      var(--cm-token-size)
+    );
+  }
+  .token--insertion {
+  }
+  .token--deletion {
+    animation-direction: reverse;
+  }
+}
+
+@keyframes typewriter {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: var(--cm-token-width, 100%);
+  }
+} */

@@ -10,7 +10,8 @@
     "clean": "rm -rf ./.next ./dist ./.turbo ./node_modules"
   },
   "dependencies": {
-    "@coord/code": "workspace:*",
+    "@coord/code-motion": "workspace:*",
+    "@coord/code-motion-react": "workspace:*",
     "@coord/core": "workspace:*",
     "@coord/graph": "workspace:*",
     "@coord/motion": "workspace:*",
@@ -29,6 +30,7 @@
     "esbuild": "^0.18.11",
     "eslint": "^8.44.0",
     "eslint-config-next": "^13.4.8",
+    "fp-ts": "^2.16.0",
     "katex": "^0.16.7",
     "lodash-es": "^4.17.21",
     "next": "13.4.8",

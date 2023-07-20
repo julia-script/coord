@@ -22,12 +22,7 @@ import React, {
 import dedent from "ts-dedent";
 import clsx from "clsx";
 
-import {
-  CodeBlock as CB,
-  CodeMorph,
-  LanguageOptions,
-  useCode,
-} from "@coord/code";
+import { CodeMotion } from "@coord/code-motion-react";
 
 const scope = {
   import: {
@@ -141,6 +136,7 @@ export function CodeBlock({
   preview = false,
   editable = false,
   morph = false,
+
   language,
 }: {
   code: string;
@@ -378,18 +374,11 @@ export function CodeBlock({
             />,
           ]}
         >
-          {!isCollapsed && !morph && (
-            <CB
+          {!isCollapsed && (
+            <CodeMotion
+              className="m-0 p-4 font-mono"
               code={activeCode}
-              noBg
               language={language}
-              className="m-0 bg-none p-4 "
-            />
-          )}
-          {!isCollapsed && morph && (
-            <MorphingCodeBlock
-              language={language ?? "txt"}
-              code={activeCode}
             />
           )}
         </CodeContainer>
@@ -483,24 +472,24 @@ const parseMorphingCode = (code: string) => {
     return c;
   });
 };
-export function MorphingCodeBlock({
-  code,
-  language,
-}: {
-  code: string;
-  language: LanguageOptions;
-}) {
-  const props = useCode(code, {
-    duration: 0.8,
-    language,
-  });
-  return (
-    <CodeMorph
-      code={props.code}
-      transition={props.transition}
-      options={props.options}
-      noBg
-      className="m-0 bg-none p-4"
-    />
-  );
-}
+// export function MorphingCodeBlock({
+//   code,
+//   language,
+// }: {
+//   code: string;
+//   language: LanguageOptions;
+// }) {
+//   const props = useCode(code, {
+//     duration: 0.8,
+//     language,
+//   });
+//   return (
+//     <CodeMorph
+//       code={props.code}
+//       transition={props.transition}
+//       options={props.options}
+//       noBg
+//       className="m-0 bg-none p-4"
+//     />
+//   );
+// }

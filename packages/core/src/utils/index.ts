@@ -16,3 +16,4 @@ export * from "./is-generator";
 export * from "./is-string";
 export * from "./is-number";
 export * from "./raise";
+export * from "./inline-styles";

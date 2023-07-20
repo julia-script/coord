@@ -5,6 +5,7 @@ import { runMotion } from "./run-motion";
 
 export type MotionBuilder =
   () => MotionBuilderGenerator;
+
 export type MotionBuilderGenerator = Generator<
   unknown,
   unknown,
@@ -32,6 +33,7 @@ export type MakeStateRequest<
   type: "MAKE_STATE";
   state: { key: TKey; initialState: TValue };
 }>;
+
 export type MotionScene<
   TBuilder extends MotionBuilder = MotionBuilder
 > = ReturnType<typeof makeMotion<TBuilder>>;
@@ -50,6 +52,7 @@ type ExtractMakeState<
     };
   }
 >;
+
 export type BuilderState<
   TBuilder extends
     | MotionBuilder
