@@ -1,104 +1,53 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+import { makeTheme } from "@/theming";
 
-export const aura = makeTheme(
-  "dark",
-  {
-    background: { background: "#21202e" },
-    foreground: { color: "#edecee" },
-    caret: { color: "#a277ff" },
-    selection: { color: "#3d375e7f" },
-    selectionMatch: { color: "#3d375e7f" },
-    gutterBackground: { color: "#21202e" },
-    gutterForeground: { color: "#edecee" },
-    gutterBorder: { color: "transparent" },
-    lineHighlight: { color: "#a394f033" },
+export const aura = makeTheme("aura", "dark", {
+  background: { background: "#21202e" },
+  foreground: { color: "#edecee" },
+  caret: { color: "#a277ff" },
+  selection: { color: "#3d375e7f" },
+  selectionMatch: { color: "#3d375e7f" },
+  gutter: {
+    background: "#21202e",
+    color: "#edecee",
   },
-  [
-    { tag: t.keyword, color: "#a277ff" },
-    {
-      tag: [
-        t.name,
-        t.deleted,
-        t.character,
-        t.macroName,
-      ],
-      color: "#edecee",
-    },
-    { tag: [t.propertyName], color: "#ffca85" },
-    {
-      tag: [
-        t.processingInstruction,
-        t.string,
-        t.inserted,
-        t.special(t.string),
-      ],
-      color: "#61ffca",
-    },
-    {
-      tag: [
-        t.function(t.variableName),
-        t.labelName,
-      ],
-      color: "#ffca85",
-    },
-    {
-      tag: [
-        t.color,
-        t.constant(t.name),
-        t.standard(t.name),
-      ],
-      color: "#61ffca",
-    },
-    {
-      tag: [t.definition(t.name), t.separator],
-      color: "#edecee",
-    },
-    { tag: [t.className], color: "#82e2ff" },
-    {
-      tag: [
-        t.number,
-        t.changed,
-        t.annotation,
-        t.modifier,
-        t.self,
-        t.namespace,
-      ],
-      color: "#61ffca",
-    },
-    { tag: [t.typeName], color: "#82e2ff" },
-    {
-      tag: [t.operator, t.operatorKeyword],
-      color: "#a277ff",
-    },
-    {
-      tag: [t.url, t.escape, t.regexp, t.link],
-      color: "#61ffca",
-    },
-    {
-      tag: [t.meta, t.comment],
-      color: "#6d6d6d",
-    },
-    { tag: t.strong, fontWeight: "bold" },
-    { tag: t.emphasis, fontStyle: "italic" },
-    { tag: t.link, textDecoration: "underline" },
-    {
-      tag: t.heading,
-      fontWeight: "bold",
-      color: "#a277ff",
-    },
-    {
-      tag: [
-        t.atom,
-        t.bool,
-        t.special(t.variableName),
-      ],
-      color: "#edecee",
-    },
-    { tag: t.invalid, color: "#ff6767" },
-    {
-      tag: t.strikethrough,
-      textDecoration: "line-through",
-    },
-  ]
-);
+  lineHighlight: { color: "#a394f033" },
+  keyword: { color: "#a277ff" },
+  "name,deleted,character,macroName": {
+    color: "#edecee",
+  },
+  propertyName: { color: "#ffca85" },
+  "processingInstruction,string,inserted,stringSpecial":
+    { color: "#61ffca" },
+  "variableNameFunction,labelName": {
+    color: "#ffca85",
+  },
+  "color,nameConstant,nameStandard": {
+    color: "#61ffca",
+  },
+  "nameDefinition,separator": {
+    color: "#edecee",
+  },
+  className: { color: "#82e2ff" },
+  "number,changed,annotation,modifier,self,namespace":
+    { color: "#61ffca" },
+  typeName: { color: "#82e2ff" },
+  "operator,operatorKeyword": {
+    color: "#a277ff",
+  },
+  "url,escape,regexp,link": { color: "#61ffca" },
+  "meta,comment": { color: "#6d6d6d" },
+  strong: { fontWeight: "bold" },
+  emphasis: { fontStyle: "italic" },
+  link: { textDecoration: "underline" },
+  heading: {
+    fontWeight: "bold",
+    color: "#a277ff",
+  },
+  "atom,bool,variableNameSpecial": {
+    color: "#edecee",
+  },
+  invalid: { color: "#ff6767" },
+  strikethrough: {
+    textDecoration: "line-through",
+  },
+});

@@ -23,6 +23,7 @@ import dedent from "ts-dedent";
 import clsx from "clsx";
 
 import { CodeMotion } from "@coord/code-motion-react";
+import { curves } from "@coord/code-motion";
 
 const scope = {
   import: {
@@ -379,6 +380,7 @@ export function CodeBlock({
               className="m-0 p-4 font-mono"
               code={activeCode}
               language={language}
+              theme={curves}
             />
           )}
         </CodeContainer>
@@ -386,6 +388,7 @@ export function CodeBlock({
     </div>
   );
 }
+
 function CodeContainer({
   children,
   buttonsRight = [],
@@ -402,7 +405,7 @@ function CodeContainer({
             <div
               key={i}
               className={
-                "flex items-center text-xs font-bold transition-colors duration-200  hover:bg-neutral-700/10"
+                "flex items-center text-xs font-bold transition-colors duration-200 hover:bg-neutral-700/10"
               }
             >
               {c}
@@ -472,24 +475,3 @@ const parseMorphingCode = (code: string) => {
     return c;
   });
 };
-// export function MorphingCodeBlock({
-//   code,
-//   language,
-// }: {
-//   code: string;
-//   language: LanguageOptions;
-// }) {
-//   const props = useCode(code, {
-//     duration: 0.8,
-//     language,
-//   });
-//   return (
-//     <CodeMorph
-//       code={props.code}
-//       transition={props.transition}
-//       options={props.options}
-//       noBg
-//       className="m-0 bg-none p-4"
-//     />
-//   );
-// }

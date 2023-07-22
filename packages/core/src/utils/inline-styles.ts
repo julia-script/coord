@@ -1,5 +1,4 @@
 import { Nullable } from "@/types";
-import { merge } from "lodash-es";
 import { CSSProperties } from "react";
 
 interface InlineStyles extends CSSProperties {

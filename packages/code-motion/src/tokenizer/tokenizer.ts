@@ -1,5 +1,5 @@
 import { Nullable } from "vitest";
-import { Token } from "./types";
+import { LimitedApplyTo, Token } from "../types";
 import {
   isNumber,
   isString,
@@ -7,7 +7,6 @@ import {
   raise,
 } from "@coord/core";
 import {
-  LimitedApplyTo,
   existsInTheFuture,
   existsInThePast,
 } from "./utils";
@@ -313,7 +312,6 @@ export class Tokenizer {
     let position = 0;
     const stack = [...this.tokens].reverse();
     this.tokens = [];
-    const tokens: Token[] = [];
 
     return (
       to: number,
@@ -356,7 +354,7 @@ export class Tokenizer {
       if (!token) return;
       token = { ...token };
 
-      let split = to - position - token.indent;
+      const split = to - position - token.indent;
       if (split < 0) {
         token.indent += split;
 
@@ -401,3 +399,6 @@ export const stringifyTokens =
         ? "stringifyFuture"
         : "stringifyPast"
     ]();
+
+// Alias
+export const code = tokenize;

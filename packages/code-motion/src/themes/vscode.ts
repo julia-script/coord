@@ -1,10 +1,11 @@
 /**
  * https://github.com/uiwjs/react-codemirror/issues/409
  */
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+
+import { makeTheme } from "@/theming";
 
 export const vscodeDark = makeTheme(
+  "vscode",
   "dark",
   {
     background: { background: "#1e1e1e" },
@@ -13,114 +14,45 @@ export const vscodeDark = makeTheme(
     selection: { color: "#6199ff2f" },
     selectionMatch: { color: "#72a1ff59" },
     lineHighlight: { color: "#ffffff0f" },
-    gutterBackground: { color: "#1e1e1e" },
-    gutterForeground: { color: "#838383" },
-    gutterActiveForeground: { color: "#fff" },
-    fontFamily: {
-      fontFamily:
-        'Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace',
+    gutter: {
+      background: "#1e1e1e",
+      color: "#838383",
     },
-  },
-  [
-    {
-      tag: [
-        t.keyword,
-        t.operatorKeyword,
-        t.modifier,
-        t.color,
-        t.constant(t.name),
-        t.standard(t.name),
-        t.standard(t.tagName),
-        t.special(t.brace),
-        t.atom,
-        t.bool,
-        t.special(t.variableName),
-      ],
-      color: "#569cd6",
-    },
-    {
-      tag: [t.controlKeyword, t.moduleKeyword],
+    gutterActive: { color: "#fff" },
+
+    "keyword,operatorKeyword,modifier,color,nameConstant,nameStandard,nameStandardTag,braceSpecial,atom,bool,variableNameSpecial":
+      { color: "#569cd6" },
+    "controlKeyword,moduleKeyword": {
       color: "#c586c0",
     },
-    {
-      tag: [
-        t.name,
-        t.deleted,
-        t.character,
-        t.macroName,
-        t.propertyName,
-        t.variableName,
-        t.labelName,
-        t.definition(t.name),
-      ],
-      color: "#9cdcfe",
-    },
-    {
-      tag: t.heading,
+    "name,deleted,character,macroName,propertyName,variableName,labelName,nameDefinition":
+      { color: "#9cdcfe" },
+    heading: {
       fontWeight: "bold",
       color: "#9cdcfe",
     },
-    {
-      tag: [
-        t.typeName,
-        t.className,
-        t.tagName,
-        t.number,
-        t.changed,
-        t.annotation,
-        t.self,
-        t.namespace,
-      ],
-      color: "#4ec9b0",
-    },
-    {
-      tag: [
-        t.function(t.variableName),
-        t.function(t.propertyName),
-      ],
+    "typeName,className,tagName,number,changed,annotation,self,namespace":
+      { color: "#4ec9b0" },
+    "variableNameFunction,propertyNameFunction": {
       color: "#dcdcaa",
     },
-    { tag: [t.number], color: "#b5cea8" },
-    {
-      tag: [
-        t.operator,
-        t.punctuation,
-        t.separator,
-        t.url,
-        t.escape,
-        t.regexp,
-      ],
-      color: "#d4d4d4",
-    },
-    {
-      tag: [t.regexp],
-      color: "#d16969",
-    },
-    {
-      tag: [
-        t.special(t.string),
-        t.processingInstruction,
-        t.string,
-        t.inserted,
-      ],
-      color: "#ce9178",
-    },
-    { tag: [t.angleBracket], color: "#808080" },
-    { tag: t.strong, fontWeight: "bold" },
-    { tag: t.emphasis, fontStyle: "italic" },
-    {
-      tag: t.strikethrough,
+    number: { color: "#b5cea8" },
+    "operator,punctuation,separator,url,escape,regexp":
+      { color: "#d4d4d4" },
+    regexp: { color: "#d16969" },
+    "stringSpecial,processingInstruction,string,inserted":
+      { color: "#ce9178" },
+    angleBracket: { color: "#808080" },
+    strong: { fontWeight: "bold" },
+    emphasis: { fontStyle: "italic" },
+    strikethrough: {
       textDecoration: "line-through",
     },
-    {
-      tag: [t.meta, t.comment],
-      color: "#6a9955",
-    },
-    {
-      tag: t.link,
+    "meta,comment": { color: "#6a9955" },
+    link: {
       color: "#6a9955",
       textDecoration: "underline",
     },
-    { tag: t.invalid, color: "#ff0000" },
-  ]
+    invalid: { color: "#ff0000" },
+  }
 );

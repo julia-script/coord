@@ -4,10 +4,11 @@
  * Name: IntelliJ IDEA darcula theme
  * From IntelliJ IDEA by JetBrains
  */
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+
+import { makeTheme } from "@/theming";
 
 export const darcula = makeTheme(
+  "darcula",
   "dark",
   {
     background: { background: "#2B2B2B" },
@@ -19,30 +20,21 @@ export const darcula = makeTheme(
     selectionMatch: {
       color: "rgba(255, 255, 255, 0.2)",
     },
-    gutterBackground: {
-      color: "rgba(255, 255, 255, 0.1)",
+    gutter: {
+      background: "#2B2B2B",
+      color: "#999",
     },
-    gutterForeground: { color: "#999" },
-    gutterBorder: { color: "transparent" },
     lineHighlight: {
       color: "rgba(255, 255, 255, 0.1)",
     },
-  },
-  [
-    { tag: [t.atom, t.number], color: "#bd93f9" },
-    { tag: [t.comment], color: "#61A151" },
-    { tag: [t.string], color: "#6A8759" },
-    {
-      tag: [t.variableName, t.operator],
-      color: "#A9B7C6",
-    },
-    {
-      tag: [t.meta, t.className],
-      color: "#A9B7C6",
-    },
-    { tag: [t.propertyName], color: "#FFC66D" },
-    { tag: [t.keyword], color: "#CC7832" },
-    { tag: [t.tagName], color: "#ff79c6" },
-    { tag: [t.typeName], color: "#ffb86c" },
-  ]
+    "atom,number": { color: "#bd93f9" },
+    comment: { color: "#61A151" },
+    string: { color: "#6A8759" },
+    "variableName,operator": { color: "#A9B7C6" },
+    "meta,className": { color: "#A9B7C6" },
+    propertyName: { color: "#FFC66D" },
+    keyword: { color: "#CC7832" },
+    tagName: { color: "#ff79c6" },
+    typeName: { color: "#ffb86c" },
+  }
 );

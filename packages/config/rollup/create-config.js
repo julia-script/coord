@@ -4,23 +4,23 @@ import commonjs from "@rollup/plugin-commonjs";
 import postcssPresetEnv from "postcss-preset-env";
 import autoprefixer from "autoprefixer";
 import typescript from "rollup-plugin-typescript2";
-import esbuild from "rollup-plugin-esbuild";
+
 /**
  * @param {{
- *  entry?: string;
  *  cssPrefix?: string;
- *  mapConfig?: (config: import('rollup').RollupOptions[]) => import('rollup').RollupOptions[];
+ *  mapConfig?: (config: import('rollup').RollupOptions) => import('rollup').RollupOptions;
  *  rootDir?: string;
- * }} [config]
+ * } & import('rollup').RollupOptions} [config]
  */
 export const createConfig = async (
   config = {}
 ) => {
   const {
-    entry = "src/index.ts",
     cssPrefix = "curvs",
     mapConfig = (config) => config,
     rootDir = process.cwd(),
+    input = "src/index.ts",
+    ...rest
   } = config;
   /**
    * @type {{
@@ -42,51 +42,57 @@ export const createConfig = async (
     "react-dom",
   ];
 
-  return mapConfig([
-    {
-      input: entry,
-      output: [
-        {
-          file: "dist/index.cjs",
-          format: "cjs",
-          sourcemap: true,
+  return mapConfig({
+    input,
+    output: [
+      {
+        file: "dist/index.cjs",
+        format: "cjs",
+        sourcemap: true,
+      },
+      {
+        file: "dist/index.js",
+        format: "es",
+        sourcemap: true,
+      },
+    ],
+    context: "this",
+    plugins: [
+      postcss({
+        plugins: [
+          postcssPresetEnv(),
+          autoprefixer(),
+        ],
+        extract: true,
+        namedExports: true,
+        modules: {
+          localsConvention: "camelCaseOnly",
+          dashedIdents: true,
+          /** @param {string} className */
+          generateScopedName: (className) =>
+            `${cssPrefix}-${className}`,
         },
-        {
-          file: "dist/index.js",
-          format: "es",
-          sourcemap: true,
+        minimize: true,
+        sourceMap: true,
+      }),
+      nodeResolve(),
+      commonjs(),
+      typescript({
+        tsconfig: `${rootDir}/tsconfig.json`,
+        tsconfigOverride: {
+          include: Array.isArray(input)
+            ? input
+            : typeof input === "string"
+            ? [input]
+            : Object.values(input),
         },
-      ],
-      context: "this",
-      plugins: [
-        postcss({
-          plugins: [
-            postcssPresetEnv(),
-            autoprefixer(),
-          ],
-          extract: true,
-          namedExports: true,
-          modules: {
-            localsConvention: "camelCaseOnly",
-            dashedIdents: true,
-            /** @param {string} className */
-            generateScopedName: (className) =>
-              `${cssPrefix}-${className}`,
-          },
-          minimize: true,
-          sourceMap: true,
-        }),
-        nodeResolve(),
-        commonjs(),
-        typescript({
-          tsconfig: `${rootDir}/tsconfig.json`,
-          exclude: [
-            "**/*.test.ts",
-            "**/*.test.tsx",
-          ],
-        }),
-      ],
-      external,
-    },
-  ]);
+        exclude: [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+        ],
+      }),
+    ],
+    external,
+    ...rest,
+  });
 };

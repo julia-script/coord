@@ -20,6 +20,7 @@
     "allowJs": true,
     "checkJs": true,
     "resolveJsonModule": true,
+    "maxNodeModuleJsDepth": 1,
     "noEmit": true
   },
   "exclude": ["node_modules"]

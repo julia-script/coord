@@ -12,7 +12,7 @@ import {
   Language,
   Theme,
   Token,
-  curves,
+  vscodeDark,
 } from "@coord/code-motion";
 
 import { isNumber } from "lodash-es";
@@ -68,7 +68,7 @@ export function CodeMotion({
   tokens,
   code,
   language = "tsx",
-  theme = curves,
+  theme = vscodeDark,
   fromTheme = theme,
   style,
   transitionTime,

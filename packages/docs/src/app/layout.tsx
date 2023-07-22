@@ -1,12 +1,9 @@
 import "./globals.css";
-import {
-  Courier_Prime,
-  VT323,
-  Roboto_Mono,
-} from "next/font/google";
+import { Inconsolata } from "next/font/google";
 import cn from "clsx";
-const mono = Roboto_Mono({
-  weight: ["500"],
+
+const mono = Inconsolata({
+  weight: ["600"],
   style: "normal",
   subsets: ["latin"],
   variable: "--font-mono",

@@ -1,7 +1,7 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+import { makeTheme } from "@/theming";
 
 export const noctisLilac = makeTheme(
+  "noctisLilac",
   "light",
   {
     background: { background: "#f2f1f8" },
@@ -9,83 +9,37 @@ export const noctisLilac = makeTheme(
     caret: { color: "#5c49e9" },
     selection: { color: "#d5d1f2" },
     selectionMatch: { color: "#d5d1f2" },
-    gutterBackground: { color: "#f2f1f8" },
-    gutterForeground: { color: "#0c006b70" },
-    lineHighlight: { color: "#e1def3" },
-  },
-  [
-    {
-      tag: t.comment,
-      color: "#9995b7",
+    gutter: {
+      background: "#f2f1f8",
+      color: "#0c006b70",
     },
-    {
-      tag: t.keyword,
+    lineHighlight: { color: "#e1def3" },
+    comment: { color: "#9995b7" },
+    keyword: {
       color: "#ff5792",
       fontWeight: "bold",
     },
-    {
-      tag: [t.definitionKeyword, t.modifier],
+    "keywordDefinition,modifier": {
       color: "#ff5792",
     },
-    {
-      tag: [
-        t.className,
-        t.tagName,
-        t.definition(t.typeName),
-      ],
+    "className,tagName,typeNameDefinition": {
       color: "#0094f0",
     },
-    {
-      tag: [
-        t.number,
-        t.bool,
-        t.null,
-        t.special(t.brace),
-      ],
+    "number,bool,null,braceSpecial": {
       color: "#5842ff",
     },
-    {
-      tag: [
-        t.definition(t.propertyName),
-        t.function(t.variableName),
-      ],
-      color: "#0095a8",
-    },
-    {
-      tag: t.typeName,
-      color: "#b3694d",
-    },
-    {
-      tag: [t.propertyName, t.variableName],
+    "propertyNameDefinition,variableNameFunction":
+      { color: "#0095a8" },
+    typeName: { color: "#b3694d" },
+    "propertyName,variableName": {
       color: "#fa8900",
     },
-    {
-      tag: t.operator,
-      color: "#ff5792",
-    },
-    {
-      tag: t.self,
-      color: "#e64100",
-    },
-    {
-      tag: [t.string, t.regexp],
-      color: "#00b368",
-    },
-    {
-      tag: [t.paren, t.bracket],
-      color: "#0431fa",
-    },
-    {
-      tag: t.labelName,
-      color: "#00bdd6",
-    },
-    {
-      tag: t.attributeName,
-      color: "#e64100",
-    },
-    {
-      tag: t.angleBracket,
-      color: "#9995b7",
-    },
-  ]
+    operator: { color: "#ff5792" },
+    self: { color: "#e64100" },
+    "string,regexp": { color: "#00b368" },
+    "paren,bracket": { color: "#0431fa" },
+    labelName: { color: "#00bdd6" },
+    attributeName: { color: "#e64100" },
+    angleBracket: { color: "#9995b7" },
+  }
 );

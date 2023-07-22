@@ -1,7 +1,7 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+import { makeTheme } from "@/theming";
 
 export const androidstudio = makeTheme(
+  "androidstudio",
   "dark",
   {
     background: { background: "#282b2e" },
@@ -10,38 +10,20 @@ export const androidstudio = makeTheme(
     selection: { color: "#343739" },
     selectionMatch: { color: "#343739" },
     lineHighlight: { color: "#343739" },
-  },
-  [
-    {
-      tag: [t.keyword, t.deleted, t.className],
+    "keyword,deleted,className": {
       color: "#cc7832",
     },
-    {
-      tag: [t.number, t.literal, t.derefOperator],
+    "number,literal,derefOperator": {
       color: "#6897bb",
     },
-    {
-      tag: [t.link, t.variableName],
-      color: "#629755",
-    },
-    { tag: [t.comment, t.quote], color: "grey" },
-    {
-      tag: [t.meta, t.documentMeta],
-      color: "#bbb529",
-    },
-    {
-      tag: [
-        t.string,
-        t.propertyName,
-        t.attributeValue,
-      ],
+    "link,variableName": { color: "#629755" },
+    "comment,quote": { color: "grey" },
+    "meta,documentMeta": { color: "#bbb529" },
+    "string,propertyName,attributeValue": {
       color: "#6a8759",
     },
-    {
-      tag: [t.heading, t.typeName],
-      color: "#ffc66d",
-    },
-    { tag: [t.attributeName], color: "#a9b7c6" },
-    { tag: [t.emphasis], fontStyle: "italic" },
-  ]
+    "heading,typeName": { color: "#ffc66d" },
+    attributeName: { color: "#a9b7c6" },
+    emphasis: { fontStyle: "italic" },
+  }
 );

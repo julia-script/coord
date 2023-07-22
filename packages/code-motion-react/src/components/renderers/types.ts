@@ -1,7 +1,4 @@
-import {
-  RenderingState,
-  AnimationClock,
-} from "@/utils";
+import { RenderingState } from "@/utils";
 
 export type TransitionRendererProps = {
   renderingState: RenderingState;

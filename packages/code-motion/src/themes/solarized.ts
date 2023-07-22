@@ -1,7 +1,6 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
-
+import { makeTheme } from "@/theming";
 export const solarizedLight = makeTheme(
+  "solarized",
   "light",
   {
     background: { background: "#fdf6e3" },
@@ -9,167 +8,93 @@ export const solarizedLight = makeTheme(
     caret: { color: "#586e75" },
     selection: { color: "#dfd9c8" },
     selectionMatch: { color: "#dfd9c8" },
-    gutterBackground: { color: "#00000010" },
-    gutterForeground: { color: "#657b83" },
+    gutter: {
+      background: "#00000010",
+      color: "#657b83",
+    },
     lineHighlight: { color: "#dfd9c8" },
-  },
-  [
-    { tag: t.keyword, color: "#859900" },
-    {
-      tag: [
-        t.name,
-        t.deleted,
-        t.character,
-        t.propertyName,
-        t.macroName,
-      ],
-      color: "#2aa198",
-    },
-    { tag: [t.variableName], color: "#268bd2" },
-    {
-      tag: [t.function(t.variableName)],
-      color: "#268bd2",
-    },
-    { tag: [t.labelName], color: "#d33682" },
-    {
-      tag: [
-        t.color,
-        t.constant(t.name),
-        t.standard(t.name),
-      ],
+    keyword: { color: "#859900" },
+    "name,deleted,character,propertyName,macroName":
+      { color: "#2aa198" },
+    variableName: { color: "#268bd2" },
+    variableNameFunction: { color: "#268bd2" },
+    labelName: { color: "#d33682" },
+    "color,nameConstant,nameStandard": {
       color: "#b58900",
     },
-    {
-      tag: [t.definition(t.name), t.separator],
+    "nameDefinition,separator": {
       color: "#2aa198",
     },
-    { tag: [t.brace], color: "#d33682" },
-    {
-      tag: [t.annotation],
-      color: "#d30102",
-    },
-    {
-      tag: [
-        t.number,
-        t.changed,
-        t.annotation,
-        t.modifier,
-        t.self,
-        t.namespace,
-      ],
-      color: "#d33682",
-    },
-    {
-      tag: [t.typeName, t.className],
-      color: "#cb4b16",
-    },
-    {
-      tag: [t.operator, t.operatorKeyword],
-      color: "#6c71c4",
-    },
-    {
-      tag: [t.tagName],
-      color: "#268bd2",
-    },
-    {
-      tag: [t.squareBracket],
-      color: "#dc322f",
-    },
-    {
-      tag: [t.angleBracket],
-      color: "#073642",
-    },
-    {
-      tag: [t.attributeName],
-      color: "#93a1a1",
-    },
-    {
-      tag: [t.regexp],
-      color: "#d30102",
-    },
-    {
-      tag: [t.quote],
-      color: "#859900",
-    },
-    { tag: [t.string], color: "#b58900" },
-    {
-      tag: t.link,
+    brace: { color: "#d33682" },
+    annotation: { color: "#d30102" },
+    "number,changed,annotation,modifier,self,namespace":
+      {
+        color: "#d33682",
+      },
+    "typeName,className": { color: "#cb4b16" },
+    operator: { color: "#6c71c4" },
+    tagName: { color: "#268bd2" },
+    squareBracket: { color: "#dc322f" },
+    angleBracket: { color: "#073642" },
+    attributeName: { color: "#93a1a1" },
+    regexp: { color: "#d30102" },
+    quote: { color: "#859900" },
+    string: { color: "#b58900" },
+    link: {
       color: "#2aa198",
       textDecoration: "underline",
       textUnderlinePosition: "under",
     },
-    {
-      tag: [t.url, t.escape, t.special(t.string)],
+    "url,escape,stringSpecial": {
       color: "#b58900",
     },
-    { tag: [t.meta], color: "#dc322f" },
-    {
-      tag: [t.comment],
+    meta: { color: "#dc322f" },
+    comment: {
       color: "#586e75",
       fontStyle: "italic",
     },
-    {
-      tag: t.strong,
+    strong: {
       fontWeight: "bold",
       color: "#586e75",
     },
-    {
-      tag: t.emphasis,
+    emphasis: {
       fontStyle: "italic",
       color: "#859900",
     },
-    {
-      tag: t.strikethrough,
+    strikethrough: {
       textDecoration: "line-through",
     },
-    {
-      tag: t.heading,
+    heading: {
       fontWeight: "bold",
       color: "#b58900",
     },
-    {
-      tag: t.heading1,
+    heading1: {
       fontWeight: "bold",
       color: "#002b36",
     },
-    {
-      tag: [t.heading2, t.heading3, t.heading4],
+    "heading2,heading3,heading4": {
       fontWeight: "bold",
       color: "#002b36",
     },
-    {
-      tag: [t.heading5, t.heading6],
+    "heading5,heading6": {
       color: "#002b36",
     },
-    {
-      tag: [
-        t.atom,
-        t.bool,
-        t.special(t.variableName),
-      ],
+    "atom,bool,variableNameSpecial": {
       color: "#d33682",
     },
-    {
-      tag: [
-        t.processingInstruction,
-        t.inserted,
-        t.contentSeparator,
-      ],
-      color: "#dc322f",
-    },
-    {
-      tag: [t.contentSeparator],
-      color: "#b58900",
-    },
-    {
-      tag: t.invalid,
+    "processingInstruction,inserted,contentSeparator":
+      {
+        color: "#dc322f",
+      },
+    invalid: {
       color: "#073642",
       borderBottom: `1px dotted #dc322f`,
     },
-  ]
+  }
 );
 
 export const solarizedDark = makeTheme(
+  "solarized",
   "dark",
   {
     background: { background: "#002b36" },
@@ -177,162 +102,87 @@ export const solarizedDark = makeTheme(
     caret: { color: "#839496" },
     selection: { color: "#173541" },
     selectionMatch: { color: "#aafe661a" },
-    gutterBackground: { color: "#00252f" },
-    gutterForeground: { color: "#839496" },
+    gutter: {
+      background: "#00252f",
+      color: "#839496",
+    },
     lineHighlight: { color: "#173541" },
-  },
-  [
-    { tag: t.keyword, color: "#859900" },
-    {
-      tag: [
-        t.name,
-        t.deleted,
-        t.character,
-        t.propertyName,
-        t.macroName,
-      ],
-      color: "#2aa198",
-    },
-    { tag: [t.variableName], color: "#93a1a1" },
-    {
-      tag: [t.function(t.variableName)],
-      color: "#268bd2",
-    },
-    { tag: [t.labelName], color: "#d33682" },
-    {
-      tag: [
-        t.color,
-        t.constant(t.name),
-        t.standard(t.name),
-      ],
+    keyword: { color: "#859900" },
+    "name,deleted,character,propertyName,macroName":
+      { color: "#2aa198" },
+    variableName: { color: "#93a1a1" },
+    variableNameFunction: { color: "#268bd2" },
+    labelName: { color: "#d33682" },
+    "color,nameConstant,nameStandard": {
       color: "#b58900",
     },
-    {
-      tag: [t.definition(t.name), t.separator],
+    "nameDefinition,separator": {
       color: "#2aa198",
     },
-    { tag: [t.brace], color: "#d33682" },
-    {
-      tag: [t.annotation],
-      color: "#d30102",
-    },
-    {
-      tag: [
-        t.number,
-        t.changed,
-        t.annotation,
-        t.modifier,
-        t.self,
-        t.namespace,
-      ],
-      color: "#d33682",
-    },
-    {
-      tag: [t.typeName, t.className],
-      color: "#cb4b16",
-    },
-    {
-      tag: [t.operator, t.operatorKeyword],
-      color: "#6c71c4",
-    },
-    {
-      tag: [t.tagName],
-      color: "#268bd2",
-    },
-    {
-      tag: [t.squareBracket],
-      color: "#dc322f",
-    },
-    {
-      tag: [t.angleBracket],
-      color: "#586e75",
-    },
-    {
-      tag: [t.attributeName],
-      color: "#93a1a1",
-    },
-    {
-      tag: [t.regexp],
-      color: "#d30102",
-    },
-    {
-      tag: [t.quote],
-      color: "#859900",
-    },
-    { tag: [t.string], color: "#b58900" },
-    {
-      tag: t.link,
+    brace: { color: "#d33682" },
+    annotation: { color: "#d30102" },
+    "number,changed,annotation,modifier,self,namespace":
+      {
+        color: "#d33682",
+      },
+    "typeName,className": { color: "#cb4b16" },
+    operator: { color: "#6c71c4" },
+    tagName: { color: "#268bd2" },
+    squareBracket: { color: "#dc322f" },
+    angleBracket: { color: "#586e75" },
+    attributeName: { color: "#93a1a1" },
+    regexp: { color: "#d30102" },
+    quote: { color: "#859900" },
+    string: { color: "#b58900" },
+    link: {
       color: "#2aa198",
       textDecoration: "underline",
       textUnderlinePosition: "under",
     },
-    {
-      tag: [t.url, t.escape, t.special(t.string)],
+    "url,escape,stringSpecial": {
       color: "#b58900",
     },
-    { tag: [t.meta], color: "#dc322f" },
-    {
-      tag: [t.comment],
+    meta: { color: "#dc322f" },
+    comment: {
       color: "#586e75",
       fontStyle: "italic",
     },
-    {
-      tag: t.strong,
+    strong: {
       fontWeight: "bold",
       color: "#eee8d5",
     },
-    {
-      tag: t.emphasis,
+    emphasis: {
       fontStyle: "italic",
       color: "#859900",
     },
-    {
-      tag: t.strikethrough,
+    strikethrough: {
       textDecoration: "line-through",
     },
-    {
-      tag: t.heading,
+    heading: {
       fontWeight: "bold",
       color: "#b58900",
     },
-    {
-      tag: t.heading1,
+    heading1: {
       fontWeight: "bold",
       color: "#fdf6e3",
     },
-    {
-      tag: [t.heading2, t.heading3, t.heading4],
+    "heading2,heading3,heading4": {
       fontWeight: "bold",
       color: "#eee8d5",
     },
-    {
-      tag: [t.heading5, t.heading6],
+    "heading5,heading6": {
       color: "#eee8d5",
     },
-    {
-      tag: [
-        t.atom,
-        t.bool,
-        t.special(t.variableName),
-      ],
+    "atom,bool,variableNameSpecial": {
       color: "#d33682",
     },
-    {
-      tag: [
-        t.processingInstruction,
-        t.inserted,
-        t.contentSeparator,
-      ],
-      color: "#dc322f",
-    },
-    {
-      tag: [t.contentSeparator],
-      color: "#b58900",
-    },
-    {
-      tag: t.invalid,
+    "processingInstruction,inserted,contentSeparator":
+      {
+        color: "#dc322f",
+      },
+    invalid: {
       color: "#586e75",
       borderBottom: `1px dotted #dc322f`,
     },
-  ]
+  }
 );

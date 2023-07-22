@@ -1,24 +1,18 @@
-import { Token } from "./types";
-import {
-  Tokenizer,
-  stringifyTokens,
-} from "./tokenizer";
+import { LimitedApplyTo, Token } from "../types";
+import { Tokenizer } from "./tokenizer";
 import { isNumber } from "fp-ts/number";
 import {
   Nullable,
   isObject,
   isString,
   raise,
-} from "@coord/core/dist";
-import {
-  ApplyTo,
-  LimitedApplyTo,
-  shouldApplyToFuture,
-  shouldApplyToPast,
-} from "./utils";
+} from "@coord/core";
+
 import { toEntries } from "fp-ts/Record";
 import { pipe } from "fp-ts/function";
+
 export type Range = [number, number];
+
 export const isRange = (
   range: unknown
 ): range is Range =>
@@ -103,17 +97,14 @@ export type Rangeish =
 
 export type RangeQuery = RegExp | string;
 
-const isFinite = (n: any): n is number =>
-  Number.isFinite(n);
-
 const parseRangeString = (ocurrances: string) => {
   const out = new Set<number>();
   for (const ocurrance of ocurrances.split(",")) {
     const [start, end] = ocurrance
       .split("-")
       .map(Number);
-    if (!isFinite(start)) continue;
-    if (!isFinite(end)) {
+    if (!Number.isFinite(start)) continue;
+    if (!Number.isFinite(end)) {
       out.add(start);
       continue;
     }
@@ -123,69 +114,6 @@ const parseRangeString = (ocurrances: string) => {
   }
   if (out.size === 0) {
     out.add(0);
-  }
-  return out;
-};
-
-const parseQuery = (query: string) => {
-  const queryStringMatch = query.match(
-    /\/(.+)\/(.*)?/
-  );
-  if (queryStringMatch) {
-    const [, str, ocurrances] = queryStringMatch;
-
-    return {
-      type: "search",
-      query: str ?? "",
-      ocurrances: parseRangeString(
-        ocurrances ?? ""
-      ),
-    } as const;
-  }
-  if (
-    query.startsWith("{") &&
-    query.endsWith("}")
-  ) {
-    const ocurrances = query.slice(1, -1);
-    return {
-      type: "lines",
-      ocurrances: parseRangeString(
-        ocurrances ?? ""
-      ),
-    } as const;
-  }
-  return {
-    type: "global-search",
-    query,
-  } as const;
-};
-
-const regexQuery = (
-  regexp: RegExp,
-  str: string,
-  ocurrances?: Set<number>
-): Range[] => {
-  const matches = str.matchAll(regexp);
-  const out: Range[] = [];
-  let i = 0;
-
-  for (const {
-    index: rangeStart = 0,
-    0: match = "",
-  } of matches) {
-    if (ocurrances && !ocurrances.has(i)) {
-      if (ocurrances.size === 0) {
-        break;
-      }
-      i++;
-      continue;
-    }
-
-    out.push([
-      rangeStart,
-      rangeStart + match.length,
-    ]);
-    i++;
   }
   return out;
 };
@@ -349,7 +277,7 @@ export const applyRanges =
     applyTo: LimitedApplyTo
   ) =>
   (tokens: Token[]) => {
-    for (let range of rangeStyles) {
+    for (const range of rangeStyles) {
       tokens = pipe(
         tokens,
         styleRange(

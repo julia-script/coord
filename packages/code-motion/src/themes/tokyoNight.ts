@@ -1,7 +1,7 @@
 import { makeTheme } from "@/theming";
 
-export const tokyoNightStorm = makeTheme(
-  "tokyoNightStorm",
+export const tokyoNight = makeTheme(
+  "tokyoNight",
   "dark",
   {
     background: { background: "#1a1b26" },
@@ -19,7 +19,7 @@ export const tokyoNightStorm = makeTheme(
       color: "#c0caf5",
     },
     propertyName: { color: "#7aa2f7" },
-    "processingInstruction,string,stringSpecial,inserted":
+    "processingInstruction,string,inserted,stringSpecial":
       { color: "#9ece6a" },
     variableNameFunction: { color: "#7aa2f7" },
     labelName: { color: "#7aa2f7" },

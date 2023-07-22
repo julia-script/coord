@@ -3,23 +3,14 @@ import {
   computeStyles,
 } from "@coord/code-motion";
 import { TokenRenderer } from "../Token";
-import {
-  memo,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from "react";
+import { memo, useMemo } from "react";
 import {
   clamp,
   inverseLerp,
   makeId,
-  remap,
 } from "@coord/core";
 import { TransitionRendererProps } from "../types";
-import {
-  AnimationClock,
-  RenderingState,
-} from "@/utils";
+import { RenderingState } from "@/utils";
 
 type Group = {
   id: string;
@@ -30,7 +21,7 @@ type Group = {
 };
 
 const SingleToken = memo(
-  ({
+  function SingleToken({
     token,
     group,
     renderingState,
@@ -42,7 +33,7 @@ const SingleToken = memo(
     renderingState: RenderingState;
     transitionTime: number;
     groupIsActive: boolean;
-  }) => {
+  }) {
     const tokenStyles = useMemo(() => {
       if (
         token.type === "deletion" ||
@@ -118,7 +109,7 @@ const SingleToken = memo(
 );
 
 const TokenGroup = memo(
-  ({
+  function TokenGroup({
     group,
     renderingState,
     groupTransitionTime,
@@ -126,7 +117,7 @@ const TokenGroup = memo(
     group: Group;
     renderingState: RenderingState;
     groupTransitionTime: number;
-  }) => {
+  }) {
     if (group.tokens.length === 0) return null;
     if (group.tokens[0].type === "deletion")
       groupTransitionTime =
@@ -174,10 +165,10 @@ const TokenGroup = memo(
 );
 
 export const TypewriterRenderer = memo(
-  ({
+  function TypewriterRenderer({
     renderingState,
     transitionTime,
-  }: TransitionRendererProps) => {
+  }: TransitionRendererProps) {
     const { groups, animatedCharacters } =
       useMemo(() => {
         let position = 0;
@@ -226,7 +217,7 @@ export const TypewriterRenderer = memo(
 
     return (
       <code>
-        {groups.map((group, i) => (
+        {groups.map((group) => (
           <TokenGroup
             key={group.id}
             group={group}

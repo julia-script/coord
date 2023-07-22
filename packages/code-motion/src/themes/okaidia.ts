@@ -1,7 +1,7 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+import { makeTheme } from "@/theming";
 
 export const okaidia = makeTheme(
+  "okaidia",
   "dark",
   {
     background: { background: "#272822" },
@@ -9,70 +9,31 @@ export const okaidia = makeTheme(
     caret: { color: "#FFFFFF" },
     selection: { color: "#49483E" },
     selectionMatch: { color: "#49483E" },
-    gutterBackground: { color: "#272822" },
-    gutterForeground: { color: "#FFFFFF70" },
+    gutter: {
+      background: "#272822",
+      color: "#FFFFFF70",
+    },
     lineHighlight: { color: "#00000059" },
-  },
-  [
-    {
-      tag: [t.comment, t.documentMeta],
-      color: "#8292a2",
-    },
-    {
-      tag: [t.number, t.bool, t.null, t.atom],
-      color: "#ae81ff",
-    },
-    {
-      tag: [
-        t.attributeValue,
-        t.className,
-        t.name,
-      ],
+    "comment,documentMeta": { color: "#8292a2" },
+    "number,bool,null,atom": { color: "#ae81ff" },
+    "attributeValue,className,name": {
       color: "#e6db74",
     },
-    {
-      tag: [t.propertyName, t.attributeName],
+    "propertyName,attributeName": {
       color: "#a6e22e",
     },
-    {
-      tag: [t.variableName],
-      color: "#9effff",
-    },
-    {
-      tag: [t.squareBracket],
-      color: "#bababa",
-    },
-    {
-      tag: [t.string, t.special(t.brace)],
-      color: "#e6db74",
-    },
-    {
-      tag: [
-        t.regexp,
-        t.className,
-        t.typeName,
-        t.definition(t.typeName),
-      ],
-      color: "#66d9ef",
-    },
-    {
-      tag: [
-        t.definition(t.variableName),
-        t.definition(t.propertyName),
-        t.function(t.variableName),
-      ],
-      color: "#fd971f",
-    },
-    // { tag: t.keyword, color: '#f92672' },
-    {
-      tag: [
-        t.keyword,
-        t.definitionKeyword,
-        t.modifier,
-        t.tagName,
-        t.angleBracket,
-      ],
-      color: "#f92672",
-    },
-  ]
+    variableName: { color: "#9effff" },
+    squareBracket: { color: "#bababa" },
+    "string,braceSpecial": { color: "#e6db74" },
+    "regexp,className,typeName,typeNameDefinition":
+      { color: "#66d9ef" },
+    "variableNameDefinition,propertyNameDefinition,variableNameFunction":
+      {
+        color: "#fd971f",
+      },
+    "keyword,keywordDefinition,modifier,tagName,angleBracket":
+      {
+        color: "#f92672",
+      },
+  }
 );

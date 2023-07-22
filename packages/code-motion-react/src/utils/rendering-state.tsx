@@ -26,8 +26,10 @@ const stringifyFuture = stringifyTokens("future");
 const tokenizeCode = (
   code: string,
   language: Language,
+  theme: Theme,
   prevCode?: string,
-  prevLanguage?: Language
+  prevLanguage?: Language,
+  prevTheme?: Theme
 ) =>
   pipe(
     code,
@@ -36,9 +38,10 @@ const tokenizeCode = (
         ? diffTokenizer(prevCode, code)
         : tokenize(code),
 
-    highlightTokens(language, "future"),
+    highlightTokens(language, theme, "future"),
     highlightTokens(
       prevLanguage ?? language,
+      prevTheme ?? theme,
       "past"
     )
   );
@@ -52,7 +55,7 @@ export const initializeFromCode = (
   return {
     code,
     changes: 0,
-    tokens: tokenizeCode(code, language),
+    tokens: tokenizeCode(code, language, theme),
     language,
     theme,
     fromTheme,
@@ -145,8 +148,10 @@ export const updateRenderingState = (
         newState.tokens = tokenizeCode(
           dedentedCode,
           newState.language,
+          newState.theme,
           state.code,
-          state.language
+          state.language,
+          state.theme
         );
         newState.code = dedentedCode;
         break;

@@ -1,7 +1,7 @@
-import { tags as t } from "@lezer/highlight";
-import { makeTheme } from "./theme";
+import { makeTheme } from "@/theming";
 
 export const eclipse = makeTheme(
+  "eclipse",
   "light",
   {
     background: { background: "#fff" },
@@ -9,37 +9,26 @@ export const eclipse = makeTheme(
     caret: { color: "#FFFFFF" },
     selection: { color: "#d7d4f0" },
     selectionMatch: { color: "#d7d4f0" },
-    gutterBackground: { color: "#f7f7f7" },
-    gutterForeground: { color: "#999" },
+    gutter: {
+      background: "#f7f7f7",
+      color: "#999",
+    },
     lineHighlight: { color: "#e8f2ff" },
-    gutterBorder: { color: "transparent" },
-  },
-  [
-    { tag: [t.comment], color: "#3F7F5F" },
-    { tag: [t.documentMeta], color: "#FF1717" },
-    {
-      tag: t.keyword,
+    comment: { color: "#3F7F5F" },
+    documentMeta: { color: "#FF1717" },
+    keyword: {
       color: "#7F0055",
       fontWeight: "bold",
     },
-    { tag: t.atom, color: "#00f" },
-    { tag: t.number, color: "#164" },
-    { tag: t.propertyName, color: "#164" },
-    {
-      tag: [
-        t.variableName,
-        t.definition(t.variableName),
-      ],
-      color: "#0000C0",
-    },
-    {
-      tag: t.function(t.variableName),
-      color: "#0000C0",
-    },
-    { tag: t.string, color: "#2A00FF" },
-    { tag: t.operator, color: "black" },
-    { tag: t.tagName, color: "#170" },
-    { tag: t.attributeName, color: "#00c" },
-    { tag: t.link, color: "#219" },
-  ]
+    atom: { color: "#00f" },
+    number: { color: "#164" },
+    propertyName: { color: "#164" },
+    variableNameDefinition: { color: "#0000C0" },
+    variableNameFunction: { color: "#0000C0" },
+    string: { color: "#2A00FF" },
+    operator: { color: "black" },
+    tagName: { color: "#170" },
+    attributeName: { color: "#00c" },
+    link: { color: "#219" },
+  }
 );

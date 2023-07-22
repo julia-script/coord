@@ -14,7 +14,6 @@ import {
 import {
   clamp,
   lerp,
-  makeId,
   inlined,
   remap,
 } from "@coord/core";
@@ -70,7 +69,7 @@ export function FadeEffectRenderer({
 
     let futureWidth = 0;
 
-    for (let token of renderingState.tokens) {
+    for (const token of renderingState.tokens) {
       const el = elementMap.get(token);
       if (!el) continue;
 
@@ -85,7 +84,8 @@ export function FadeEffectRenderer({
         },
       });
 
-      let { width } = el.getBoundingClientRect();
+      const { width } =
+        el.getBoundingClientRect();
 
       if (token.type !== "insertion") {
         pastWidth = Math.max(
@@ -187,7 +187,7 @@ const SingleToken = forwardRef<
 
     time: number;
   }
->(function (
+>(function SingleToken(
   {
     token,
     expectedPosition,
