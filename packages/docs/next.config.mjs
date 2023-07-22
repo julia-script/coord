@@ -1,19 +1,28 @@
+import withMDX from "@next/mdx";
 import rehypeMdxCodeProps from "rehype-mdx-code-props";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
+    serverActions: true,
     appDir: true,
   },
 };
-import mdx from "@next/mdx";
-const withMDX = mdx({
+
+/** @type {import('@next/mdx').NextMDXOptions} */
+const mdxConfig = {
   options: {
-    remarkPlugins: [remarkGfm, remarkMath],
-    rehypePlugins: [rehypeMdxCodeProps, rehypeKatex],
-    useDynamicImport: true,
+    remarkPlugins: [remarkMath, remarkGfm],
+    rehypePlugins: [
+      rehypeMdxCodeProps,
+      rehypeKatex,
+    ],
   },
-});
-export default withMDX(nextConfig);
+};
+
+export default withMDX(mdxConfig)(nextConfig);

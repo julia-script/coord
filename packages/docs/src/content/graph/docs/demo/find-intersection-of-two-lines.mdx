@@ -1,21 +1,28 @@
 # Finding the intersection between two lines
 
-Today, we are going to unlock the mysteries behind finding the intersection between two lines.
+Today, we are going to unlock the mysteries behind finding
+the intersection between two lines.
 
-Now, this might sound as if we are about to embark on a journey to solve some formidable calculus problem, but fear not!
+Now, this might sound as if we are about to embark on a
+journey to solve some formidable calculus problem, but fear
+not!
 
-We are merely diving into some delightful elementary algebra. So let's get started, shall we?
+We are merely diving into some delightful elementary
+algebra. So let's get started, shall we?
 
 ## Setup
 
 In our setup, we are going to draw two lines on a graph.
-Line A - B goes from point A to point B. Similarly, Line C - D travels from point C, to point D.
+Line A - B goes from point A to point B. Similarly, Line C -
+D travels from point C, to point D.
 
 ```tsx live collapsed
+import * as React from "react";
+import { CSSProperties } from "react";
+
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
   Label,
@@ -23,7 +30,7 @@ import {
   useNavigationState,
 } from "@coord/graph";
 
-const labelStyle = {
+const labelStyle: CSSProperties = {
   width: 40,
   textAlign: "center",
 };
@@ -44,26 +51,42 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
 
       <Line from={a} to={b} strokeColor={colorAB} />
 
-      <Marker position={a} onChange={setA} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
       <Label target={a} strokeColor={colorAB}>
         <div style={labelStyle}>A</div>
       </Label>
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
       <Label target={b} strokeColor={colorAB}>
         <div style={labelStyle}>B</div>
       </Label>
 
       <Line from={c} to={d} strokeColor={colorCD} />
 
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
       <Label target={c} strokeColor={colorCD}>
         <div style={labelStyle}>C</div>
       </Label>
@@ -77,25 +100,26 @@ export default function MyGraph() {
 
 ## Step 1: The Slope
 
-To find the slope, remember this: you need to know how much your line goes up or down (the $y$-change) for each step it takes to the left or right (the $x$-change).
+To find the slope, remember this: you need to know how much
+your line goes up or down (the $y$-change) for each step it
+takes to the left or right (the $x$-change).
 
-In mathematics, this is beautifully represented by the formula:
+In mathematics, this is beautifully represented by the
+formula:
 
 $$
 m_{AB} = \frac{x_B - x_A}{y_B - yA}
 $$
 
 ```tsx live collapsed
+import * as React from "react";
 import {
   Graph,
-  Grid,
-  Plot,
   Line,
   Marker,
   Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
 } from "@coord/graph";
 
 export default function MyGraph() {
@@ -116,13 +140,21 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
       padding={30}
     >
       <Line from={a} to={b} strokeColor={colorAB} />
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
       <Ruler
         from={a}
         to={[b.x, a.y]}
@@ -157,18 +189,25 @@ export default function MyGraph() {
 }
 ```
 
-This, my dears, is the slope of _Line A - B_, denoted as $m_{AB}$. Why we represent slopes with the letter $m$ is beyound me, but it is what it is.
+This, my dears, is the slope of _Line A - B_, denoted as
+$m_{AB}$. Why we represent slopes with the letter $m$ is
+beyound me, but it is what it is.
 
-We calculate it by subtracting the $y$-coordinate of point A from the $y$-coordinate of point B and dividing it
-by the difference between the $x$-coordinates of point B and point A.
+We calculate it by subtracting the $y$-coordinate of point A
+from the $y$-coordinate of point B and dividing it by the
+difference between the $x$-coordinates of point B and point
+A.
 
-> In plain english, the slope is the answer for the question: For each step horizontal step we take, how many steps do we take vertically?
+> In plain english, the slope is the answer for the
+> question: For each step horizontal step we take, how many
+> steps do we take vertically?
 
 Repeat this step for _Line C - D_ to find its slope.
 
 ### Show me the code
 
-I know you're not here for the convoluted math formulas with their single letter variable names, what are we? Savages?
+I know you're not here for the convoluted math formulas with
+their single letter variable names, what are we? Savages?
 
 You want to see some code! So let's get to it, shall we?
 
@@ -178,19 +217,20 @@ const findSlope = (a: Vec2, b: Vec2) => {
 };
 ```
 
-Much better! We have a function that takes two points and returns the slope of the line that connects them.
+Much better! We have a function that takes two points and
+returns the slope of the line that connects them.
 
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
   Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -217,23 +257,39 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
 
       <Line from={a} to={b} strokeColor={colorAB} />
 
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
       <Ruler from={a} to={b} strokeColor={colorAB}>
         Line A - B slope: {abSlope.toFixed(2)}
       </Ruler>
 
       <Line from={c} to={d} strokeColor={colorCD} />
 
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
       <Ruler from={c} to={d} strokeColor={colorCD}>
         Line C - D slope: {cdSlope.toFixed(2)}
       </Ruler>
@@ -244,24 +300,25 @@ export default function MyGraph() {
 
 ### Caveat: Vertical Lines
 
-Vertical lines are a special case. Because they don't move at all horizontally, they happen to cause a division by zero.
-Which in JavaScript, gives us the special value `Infinity`.
+Vertical lines are a special case. Because they don't move
+at all horizontally, they happen to cause a division by
+zero. Which in JavaScript, gives us the special value
+`Infinity`.
 
 We will deal with this case later.
 
 ## Step 2: Find the y-intercept for each line
 
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2 } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
   Label,
 } from "@coord/graph";
 
@@ -294,7 +351,7 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
@@ -306,8 +363,16 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={a} to={b} strokeColor={colorAB} />
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
       <Marker position={[0, abIntercept]} color={colorAB} />
       <Label
         distance={100}
@@ -317,7 +382,12 @@ export default function MyGraph() {
         direction={"w"}
       >
         <div
-          style={{ textAlign: "center", width: 120, fontSize: 11, padding: 5 }}
+          style={{
+            textAlign: "center",
+            width: 120,
+            fontSize: 11,
+            padding: 5,
+          }}
         >
           Line A Y-Intercept: (0, {abIntercept.toFixed(2)})
         </div>
@@ -330,8 +400,16 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={c} to={d} strokeColor={colorCD} />
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
       <Marker position={[0, cdIntercept]} color={colorCD} />
       <Label
         distance={100}
@@ -341,7 +419,12 @@ export default function MyGraph() {
         direction={"e"}
       >
         <div
-          style={{ textAlign: "center", width: 120, fontSize: 11, padding: 5 }}
+          style={{
+            textAlign: "center",
+            width: 120,
+            fontSize: 11,
+            padding: 5,
+          }}
         >
           Line B Y-Intercept: (0, {cdIntercept.toFixed(2)})
         </div>
@@ -351,15 +434,17 @@ export default function MyGraph() {
 }
 ```
 
-A line’s y-intercept is like a home base, the safe spot at y when x equals zero.
-To find it, we employ the following equation:
+A line’s y-intercept is like a home base, the safe spot at y
+when x equals zero. To find it, we employ the following
+equation:
 
 $$
 y - mx = b
 $$
 
-Where m is our previously calculated slope,
-y and x are the coordinates of any point on the line, and b, our goal, represents the y-intercept.
+Where m is our previously calculated slope, y and x are the
+coordinates of any point on the line, and b, our goal,
+represents the y-intercept.
 
 As a function of x and y:
 
@@ -378,18 +463,15 @@ const findYIntercept = (point: Vec2, slope: number) => {
 ## Step 3: Find the intersection point of the two lines at infinity
 
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
-  Label,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -400,7 +482,12 @@ const findYIntercept = (point: Vec2, slope: number) => {
   return point.y - slope * point.x;
 };
 
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -453,7 +540,7 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
@@ -465,8 +552,16 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={a} to={b} strokeColor={colorAB} />
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
 
       <Line
         from={d}
@@ -475,25 +570,40 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={c} to={d} strokeColor={colorCD} />
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
-      <Marker position={intersectionPoint} color={intersectionColor} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
+      <Marker
+        position={intersectionPoint}
+        color={intersectionColor}
+      />
     </Graph>
   );
 }
 ```
 
-_Ever the romantic, I fancy the idea of two lines intersecting at the horizon,
-somewhere far beyond our reach._
+_Ever the romantic, I fancy the idea of two lines
+intersecting at the horizon, somewhere far beyond our
+reach._
 
-To find this point, we pit the equations of our two lines against each other, _et voila_,
-we have our $x$ coordinate. Substituting $y$ into either line's equation reveals the $y$ coordinate.
+To find this point, we pit the equations of our two lines
+against each other, _et voila_, we have our $x$ coordinate.
+Substituting $y$ into either line's equation reveals the $y$
+coordinate.
 
 So remember, we have our slopes: $$m_{AB}$$ and $$m_{CD}$$
 
 And our two y-intercepts $$b_{AB}$$ and $$b_{CD}$$
 
-With these, we can find the intersection point of the two lines at infinity:
+With these, we can find the intersection point of the two
+lines at infinity:
 
 $$
 x = \frac{b_{CD} - b_{AB}}{m_{AB} - m_{CD}}
@@ -504,7 +614,12 @@ y = m_{AB}x + b_{AB}
 $$
 
 ```typescript
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -513,7 +628,8 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
   const abIntercept = findYIntercept(a, abSlope);
   const cdIntercept = findYIntercept(c, cdSlope);
 
-  const x = (cdIntercept - abIntercept) / (abSlope - cdSlope);
+  const x =
+    (cdIntercept - abIntercept) / (abSlope - cdSlope);
   const y = abSlope * x + abIntercept;
 
   return point(x, y);
@@ -530,7 +646,12 @@ There are a two edge cases to consider:
 So let's address them before we move on.
 
 ```typescript
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -560,26 +681,24 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
     y = abSlope * x + abIntercept;
   }
 
-  return point(x, y);
+  return { x, y };
 };
 ```
 
 ## Step 4: Find the intersection within the two line segments
 
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
-  Plot,
   Line,
   Marker,
-  Ruler,
   Text,
   BoundingBox,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
   Label,
 } from "@coord/graph";
 
@@ -591,7 +710,12 @@ const findYIntercept = (point: Vec2, slope: number) => {
   return point.y - slope * point.x;
 };
 
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -624,14 +748,21 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
   return point(x, y);
 };
 
-const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
+const isWithinBoundingBox = (
+  point: Vec2,
+  a: Vec2,
+  b: Vec2
+) => {
   const minX = Math.min(a.x, b.x);
   const maxX = Math.max(a.x, b.x);
   const minY = Math.min(a.y, b.y);
   const maxY = Math.max(a.y, b.y);
 
   return (
-    point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY
+    point.x >= minX &&
+    point.x <= maxX &&
+    point.y >= minY &&
+    point.y <= maxY
   );
 };
 
@@ -653,16 +784,26 @@ export default function MyGraph() {
 
   // Intersection Point:
   const intersectionPoint = findIntersection(a, b, c, d);
-  const isWithinAB = isWithinBoundingBox(intersectionPoint, a, b);
-  const isWithinCD = isWithinBoundingBox(intersectionPoint, c, d);
+  const isWithinAB = isWithinBoundingBox(
+    intersectionPoint,
+    a,
+    b
+  );
+  const isWithinCD = isWithinBoundingBox(
+    intersectionPoint,
+    c,
+    d
+  );
   const isWithinBoth = isWithinAB && isWithinCD;
 
-  const intersectionColor = isWithinBoth ? "#16a34a" : "body";
+  const intersectionColor = isWithinBoth
+    ? "#16a34a"
+    : "body";
   return (
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
@@ -695,11 +836,22 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={a} to={b} strokeColor={colorAB} />
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
 
       {isWithinAB && (
-        <Text position={a.add(b).scale(0.5)} color={colorAB}>
+        <Text
+          position={a.add(b).scale(0.5)}
+          color={colorAB}
+        >
           I Caught It! 🎉
         </Text>
       )}
@@ -711,12 +863,26 @@ export default function MyGraph() {
         strokeDasharray="5 5"
       />
       <Line from={c} to={d} strokeColor={colorCD} />
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
-      <Marker position={intersectionPoint} color={intersectionColor} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
+      <Marker
+        position={intersectionPoint}
+        color={intersectionColor}
+      />
 
       {isWithinCD && (
-        <Text position={c.add(d).scale(0.5)} color={colorCD}>
+        <Text
+          position={c.add(d).scale(0.5)}
+          color={colorCD}
+        >
           I Caught It! 🎉
         </Text>
       )}
@@ -746,10 +912,15 @@ export default function MyGraph() {
 }
 ```
 
-While daydreaming of intersections at the end of the universe can be delightful, sometimes we need to be grounded in reality.
-The final act of our little escapade is **checking if the intersection point** we found actually **lies within the segments of the lines we're considering**.
+While daydreaming of intersections at the end of the
+universe can be delightful, sometimes we need to be grounded
+in reality. The final act of our little escapade is
+**checking if the intersection point** we found actually
+**lies within the segments of the lines we're considering**.
 
-To do that we can draw a square around our two lines and check if the intersection point we found lies within those squares.
+To do that we can draw a square around our two lines and
+check if the intersection point we found lies within those
+squares.
 
 The formula for checking if a point lies within a square is:
 
@@ -757,18 +928,27 @@ $$
 x_{min} \leq x \leq x_{max} \land y_{min} \leq y \leq y_{max}
 $$
 
-Where $$x_{min}$$ and $$x_{max}$$ are the minimum and the maximum between between $$x_{A}$$ and $$x_{B}$$ respectively.
-The same applies for $$y_{min}$$ and $$y_{max}$$.
+Where $$x_{min}$$ and $$x_{max}$$ are the minimum and the
+maximum between between $$x_{A}$$ and $$x_{B}$$
+respectively. The same applies for $$y_{min}$$ and
+$$y_{max}$$.
 
 ```typescript
-const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
+const isWithinBoundingBox = (
+  point: Vec2,
+  a: Vec2,
+  b: Vec2
+) => {
   const minX = Math.min(a.x, b.x);
   const maxX = Math.max(a.x, b.x);
   const minY = Math.min(a.y, b.y);
   const maxY = Math.max(a.y, b.y);
 
   return (
-    point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY
+    point.x >= minX &&
+    point.x <= maxX &&
+    point.y >= minY &&
+    point.y <= maxY
   );
 };
 ```
@@ -776,6 +956,8 @@ const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
 ## Step 5: Putting it all together
 
 ```tsx live collapsed
+import * as React from "react";
+import { Vec2, point } from "@coord/core";
 import {
   Graph,
   Grid,
@@ -783,9 +965,6 @@ import {
   Line,
   useCoordState,
   useNavigationState,
-  Vec2,
-  point,
-  Label,
 } from "@coord/graph";
 
 const findSlope = (a: Vec2, b: Vec2) => {
@@ -796,18 +975,30 @@ const findYIntercept = (point: Vec2, slope: number) => {
   return point.y - slope * point.x;
 };
 
-const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
+const isWithinBoundingBox = (
+  point: Vec2,
+  a: Vec2,
+  b: Vec2
+) => {
   const minX = Math.min(a.x, b.x);
   const maxX = Math.max(a.x, b.x);
   const minY = Math.min(a.y, b.y);
   const maxY = Math.max(a.y, b.y);
 
   return (
-    point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY
+    point.x >= minX &&
+    point.x <= maxX &&
+    point.y >= minY &&
+    point.y <= maxY
   );
 };
 
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -840,8 +1031,16 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
   const intersection = point(x, y);
 
   // If the intersection point is within the bounding boxes of both lines, then we have an intersection.
-  const isWithinAB = isWithinBoundingBox(intersection, a, b);
-  const isWithinCD = isWithinBoundingBox(intersection, c, d);
+  const isWithinAB = isWithinBoundingBox(
+    intersection,
+    a,
+    b
+  );
+  const isWithinCD = isWithinBoundingBox(
+    intersection,
+    c,
+    d
+  );
 
   if (isWithinAB && isWithinCD) {
     return intersection;
@@ -869,18 +1068,34 @@ export default function MyGraph() {
     <Graph
       coordBox={coordBox}
       onCoordBoxChange={setCoordBox}
-      height={300}
+      height="100%"
       width="100%"
     >
       <Grid />
 
       <Line from={a} to={b} strokeColor={colorAB} />
-      <Marker position={a} onChange={setA} color={colorAB} />
-      <Marker position={b} onChange={setB} color={colorAB} />
+      <Marker
+        position={a}
+        onChange={setA}
+        color={colorAB}
+      />
+      <Marker
+        position={b}
+        onChange={setB}
+        color={colorAB}
+      />
 
       <Line from={c} to={d} strokeColor={colorCD} />
-      <Marker position={c} onChange={setC} color={colorCD} />
-      <Marker position={d} onChange={setD} color={colorCD} />
+      <Marker
+        position={c}
+        onChange={setC}
+        color={colorCD}
+      />
+      <Marker
+        position={d}
+        onChange={setD}
+        color={colorCD}
+      />
       {intersectionPoint && (
         <Marker
           position={intersectionPoint}
@@ -893,8 +1108,9 @@ export default function MyGraph() {
 }
 ```
 
-And there we have it, darlings. A poetic journey into the world of lines and their intersections. Mathematics, code, and a touch of whimsy.
-Here's the final result:
+And there we have it, darlings. A poetic journey into the
+world of lines and their intersections. Mathematics, code,
+and a touch of whimsy. Here's the final result:
 
 ```typescript
 type Vec2 = { x: number; y: number };
@@ -907,18 +1123,30 @@ const findYIntercept = (point: Vec2, slope: number) => {
   return point.y - slope * point.x;
 };
 
-const isWithinBoundingBox = (point: Vec2, a: Vec2, b: Vec2) => {
+const isWithinBoundingBox = (
+  point: Vec2,
+  a: Vec2,
+  b: Vec2
+) => {
   const minX = Math.min(a.x, b.x);
   const maxX = Math.max(a.x, b.x);
   const minY = Math.min(a.y, b.y);
   const maxY = Math.max(a.y, b.y);
 
   return (
-    point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY
+    point.x >= minX &&
+    point.x <= maxX &&
+    point.y >= minY &&
+    point.y <= maxY
   );
 };
 
-const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
+const findIntersection = (
+  a: Vec2,
+  b: Vec2,
+  c: Vec2,
+  d: Vec2
+) => {
   // Find our slopes
   const abSlope = findSlope(a, b);
   const cdSlope = findSlope(c, d);
@@ -948,11 +1176,19 @@ const findIntersection = (a: Vec2, b: Vec2, c: Vec2, d: Vec2) => {
     y = abSlope * x + abIntercept;
   }
 
-  const intersection = point(x, y);
+  const intersection = { x, y };
 
   // If the intersection point is within the bounding boxes of both lines, then we have an intersection.
-  const isWithinAB = isWithinBoundingBox(intersection, a, b);
-  const isWithinCD = isWithinBoundingBox(intersection, c, d);
+  const isWithinAB = isWithinBoundingBox(
+    intersection,
+    a,
+    b
+  );
+  const isWithinCD = isWithinBoundingBox(
+    intersection,
+    c,
+    d
+  );
 
   if (isWithinAB && isWithinCD) {
     return intersection;

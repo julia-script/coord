@@ -1,9 +1,13 @@
 export const remap = (
-  value: number,
   fromMin: number,
   fromMax: number,
   toMin: number,
-  toMax: number
+  toMax: number,
+  value: number
 ): number => {
-  return toMin + ((value - fromMin) * (toMax - toMin)) / (fromMax - fromMin);
+  return (
+    toMin +
+    ((value - fromMin) * (toMax - toMin)) /
+      (fromMax - fromMin)
+  );
 };

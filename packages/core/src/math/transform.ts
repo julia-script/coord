@@ -1,4 +1,4 @@
-import { point, Vec2 } from "./vec2";
+import { point, Vec2, Vec2ish } from "./vec2";
 
 export class Transform {
   _matrix: Mat3x3;
@@ -15,6 +15,16 @@ export class Transform {
   static identity() {
     return new Transform(1, 0, 0, 1, 0, 0);
   }
+  static fromTransform(transform: Transform) {
+    return new Transform(
+      transform._matrix[0],
+      transform._matrix[1],
+      transform._matrix[3],
+      transform._matrix[4],
+      transform._matrix[2],
+      transform._matrix[5]
+    );
+  }
   static fromMatrix(matrix: Mat3x3) {
     return new Transform(
       matrix[0],
@@ -27,25 +37,34 @@ export class Transform {
   }
 
   getPosition() {
-    return point(this._matrix[2], this._matrix[5]);
+    return point(
+      this._matrix[2],
+      this._matrix[5]
+    );
   }
 
   getRotation() {
-    return Math.atan2(this._matrix[1], this._matrix[0]);
+    return Math.atan2(
+      this._matrix[1],
+      this._matrix[0]
+    );
   }
 
   getScale() {
-    return point(this._matrix[0], this._matrix[4]);
+    return point(
+      this._matrix[0],
+      this._matrix[4]
+    );
   }
 
   copy() {
     return Transform.fromMatrix(this._matrix);
   }
-  setPosition(position: { x: number; y: number }) {
+  setPosition(position: Vec2ish) {
     return this.copy().setPositionSelf(position);
   }
-  setPositionSelf(position: { x: number; y: number }) {
-    const { x, y } = position;
+  setPositionSelf(position: Vec2ish) {
+    const { x, y } = Vec2.of(position);
     const { _matrix } = this;
     _matrix[2] = x;
     _matrix[5] = y;
@@ -63,14 +82,19 @@ export class Transform {
     _matrix[1] = sin;
     _matrix[3] = -sin;
     _matrix[4] = cos;
+
     return this;
   }
 
-  setScale(size: { x: number; y: number }) {
-    return this.copy().setScaleSelf(size);
+  setScale(factor: Vec2ish | number) {
+    return this.copy().setScaleSelf(factor);
   }
-  setScaleSelf(size: { x: number; y: number }) {
-    const { x, y } = size;
+  setScaleSelf(factor: Vec2ish | number) {
+    const { x, y } = Vec2.of(
+      typeof factor === "number"
+        ? [factor, factor]
+        : factor
+    );
     const { _matrix } = this;
     _matrix[0] = x;
     _matrix[4] = y;
@@ -80,14 +104,17 @@ export class Transform {
   /*
    * Scale the transform by the given factor.
    */
-  scale(factor: number): this;
-  scale(x: number, y: number): this;
-  scale(x: number, y: number = x) {
-    return this.copy().scaleSelf(x, y);
+
+  scale(factor: Vec2ish | number) {
+    return this.copy().scaleSelf(factor);
   }
-  scaleSelf(factor: number): this;
-  scaleSelf(x: number, y: number): this;
-  scaleSelf(x: number, y: number = x) {
+
+  scaleSelf(factor: Vec2ish | number) {
+    const { x, y } = Vec2.of(
+      typeof factor === "number"
+        ? [factor, factor]
+        : factor
+    );
     const { _matrix } = this;
     _matrix[0] *= x;
     _matrix[1] *= x;
@@ -96,9 +123,15 @@ export class Transform {
     return this;
   }
   scaleAboutOrigin(center: Vec2, factor: number) {
-    return this.copy().scaleAboutOriginSelf(center, factor);
+    return this.copy().scaleAboutOriginSelf(
+      center,
+      factor
+    );
   }
-  scaleAboutOriginSelf(center: Vec2, factor: number) {
+  scaleAboutOriginSelf(
+    center: Vec2,
+    factor: number
+  ) {
     const { x, y } = center;
     const { _matrix } = this;
 
@@ -119,11 +152,12 @@ export class Transform {
     return this;
   }
 
-  translate(x: number, y: number) {
-    return this.copy().translateSelf(x, y);
+  translate(offset: Vec2ish) {
+    return this.copy().translateSelf(offset);
   }
 
-  translateSelf(x: number, y: number) {
+  translateSelf(offset: Vec2ish) {
+    const { x, y } = Vec2.of(offset);
     const { _matrix } = this;
     _matrix[2] += x;
     _matrix[5] += y;
@@ -154,7 +188,8 @@ export class Transform {
   lerpSelf(target: Transform, factor: number) {
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
-    const [ta, tb, ttx, tc, td, tty] = target._matrix;
+    const [ta, tb, ttx, tc, td, tty] =
+      target._matrix;
     _matrix[0] = a + (ta - a) * factor;
     _matrix[1] = b + (tb - b) * factor;
     _matrix[2] = tx + (ttx - tx) * factor;
@@ -183,7 +218,10 @@ export class Transform {
     const { _matrix } = this;
     const [a, b, tx, c, d, ty] = _matrix;
 
-    return point(a * x + c * y + tx, b * x + d * y + ty);
+    return point(
+      a * x + c * y + tx,
+      b * x + d * y + ty
+    );
   }
 
   applyInverseTo(p: Vec2) {
@@ -200,7 +238,9 @@ export class Transform {
   toCss() {
     const [a, b, tx, c, d, ty] = this._matrix;
     // matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())
-    return `matrix(${[a, c, b, d, tx, ty].join(",")})`;
+    return `matrix(${[a, c, b, d, tx, ty].join(
+      ","
+    )})`;
   }
 }
 export function transform(): Transform;
@@ -213,7 +253,14 @@ export function transform(
   ty: number
 ): Transform;
 
-export function transform(a = 1, b = 0, c = 0, d = 1, tx = 0, ty = 0) {
+export function transform(
+  a = 1,
+  b = 0,
+  c = 0,
+  d = 1,
+  tx = 0,
+  ty = 0
+) {
   return new Transform(a, b, c, d, tx, ty);
 }
 // prettier-ignore

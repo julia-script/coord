@@ -1,9 +1,13 @@
-import { Header } from "@/components/Header";
 import "./globals.css";
-import { Inter } from "next/font/google";
-import { Footer } from "@/components/Footer";
+import { Inconsolata } from "next/font/google";
+import cn from "clsx";
 
-const inter = Inter({ subsets: ["latin"] });
+const mono = Inconsolata({
+  weight: ["600"],
+  style: "normal",
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata = {
   title: "@coord/graph",
@@ -16,15 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-dark-950 dark text-white">
-      <body className={inter.className}>
-        <main className="flex min-h-screen flex-col items-center">
-          <Header />
-          <div className="flex h-full w-full flex-grow flex-col">
-            {children}
-          </div>
-          <Footer />
-        </main>
+    <html lang="en" className="dark" dir="ltr">
+      <body
+        className={cn(
+          mono.variable,
+          "dark:bg-dark dark:text-white"
+        )}
+      >
+        {children}
       </body>
     </html>
   );

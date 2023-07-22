@@ -1,5 +1,7 @@
 "use client";
-import { LiveCodeBlock } from "@/components/CodeBlock";
+import { CodeBlock } from "@/components/CodeBlock";
+import { Footer } from "@/components/Footer";
+import { Header } from "@/components/Header";
 
 import {
   Graph,
@@ -10,44 +12,63 @@ import {
   Plot,
   Text,
   darkTheme,
-  point,
   useNavigationState,
   useStopwatch,
-  lerp,
 } from "@coord/graph";
+import { lerp, point } from "@coord/core";
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
-
+import { header } from "@/content/graph/meta";
 
 const easeInOut = (t: number) => {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  return t < 0.5
+    ? 2 * t * t
+    : -1 + (4 - 2 * t) * t;
 };
 
-const loopAnimation = (t: number, duration: number) => {
+const loopAnimation = (
+  t: number,
+  duration: number
+) => {
   if (t > duration / 2) {
-    return easeInOut((duration - t) / (duration / 2));
+    return easeInOut(
+      (duration - t) / (duration / 2)
+    );
   }
   return easeInOut(t / (duration / 2));
 };
 
-const waveF = (a: number, b: number) => (x: number) =>
-  Math.sin(((x - a) * Math.PI * 2) / (b - a));
+const waveF =
+  (a: number, b: number) => (x: number) =>
+    Math.sin(((x - a) * Math.PI * 2) / (b - a));
 
 const Hero = () => {
-  const [coordBox, setCoordBox] = useNavigationState({
-    horizontal: [-3, 3],
-    vertical: [2, -2],
-  });
-  const [[a1, b1], setWave1] = useState([-3, -0.5]);
-  const [[a2, b2], setWave2] = useState([0.7, 3.26]);
-  const [interacted, setInteracted] = useState(false);
+  const [coordBox, setCoordBox] =
+    useNavigationState({
+      horizontal: [-3, 3],
+      vertical: [2, -2],
+    });
+  const [[a1, b1], setWave1] = useState([
+    -3, -0.5,
+  ]);
+  const [[a2, b2], setWave2] = useState([
+    0.7, 3.26,
+  ]);
+  const [interacted, setInteracted] =
+    useState(false);
 
   const { pause } = useStopwatch(
     (t) => {
       if (interacted) return;
       const tLoop = loopAnimation(t, 2);
-      setWave1([lerp(-3, -2, tLoop), lerp(-0.5, -1, tLoop)]);
-      setWave2([lerp(0.7, 0, tLoop), lerp(3.26, 5, tLoop)]);
+      setWave1([
+        lerp(-3, -2, tLoop),
+        lerp(-0.5, -1, tLoop),
+      ]);
+      setWave2([
+        lerp(0.7, 0, tLoop),
+        lerp(3.26, 5, tLoop),
+      ]);
     },
     {
       to: 2,
@@ -74,14 +95,27 @@ const Hero = () => {
         background: { fill: "transparent" },
       }}
     >
-      <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur result="blurred" stdDeviation="15"></feGaussianBlur>
+      <filter
+        id="neon"
+        x="-50%"
+        y="-50%"
+        width="200%"
+        height="200%"
+      >
+        <feGaussianBlur
+          result="blurred"
+          stdDeviation="15"
+        ></feGaussianBlur>
         <feMerge>
           <feMergeNode in="blurred"></feMergeNode>
           <feMergeNode in="SourceGraphic"></feMergeNode>
         </feMerge>
       </filter>
-      <Grid displayAxis={false} displayNumbers={false} displayGrid={true} />
+      <Grid
+        displayAxis={false}
+        displayNumbers={false}
+        displayGrid={true}
+      />
 
       {/* First wave */}
       <Plot.ofX
@@ -98,14 +132,18 @@ const Hero = () => {
         strokeColor={3}
         strokeWidth={2}
       />
-      <Line from={[a1, 0]} to={[b1, 0]} strokeColor={3} />
+      <Line
+        from={[a1, 0]}
+        to={[b1, 0]}
+        strokeColor={3}
+      />
 
       <Marker
         position={point(a1, 0)}
         color={3}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave1(([_, b]) => [x, b]);
+          setWave1(([, b]) => [x, b]);
         }}
       />
       <Marker
@@ -113,7 +151,7 @@ const Hero = () => {
         color={3}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave1(([a, _]) => [a, x]);
+          setWave1(([a]) => [a, x]);
         }}
       />
 
@@ -126,7 +164,11 @@ const Hero = () => {
         strokeDasharray={"1 5"}
         opacity={0.8}
       />
-      <Line from={[a2, 0]} to={[b2, 0]} strokeColor={2} />
+      <Line
+        from={[a2, 0]}
+        to={[b2, 0]}
+        strokeColor={2}
+      />
 
       <Plot.ofX
         domain={[a2, b2]}
@@ -140,7 +182,7 @@ const Hero = () => {
         color={2}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave2(([_, b]) => [x, b]);
+          setWave2(([, b]) => [x, b]);
         }}
       />
       <Marker
@@ -148,12 +190,14 @@ const Hero = () => {
         color={2}
         onChange={({ x }) => {
           setInteracted(true);
-          setWave2(([a, _]) => [a, x]);
+          setWave2(([a]) => [a, x]);
         }}
       />
       {/* Sum of the waves */}
       <Plot.ofX
-        f={(x) => waveF(a1, b1)(x) + waveF(a2, b2)(x)}
+        f={(x) =>
+          waveF(a1, b1)(x) + waveF(a2, b2)(x)
+        }
         strokeColor={1}
       />
       <LabelContainer
@@ -167,7 +211,10 @@ const Hero = () => {
         opacity={interacted ? 0 : 1}
         filter="url(#neon)"
       >
-        <Text position={["45vs", "15vs"]} fontSize={14}>
+        <Text
+          position={["45vs", "15vs"]}
+          fontSize={14}
+        >
           Drag me!
         </Text>
       </LabelContainer>
@@ -177,91 +224,116 @@ const Hero = () => {
 
 export default function Page() {
   return (
-    <div>
+    <>
+      <Header items={header} />
       <Hero />
-      <div className="from-dark-950/0 to-dark-950/100 pointer-events-none  relative mx-auto -mt-32 bg-gradient-to-b  px-4 text-center">
-        <h1 className=" text-dark-100 p-2 text-center text-2xl font-bold md:text-4xl">
+      <div className="from-dark/0 to-dark/100 pointer-events-none relative mx-auto -mt-32 w-full bg-gradient-to-b  px-4 text-center">
+        <h1 className="p-2 text-center text-2xl font-bold text-white md:text-4xl">
           Visualize Math with{" "}
-          <span className="text-accent-graph-400">Code</span>
+          <span className="text-graph">Code</span>
         </h1>
-        <h2 className="text-md  text-dark-100 text-center  font-mono md:text-xl">
+        <h2 className="text-md text-center font-mono  text-white md:text-xl">
           <code>
-            @coord/<span className="text-accent-graph-400">graph</span>
+            @coord/
+            <span className="text-graph">
+              graph
+            </span>
           </code>{" "}
           is Graphing React Library{" "}
         </h2>
         <div className="mt-8">
           <Link
             href="/graph/docs"
-            className="bg-accent-graph-400 pointer-events-auto rounded-md px-6 py-3 text-white"
+            className="bg-graph-400 pointer-events-auto rounded-md px-6 py-3 text-white"
           >
             Get Started
           </Link>
         </div>
       </div>
-      <div className="container mx-auto flex flex-col items-center  px-4">
-        <section className="flex flex-col gap-y-8 py-12 md:mt-16">
+      <div className="container mx-auto flex w-full flex-col items-center px-4">
+        <section className="flex w-full flex-col gap-y-8 overflow-hidden py-12 md:mt-16">
           {[
             {
               left: (
                 <>
-                  {" "}
-                  <h3>Visual Math for React developers</h3>
+                  <h3>
+                    Visual Math for React
+                    developers
+                  </h3>
                   <p>
-                    Complex and abstract ideas often becomes easier to grasp
+                    Complex and abstract ideas
+                    often becomes easier to grasp
                     when you can visualize them.
                   </p>
                   <p>
-                    Write equations in TypeScript, and watch them come to life
-                    as interactive graphs.
+                    Write equations in TypeScript,
+                    and watch them come to life as
+                    interactive graphs.
                   </p>
                 </>
               ),
               right: (
-                <LiveCodeBlock>{`
-                import { Graph, Grid, Plot } from "@coord/graph";
+                <CodeBlock
+                  height={300}
+                  preview
+                  editable
+                  language="tsx"
+                  code={`
+                    import * as React from "react";
+                    import { Graph, Grid, Plot } from "@coord/graph";
 
-                export default function MyGraph() {
-                  return (
-                    <Graph padding={20} width="100%" height={300}>
-                      <Grid />
-                      <Plot.ofX 
-                        f={(x) => Math.sin(x) * Math.exp(-x / 10)} 
-                        strokeColor={8} 
-                      />
-                    </Graph>
-                  );
-                }
-              `}</LiveCodeBlock>
+                    export default function MyGraph() {
+                      return (
+                        <Graph padding={20} width="100%" height="100%">
+                          <Grid />
+                          <Plot.ofX
+                            f={(x) => Math.sin(x) * Math.exp(-x / 10)}
+                            strokeColor={8}
+                          />
+                        </Graph>
+                      );
+                    }
+                `}
+                />
               ),
             },
             {
               left: (
                 <>
-                  <h3>Learning and Teaching made interactive</h3>
+                  <h3>
+                    Learning and Teaching made
+                    interactive
+                  </h3>
                   <p>
-                    Make your graphs interactive by adding markers, labels, and
+                    Make your graphs interactive
+                    by adding markers, labels, and
                     animations.
                   </p>
                 </>
               ),
               right: (
-                <LiveCodeBlock
-                  collapsed={true}
-                  partiallyVisibleWhenCollapsed={true}
-                >{`
+                <CodeBlock
+                  height={300}
+                  language="tsx"
+                  preview
+                  editable
+                  code={` 
+                  import * as React from "react";
                   import {
                     Graph,
                     Grid,
                     Plot,
                     Marker,
-                    Vec2,
                     PolyLine,
                     LabelContainer,
                     Text,
                     useCoordState,
                     useNavigationState,
                   } from "@coord/graph";
+                  import {
+                    Vec2
+                  } from "@coord/core";
+
 
                   const cubicBezier = (p0: Vec2, p1: Vec2, p2: Vec2, p3: Vec2, t: number) => {
                     const u = 1 - t;
@@ -288,7 +360,7 @@ export default function Page() {
                     return (
                       <>
                         <Graph
-                          height={300}
+                          height="100%"
                           width="100%"
                           coordBox={coordBox}
                           onCoordBoxChange={setCoordBox}
@@ -325,19 +397,26 @@ export default function Page() {
                       </>
                     );
                   }
-              `}</LiveCodeBlock>
+                `}
+                />
               ),
             },
           ].map(({ left, right }, i) => (
-            <div key={i} className="grid gap-8 md:grid-cols-[40%,60%]">
-              <div className="prose prose-invert max-w-full text-center md:text-right">
+            <div
+              key={i}
+              className="grid gap-8 md:flex"
+            >
+              <div className="prose prose-invert w-full max-w-none grow text-center md:w-5/12 md:text-right">
                 {left}
               </div>
-              <div>{right}</div>
+              <div className="w-full grow overflow-hidden md:w-8/12">
+                {right}
+              </div>
             </div>
           ))}
         </section>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

@@ -1,5 +1,9 @@
 import React from "react";
-import { GraphElement, withGraphContext } from "@/utils";
+import {
+  GraphElement,
+  renderNumber,
+  withGraphContext,
+} from "@/utils";
 import { ScalarPoint, Scalar } from "@/types";
 import { Vec2, point } from "@coord/core";
 import { useGesture } from "@use-gesture/react";
@@ -11,7 +15,11 @@ export type MarkerContentProps = {
   interactable: boolean;
 };
 
-const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
+const DefaultMarker = ({
+  size,
+  color,
+  interactable,
+}: MarkerContentProps) => (
   <g className="curves-graph-default-marker">
     {interactable && (
       <>
@@ -27,7 +35,7 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
         </style>
         <circle
           className="curves-graph-default-marker-border"
-          r={size / 2 + 8}
+          r={renderNumber(size / 2 + 8)}
           fill="transparent"
           stroke={color}
           strokeWidth={3}
@@ -35,7 +43,10 @@ const DefaultMarker = ({ size, color, interactable }: MarkerContentProps) => (
         />
       </>
     )}
-    <circle r={size / 2} fill={color} />
+    <circle
+      r={renderNumber(size / 2)}
+      fill={color}
+    />
   </g>
 );
 
@@ -50,10 +61,14 @@ export type MarkerProps = GraphElement<
     opacity?: number;
     onChange?: (position: Vec2) => void;
   },
-  Omit<React.SVGProps<SVGGElement>, "color" | "onChange">
+  Omit<
+    React.SVGProps<SVGGElement>,
+    "color" | "onChange"
+  >
 >;
 
-const emojiRegex = /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/u;
+const emojiRegex =
+  /<a?:.+?:\d{18}>|\p{Extended_Pictographic}/u;
 
 const Component = ({
   position,
@@ -67,8 +82,11 @@ const Component = ({
   onChange,
   ...rest
 }: MarkerProps) => {
-  const { projectCoord, projectAbsoluteSize, computeColor, unprojectCoord } =
-    context;
+  const {
+    projectCoord,
+    projectAbsoluteSize,
+    computeColor,
+  } = context;
 
   const interactable = !!onChange;
 
@@ -76,33 +94,52 @@ const Component = ({
     onDrag: ({ down, movement, memo, first }) => {
       if (!down) return;
       if (first) {
-        return context.unprojectSize(position, "coordspace");
+        return context.unprojectSize(
+          position,
+          "coordspace"
+        );
       }
       if (!memo) return;
-      const { x, y } = context.unprojectSize(movement, "viewspace");
+      const { x, y } = context.unprojectSize(
+        movement,
+        "viewspace"
+      );
       onChange?.(memo.add(point(x, y)));
     },
   });
   const { x, y } = projectCoord(position);
 
-  const hasEmoji = typeof label === "string" && emojiRegex.test(label);
-  if (!size) size = typeof label === "string" ? size || "35vs" : size || "13vs";
+  const hasEmoji =
+    typeof label === "string" &&
+    emojiRegex.test(label);
+  if (!size)
+    size =
+      typeof label === "string"
+        ? size || "35vs"
+        : size || "13vs";
 
-  const width = projectAbsoluteSize(size, "viewspace");
+  const width = projectAbsoluteSize(
+    size,
+    "viewspace"
+  );
   const fill = computeColor(color);
 
-  const fontSize = width * (hasEmoji ? 0.7 : 0.45);
+  const fontSize =
+    width * (hasEmoji ? 0.7 : 0.45);
   let c: ReturnType<typeof DefaultMarker>;
   if (typeof label === "string") {
     c = (
       <g style={style} opacity={opacity}>
-        <circle r={width / 2} fill={fill} />
+        <circle
+          r={renderNumber(width / 2)}
+          fill={fill}
+        />
         <Text
           fontSize={fontSize}
           dy={hasEmoji ? "0.65em" : "0.55em"}
           dominantBaseline={"middle"}
           textAnchor={"middle"}
-          y={-fontSize / 2}
+          y={renderNumber(-fontSize / 2)}
           x={0}
           context={context}
         >
@@ -120,10 +157,20 @@ const Component = ({
 
   return (
     <g
-      transform={`translate(${x} ${y}) rotate(${rotation * (180 / Math.PI)})`}
+      transform={`translate(${renderNumber(
+        x
+      )} ${renderNumber(
+        y
+      )}) rotate(${renderNumber(
+        rotation * (180 / Math.PI)
+      )})`}
       style={
         interactable
-          ? { cursor: "grab", touchAction: "none", ...style }
+          ? {
+              cursor: "grab",
+              touchAction: "none",
+              ...style,
+            }
           : {
               pointerEvents: "none",
               ...style,

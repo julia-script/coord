@@ -1,17 +1,20 @@
 # Scalars Types
 
-In this document, we will cover some of the scalar types used in a graphing library.
+In this document, we will cover some of the scalar types used in a graphing
+library.
 
 ## Vec2
 
-The `Vec2` class represents a 2D vector or a point in the 2D space.
-It has two properties, `x` and `y`, representing the coordinates of the point or the dimensions of the vector.
+The `Vec2` class represents a 2D vector or a point in the 2D space. It has two
+properties, `x` and `y`, representing the coordinates of the point or the
+dimensions of the vector.
 
 ### Vec2ish
 
-`Vec2ish` is a flexible type that can represent a Vec2 instance or a similar 2D vector or point.
+`Vec2ish` is a flexible type that can represent a Vec2 instance or a similar 2D
+vector or point.
 
-```ts
+```typescript
 export type Vec2ish = Vec2 | [number, number] | { x: number; y: number };
 ```
 
@@ -23,7 +26,7 @@ export type Vec2ish = Vec2 | [number, number] | { x: number; y: number };
 
 The Graph units can be of two types, either ViewSpace (vs) or Coord Space (cs).
 
-```ts
+```typescript
 type ScalarUnits = "vs" | "cs";
 ```
 
@@ -32,9 +35,10 @@ type ScalarUnits = "vs" | "cs";
 
 ### Scalar
 
-A scalar in this context can be a number or a string. When a string, it has to include the unit type (`vs` or `cs`) along with the value.
+A scalar in this context can be a number or a string. When a string, it has to
+include the unit type (`vs` or `cs`) along with the value.
 
-```ts
+```typescript
 // Valid Scalars
 const scalar: Scalar = 10;
 const scalar: Scalar = "10vs";
@@ -43,20 +47,21 @@ const scalar: Scalar = "10.5vs";
 const scalar: Scalar = "-10.5cs";
 ```
 
-- Plain numbers are inferred based on context,
-  they are computed as ViewSpace for things like styling (font size, strokeWidth, etc), and Coord Space for positions or plot values.
+- Plain numbers are inferred based on context, they are computed as ViewSpace
+  for things like styling (font size, strokeWidth, etc), and Coord Space for
+  positions or plot values.
 
 - Strings with 'vs' or 'cs' define explicitly the units of the scalar value.
 
 ### ScalarPoint
 
-Similar to Vec2ish, ScalarPoint is a flexible representation of a point in 2D space,
-and can be defined as a Vec2 object, an object with x and y properties,
+Similar to Vec2ish, ScalarPoint is a flexible representation of a point in 2D
+space, and can be defined as a Vec2 object, an object with x and y properties,
 or an array of two numbers.
 
 Differently from Vec2ish, the values of the point can be scalars.
 
-```ts
+```typescript
 // Valid Scalar Points
 const scalarPoint: ScalarPoint = [10, 10];
 const scalarPoint: ScalarPoint = { x: 10, y: 10 };
@@ -68,27 +73,39 @@ import { Vec2 } from "@coord/graph";
 const scalarPoint: ScalarPoint = Vec2.of(10, 10);
 ```
 
-- Like scalars, `number` values are inferred based on context, they default to ViewSpace for styling, and Coord Space for positions or plot values.
-- Strings with `vs` or `cs` define explicitly the units of the point's components. This allows for the creation of points that mix ViewSpace and Coord Space units.
-- The Vec2 class offers a static method `of` to conveniently create a `Vec2` instance from a `Vec2ish` value.
+- Like scalars, `number` values are inferred based on context, they default to
+  ViewSpace for styling, and Coord Space for positions or plot values.
+- Strings with `vs` or `cs` define explicitly the units of the point's
+  components. This allows for the creation of points that mix ViewSpace and
+  Coord Space units.
+- The Vec2 class offers a static method `of` to conveniently create a `Vec2`
+  instance from a `Vec2ish` value.
 
 ```tsx live
-import { useLayoutEffect } from "react";
+import * as React from "react";
+import { CSSProperties } from "react";
+import { point } from "@coord/core";
 import {
   Graph,
   Grid,
   Marker,
-  Vec2,
   Label,
-  point,
   useNavigationState,
   useStopwatch,
+  ScalarPoint,
 } from "@coord/graph";
 
+const labelStyle: CSSProperties = {
+  width: 180,
+  textAlign: "center",
+  padding: 10,
+  fontSize: 12,
+};
+
 export default function MyGraph() {
-  const p0 = ["200vs", "200vs"];
-  const p1 = [0, 0];
-  const p2 = ["400vs", 0];
+  const p0: ScalarPoint = ["200vs", "200vs"];
+  const p1: ScalarPoint = [0, 0];
+  const p2: ScalarPoint = ["400vs", 0];
 
   const initialCoordBox = {
     horizontal: point(-10, 10),
@@ -96,13 +113,6 @@ export default function MyGraph() {
   };
 
   const [coordBox, setCoordBox] = useNavigationState(initialCoordBox);
-
-  const labelStyle = {
-    width: 180,
-    textAlign: "center",
-    padding: 10,
-    fontSize: 12,
-  };
 
   const { pause } = useStopwatch(
     (t) => {
@@ -124,7 +134,7 @@ export default function MyGraph() {
 
   return (
     <Graph
-      height={400}
+      height="100%"
       width="100%"
       coordBox={coordBox}
       onCoordBoxChange={(coordBox) => {
@@ -137,7 +147,6 @@ export default function MyGraph() {
       <Marker position={p0} color={1} />
       <Label target={p0} direction={"s"} strokeColor={1}>
         <div style={labelStyle}>
-
           I'm a label positioned at <strong>[{p0.toString()}]</strong>, So I'm
           relative to the graph viewport.
         </div>

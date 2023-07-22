@@ -1,1 +1,2 @@
-export default ["packages/**"];
+const directories = ["packages/**"];
+export default directories;

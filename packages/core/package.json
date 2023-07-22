@@ -19,20 +19,28 @@
       "cjs",
       "esm"
     ],
-    "minify": true,
+    "minify": false,
+    "sourcemap": true,
     "entryPoints": [
       "src/index.ts"
     ]
   },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "react": "^17.0.2",
-    "tsconfig": "workspace:*",
+    "@coord/config": "workspace:*",
     "tsup": "^6.7.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "dependencies": {}
 }

@@ -1,14 +1,15 @@
 # Text Component
 
-`Text` component allows you to display a line of text at a specific position on a graph.
-It's simply a wrapper around SVG text with support for `@coord/graph` api.
+`Text` component allows you to display a line of text at a specific position on
+a graph. It's simply a wrapper around SVG text with support for `@coord/graph`
+api.
 
 ```jsx live
 import { Graph, Text } from "@coord/graph";
 
 export default function MyGraph() {
   return (
-    <Graph width={"full"}>
+    <Graph width="100%" height="100%">
       <Text position={[0, 0]} fontSize={20}>
         Hello!
       </Text>

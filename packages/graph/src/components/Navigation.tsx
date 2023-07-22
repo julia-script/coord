@@ -1,10 +1,19 @@
 import React from "react";
 import { BBox, BBoxish } from "@/types";
 import { normalizeBBox } from "@/utils";
-import { UserHandlers, useGesture } from "@use-gesture/react";
-import { Vec2, point } from "@coord/core";
-import { withGraphContext, GraphElement } from "../utils";
-import { useSafeRef } from "..";
+import {
+  UserHandlers,
+  useGesture,
+} from "@use-gesture/react";
+import {
+  Vec2,
+  point,
+  useSafeRef,
+} from "@coord/core";
+import {
+  withGraphContext,
+  GraphElement,
+} from "../utils";
 
 const MAX_AXIS_SIZE = 10000;
 
@@ -28,11 +37,17 @@ const scaleBBoxAroundOrigin = (
       hMin * scale - x * scale + x,
       hMax * scale - x * scale + x
     ),
-    vertical: point(vMin * scale - y * scale + y, vMax * scale - y * scale + y),
+    vertical: point(
+      vMin * scale - y * scale + y,
+      vMax * scale - y * scale + y
+    ),
   };
 };
 
-type GestureProps<T extends keyof UserHandlers, TMemo = unknown> = {
+type GestureProps<
+  T extends keyof UserHandlers,
+  TMemo = unknown
+> = {
   memo?: TMemo;
 } & Omit<Parameters<UserHandlers[T]>[0], "memo">;
 
@@ -45,7 +60,8 @@ const Component = ({
   onCoordBoxChange: (coordBox: BBox) => void;
 }>) => {
   const ref = useSafeRef<SVGRectElement>(null);
-  const normalizedCoordBox = normalizeBBox(rawCoordBox);
+  const normalizedCoordBox =
+    normalizeBBox(rawCoordBox);
 
   useGesture(
     {
@@ -67,11 +83,18 @@ const Component = ({
           return normalizedCoordBox;
         }
         if (!memo) return;
-        const { x, y } = context.unprojectSize(movement, "viewspace");
+        const { x, y } = context.unprojectSize(
+          movement,
+          "viewspace"
+        );
 
         onCoordBoxChange({
-          horizontal: memo.horizontal.sub(point(x, x)),
-          vertical: memo.vertical.sub(point(y, y)),
+          horizontal: memo.horizontal.sub(
+            point(x, x)
+          ),
+          vertical: memo.vertical.sub(
+            point(y, y)
+          ),
         });
       },
       onPinch: ({
@@ -92,11 +115,13 @@ const Component = ({
 
         event.preventDefault();
         if (first) {
-          const { x, y } = ref.current.getBoundingClientRect();
-          const scaleOrigin = context.unprojectCoord([
-            origin[0] - x,
-            origin[1] - y,
-          ]);
+          const { x, y } =
+            ref.current.getBoundingClientRect();
+          const scaleOrigin =
+            context.unprojectCoord([
+              origin[0] - x,
+              origin[1] - y,
+            ]);
 
           memo = {
             scaleOrigin,
@@ -111,7 +136,9 @@ const Component = ({
             memo.coordBox,
             memo.scaleOrigin,
             1 / s,
-            context.unprojectSize(memo.position.sub(point(...origin)))
+            context.unprojectSize(
+              memo.position.sub(point(...origin))
+            )
           )
         );
 
@@ -131,14 +158,25 @@ const Component = ({
         eventOptions: { passive: false },
         rubberband: true,
         scaleBounds: (state) => {
-          const { horizontal, vertical } = normalizedCoordBox;
+          const { horizontal, vertical } =
+            normalizedCoordBox;
           const s = state?.offset[0] || 1;
-          const hSize = Math.abs(horizontal.x - horizontal.y) * s;
-          const vSize = Math.abs(vertical.x - vertical.y) * s;
+          const hSize =
+            Math.abs(
+              horizontal.x - horizontal.y
+            ) * s;
+          const vSize =
+            Math.abs(vertical.x - vertical.y) * s;
 
           return {
-            max: Math.min(MAX_AXIS_SIZE / hSize, MAX_AXIS_SIZE / vSize),
-            min: Math.max(MIN_AXIS_SIZE / hSize, MIN_AXIS_SIZE / vSize),
+            max: Math.min(
+              MAX_AXIS_SIZE / hSize,
+              MAX_AXIS_SIZE / vSize
+            ),
+            min: Math.max(
+              MIN_AXIS_SIZE / hSize,
+              MIN_AXIS_SIZE / vSize
+            ),
           };
         },
       },
@@ -160,4 +198,5 @@ const Component = ({
   );
 };
 
-export const Navigation = withGraphContext(Component);
+export const Navigation =
+  withGraphContext(Component);

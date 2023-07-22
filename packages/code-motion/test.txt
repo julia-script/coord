@@ -1,0 +1,798 @@
+
+> @coord/code-motion@0.3.0 lint /Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion
+> eslint .
+
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/index.cjs
+     3:13  error    Require statement not part of import statement                @typescript-eslint/no-var-requires
+    41:17  error    'result' is never reassigned. Use 'const' instead             prefer-const
+    96:13  error    'props' is never reassigned. Use 'const' instead              prefer-const
+    97:13  error    'flags' is never reassigned. Use 'const' instead              prefer-const
+    99:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   130:17  error    'group' is never reassigned. Use 'const' instead              prefer-const
+   142:13  error    'direct' is never reassigned. Use 'const' instead             prefer-const
+   143:18  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+   144:22  error    'name' is never reassigned. Use 'const' instead               prefer-const
+   148:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+   179:13  error    'newTypes' is never reassigned. Use 'const' instead           prefer-const
+   180:18  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   182:22  error    'source' is never reassigned. Use 'const' instead             prefer-const
+   183:21  error    'add' is never reassigned. Use 'const' instead                prefer-const
+   254:23  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+   254:29  error    'value' is never reassigned. Use 'const' instead              prefer-const
+   260:13  error    'mounted' is never reassigned. Use 'const' instead            prefer-const
+   264:18  error    'ch' is never reassigned. Use 'const' instead                 prefer-const
+   265:17  error    'str' is never reassigned. Use 'const' instead                prefer-const
+   285:29  warning  'mode' is assigned a value but never used                     @typescript-eslint/no-unused-vars
+   286:13  error    'scope' is never reassigned. Use 'const' instead              prefer-const
+   287:13  error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+   307:13  error    'node' is never reassigned. Use 'const' instead               prefer-const
+   317:13  error    'node' is never reassigned. Use 'const' instead               prefer-const
+   327:15  error    'enter' is never reassigned. Use 'const' instead              prefer-const
+   327:22  error    'leave' is never reassigned. Use 'const' instead              prefer-const
+   327:29  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   327:39  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   328:13  error    'mode' is never reassigned. Use 'const' instead               prefer-const
+   328:36  error    'anon' is never reassigned. Use 'const' instead               prefer-const
+   356:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   358:22  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   409:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   418:13  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   418:38  error    'endIndex' is never reassigned. Use 'const' instead           prefer-const
+   419:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   425:13  error    'children' is never reassigned. Use 'const' instead           prefer-const
+   434:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   446:13  error    'b' is never reassigned. Use 'const' instead                  prefer-const
+   447:13  error    'copy' is never reassigned. Use 'const' instead               prefer-const
+   451:17  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   471:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+   490:13  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+   495:9   error    'mode' is never reassigned. Use 'const' instead               prefer-const
+   503:13  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+   524:21  error    'next' is never reassigned. Use 'const' instead               prefer-const
+   524:41  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   530:25  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   539:25  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+   562:17  error    'rPos' is never reassigned. Use 'const' instead               prefer-const
+   563:24  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   563:30  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   597:13  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+   609:9   error    'cur' is never reassigned. Use 'const' instead                prefer-const
+   609:30  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   656:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   657:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   667:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   668:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   678:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   679:13  error    'after' is never reassigned. Use 'const' instead              prefer-const
+   685:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   686:13  error    'parentStart' is never reassigned. Use 'const' instead        prefer-const
+   694:13  error    'children' is never reassigned. Use 'const' instead           prefer-const
+   694:28  error    'positions' is never reassigned. Use 'const' instead          prefer-const
+   695:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   696:13  error    'startI' is never reassigned. Use 'const' instead             prefer-const
+   696:38  error    'endI' is never reassigned. Use 'const' instead               prefer-const
+   698:17  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   714:13  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+   762:15  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   762:22  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   786:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   787:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   818:13  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+   828:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   828:39  error    'd' is never reassigned. Use 'const' instead                  prefer-const
+   830:17  error    'parentStart' is never reassigned. Use 'const' instead        prefer-const
+   835:17  error    'after' is never reassigned. Use 'const' instead              prefer-const
+   846:30  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   865:25  error    'child' is never reassigned. Use 'const' instead              prefer-const
+   915:13  error    'cache' is never reassigned. Use 'const' instead              prefer-const
+   974:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   974:41  error    'types' is never reassigned. Use 'const' instead              prefer-const
+   978:17  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   993:11  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   993:19  error    'nodeSet' is never reassigned. Use 'const' instead            prefer-const
+   993:28  error    'maxBufferLength' is never reassigned. Use 'const' instead    prefer-const
+   993:67  error    'reused' is never reassigned. Use 'const' instead             prefer-const
+   993:80  error    'minRepeatType' is never reassigned. Use 'const' instead      prefer-const
+   994:9   error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+   995:9   error    'types' is never reassigned. Use 'const' instead              prefer-const
+   998:15  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   998:19  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   998:26  error    'end' is never reassigned. Use 'const' instead                prefer-const
+   998:31  error    'size' is never reassigned. Use 'const' instead               prefer-const
+   999:13  error    'lookAheadAtStart' is never reassigned. Use 'const' instead   prefer-const
+  1003:21  error    'node' is never reassigned. Use 'const' instead               prefer-const
+  1020:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  1024:17  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  1025:17  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1032:17  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1034:17  error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1034:37  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1035:17  error    'localInRepeat' is never reassigned. Use 'const' instead      prefer-const
+  1055:21  error    'make' is never reassigned. Use 'const' instead               prefer-const
+  1067:32  error    'lastI' is never reassigned. Use 'const' instead              prefer-const
+  1078:13  error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1078:33  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1088:17  error    'pair' is never reassigned. Use 'const' instead               prefer-const
+  1092:17  error    'pair' is never reassigned. Use 'const' instead               prefer-const
+  1104:13  error    'fork' is never reassigned. Use 'const' instead               prefer-const
+  1105:44  error    'minStart' is never reassigned. Use 'const' instead           prefer-const
+  1106:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  1108:17  error    'nodeSize' is never reassigned. Use 'const' instead           prefer-const
+  1121:17  error    'startPos' is never reassigned. Use 'const' instead           prefer-const
+  1125:17  error    'nodeStart' is never reassigned. Use 'const' instead          prefer-const
+  1151:15  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+  1151:19  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  1151:26  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  1151:31  error    'size' is never reassigned. Use 'const' instead               prefer-const
+  1154:17  error    'startIndex' is never reassigned. Use 'const' instead         prefer-const
+  1156:21  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1173:9   error    'children' is never reassigned. Use 'const' instead           prefer-const
+  1173:24  error    'positions' is never reassigned. Use 'const' instead          prefer-const
+  1176:9   error    'length' is never reassigned. Use 'const' instead             prefer-const
+  1186:18  error    'child' is never reassigned. Use 'const' instead              prefer-const
+  1215:9   error    'maxChild' is never reassigned. Use 'const' instead           prefer-const
+  1216:9   error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1216:29  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1219:17  error    'groupFrom' is never reassigned. Use 'const' instead          prefer-const
+  1219:32  error    'groupStart' is never reassigned. Use 'const' instead         prefer-const
+  1222:21  error    'nextSize' is never reassigned. Use 'const' instead           prefer-const
+  1229:25  error    'only' is never reassigned. Use 'const' instead               prefer-const
+  1236:21  error    'length' is never reassigned. Use 'const' instead             prefer-const
+  1263:13  error    'parse' is never reassigned. Use 'const' instead              prefer-const
+  1265:17  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  1339:13  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1342:22  error    't' is never reassigned. Use 'const' instead                  prefer-const
+  1359:13  error    'mod' is never reassigned. Use 'const' instead                prefer-const
+  1376:13  error    'exists' is never reassigned. Use 'const' instead             prefer-const
+  1379:13  error    'set' is never reassigned. Use 'const' instead                prefer-const
+  1379:23  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1380:18  error    'm' is never reassigned. Use 'const' instead                  prefer-const
+  1382:13  error    'configs' is never reassigned. Use 'const' instead            prefer-const
+  1383:18  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+  1385:26  error    'config' is never reassigned. Use 'const' instead             prefer-const
+  1394:9   error    'sets' is never reassigned. Use 'const' instead               prefer-const
+  1454:9   error    'byName' is never reassigned. Use 'const' instead             prefer-const
+  1455:14  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+  1459:18  error    'part' is never reassigned. Use 'const' instead               prefer-const
+  1461:21  error    'pieces' is never reassigned. Use 'const' instead             prefer-const
+  1467:25  error    'm' is never reassigned. Use 'const' instead                  prefer-const
+  1474:25  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  1483:21  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  1483:47  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  1486:21  error    'rule' is never reassigned. Use 'const' instead               prefer-const
+  1519:9   error    'map' is never reassigned. Use 'const' instead                prefer-const
+  1520:14  error    'style' is never reassigned. Use 'const' instead              prefer-const
+  1524:22  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1527:11  error    'scope' is never reassigned. Use 'const' instead              prefer-const
+  1527:18  error    'all' is never reassigned. Use 'const' instead                prefer-const
+  1531:22  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1532:26  error    'sub' is never reassigned. Use 'const' instead                prefer-const
+  1533:25  error    'tagClass' is never reassigned. Use 'const' instead           prefer-const
+  1547:14  error    'highlighter' is never reassigned. Use 'const' instead        prefer-const
+  1548:13  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  1573:9   error    'builder' is never reassigned. Use 'const' instead            prefer-const
+  1597:15  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  1597:27  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  1597:38  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  1603:13  error    'rule' is never reassigned. Use 'const' instead               prefer-const
+  1604:13  error    'tagCls' is never reassigned. Use 'const' instead             prefer-const
+  1615:13  error    'mounted' is never reassigned. Use 'const' instead            prefer-const
+  1617:17  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  1618:17  error    'innerHighlighters' is never reassigned. Use 'const' instead  prefer-const
+  1619:17  error    'hasChild' is never reassigned. Use 'const' instead           prefer-const
+  1621:21  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  1622:21  error    'nextPos' is never reassigned. Use 'const' instead            prefer-const
+  1623:21  error    'rangeFrom' is never reassigned. Use 'const' instead          prefer-const
+  1623:54  error    'rangeTo' is never reassigned. Use 'const' instead            prefer-const
+  2184:17  error    'themeKey' is never reassigned. Use 'const' instead           prefer-const
+  3846:21  error    'split' is never reassigned. Use 'const' instead              prefer-const
+  5352:13  error    'cx' is never reassigned. Use 'const' instead                 prefer-const
+  5371:13  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5371:65  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  5372:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5373:13  error    'dPrec' is never reassigned. Use 'const' instead              prefer-const
+  5390:13  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  5391:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5391:74  error    'size' is never reassigned. Use 'const' instead               prefer-const
+  5406:13  error    'bufferBase' is never reassigned. Use 'const' instead         prefer-const
+  5406:59  error    'count' is never reassigned. Use 'const' instead              prefer-const
+  5409:17  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  5416:17  error    'baseStateID' is never reassigned. Use 'const' instead        prefer-const
+  5468:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5473:17  error    'nextState' is never reassigned. Use 'const' instead          prefer-const
+  5473:39  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5507:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5527:13  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+  5527:48  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  5536:13  error    'isNode' is never reassigned. Use 'const' instead             prefer-const
+  5549:17  error    'action' is never reassigned. Use 'const' instead             prefer-const
+  5565:17  error    'best' is never reassigned. Use 'const' instead               prefer-const
+  5572:25  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  5578:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  5580:17  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  5583:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  5596:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5601:17  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5601:69  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5602:17  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  5604:21  error    'backup' is never reassigned. Use 'const' instead             prefer-const
+  5620:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5620:34  error    'seen' is never reassigned. Use 'const' instead               prefer-const
+  5621:13  error    'explore' is never reassigned. Use 'const' instead            prefer-const
+  5628:25  error    'rDepth' is never reassigned. Use 'const' instead             prefer-const
+  5630:29  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5630:75  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  5636:25  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  5660:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5695:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  5701:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  5707:17  error    'newCx' is never reassigned. Use 'const' instead              prefer-const
+  5755:13  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5755:59  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5765:13  error    'goto' is never reassigned. Use 'const' instead               prefer-const
+  5784:13  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5892:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5899:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5909:18  error    'range' is never reassigned. Use 'const' instead              prefer-const
+  5924:13  error    'idx' is never reassigned. Use 'const' instead                prefer-const
+  5930:17  error    'resolved' is never reassigned. Use 'const' instead           prefer-const
+  5955:13  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  5963:19  error    'chunk' is never reassigned. Use 'const' instead              prefer-const
+  5963:26  error    'chunkPos' is never reassigned. Use 'const' instead           prefer-const
+  5973:17  error    'nextChunk' is never reassigned. Use 'const' instead          prefer-const
+  5974:17  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6051:18  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+  6067:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6080:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6082:17  error    'atEof' is never reassigned. Use 'const' instead              prefer-const
+  6082:41  error    'nextPos' is never reassigned. Use 'const' instead            prefer-const
+  6139:20  error    'groupMask' is never reassigned. Use 'const' instead          prefer-const
+  6139:46  error    'dialect' is never reassigned. Use 'const' instead            prefer-const
+  6143:13  error    'accEnd' is never reassigned. Use 'const' instead             prefer-const
+  6149:21  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  6157:13  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6165:17  error    'mid' is never reassigned. Use 'const' instead                prefer-const
+  6166:17  error    'index' is never reassigned. Use 'const' instead              prefer-const
+  6167:17  error    'from' is never reassigned. Use 'const' instead               prefer-const
+  6167:37  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+  6188:9   error    'iPrev' is never reassigned. Use 'const' instead              prefer-const
+  6193:82  error    LOG is not listed as a dependency in turbo.json               turbo/no-undeclared-env-vars
+  6200:9   error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+  6229:13  error    'fr' is never reassigned. Use 'const' instead                 prefer-const
+  6256:17  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6261:17  error    'top' is never reassigned. Use 'const' instead                prefer-const
+  6261:41  error    'index' is never reassigned. Use 'const' instead              prefer-const
+  6268:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6269:17  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6278:25  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6280:29  error    'lookAhead' is never reassigned. Use 'const' instead          prefer-const
+  6305:45  warning  '_' is defined but never used                                 @typescript-eslint/no-unused-vars
+  6310:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6310:37  error    'tokenizers' is never reassigned. Use 'const' instead         prefer-const
+  6311:13  error    'mask' is never reassigned. Use 'const' instead               prefer-const
+  6312:13  error    'context' is never reassigned. Use 'const' instead            prefer-const
+  6317:17  error    'tokenizer' is never reassigned. Use 'const' instead          prefer-const
+  6317:44  error    'token' is never reassigned. Use 'const' instead              prefer-const
+  6328:21  error    'startIndex' is never reassigned. Use 'const' instead         prefer-const
+  6355:13  error    'main' is never reassigned. Use 'const' instead               prefer-const
+  6355:39  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6355:44  error    'p' is never reassigned. Use 'const' instead                  prefer-const
+  6362:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6365:19  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6368:25  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  6394:15  error    'state' is never reassigned. Use 'const' instead              prefer-const
+  6394:34  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6394:56  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  6449:15  error    'from' is never reassigned. Use 'const' instead               prefer-const
+  6464:13  error    'stacks' is never reassigned. Use 'const' instead             prefer-const
+  6464:35  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6466:13  error    'newStacks' is never reassigned. Use 'const' instead          prefer-const
+  6476:18  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  6484:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6499:25  error    'tok' is never reassigned. Use 'const' instead                prefer-const
+  6506:17  error    'finished' is never reassigned. Use 'const' instead           prefer-const
+  6518:17  error    'finished' is never reassigned. Use 'const' instead           prefer-const
+  6524:17  error    'maxRemaining' is never reassigned. Use 'const' instead       prefer-const
+  6538:21  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6540:25  error    'other' is never reassigned. Use 'const' instead              prefer-const
+  6572:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6572:34  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6573:13  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  6577:17  error    'strictCx' is never reassigned. Use 'const' instead           prefer-const
+  6577:81  error    'cxHash' is never reassigned. Use 'const' instead             prefer-const
+  6579:21  error    'match' is never reassigned. Use 'const' instead              prefer-const
+  6588:21  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  6595:13  error    'defaultReduce' is never reassigned. Use 'const' instead      prefer-const
+  6605:13  error    'actions' is never reassigned. Use 'const' instead            prefer-const
+  6607:17  error    'action' is never reassigned. Use 'const' instead             prefer-const
+  6607:40  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  6607:61  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6608:17  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6609:17  error    'localStack' is never reassigned. Use 'const' instead         prefer-const
+  6627:13  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6640:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6641:17  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  6649:21  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  6653:17  error    'force' is never reassigned. Use 'const' instead              prefer-const
+  6657:21  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  6663:22  error    'insert' is never reassigned. Use 'const' instead             prefer-const
+  6705:13  error    'other' is never reassigned. Use 'const' instead              prefer-const
+  6755:13  error    'nodeNames' is never reassigned. Use 'const' instead          prefer-const
+  6759:13  error    'topTerms' is never reassigned. Use 'const' instead           prefer-const
+  6760:13  error    'nodeProps' is never reassigned. Use 'const' instead          prefer-const
+  6767:22  error    'propSpec' is never reassigned. Use 'const' instead           prefer-const
+  6772:25  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6777:29  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  6796:13  error    'tokenArray' is never reassigned. Use 'const' instead         prefer-const
+  6819:18  error    'w' is never reassigned. Use 'const' instead                  prefer-const
+  6825:13  error    'table' is never reassigned. Use 'const' instead              prefer-const
+  6829:17  error    'groupTag' is never reassigned. Use 'const' instead           prefer-const
+  6829:42  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6830:17  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  6842:13  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  6873:13  error    'deflt' is never reassigned. Use 'const' instead              prefer-const
+  6889:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  6898:21  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  6911:13  error    'copy' is never reassigned. Use 'const' instead               prefer-const
+  6915:17  error    'info' is never reassigned. Use 'const' instead               prefer-const
+  6922:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  6928:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  6931:21  error    'spec' is never reassigned. Use 'const' instead               prefer-const
+  6967:13  error    'prec' is never reassigned. Use 'const' instead               prefer-const
+  6972:13  error    'values' is never reassigned. Use 'const' instead             prefer-const
+  6972:50  error    'flags' is never reassigned. Use 'const' instead              prefer-const
+  6974:22  error    'part' is never reassigned. Use 'const' instead               prefer-const
+  6975:21  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+  6996:14  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6997:13  error    'stopped' is never reassigned. Use 'const' instead            prefer-const
+  7007:13  error    'mask' is never reassigned. Use 'const' instead               prefer-const
+  7040:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7046:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7054:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7059:11  error    'mayPostfix' is never reassigned. Use 'const' instead         prefer-const
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/index.js
+    39:17  error    'result' is never reassigned. Use 'const' instead             prefer-const
+    94:13  error    'props' is never reassigned. Use 'const' instead              prefer-const
+    95:13  error    'flags' is never reassigned. Use 'const' instead              prefer-const
+    97:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   128:17  error    'group' is never reassigned. Use 'const' instead              prefer-const
+   140:13  error    'direct' is never reassigned. Use 'const' instead             prefer-const
+   141:18  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+   142:22  error    'name' is never reassigned. Use 'const' instead               prefer-const
+   146:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+   177:13  error    'newTypes' is never reassigned. Use 'const' instead           prefer-const
+   178:18  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   180:22  error    'source' is never reassigned. Use 'const' instead             prefer-const
+   181:21  error    'add' is never reassigned. Use 'const' instead                prefer-const
+   252:23  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+   252:29  error    'value' is never reassigned. Use 'const' instead              prefer-const
+   258:13  error    'mounted' is never reassigned. Use 'const' instead            prefer-const
+   262:18  error    'ch' is never reassigned. Use 'const' instead                 prefer-const
+   263:17  error    'str' is never reassigned. Use 'const' instead                prefer-const
+   283:29  warning  'mode' is assigned a value but never used                     @typescript-eslint/no-unused-vars
+   284:13  error    'scope' is never reassigned. Use 'const' instead              prefer-const
+   285:13  error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+   305:13  error    'node' is never reassigned. Use 'const' instead               prefer-const
+   315:13  error    'node' is never reassigned. Use 'const' instead               prefer-const
+   325:15  error    'enter' is never reassigned. Use 'const' instead              prefer-const
+   325:22  error    'leave' is never reassigned. Use 'const' instead              prefer-const
+   325:29  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   325:39  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   326:13  error    'mode' is never reassigned. Use 'const' instead               prefer-const
+   326:36  error    'anon' is never reassigned. Use 'const' instead               prefer-const
+   354:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   356:22  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   407:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   416:13  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   416:38  error    'endIndex' is never reassigned. Use 'const' instead           prefer-const
+   417:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   423:13  error    'children' is never reassigned. Use 'const' instead           prefer-const
+   432:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   444:13  error    'b' is never reassigned. Use 'const' instead                  prefer-const
+   445:13  error    'copy' is never reassigned. Use 'const' instead               prefer-const
+   449:17  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   469:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+   488:13  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+   493:9   error    'mode' is never reassigned. Use 'const' instead               prefer-const
+   501:13  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+   522:21  error    'next' is never reassigned. Use 'const' instead               prefer-const
+   522:41  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   528:25  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   537:25  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+   560:17  error    'rPos' is never reassigned. Use 'const' instead               prefer-const
+   561:24  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   561:30  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+   595:13  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+   607:9   error    'cur' is never reassigned. Use 'const' instead                prefer-const
+   607:30  error    'result' is never reassigned. Use 'const' instead             prefer-const
+   654:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   655:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   665:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   666:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   676:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   677:13  error    'after' is never reassigned. Use 'const' instead              prefer-const
+   683:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   684:13  error    'parentStart' is never reassigned. Use 'const' instead        prefer-const
+   692:13  error    'children' is never reassigned. Use 'const' instead           prefer-const
+   692:28  error    'positions' is never reassigned. Use 'const' instead          prefer-const
+   693:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   694:13  error    'startI' is never reassigned. Use 'const' instead             prefer-const
+   694:38  error    'endI' is never reassigned. Use 'const' instead               prefer-const
+   696:17  error    'from' is never reassigned. Use 'const' instead               prefer-const
+   712:13  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+   760:15  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   760:22  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   784:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   785:13  error    'index' is never reassigned. Use 'const' instead              prefer-const
+   816:13  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+   826:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   826:39  error    'd' is never reassigned. Use 'const' instead                  prefer-const
+   828:17  error    'parentStart' is never reassigned. Use 'const' instead        prefer-const
+   833:17  error    'after' is never reassigned. Use 'const' instead              prefer-const
+   844:30  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   863:25  error    'child' is never reassigned. Use 'const' instead              prefer-const
+   913:13  error    'cache' is never reassigned. Use 'const' instead              prefer-const
+   972:15  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   972:41  error    'types' is never reassigned. Use 'const' instead              prefer-const
+   976:17  error    'type' is never reassigned. Use 'const' instead               prefer-const
+   991:11  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+   991:19  error    'nodeSet' is never reassigned. Use 'const' instead            prefer-const
+   991:28  error    'maxBufferLength' is never reassigned. Use 'const' instead    prefer-const
+   991:67  error    'reused' is never reassigned. Use 'const' instead             prefer-const
+   991:80  error    'minRepeatType' is never reassigned. Use 'const' instead      prefer-const
+   992:9   error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+   993:9   error    'types' is never reassigned. Use 'const' instead              prefer-const
+   996:15  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+   996:19  error    'start' is never reassigned. Use 'const' instead              prefer-const
+   996:26  error    'end' is never reassigned. Use 'const' instead                prefer-const
+   996:31  error    'size' is never reassigned. Use 'const' instead               prefer-const
+   997:13  error    'lookAheadAtStart' is never reassigned. Use 'const' instead   prefer-const
+  1001:21  error    'node' is never reassigned. Use 'const' instead               prefer-const
+  1018:13  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  1022:17  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  1023:17  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1030:17  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1032:17  error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1032:37  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1033:17  error    'localInRepeat' is never reassigned. Use 'const' instead      prefer-const
+  1053:21  error    'make' is never reassigned. Use 'const' instead               prefer-const
+  1065:32  error    'lastI' is never reassigned. Use 'const' instead              prefer-const
+  1076:13  error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1076:33  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1086:17  error    'pair' is never reassigned. Use 'const' instead               prefer-const
+  1090:17  error    'pair' is never reassigned. Use 'const' instead               prefer-const
+  1102:13  error    'fork' is never reassigned. Use 'const' instead               prefer-const
+  1103:44  error    'minStart' is never reassigned. Use 'const' instead           prefer-const
+  1104:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  1106:17  error    'nodeSize' is never reassigned. Use 'const' instead           prefer-const
+  1119:17  error    'startPos' is never reassigned. Use 'const' instead           prefer-const
+  1123:17  error    'nodeStart' is never reassigned. Use 'const' instead          prefer-const
+  1149:15  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+  1149:19  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  1149:26  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  1149:31  error    'size' is never reassigned. Use 'const' instead               prefer-const
+  1152:17  error    'startIndex' is never reassigned. Use 'const' instead         prefer-const
+  1154:21  error    'endPos' is never reassigned. Use 'const' instead             prefer-const
+  1171:9   error    'children' is never reassigned. Use 'const' instead           prefer-const
+  1171:24  error    'positions' is never reassigned. Use 'const' instead          prefer-const
+  1174:9   error    'length' is never reassigned. Use 'const' instead             prefer-const
+  1184:18  error    'child' is never reassigned. Use 'const' instead              prefer-const
+  1213:9   error    'maxChild' is never reassigned. Use 'const' instead           prefer-const
+  1214:9   error    'localChildren' is never reassigned. Use 'const' instead      prefer-const
+  1214:29  error    'localPositions' is never reassigned. Use 'const' instead     prefer-const
+  1217:17  error    'groupFrom' is never reassigned. Use 'const' instead          prefer-const
+  1217:32  error    'groupStart' is never reassigned. Use 'const' instead         prefer-const
+  1220:21  error    'nextSize' is never reassigned. Use 'const' instead           prefer-const
+  1227:25  error    'only' is never reassigned. Use 'const' instead               prefer-const
+  1234:21  error    'length' is never reassigned. Use 'const' instead             prefer-const
+  1261:13  error    'parse' is never reassigned. Use 'const' instead              prefer-const
+  1263:17  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  1337:13  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1340:22  error    't' is never reassigned. Use 'const' instead                  prefer-const
+  1357:13  error    'mod' is never reassigned. Use 'const' instead                prefer-const
+  1374:13  error    'exists' is never reassigned. Use 'const' instead             prefer-const
+  1377:13  error    'set' is never reassigned. Use 'const' instead                prefer-const
+  1377:23  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1378:18  error    'm' is never reassigned. Use 'const' instead                  prefer-const
+  1380:13  error    'configs' is never reassigned. Use 'const' instead            prefer-const
+  1381:18  error    'parent' is never reassigned. Use 'const' instead             prefer-const
+  1383:26  error    'config' is never reassigned. Use 'const' instead             prefer-const
+  1392:9   error    'sets' is never reassigned. Use 'const' instead               prefer-const
+  1452:9   error    'byName' is never reassigned. Use 'const' instead             prefer-const
+  1453:14  error    'prop' is never reassigned. Use 'const' instead               prefer-const
+  1457:18  error    'part' is never reassigned. Use 'const' instead               prefer-const
+  1459:21  error    'pieces' is never reassigned. Use 'const' instead             prefer-const
+  1465:25  error    'm' is never reassigned. Use 'const' instead                  prefer-const
+  1472:25  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  1481:21  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  1481:47  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  1484:21  error    'rule' is never reassigned. Use 'const' instead               prefer-const
+  1517:9   error    'map' is never reassigned. Use 'const' instead                prefer-const
+  1518:14  error    'style' is never reassigned. Use 'const' instead              prefer-const
+  1522:22  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1525:11  error    'scope' is never reassigned. Use 'const' instead              prefer-const
+  1525:18  error    'all' is never reassigned. Use 'const' instead                prefer-const
+  1529:22  error    'tag' is never reassigned. Use 'const' instead                prefer-const
+  1530:26  error    'sub' is never reassigned. Use 'const' instead                prefer-const
+  1531:25  error    'tagClass' is never reassigned. Use 'const' instead           prefer-const
+  1545:14  error    'highlighter' is never reassigned. Use 'const' instead        prefer-const
+  1546:13  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  1571:9   error    'builder' is never reassigned. Use 'const' instead            prefer-const
+  1595:15  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  1595:27  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  1595:38  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  1601:13  error    'rule' is never reassigned. Use 'const' instead               prefer-const
+  1602:13  error    'tagCls' is never reassigned. Use 'const' instead             prefer-const
+  1613:13  error    'mounted' is never reassigned. Use 'const' instead            prefer-const
+  1615:17  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  1616:17  error    'innerHighlighters' is never reassigned. Use 'const' instead  prefer-const
+  1617:17  error    'hasChild' is never reassigned. Use 'const' instead           prefer-const
+  1619:21  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  1620:21  error    'nextPos' is never reassigned. Use 'const' instead            prefer-const
+  1621:21  error    'rangeFrom' is never reassigned. Use 'const' instead          prefer-const
+  1621:54  error    'rangeTo' is never reassigned. Use 'const' instead            prefer-const
+  2182:17  error    'themeKey' is never reassigned. Use 'const' instead           prefer-const
+  3844:21  error    'split' is never reassigned. Use 'const' instead              prefer-const
+  5350:13  error    'cx' is never reassigned. Use 'const' instead                 prefer-const
+  5369:13  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5369:65  error    'type' is never reassigned. Use 'const' instead               prefer-const
+  5370:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5371:13  error    'dPrec' is never reassigned. Use 'const' instead              prefer-const
+  5388:13  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  5389:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5389:74  error    'size' is never reassigned. Use 'const' instead               prefer-const
+  5404:13  error    'bufferBase' is never reassigned. Use 'const' instead         prefer-const
+  5404:59  error    'count' is never reassigned. Use 'const' instead              prefer-const
+  5407:17  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  5414:17  error    'baseStateID' is never reassigned. Use 'const' instead        prefer-const
+  5466:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5471:17  error    'nextState' is never reassigned. Use 'const' instead          prefer-const
+  5471:39  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5505:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  5525:13  error    'buffer' is never reassigned. Use 'const' instead             prefer-const
+  5525:48  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  5534:13  error    'isNode' is never reassigned. Use 'const' instead             prefer-const
+  5547:17  error    'action' is never reassigned. Use 'const' instead             prefer-const
+  5563:17  error    'best' is never reassigned. Use 'const' instead               prefer-const
+  5570:25  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  5576:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  5578:17  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  5581:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  5594:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5599:17  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5599:69  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5600:17  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  5602:21  error    'backup' is never reassigned. Use 'const' instead             prefer-const
+  5618:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5618:34  error    'seen' is never reassigned. Use 'const' instead               prefer-const
+  5619:13  error    'explore' is never reassigned. Use 'const' instead            prefer-const
+  5626:25  error    'rDepth' is never reassigned. Use 'const' instead             prefer-const
+  5628:29  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5628:75  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  5634:25  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  5658:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  5693:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  5699:13  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  5705:17  error    'newCx' is never reassigned. Use 'const' instead              prefer-const
+  5753:13  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  5753:59  error    'depth' is never reassigned. Use 'const' instead              prefer-const
+  5763:13  error    'goto' is never reassigned. Use 'const' instead               prefer-const
+  5782:13  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5890:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5897:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  5907:18  error    'range' is never reassigned. Use 'const' instead              prefer-const
+  5922:13  error    'idx' is never reassigned. Use 'const' instead                prefer-const
+  5928:17  error    'resolved' is never reassigned. Use 'const' instead           prefer-const
+  5953:13  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  5961:19  error    'chunk' is never reassigned. Use 'const' instead              prefer-const
+  5961:26  error    'chunkPos' is never reassigned. Use 'const' instead           prefer-const
+  5971:17  error    'nextChunk' is never reassigned. Use 'const' instead          prefer-const
+  5972:17  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6049:18  error    'r' is never reassigned. Use 'const' instead                  prefer-const
+  6065:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6078:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6080:17  error    'atEof' is never reassigned. Use 'const' instead              prefer-const
+  6080:41  error    'nextPos' is never reassigned. Use 'const' instead            prefer-const
+  6137:20  error    'groupMask' is never reassigned. Use 'const' instead          prefer-const
+  6137:46  error    'dialect' is never reassigned. Use 'const' instead            prefer-const
+  6141:13  error    'accEnd' is never reassigned. Use 'const' instead             prefer-const
+  6147:21  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  6155:13  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6163:17  error    'mid' is never reassigned. Use 'const' instead                prefer-const
+  6164:17  error    'index' is never reassigned. Use 'const' instead              prefer-const
+  6165:17  error    'from' is never reassigned. Use 'const' instead               prefer-const
+  6165:37  error    'to' is never reassigned. Use 'const' instead                 prefer-const
+  6186:9   error    'iPrev' is never reassigned. Use 'const' instead              prefer-const
+  6191:82  error    LOG is not listed as a dependency in turbo.json               turbo/no-undeclared-env-vars
+  6198:9   error    'cursor' is never reassigned. Use 'const' instead             prefer-const
+  6227:13  error    'fr' is never reassigned. Use 'const' instead                 prefer-const
+  6254:17  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6259:17  error    'top' is never reassigned. Use 'const' instead                prefer-const
+  6259:41  error    'index' is never reassigned. Use 'const' instead              prefer-const
+  6266:17  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6267:17  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6276:25  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6278:29  error    'lookAhead' is never reassigned. Use 'const' instead          prefer-const
+  6303:45  warning  '_' is defined but never used                                 @typescript-eslint/no-unused-vars
+  6308:15  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6308:37  error    'tokenizers' is never reassigned. Use 'const' instead         prefer-const
+  6309:13  error    'mask' is never reassigned. Use 'const' instead               prefer-const
+  6310:13  error    'context' is never reassigned. Use 'const' instead            prefer-const
+  6315:17  error    'tokenizer' is never reassigned. Use 'const' instead          prefer-const
+  6315:44  error    'token' is never reassigned. Use 'const' instead              prefer-const
+  6326:21  error    'startIndex' is never reassigned. Use 'const' instead         prefer-const
+  6353:13  error    'main' is never reassigned. Use 'const' instead               prefer-const
+  6353:39  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6353:44  error    'p' is never reassigned. Use 'const' instead                  prefer-const
+  6360:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6363:19  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6366:25  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  6392:15  error    'state' is never reassigned. Use 'const' instead              prefer-const
+  6392:34  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6392:56  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  6447:15  error    'from' is never reassigned. Use 'const' instead               prefer-const
+  6462:13  error    'stacks' is never reassigned. Use 'const' instead             prefer-const
+  6462:35  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6464:13  error    'newStacks' is never reassigned. Use 'const' instead          prefer-const
+  6474:18  error    's' is never reassigned. Use 'const' instead                  prefer-const
+  6482:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6497:25  error    'tok' is never reassigned. Use 'const' instead                prefer-const
+  6504:17  error    'finished' is never reassigned. Use 'const' instead           prefer-const
+  6516:17  error    'finished' is never reassigned. Use 'const' instead           prefer-const
+  6522:17  error    'maxRemaining' is never reassigned. Use 'const' instead       prefer-const
+  6536:21  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6538:25  error    'other' is never reassigned. Use 'const' instead              prefer-const
+  6570:13  error    'start' is never reassigned. Use 'const' instead              prefer-const
+  6570:34  error    'parser' is never reassigned. Use 'const' instead             prefer-const
+  6571:13  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  6575:17  error    'strictCx' is never reassigned. Use 'const' instead           prefer-const
+  6575:81  error    'cxHash' is never reassigned. Use 'const' instead             prefer-const
+  6577:21  error    'match' is never reassigned. Use 'const' instead              prefer-const
+  6586:21  error    'inner' is never reassigned. Use 'const' instead              prefer-const
+  6593:13  error    'defaultReduce' is never reassigned. Use 'const' instead      prefer-const
+  6603:13  error    'actions' is never reassigned. Use 'const' instead            prefer-const
+  6605:17  error    'action' is never reassigned. Use 'const' instead             prefer-const
+  6605:40  error    'term' is never reassigned. Use 'const' instead               prefer-const
+  6605:61  error    'end' is never reassigned. Use 'const' instead                prefer-const
+  6606:17  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6607:17  error    'localStack' is never reassigned. Use 'const' instead         prefer-const
+  6625:13  error    'pos' is never reassigned. Use 'const' instead                prefer-const
+  6638:17  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6639:17  error    'base' is never reassigned. Use 'const' instead               prefer-const
+  6647:21  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  6651:17  error    'force' is never reassigned. Use 'const' instead              prefer-const
+  6655:21  error    'done' is never reassigned. Use 'const' instead               prefer-const
+  6661:22  error    'insert' is never reassigned. Use 'const' instead             prefer-const
+  6703:13  error    'other' is never reassigned. Use 'const' instead              prefer-const
+  6753:13  error    'nodeNames' is never reassigned. Use 'const' instead          prefer-const
+  6757:13  error    'topTerms' is never reassigned. Use 'const' instead           prefer-const
+  6758:13  error    'nodeProps' is never reassigned. Use 'const' instead          prefer-const
+  6765:22  error    'propSpec' is never reassigned. Use 'const' instead           prefer-const
+  6770:25  error    'next' is never reassigned. Use 'const' instead               prefer-const
+  6775:29  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  6794:13  error    'tokenArray' is never reassigned. Use 'const' instead         prefer-const
+  6817:18  error    'w' is never reassigned. Use 'const' instead                  prefer-const
+  6823:13  error    'table' is never reassigned. Use 'const' instead              prefer-const
+  6827:17  error    'groupTag' is never reassigned. Use 'const' instead           prefer-const
+  6827:42  error    'last' is never reassigned. Use 'const' instead               prefer-const
+  6828:17  error    'target' is never reassigned. Use 'const' instead             prefer-const
+  6840:13  error    'data' is never reassigned. Use 'const' instead               prefer-const
+  6871:13  error    'deflt' is never reassigned. Use 'const' instead              prefer-const
+  6887:13  error    'result' is never reassigned. Use 'const' instead             prefer-const
+  6896:21  error    'value' is never reassigned. Use 'const' instead              prefer-const
+  6909:13  error    'copy' is never reassigned. Use 'const' instead               prefer-const
+  6913:17  error    'info' is never reassigned. Use 'const' instead               prefer-const
+  6920:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  6926:21  error    'found' is never reassigned. Use 'const' instead              prefer-const
+  6929:21  error    'spec' is never reassigned. Use 'const' instead               prefer-const
+  6965:13  error    'prec' is never reassigned. Use 'const' instead               prefer-const
+  6970:13  error    'values' is never reassigned. Use 'const' instead             prefer-const
+  6970:50  error    'flags' is never reassigned. Use 'const' instead              prefer-const
+  6972:22  error    'part' is never reassigned. Use 'const' instead               prefer-const
+  6973:21  error    'id' is never reassigned. Use 'const' instead                 prefer-const
+  6994:14  error    'stack' is never reassigned. Use 'const' instead              prefer-const
+  6995:13  error    'stopped' is never reassigned. Use 'const' instead            prefer-const
+  7005:13  error    'mask' is never reassigned. Use 'const' instead               prefer-const
+  7038:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7044:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7052:8   error    'next' is never reassigned. Use 'const' instead               prefer-const
+  7057:11  error    'mayPostfix' is never reassigned. Use 'const' instead         prefer-const
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/abcdef.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/androidstudio.d.ts
+  24:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/atomone.d.ts
+  21:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/aura.d.ts
+  21:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/bbedit.d.ts
+  21:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/bespin.d.ts
+  28:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/curves.d.ts
+  21:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/darcula.d.ts
+  27:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/dracula.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/duotone.d.ts
+  21:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  42:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/eclipse.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/github.d.ts
+  24:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/gruvbox.d.ts
+  27:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  48:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/material.d.ts
+   568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  1136:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/noctisLilac.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/nord.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/okaidia.d.ts
+  22:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/solarized.d.ts
+  22:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  44:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/sublime.d.ts
+  22:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/tokyoNight.d.ts
+  568:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/tokyoNightDay.d.ts
+  22:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/tokyoNightStorm.d.ts
+  22:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/vscode.d.ts
+  25:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/themes/xcode.d.ts
+  25:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  47:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/dist/theming/utils.d.ts
+  19:76  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/src/theming/utils.ts
+  95:11  error  'themeKey' is never reassigned. Use 'const' instead  prefer-const
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/src/tokenizer/ranges.ts
+  100:22  error  Unexpected any. Specify a different type          @typescript-eslint/no-explicit-any
+  283:14  error  'range' is never reassigned. Use 'const' instead  prefer-const
+
+/Users/juliaortiz/Documents/Projects.nosync/curves/packages/code-motion/src/tokenizer/tokenizer.ts
+  315:11  warning  'tokens' is assigned a value but never used       @typescript-eslint/no-unused-vars
+  358:11  error    'split' is never reassigned. Use 'const' instead  prefer-const
+
+✖ 729 problems (724 errors, 5 warnings)
+  569 errors and 0 warnings potentially fixable with the `--fix` option.
+
+ ELIFECYCLE  Command failed with exit code 1.

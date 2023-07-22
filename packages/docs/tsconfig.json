@@ -1,17 +1,28 @@
 {
-  "extends": "tsconfig/nextjs.json",
+  "extends": "@coord/config/nextjs.json",
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "jsx": "preserve",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ]
+    },
+    "module": "esnext"
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/reset.d.ts"
+    "src/reset.d.ts",
+    ".contentlayer/generated"
   ],
   "exclude": ["node_modules"]
 }
